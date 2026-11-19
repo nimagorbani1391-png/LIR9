@@ -34,3 +34,7 @@ npm run build
 ## Design direction
 
 Black and gold visual identity with a Persian right-to-left interface.
+
+## Preview deployment
+
+GitHub Pages is configured to publish the production build through GitHub Actions.
