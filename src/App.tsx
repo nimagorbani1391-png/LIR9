@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search, GraduationCap
+  LockKeyhole, ArrowRight, Search
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "assistant";
