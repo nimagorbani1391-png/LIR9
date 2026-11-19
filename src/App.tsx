@@ -132,15 +132,19 @@ function App() {
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
-  const [step, setStep] = useState<"learn" | "voice" | "quiz" | "result">("learn");
+  const [step, setStep] = useState<"learn" | "voice" | "typing" | "quiz" | "result">("learn");
   const [choice, setChoice] = useState<number | null>(null);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
   const [voiceIndex, setVoiceIndex] = useState(0);
   const [voiceStatus, setVoiceStatus] = useState<"idle" | "listening" | "matched" | "retry" | "unsupported" | "error">("idle");
   const [voiceTranscript, setVoiceTranscript] = useState("");
+  const [typedAnswer, setTypedAnswer] = useState("");
+  const [typingStatus, setTypingStatus] = useState<"idle" | "matched" | "retry">("idle");
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const [completed, setCompleted] = useState<string[]>(() => [...new Set(readStore("lir9-completed", []).filter(id => lessons.some(lesson => String(lesson.id) === id)))]);
+  const [rewarded, setRewarded] = useState<string[]>(() => readStore("lir9-rewarded", []));
+  const [lirBalance, setLirBalance] = useState<number>(() => { try { const value = Number(localStorage.getItem("lir9-balance") || 0); return Number.isFinite(value) && value >= 0 ? value : 0; } catch { return 0; } });
   const [saved, setSaved] = useState<string[]>(() => [...new Set(readStore("lir9-saved", ["Hello"]).filter(word => vocabulary.some(item => item.word === word)))]);
   const [search, setSearch] = useState("");
   const [showSavedOnly, setShowSavedOnly] = useState(false);
@@ -157,7 +161,7 @@ function App() {
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const openLesson = (id: number) => { const index = lessons.findIndex(lesson => lesson.id === id); if (index < 0) return; const unlocked = lessons.slice(0, index).every(lesson => completed.includes(String(lesson.id))); if (!unlocked) { setNotice("برای باز کردن این درس، ابتدا درس‌های قبلی را کامل کن."); setMenuOpen(false); return; } setActiveLesson(id); setStep("learn"); setChoice(null); setQuizIndex(0); setQuizScore(0); setMenuOpen(false); };
-  const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizScore(0); setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); };
+  const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizScore(0); setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); };
   useEffect(() => {
     if (!activeLesson) return;
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") { setActiveLesson(null); setChoice(null); setStep("learn"); } };
