@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft, Play,
-  CheckCircle2, Clock3, Target, Headphones, Languages, Send, Menu, X,
-  Bookmark, Volume2, LockKeyhole, ArrowRight, Search, GraduationCap,
-  PanelRightClose, PanelRightOpen
+  CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
+  LockKeyhole, ArrowRight, Search, GraduationCap
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "assistant";
@@ -32,7 +31,6 @@ function App() {
   const [saved, setSaved] = useState<string[]>(() => readStore("lir9-saved", ["Hello"]));
   const [search, setSearch] = useState("");
   const [notice, setNotice] = useState("");
-  const [showRoadmap, setShowRoadmap] = useState(false);
   const active = lessons.find(l => l.id === activeLesson);
   const progress = Math.round(completed.length / lessons.length * 100);
   const nextLesson = lessons.find(l => !completed.includes(String(l.id))) ?? lessons[0];
