@@ -177,3 +177,40 @@ button:active:not(:disabled){transform:scale(.975)}
  .dialogue-bubble .dialogue-play{width:37px;height:40px}
  .dialogue-bubble .dialogue-play span{font-size:9px}
 }
+
+
+/* LIR9 speaking practice */
+.voice-practice{max-width:680px}
+.voice-intro{padding:20px 22px;border:1px solid rgba(216,180,93,.2);border-radius:18px;background:linear-gradient(135deg,#30291d 0%,#24251f 75%);margin-bottom:18px}
+.voice-kicker{display:inline-flex;align-items:center;gap:8px;color:var(--gold-light);font-size:12px;font-weight:800}
+.voice-intro h3{font-size:clamp(18px,2.4vw,23px);margin:14px 0 7px;line-height:1.6}
+.voice-intro p{font-size:13px;line-height:2;color:#b9b8ad;margin:0}
+.voice-counter{font-size:12px;color:#a9a99d;margin:18px 2px 9px}
+.voice-target{display:flex;flex-direction:column;align-items:center;gap:9px;padding:27px 18px;border:1px solid #55462b;border-radius:18px;background:radial-gradient(circle at 50% 0%,#d8b45d16,transparent 65%),#24251f}
+.voice-target strong{font:700 clamp(25px,5vw,36px)/1.4 Arial,sans-serif;color:#f5e8c7;text-align:center;overflow-wrap:anywhere}
+.voice-target>span{font-size:14px;color:#b8b7aa}
+.voice-target button{display:inline-flex;align-items:center;gap:7px;margin-top:5px;padding:9px 14px;border:1px solid #66532e;border-radius:999px;background:#39311f;color:var(--gold-light);font-size:12px}
+.voice-status{display:flex;align-items:center;gap:13px;min-height:76px;margin:17px 0;padding:15px 17px;border:1px solid #424438;border-radius:15px;background:#22241e;color:#b9b9ad}
+.voice-status>svg{flex:0 0 auto;color:#aaa99b}
+.voice-status b,.voice-status span{display:block}
+.voice-status b{font-size:13px;color:#e8e5da;margin-bottom:5px}
+.voice-status span{font-size:11px;line-height:1.9;overflow-wrap:anywhere}
+.voice-status.listening{border-color:#9b7a39;background:#302a1d}
+.voice-status.listening>svg{color:var(--gold-light);animation:voice-pulse 1.1s ease-in-out infinite}
+.voice-status.matched{border-color:#477451;background:#1f3025}
+.voice-status.matched>svg{color:#8ed2a0}
+.voice-status.retry,.voice-status.error{border-color:#76533b;background:#30251f}
+.voice-status.retry>svg,.voice-status.error>svg{color:#e0a77a}
+.voice-status.unsupported{border-color:#655a40}
+.voice-record,.voice-next{width:100%;justify-content:center;min-height:49px}
+.voice-record:disabled{opacity:.72;cursor:wait}
+.voice-retry{display:block;margin:8px auto 0}
+.voice-privacy{margin:16px 2px 0;color:#85877d;font-size:10px;line-height:1.9}
+@keyframes voice-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.13);opacity:.65}}
+@media(max-width:600px){
+ .voice-intro{padding:16px;border-radius:15px}
+ .voice-intro p{font-size:12px}
+ .voice-target{padding:22px 14px}
+ .voice-status{align-items:flex-start;padding:13px}
+}
+@media(prefers-reduced-motion:reduce){.voice-status.listening>svg{animation:none}}
