@@ -1,6 +1,7 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import {
-  ArrowLeft, ArrowUpLeft, BookOpen, BrainCircuit, Check, ChevronDown,
+  ArrowLeft, ArrowUpLeft, BookOpen, BrainCircuit, Check,
   CirclePlay, GraduationCap, Headphones, Menu, MessageCircle, Mic2,
   Sparkles, Target, X, Zap
 } from "lucide-react";
@@ -30,7 +31,7 @@ function App() {
     setMenuOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setNotice("لطفاً یک ایمیل معتبر وارد کن.");
