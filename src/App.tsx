@@ -1,11 +1,21 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search
+  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "assistant";
+type SpeechResultLike = { transcript: string; confidence?: number };
+type SpeechRecognitionLike = {
+  lang: string; interimResults: boolean; maxAlternatives: number;
+  onresult: ((event: { resultIndex: number; results: ArrayLike<ArrayLike<SpeechResultLike>> }) => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void; stop: () => void; abort: () => void;
+};
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
+const normalizeSpeech = (value: string) => value.toLowerCase().replace(/[’']/g, "").replace(/…/g, "").replace(/\bi am\b/g, "im").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
 type Lesson = { id: number; unit: string; title: string; description: string; duration: string; skill: string; goal: string; explanation: string; takeaway: string; keyWords: { word: string; meaning: string }[]; example: string; translation: string; question: string; choices: string[]; correct: number; answerWhy: string; };
 const lessons: Lesson[] = [
   { id: 1, unit: "واحد ۱ · شروع مکالمه", title: "سلام و احوال‌پرسی", description: "یاد بگیر مکالمه را طبیعی شروع کنی.", goal: "بتوانی مکالمه‌ای کوتاه را با سلام و پرسیدن حال طرف مقابل آغاز کنی.", takeaway: "Hi در گفت‌وگوی دوستانه رایج است؛ Hello کمی خنثی‌تر و رسمی‌تر است. برای پاسخ می‌توانی بگویی: I'm fine, thanks.", keyWords: [{"word":"Hello","meaning":"سلام"},{"word":"How are you?","meaning":"حالت چطور است؟"},{"word":"I'm fine","meaning":"من خوبم"}], duration: "۸ دقیقه", skill: "مکالمه", explanation: "برای سلام کردن در موقعیت‌های روزمره از Hello یا Hi استفاده می‌کنیم. برای پرسیدن حال طرف مقابل می‌گوییم: How are you?", example: "Hi! How are you?", translation: "سلام! حالت چطوره؟", question: "کدام عبارت برای پرسیدن حال یک نفر است؟", choices: ["How are you?", "What is your name?", "Where are you from?"], answerWhy: "How are you? برای پرسیدن حال مخاطب استفاده می‌شود. What is your name? نام را می‌پرسد و Where are you from? درباره محل یا کشور مبدأ است.", correct: 0 },
@@ -122,10 +132,14 @@ function App() {
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
-  const [step, setStep] = useState<"learn" | "quiz" | "result">("learn");
+  const [step, setStep] = useState<"learn" | "voice" | "quiz" | "result">("learn");
   const [choice, setChoice] = useState<number | null>(null);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
+  const [voiceIndex, setVoiceIndex] = useState(0);
+  const [voiceStatus, setVoiceStatus] = useState<"idle" | "listening" | "matched" | "retry" | "unsupported" | "error">("idle");
+  const [voiceTranscript, setVoiceTranscript] = useState("");
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const [completed, setCompleted] = useState<string[]>(() => [...new Set(readStore("lir9-completed", []).filter(id => lessons.some(lesson => String(lesson.id) === id)))]);
   const [saved, setSaved] = useState<string[]>(() => [...new Set(readStore("lir9-saved", ["Hello"]).filter(word => vocabulary.some(item => item.word === word)))]);
   const [search, setSearch] = useState("");
@@ -143,14 +157,14 @@ function App() {
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const openLesson = (id: number) => { const index = lessons.findIndex(lesson => lesson.id === id); if (index < 0) return; const unlocked = lessons.slice(0, index).every(lesson => completed.includes(String(lesson.id))); if (!unlocked) { setNotice("برای باز کردن این درس، ابتدا درس‌های قبلی را کامل کن."); setMenuOpen(false); return; } setActiveLesson(id); setStep("learn"); setChoice(null); setQuizIndex(0); setQuizScore(0); setMenuOpen(false); };
-  const closeLesson = () => { setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizScore(0); };
+  const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizScore(0); setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); };
   useEffect(() => {
     if (!activeLesson) return;
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") { setActiveLesson(null); setChoice(null); setStep("learn"); } };
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
-    return () => { document.body.style.overflow = previousOverflow; window.removeEventListener("keydown", onKeyDown); };
+    return () => { recognitionRef.current?.abort(); recognitionRef.current = null; document.body.style.overflow = previousOverflow; window.removeEventListener("keydown", onKeyDown); };
   }, [activeLesson]);
   useEffect(() => {
     if (!notice) return;
@@ -172,6 +186,46 @@ function App() {
     if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") { setNotice("این مرورگر از تبدیل متن به گفتار پشتیبانی نمی‌کند."); return; }
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text); utterance.lang = "en-US"; utterance.onerror = () => setNotice("پخش تلفظ انجام نشد؛ تنظیمات صدای مرورگر را بررسی کن."); window.speechSynthesis.speak(utterance);
+  };
+  const startVoiceAttempt = () => {
+    if (!active) return;
+    recognitionRef.current?.abort();
+    const speechWindow = window as Window & { SpeechRecognition?: SpeechRecognitionConstructor; webkitSpeechRecognition?: SpeechRecognitionConstructor };
+    const Recognition = speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
+    if (!Recognition) { setVoiceStatus("unsupported"); setVoiceTranscript(""); return; }
+    try {
+      const recognition = new Recognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 3;
+      recognition.onresult = event => {
+        const result = event.results[event.resultIndex] || event.results[0];
+        const alternatives = Array.from(result || []).map(item => item.transcript);
+        const transcript = alternatives[0] || "";
+        const expected = normalizeSpeech(active.keyWords[voiceIndex]?.word || "");
+        const matched = alternatives.some(value => normalizeSpeech(value) === expected);
+        setVoiceTranscript(transcript);
+        setVoiceStatus(matched ? "matched" : "retry");
+      };
+      recognition.onerror = event => {
+        setVoiceStatus("error");
+        setVoiceTranscript(event.error === "not-allowed" ? "دسترسی میکروفون داده نشده است." : event.error === "no-speech" ? "صدایی تشخیص داده نشد؛ دوباره تلاش کن." : "تشخیص صدا با مشکل روبه‌رو شد؛ اتصال و مجوز میکروفون را بررسی کن.");
+      };
+      recognition.onend = () => setVoiceStatus(current => current === "listening" ? "idle" : current);
+      recognitionRef.current = recognition;
+      setVoiceTranscript("");
+      setVoiceStatus("listening");
+      recognition.start();
+    } catch {
+      setVoiceStatus("error");
+      setVoiceTranscript("شروع میکروفون ممکن نشد؛ دوباره امتحان کن.");
+    }
+  };
+  const beginVoicePractice = () => { setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setStep("voice"); };
+  const advanceVoicePractice = () => {
+    if (!active) return;
+    if (voiceIndex < active.keyWords.length - 1) { setVoiceIndex(index => index + 1); setVoiceStatus("idle"); setVoiceTranscript(""); }
+    else { setQuizIndex(0); setQuizScore(0); setChoice(null); setStep("quiz"); }
   };
   return <div className="app-shell" dir="rtl">
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
@@ -200,7 +254,19 @@ function App() {
       <footer className="page-footer"><span>LIR9</span><span>نسخه آزمایشی رابط کاربری · بازخورد تو مسیر را بهتر می‌کند.</span></footer>
     </main>
     <nav className="mobile-tabs">{nav.map(item=><button key={item.id} className={tab===item.id?"selected":""} onClick={()=>go(item.id)}><item.icon size={19}/><span>{item.label}</span></button>)}</nav>
-    {active && <div className="lesson-overlay" role="presentation" onMouseDown={event=>{if(event.target===event.currentTarget)closeLesson();}}><section className="lesson-dialog" role="dialog" aria-modal="true" aria-labelledby="lesson-title"><header className="lesson-dialog-head"><div><span className="section-kicker">درس {String(active.id).padStart(2,"0")} · سطح A1</span><h2 id="lesson-title">{active.title}</h2></div><button className="icon-button" onClick={closeLesson} aria-label="بستن درس"><X/></button></header><div className="lesson-steps"><span className={step==="learn"?"current":""}>۱. آموزش</span><i/><span className={step==="quiz"?"current":""}>۲. تمرین</span><i/><span className={step==="result"?"current":""}>۳. بازخورد</span></div>{step==="learn"&&<><div className="lesson-body"><div className="lesson-goal"><span>هدف این درس</span><p>{active.goal}</p></div><section className="lesson-teaching"><span className="lesson-section-label">مفهوم اصلی</span><p>{lessonContent[active.id].concept}</p></section><section className="lesson-teaching"><span className="lesson-section-label">یادگیری مرحله‌به‌مرحله</span>{lessonContent[active.id].steps.map((item,index)=><div className="teaching-step" key={item.heading}><span>{index+1}</span><div><b>{item.heading}</b><p>{item.detail}</p></div></div>)}</section><div className="lesson-takeaway"><b>نکته کلیدی</b><p>{active.takeaway}</p></div><div className="lesson-vocabulary"><b>عبارت‌های کاربردی · برای شنیدن روی عبارت بزن</b><div>{active.keyWords.map(item=><button key={item.word} onClick={()=>speak(item.word)}><span dir="ltr">{item.word}</span><small>{item.meaning}</small><Volume2 size={13}/></button>)}</div></div><section className="lesson-dialogue"><span className="lesson-section-label">مکالمه نمونه</span>{lessonContent[active.id].dialogue.map((line,index)=><div className="dialogue-line" key={index}><b aria-label={"گوینده "+line.speaker}>{line.speaker}</b><div className="dialogue-bubble"><strong dir="ltr">{line.line}</strong><small>{line.translation}</small><button className="dialogue-play" onClick={()=>speak(line.line)} aria-label={"پخش تلفظ جمله "+line.line}><Volume2 size={15}/><span>پخش</span></button></div></div>)}</section><div className="lesson-example"><small>مثال بیشتر</small><strong dir="ltr">{active.example}</strong><span>{active.translation}</span><button onClick={()=>speak(active.example)}><Volume2 size={16}/> شنیدن تلفظ</button></div><section className="lesson-mistake"><b>اشتباه رایج</b><p>{lessonContent[active.id].commonMistake}</p></section><section className="lesson-practice-tip"><b>تمرین پیشنهادی</b><p>{lessonContent[active.id].practiceTip}</p></section></div><div className="dialog-actions"><button className="primary-button" onClick={()=>{setQuizIndex(0);setQuizScore(0);setChoice(null);setStep("quiz");}}>شروع تمرین‌ها · ۳ سؤال <ArrowRight size={16}/></button></div></>}{step==="quiz"&&<><div className="lesson-body"><div className="quiz-progress-head"><span>سؤال {quizIndex+1} از {lessonContent[active.id].questions.length}</span><span>پاسخ درست: {quizScore}</span></div><div className="quiz-progress-track"><i style={{width:((quizIndex+1)/lessonContent[active.id].questions.length*100)+"%"}}/></div><span className="question-count">تمرین درک مطلب</span><h3>{lessonContent[active.id].questions[quizIndex].prompt}</h3><div className="answer-options">{lessonContent[active.id].questions[quizIndex].options.map((item,index)=><button key={item} className={choice===index?"chosen":""} aria-pressed={choice===index} onClick={()=>setChoice(index)}><span>{String.fromCharCode(65+index)}</span>{item}</button>)}</div></div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button><button className="primary-button" disabled={choice===null} onClick={()=>{if(choice===lessonContent[active.id].questions[quizIndex].correct)setQuizScore(score=>score+1);setStep("result");}}>بررسی پاسخ <ArrowRight size={16}/></button></div></>}{step==="result"&&<><div className="lesson-body result-body"><div className={choice===lessonContent[active.id].questions[quizIndex].correct?"result-check":"result-retry"}>{choice===lessonContent[active.id].questions[quizIndex].correct?<CheckCircle2 size={30}/>:<BookOpen size={30}/>}</div><h3>{choice===lessonContent[active.id].questions[quizIndex].correct?"آفرین! پاسخ درست است.":"این پاسخ درست نیست؛ از توضیح یاد بگیر."}</h3><p>پاسخ درست: <strong dir="ltr">{lessonContent[active.id].questions[quizIndex].options[lessonContent[active.id].questions[quizIndex].correct]}</strong></p><div className="answer-explanation"><b>چرا؟</b><span>{lessonContent[active.id].questions[quizIndex].explanation}</span></div></div><div className="dialog-actions">{quizIndex<lessonContent[active.id].questions.length-1?<><button className="text-button" onClick={()=>{setStep("quiz");setChoice(null);}}>تلاش دوباره</button><button className="primary-button" onClick={()=>{setQuizIndex(index=>index+1);setChoice(null);setStep("quiz");}}>سؤال بعدی <ArrowRight size={16}/></button></>:<><button className="text-button" onClick={()=>{setStep("learn");setChoice(null);setQuizIndex(0);setQuizScore(0);}}>مرور آموزش</button>{quizScore>=2?<button className="primary-button" onClick={()=>{completeLesson();closeLesson();}}>ثبت موفقیت · {quizScore}/3 <CheckCircle2 size={16}/></button>:<button className="primary-button" onClick={()=>{setQuizIndex(0);setQuizScore(0);setChoice(null);setStep("quiz");}}>تکرار تمرین · {quizScore}/3</button>}</>}</div></>}</section></div>}
+    {active && <div className="lesson-overlay" role="presentation" onMouseDown={event=>{if(event.target===event.currentTarget)closeLesson();}}><section className="lesson-dialog" role="dialog" aria-modal="true" aria-labelledby="lesson-title"><header className="lesson-dialog-head"><div><span className="section-kicker">درس {String(active.id).padStart(2,"0")} · سطح A1</span><h2 id="lesson-title">{active.title}</h2></div><button className="icon-button" onClick={closeLesson} aria-label="بستن درس"><X/></button></header><div className="lesson-steps"><span className={step==="learn"?"current":""}>۱. آموزش</span><i/><span className={step==="voice"?"current":""}>۲. گفتار</span><i/><span className={step==="quiz"?"current":""}>۳. آزمون</span><i/><span className={step==="result"?"current":""}>۴. بازخورد</span></div>{step==="learn"&&<><div className="lesson-body"><div className="lesson-goal"><span>هدف این درس</span><p>{active.goal}</p></div><section className="lesson-teaching"><span className="lesson-section-label">مفهوم اصلی</span><p>{lessonContent[active.id].concept}</p></section><section className="lesson-teaching"><span className="lesson-section-label">یادگیری مرحله‌به‌مرحله</span>{lessonContent[active.id].steps.map((item,index)=><div className="teaching-step" key={item.heading}><span>{index+1}</span><div><b>{item.heading}</b><p>{item.detail}</p></div></div>)}</section><div className="lesson-takeaway"><b>نکته کلیدی</b><p>{active.takeaway}</p></div><div className="lesson-vocabulary"><b>عبارت‌های کاربردی · برای شنیدن روی عبارت بزن</b><div>{active.keyWords.map(item=><button key={item.word} onClick={()=>speak(item.word)}><span dir="ltr">{item.word}</span><small>{item.meaning}</small><Volume2 size={13}/></button>)}</div></div><section className="lesson-dialogue"><span className="lesson-section-label">مکالمه نمونه</span>{lessonContent[active.id].dialogue.map((line,index)=><div className="dialogue-line" key={index}><b aria-label={"گوینده "+line.speaker}>{line.speaker}</b><div className="dialogue-bubble"><strong dir="ltr">{line.line}</strong><small>{line.translation}</small><button className="dialogue-play" onClick={()=>speak(line.line)} aria-label={"پخش تلفظ جمله "+line.line}><Volume2 size={15}/><span>پخش</span></button></div></div>)}</section><div className="lesson-example"><small>مثال بیشتر</small><strong dir="ltr">{active.example}</strong><span>{active.translation}</span><button onClick={()=>speak(active.example)}><Volume2 size={16}/> شنیدن تلفظ</button></div><section className="lesson-mistake"><b>اشتباه رایج</b><p>{lessonContent[active.id].commonMistake}</p></section><section className="lesson-practice-tip"><b>تمرین پیشنهادی</b><p>{lessonContent[active.id].practiceTip}</p></section></div><div className="dialog-actions"><button className="primary-button" onClick={beginVoicePractice}>شروع تمرین گفتاری <Mic size={16}/></button></div></>}<>{step==="voice"&&<><div className="lesson-body voice-practice">
+  <div className="voice-intro"><span className="voice-kicker"><Mic size={15}/> تمرین تلفظ با میکروفون</span><h3>این عبارت را با صدای بلند بگو</h3><p>عبارت را به انگلیسی تلفظ کن. اگر مرورگر همان عبارت را تشخیص دهد، تیک می‌خورد و می‌توانی به مورد بعدی بروی.</p></div>
+  <div className="voice-counter">عبارت {voiceIndex+1} از {active.keyWords.length}</div>
+  <div className="voice-target"><strong dir="ltr">{active.keyWords[voiceIndex].word.replace(/…/g,"").trim()}</strong><span>{active.keyWords[voiceIndex].meaning}</span><button onClick={()=>speak(active.keyWords[voiceIndex].word.replace(/…/g,"").trim())}><Volume2 size={15}/> شنیدن نمونه</button></div>
+  <div className={"voice-status "+voiceStatus}>
+    {voiceStatus==="matched"?<CheckCircle2 size={23}/>:voiceStatus==="listening"?<Mic size={22}/>:voiceStatus==="retry"||voiceStatus==="error"?<RotateCcw size={21}/>:<MicOff size={21}/>}
+    <div><b>{voiceStatus==="matched"?"آفرین! عبارت تشخیص داده شد.":voiceStatus==="listening"?"دارم گوش می‌دهم…":voiceStatus==="retry"?"عبارت دقیق تشخیص داده نشد.":voiceStatus==="unsupported"?"این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="error"?"مشکل در ضبط صدا":"آماده‌ای؟"}</b>
+    <span>{voiceTranscript || (voiceStatus==="unsupported"?"می‌توانی آزمون نوشتاری را ادامه بدهی؛ این دستگاه امکان ارزیابی گفتار را فراهم نکرد.":voiceStatus==="listening"?"حالا عبارت را واضح و با صدای طبیعی بگو.":"برای شروع، دکمه میکروفون را بزن.")}</span></div>
+  </div>
+  {voiceStatus==="matched"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>{voiceIndex<active.keyWords.length-1?"عبارت بعدی":"رفتن به آزمون درس"} <ArrowRight size={16}/></button>:voiceStatus==="unsupported"?<button className="primary-button voice-next" onClick={()=>setStep("quiz")}>ادامه بدون ارزیابی گفتار <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
+  {voiceStatus==="retry"&&<button className="text-button voice-retry" onClick={startVoiceAttempt}>تلاش دوباره</button>}
+  <p className="voice-privacy">برای این تمرین، تشخیص گفتار از قابلیت مرورگر استفاده می‌کند. در بعضی مرورگرها صدا برای پردازش به سرویس آنلاین ارسال می‌شود.</p>
+</div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button></div></>}</>{step==="quiz"&&<><div className="lesson-body"><div className="quiz-progress-head"><span>سؤال {quizIndex+1} از {lessonContent[active.id].questions.length}</span><span>پاسخ درست: {quizScore}</span></div><div className="quiz-progress-track"><i style={{width:((quizIndex+1)/lessonContent[active.id].questions.length*100)+"%"}}/></div><span className="question-count">تمرین درک مطلب</span><h3>{lessonContent[active.id].questions[quizIndex].prompt}</h3><div className="answer-options">{lessonContent[active.id].questions[quizIndex].options.map((item,index)=><button key={item} className={choice===index?"chosen":""} aria-pressed={choice===index} onClick={()=>setChoice(index)}><span>{String.fromCharCode(65+index)}</span>{item}</button>)}</div></div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button><button className="primary-button" disabled={choice===null} onClick={()=>{if(choice===lessonContent[active.id].questions[quizIndex].correct)setQuizScore(score=>score+1);setStep("result");}}>بررسی پاسخ <ArrowRight size={16}/></button></div></>}{step==="result"&&<><div className="lesson-body result-body"><div className={choice===lessonContent[active.id].questions[quizIndex].correct?"result-check":"result-retry"}>{choice===lessonContent[active.id].questions[quizIndex].correct?<CheckCircle2 size={30}/>:<BookOpen size={30}/>}</div><h3>{choice===lessonContent[active.id].questions[quizIndex].correct?"آفرین! پاسخ درست است.":"این پاسخ درست نیست؛ از توضیح یاد بگیر."}</h3><p>پاسخ درست: <strong dir="ltr">{lessonContent[active.id].questions[quizIndex].options[lessonContent[active.id].questions[quizIndex].correct]}</strong></p><div className="answer-explanation"><b>چرا؟</b><span>{lessonContent[active.id].questions[quizIndex].explanation}</span></div></div><div className="dialog-actions">{quizIndex<lessonContent[active.id].questions.length-1?<><button className="text-button" onClick={()=>{setStep("quiz");setChoice(null);}}>تلاش دوباره</button><button className="primary-button" onClick={()=>{setQuizIndex(index=>index+1);setChoice(null);setStep("quiz");}}>سؤال بعدی <ArrowRight size={16}/></button></>:<><button className="text-button" onClick={()=>{setStep("learn");setChoice(null);setQuizIndex(0);setQuizScore(0);}}>مرور آموزش</button>{quizScore>=2?<button className="primary-button" onClick={()=>{completeLesson();closeLesson();}}>ثبت موفقیت · {quizScore}/3 <CheckCircle2 size={16}/></button>:<button className="primary-button" onClick={()=>{setQuizIndex(0);setQuizScore(0);setChoice(null);setStep("quiz");}}>تکرار تمرین · {quizScore}/3</button>}</>}</div></>}</section></div>}
   </div>;
 }
 export default App;
