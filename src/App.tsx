@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import {
-  LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft, Play,
+  LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
   LockKeyhole, ArrowRight, Search, GraduationCap
 } from "lucide-react";
