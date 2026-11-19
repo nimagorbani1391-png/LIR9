@@ -173,9 +173,23 @@ function App() {
   }, [notice]);
   const completeLesson = () => {
     if (!active) return;
-    const updated = completed.includes(String(active.id)) ? completed : [...completed, String(active.id)];
+    const id = String(active.id);
+    const alreadyCompleted = completed.includes(id);
+    const updated = alreadyCompleted ? completed : [...completed, id];
     setCompleted(updated);
-    if (!writeStore("lir9-completed", updated)) setNotice("ذخیره‌سازی در این مرورگر در دسترس نیست؛ پیشرفت ممکن است پس از بستن صفحه باقی نماند.");
+    const progressSaved = writeStore("lir9-completed", updated);
+    if (!alreadyCompleted && !rewarded.includes(id)) {
+      const nextRewarded = [...rewarded, id];
+      const nextBalance = lirBalance + 2;
+      setRewarded(nextRewarded);
+      setLirBalance(nextBalance);
+      const rewardSaved = writeStore("lir9-rewarded", nextRewarded);
+      let balanceSaved = true;
+      try { localStorage.setItem("lir9-balance", String(nextBalance)); } catch { balanceSaved = false; }
+      setNotice(progressSaved && rewardSaved && balanceSaved ? "آفرین! درس کامل شد و ۲ LIR به موجودی‌ات اضافه شد." : "درس کامل شد؛ اما ذخیره بخشی از اطلاعات در این مرورگر ممکن نشد.");
+    } else {
+      setNotice(progressSaved ? "این درس قبلاً تکمیل شده است؛ برای مرور دوباره امتیاز جدیدی دریافت نمی‌کنی." : "ذخیره پیشرفت در این مرورگر ممکن نشد.");
+    }
     setStep("result");
   };
   const toggleWord = (word: string) => {
@@ -221,10 +235,17 @@ function App() {
       setVoiceTranscript("شروع میکروفون ممکن نشد؛ دوباره امتحان کن.");
     }
   };
-  const beginVoicePractice = () => { setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setStep("voice"); };
+  const beginVoicePractice = () => { setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); setStep("voice"); };
+  const beginTypingPractice = () => { setVoiceIndex(0); setTypedAnswer(""); setTypingStatus("idle"); setStep("typing"); };
+  const checkTypedAnswer = () => {
+    if (!active) return;
+    const expected = normalizeSpeech(active.keyWords[voiceIndex]?.word || "");
+    const actual = normalizeSpeech(typedAnswer);
+    setTypingStatus(actual && actual === expected ? "matched" : "retry");
+  };
   const advanceVoicePractice = () => {
     if (!active) return;
-    if (voiceIndex < active.keyWords.length - 1) { setVoiceIndex(index => index + 1); setVoiceStatus("idle"); setVoiceTranscript(""); }
+    if (voiceIndex < active.keyWords.length - 1) { setVoiceIndex(index => index + 1); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); }
     else { setQuizIndex(0); setQuizScore(0); setChoice(null); setStep("quiz"); }
   };
   return <div className="app-shell" dir="rtl">
