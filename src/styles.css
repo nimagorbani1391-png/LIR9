@@ -116,3 +116,64 @@ button:active:not(:disabled){transform:scale(.975)}
 .answer-options button[aria-pressed="true"]{border-color:var(--gold,#d8ad55);background:rgba(212,168,75,.1)}
 @media(max-width:600px){.lesson-teaching,.lesson-dialogue,.lesson-mistake,.lesson-practice-tip{padding:14px;margin:14px 0}.dialogue-line>div{padding:10px 42px 10px 10px}.lesson-section-label{font-size:.75rem}}
 @media(prefers-reduced-motion:reduce){.quiz-progress-track i{transition:none}}
+
+
+/* Lesson studio: clear hierarchy and collision-free dialogue controls */
+.lesson-dialog{width:min(820px,100%);padding:clamp(20px,3vw,34px);border-radius:24px}
+.lesson-dialog-head{padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.07)}
+.lesson-dialog-head h2{font-size:clamp(21px,2.4vw,27px);line-height:1.5}
+.lesson-steps{margin:18px 0 24px;padding:13px 16px}
+.lesson-body{max-width:740px;margin:0 auto;padding:4px 0 24px}
+.lesson-goal{padding:18px 20px;margin:0 0 20px;border-radius:15px}
+.lesson-goal>span,.lesson-takeaway>b,.answer-explanation>b{font-size:12px}
+.lesson-goal p,.lesson-takeaway p{font-size:14px;line-height:2.05}
+.lesson-teaching,.lesson-dialogue,.lesson-mistake,.lesson-practice-tip{padding:22px;margin:20px 0;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.015));border-color:rgba(212,168,75,.18)}
+.lesson-section-label{font-size:13px;margin-bottom:16px}
+.lesson-teaching>p,.lesson-mistake p,.lesson-practice-tip p{font-size:14px;line-height:2.1}
+.teaching-step{gap:15px;padding:16px 0}
+.teaching-step>span{flex-basis:32px;height:32px;border-radius:11px;font-size:13px}
+.teaching-step b{font-size:15px;margin-bottom:7px}
+.teaching-step p{font-size:13px;line-height:2.05}
+.lesson-vocabulary{margin:22px 0}
+.lesson-vocabulary>b{font-size:13px;margin-bottom:12px}
+.lesson-vocabulary>div{gap:10px}
+.lesson-vocabulary button{min-height:66px;padding:13px 15px;border-radius:13px}
+.lesson-vocabulary button span{font-size:14px}
+.lesson-vocabulary button small{font-size:12px}
+.lesson-dialogue{padding:22px}
+.dialogue-line{gap:12px;align-items:flex-start;margin:14px 0}
+.dialogue-line>b{flex:0 0 36px;height:36px;font-size:13px}
+.dialogue-line .dialogue-bubble{position:static;display:grid;grid-template-columns:minmax(0,1fr) 54px;grid-template-rows:auto auto;align-items:center;gap:8px 12px;min-width:0;padding:16px 18px;border:1px solid rgba(255,255,255,.045);border-radius:16px;background:#282a24}
+.dialogue-bubble strong{grid-column:1;grid-row:1;min-width:0;font-size:clamp(16px,2vw,20px);line-height:1.55;overflow-wrap:anywhere}
+.dialogue-bubble small{grid-column:1;grid-row:2;margin:0;font-size:14px;line-height:1.9}
+.dialogue-bubble .dialogue-play{position:static;grid-column:2;grid-row:1 / span 2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:50px;height:50px;border:1px solid rgba(216,180,93,.25);border-radius:14px;background:rgba(216,180,93,.12);color:var(--gold-light);font-size:10px;transition:background .2s,border-color .2s,transform .2s}
+.dialogue-bubble .dialogue-play:hover{background:rgba(216,180,93,.22);border-color:var(--gold);transform:translateY(-2px)}
+.lesson-example{padding:22px;border-radius:16px}
+.lesson-example small{font-size:12px}
+.lesson-example strong{font-size:20px;line-height:1.7}
+.lesson-example>span{font-size:13px}
+.lesson-example button{font-size:12px}
+.lesson-mistake b,.lesson-practice-tip b{font-size:14px}
+.dialog-actions{padding-top:18px}
+@media(max-width:720px){
+ .lesson-dialog{width:100%;max-height:calc(100dvh - 16px);padding:17px;border-radius:20px}
+ .lesson-body{padding-bottom:18px}
+ .lesson-teaching,.lesson-dialogue,.lesson-mistake,.lesson-practice-tip{padding:16px;margin:15px 0;border-radius:15px}
+ .lesson-goal{padding:15px;margin-bottom:15px}
+ .lesson-goal p,.lesson-takeaway p,.lesson-teaching>p,.lesson-mistake p,.lesson-practice-tip p{font-size:13px}
+ .teaching-step{gap:10px;padding:13px 0}
+ .teaching-step p{font-size:12px}
+ .dialogue-line{gap:8px;margin:11px 0}
+ .dialogue-line>b{flex-basis:31px;height:31px}
+ .dialogue-line .dialogue-bubble{grid-template-columns:minmax(0,1fr) 44px;gap:6px 8px;padding:12px;border-radius:13px}
+ .dialogue-bubble strong{font-size:15px}
+ .dialogue-bubble small{font-size:12px}
+ .dialogue-bubble .dialogue-play{width:42px;height:44px;border-radius:11px}
+ .lesson-vocabulary button{min-height:58px;padding:10px}
+ .lesson-example{padding:17px}
+}
+@media(max-width:390px){
+ .dialogue-line .dialogue-bubble{grid-template-columns:minmax(0,1fr) 38px;padding:10px}
+ .dialogue-bubble .dialogue-play{width:37px;height:40px}
+ .dialogue-bubble .dialogue-play span{font-size:9px}
+}
