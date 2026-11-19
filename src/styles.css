@@ -214,3 +214,59 @@ button:active:not(:disabled){transform:scale(.975)}
  .voice-status{align-items:flex-start;padding:13px}
 }
 @media(prefers-reduced-motion:reduce){.voice-status.listening>svg{animation:none}}
+
+
+/* Brand mark and LIR wallet */
+.brand-logo-image{width:44px;height:44px;flex:0 0 44px;object-fit:cover;border:1px solid #806c3d;border-radius:12px;background:#28251c;box-shadow:0 5px 16px #0005}
+.lir-wallet{display:flex;align-items:center;justify-content:space-between;margin:16px 3px 2px;padding:11px 12px;border:1px solid #554629;border-radius:11px;background:linear-gradient(110deg,#2c281e,#20211b)}
+.lir-wallet>span{font-size:10px;color:#b9b6a8}
+.lir-wallet>b{font:800 16px Arial;color:var(--gold-light)}
+.lir-wallet small{font-size:9px;color:#c5b88e}
+.header-level{gap:7px}
+.header-level b{white-space:nowrap}
+/* Clear, linear lesson learning path */
+.lesson-flow{display:grid;gap:15px}
+.lesson-flow .lesson-goal{margin:0;padding:17px 19px;border-right:3px solid var(--gold)}
+.flow-section{margin:0!important;padding:19px 20px!important;border-radius:15px!important;background:#22241e!important;border:1px solid #393b31!important}
+.lesson-section-label{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.lesson-section-label i{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:8px;background:#40351f;color:var(--gold-light);font-style:normal;font-size:11px}
+.lesson-flow .teaching-step{padding:13px 0}
+.lesson-flow .lesson-example{display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.flow-label{font-size:12px;color:var(--gold-light);font-weight:800}
+.lesson-flow .lesson-example strong{font-size:21px;line-height:1.8}
+.lesson-flow .lesson-example>span:not(.flow-label){font-size:13px;color:#b9b8ad}
+.lesson-flow .lesson-example button{display:inline-flex;align-items:center;gap:7px;margin-top:3px}
+.lesson-flow .lesson-vocabulary{display:block}
+.lesson-flow .lesson-vocabulary>div{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:13px}
+.lesson-flow .lesson-vocabulary button{display:grid;grid-template-columns:1fr auto;align-items:center;gap:5px 8px;min-width:0;text-align:right}
+.lesson-flow .lesson-vocabulary button span{font-size:14px;font-weight:800}
+.lesson-flow .lesson-vocabulary button small{grid-column:1;font-size:11px}
+.lesson-flow .lesson-vocabulary button svg{grid-column:2;grid-row:1 / span 2}
+.lesson-flow .lesson-dialogue{display:block}
+.lesson-flow .lesson-mistake b,.lesson-flow .lesson-practice-tip b{display:block;font-size:13px;color:var(--gold-light);margin-bottom:9px}
+.lesson-flow .lesson-mistake p,.lesson-flow .lesson-practice-tip p{font-size:13px;line-height:2.1;margin:0}
+.lesson-flow .lesson-takeaway{margin:0;padding:17px 19px;border-radius:14px;border:1px solid #68532e;background:#302a1e}
+.lesson-flow .lesson-takeaway b{font-size:13px;color:var(--gold-light)}
+.lesson-flow .lesson-takeaway p{font-size:13px;line-height:2;margin:7px 0 0}
+.lesson-practice-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lesson-practice-actions button{width:100%;min-height:48px}
+.typing-answer{display:grid;gap:9px;margin:17px 0}
+.typing-answer>span{font-size:12px;color:#c9c6b8;font-weight:700}
+.typing-answer input{width:100%;min-height:52px;padding:12px 15px;border:1px solid #66552f;border-radius:12px;background:#20221d;color:#f4ead1;font:600 17px Arial,sans-serif;outline:none}
+.typing-answer input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d8b45d22}
+@media(max-width:720px){
+ .brand-logo-image{width:40px;height:40px;flex-basis:40px}
+ .lir-wallet{margin-top:12px}
+ .header-level{gap:5px}
+ .header-level span{font-size:9px}
+ .header-level b{font-size:10px;padding:6px}
+ .lesson-flow{gap:11px}
+ .flow-section{padding:15px!important}
+ .lesson-flow .lesson-example strong{font-size:18px}
+ .lesson-practice-actions{grid-template-columns:1fr}
+ .lesson-flow .lesson-vocabulary>div{grid-template-columns:1fr 1fr}
+}
+@media(max-width:390px){
+ .lesson-flow .lesson-vocabulary>div{grid-template-columns:1fr}
+ .header-level span:first-child{display:none}
+}
