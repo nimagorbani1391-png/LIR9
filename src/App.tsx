@@ -409,7 +409,7 @@ function AuthScreen() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: import("react").FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
     setMessage("");
