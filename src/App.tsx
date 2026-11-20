@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { supabase } from "./lib/supabase";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
@@ -397,6 +398,89 @@ const vocabulary = [
 ];
 const readStore = (key: string, fallback: string[]) => { try { const raw = localStorage.getItem(key); if (!raw) return fallback; const value: unknown = JSON.parse(raw); return Array.isArray(value) && value.every(item => typeof item === "string") ? value : fallback; } catch { return fallback; } };
 const writeStore = (key: string, value: string[]) => { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; } };
+
+function AuthScreen() {
+  const [mode, setMode] = useState<"login" | "signup">("signup");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+    setMessage("");
+    if (!supabase) {
+      setError("اتصال به سرویس ورود کامل تنظیم نشده است. کمی بعد دوباره تلاش کن.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("رمز عبور باید حداقل ۸ کاراکتر باشد.");
+      return;
+    }
+    if (mode === "signup" && password !== confirmPassword) {
+      setError("تکرار رمز عبور با رمز اصلی یکسان نیست.");
+      return;
+    }
+    setBusy(true);
+    try {
+      if (mode === "signup") {
+        const { data, error: authError } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: {
+            data: { display_name: name.trim() },
+            emailRedirectTo: window.location.origin + import.meta.env.BASE_URL
+          }
+        });
+        if (authError) throw authError;
+        if (!data.session) {
+          setMessage("حساب ساخته شد! برای فعال‌سازی، لینک تأیید را از ایمیلت باز کن؛ سپس به همین سایت برگرد و وارد شو.");
+        } else {
+          setMessage("حساب کاربری با موفقیت ساخته شد.");
+        }
+      } else {
+        const { error: authError } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password
+        });
+        if (authError) throw authError;
+      }
+    } catch (caught) {
+      const message = caught instanceof Error ? caught.message : "مشکلی در انجام درخواست پیش آمد.";
+      if (/invalid login credentials/i.test(message)) setError("ایمیل یا رمز عبور اشتباه است.");
+      else if (/email not confirmed/i.test(message)) setError("ایمیلت هنوز تأیید نشده است. لینک ارسال‌شده را باز کن.");
+      else if (/user already registered/i.test(message)) setError("این ایمیل قبلاً ثبت‌نام کرده است؛ وارد حساب شو.");
+      else if (/password should be at least/i.test(message)) setError("رمز عبور باید حداقل ۸ کاراکتر باشد.");
+      else setError(message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return <main className="auth-screen" dir="rtl">
+    <section className="auth-card">
+      <div className="auth-brand"><span className="auth-brand-mark">L</span><div><b>LIR9</b><small>یادگیری، قدم‌به‌قدم</small></div></div>
+      <div className="auth-heading"><span>فضای یادگیری شخصی تو</span><h1>{mode === "signup" ? "به LIR9 خوش اومدی" : "خوش برگشتی!"}</h1><p>{mode === "signup" ? "حساب بساز تا مسیر یادگیری و پیشرفتت همراهت بماند." : "برای ادامه مسیر یادگیری وارد حساب خودت شو."}</p></div>
+      <div className="auth-switch"><button type="button" className={mode === "signup" ? "active" : ""} onClick={() => { setMode("signup"); setError(""); setMessage(""); }}>ثبت‌نام</button><button type="button" className={mode === "login" ? "active" : ""} onClick={() => { setMode("login"); setError(""); setMessage(""); }}>ورود</button></div>
+      <form className="auth-form" onSubmit={submit}>
+        {mode === "signup" && <label>نام نمایشی<input value={name} onChange={event => setName(event.target.value)} placeholder="نامی که در LIR9 نمایش داده می‌شود" autoComplete="name" required maxLength={50}/></label>}
+        <label>ایمیل<input type="email" value={email} onChange={event => setEmail(event.target.value)} placeholder="you@example.com" autoComplete="email" required dir="ltr"/></label>
+        <label>رمز عبور<input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="حداقل ۸ کاراکتر" autoComplete={mode === "signup" ? "new-password" : "current-password"} required minLength={8} dir="ltr"/></label>
+        {mode === "signup" && <label>تکرار رمز عبور<input type="password" value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} placeholder="رمز عبور را دوباره وارد کن" autoComplete="new-password" required minLength={8} dir="ltr"/></label>}
+        {error && <div className="auth-alert error" role="alert">{error}</div>}
+        {message && <div className="auth-alert success" role="status">{message}</div>}
+        <button className="auth-submit" type="submit" disabled={busy}>{busy ? "لطفاً صبر کن…" : mode === "signup" ? "ساخت حساب کاربری" : "ورود به حساب"} <span>←</span></button>
+      </form>
+      <p className="auth-footnote"><span>◆</span> اطلاعات حساب با امنیت Supabase مدیریت می‌شود.</p>
+    </section>
+    <div className="auth-background-glow" aria-hidden="true"/>
+  </main>;
+}
+
 function App() {
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -454,6 +538,26 @@ function App() {
     const timeout = window.setTimeout(() => completeLesson(), 900);
     return () => window.clearTimeout(timeout);
   }, [voiceStatus, step, activeLesson]);
+  useEffect(() => {
+    if (!supabase) { setAuthLoading(false); return; }
+    let active = true;
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (!active) return;
+      if (error) console.error("Could not restore Supabase session:", error.message);
+      setAuthSession(data.session);
+      setAuthLoading(false);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthSession(session);
+      setAuthLoading(false);
+    });
+    return () => { active = false; subscription.unsubscribe(); };
+  }, []);
+  const handleSignOut = async () => {
+    if (!supabase) return;
+    const { error } = await supabase.auth.signOut();
+    if (error) setNotice("خروج از حساب انجام نشد؛ دوباره تلاش کن.");
+  };
   const completeLesson = () => {
     if (!active) return;
     const id = String(active.id);
@@ -535,13 +639,13 @@ function App() {
   };
   const advanceTypingPractice = () => { if (!active) return; setVoiceStatus("idle"); setVoiceTranscript(""); setVoiceError(""); setStep("voice"); };
   const advanceVoicePractice = () => { if (!active) return; completeLesson(); };
-  return <div className="app-shell" dir="rtl">
+  if (authLoading) return <main className="auth-screen" dir="rtl"><div className="auth-loading"><span className="auth-brand-mark">L</span><b>LIR9</b><p>در حال بررسی حساب کاربری…</p></div></main>;\n  if (!authSession) return <AuthScreen />;\n  return <div className="app-shell" dir="rtl">
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
       <div className="brand"><img className="brand-logo-image" src="/LIR9/lir9-brand.jpg" alt="نشان LIR9"/><div><b>LIR9</b><small>یادگیری، قدم‌به‌قدم</small></div><button className="icon-button mobile-close" onClick={() => setMenuOpen(false)} aria-label="بستن منو"><X/></button></div>
       <div className="lir-wallet"><span>موجودی امتیاز</span><b>{lirBalance} <small>LIR</small></b></div><div className="side-caption">منوی اصلی</div>
       <nav className="side-nav">{nav.map(item => <button key={item.id} className={tab === item.id ? "nav-link active" : "nav-link"} onClick={() => go(item.id)}><item.icon size={19}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}</nav>
       <div className="sidebar-progress"><div className="side-progress-icon"><Target size={18}/></div><div><b>مسیر فعلی تو</b><small>سطح A1 · مقدماتی</small></div><strong>{progress}٪</strong><div className="side-track"><i style={{width: progress + "%"}}/></div><button onClick={() => go("learn")}>ادامه مسیر <ChevronLeft size={14}/></button></div>
-      <div className="sidebar-bottom"><span className="brand-mini">LIR9</span><span>نسخه آزمایشی · اطلاعات روی همین دستگاه ذخیره می‌شود</span></div>
+      <div className="sidebar-bottom"><span className="brand-mini">LIR9</span><span className="sidebar-user-email" title={authSession.user.email || ""}>{authSession.user.email}</span><button className="sidebar-signout" onClick={handleSignOut}>خروج از حساب</button></div>
     </aside>
     {menuOpen && <button className="mobile-scrim" onClick={() => setMenuOpen(false)} aria-label="بستن منو"/>}
     <main className="main-area">
