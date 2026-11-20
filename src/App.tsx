@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, Printer
+  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "assistant" | "certificates";
@@ -422,7 +422,6 @@ function App() {
   const [notice, setNotice] = useState("");
   const [certificateName, setCertificateName] = useState("");
   const [certificateBirthDate, setCertificateBirthDate] = useState("");
-  const [certificateNationalId, setCertificateNationalId] = useState("");
   const active = lessons.find(l => l.id === activeLesson);
   const quizQuestions = active ? lessonContent[active.id]?.questions ?? [] : [];
   const quizScore = useMemo(() => quizQuestions.reduce((score, question, index) => score + (quizAnswers[index] === question.correct ? 1 : 0), 0), [quizAnswers, activeLesson]);
