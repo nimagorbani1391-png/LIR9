@@ -615,7 +615,7 @@ type LirtoMessage = { role: "assistant" | "user"; text: string };
 
 function LirtoAssistant() {
   const [messages, setMessages] = useState<LirtoMessage[]>([
-    { role: "assistant", text: "درود! من LIRTO، دستیار آموزشی LIR9 هستم. ✨ اینجا می‌تونیم یادگیری زبان انگلیسی رو هدفمند و قدم‌به‌قدم پیش ببریم؛ از گرامر و واژگان تا درک مطلب، نوشتن و مکالمه. برای شروع، موضوع یا پرسشت رو بنویس تا با هم تمرین کنیم." }
+    { role: "assistant", text: "سلام! من LIRTO هستم؛ همراه هوشمندت برای یادگیری زبان انگلیسی. ✨" }
   ]);
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -666,7 +666,7 @@ function LirtoAssistant() {
       </div>
       <span className="lirto-specialty"><Sparkles size={13}/> دستیار یادگیری زبان</span>
     </header>
-    <div className="lirto-intro"><span className="lirto-kicker">YOUR LANGUAGE COMPANION</span><h2>سلام! من LIRTO هستم.</h2><p>برای یادگیری انگلیسی، از اولین کلمه تا مکالمه‌های واقعی، کنارت هستم.</p></div>
+    <div className="lirto-intro"><span className="lirto-kicker">YOUR LANGUAGE COMPANION</span><h2>یادگیری انگلیسی، هوشمندتر.</h2><p>سؤال بپرس، تمرین کن و قدم‌به‌قدم پیشرفت کن.</p></div>
     <div className="lirto-chat" aria-live="polite">
       {messages.map((message, index) => <div className={message.role === "user" ? "lirto-message user" : "lirto-message assistant"} key={index}>
         {message.role === "assistant" && <span className="lirto-message-avatar"><Bot size={15}/></span>}
