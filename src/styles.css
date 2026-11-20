@@ -537,3 +537,113 @@ button:focus-visible,input:focus-visible{outline-offset:4px}
  html{scroll-behavior:auto}
  .overview-card,.path-card,.nav-link,.primary-button,.small-primary,.secondary-button,.icon-button{transition:none!important}
 }
+
+
+/* Compact layout correction */
+.page-wrap{max-width:1080px;padding-top:27px;padding-bottom:48px}
+.welcome-block{margin-bottom:18px;gap:16px}
+.welcome-block h1,.page-intro h1{font-size:24px;margin:6px 0 4px}
+.welcome-block p,.page-intro p{font-size:10px;line-height:1.85}
+.welcome-mark{width:54px;height:54px;border-radius:14px}
+.next-card{min-height:0;padding:18px 21px;grid-template-columns:minmax(0,1fr) 145px;gap:12px;border-radius:16px}
+.next-card-copy h2{font-size:18px;line-height:1.6;margin:6px 0}
+.next-card-copy p{font-size:10px;line-height:1.8}
+.next-meta{margin:9px 0 12px;gap:12px}
+.primary-button{min-height:37px;padding:9px 13px;font-size:10px;border-radius:9px}
+.next-visual{height:118px}
+.visual-orbit{width:108px;height:108px}.orbit-two{width:78px;height:78px}.visual-core{width:54px;height:54px}
+.section-heading{margin:21px 0 10px}.section-heading h2{font-size:15px}
+.overview-grid{gap:9px}
+.overview-card{min-height:126px;padding:13px;border-radius:13px}
+.card-icon{width:29px;height:29px;border-radius:8px}
+.overview-label{font-size:9px;margin-top:7px}
+.progress-big,.overview-number{font-size:21px;margin-top:1px}
+.overview-card p{font-size:8px;line-height:1.7;margin-top:5px}
+.progress-bar{height:5px;margin-top:6px}
+.card-action{font-size:8px;margin-top:6px}
+.simple-panel{margin-top:12px;padding:14px;border-radius:13px}
+.simple-panel .section-heading{margin:0 0 8px}
+.compact-lesson{padding:9px 2px;gap:9px}
+.compact-number{width:28px;height:28px;border-radius:8px}
+.compact-copy b{font-size:10px}.compact-copy small{font-size:8px;margin-top:2px}
+.all-lessons-button{padding:8px;margin-top:7px;font-size:9px}
+.page-intro{margin:4px 0 17px}
+.course-summary{padding:16px 18px;margin-bottom:16px;border-radius:14px}
+.course-summary h2{font-size:16px;margin:8px 0 4px}
+.course-summary p{font-size:9px;line-height:1.8;margin-bottom:9px}
+.course-level{font-size:34px;padding:10px 13px;border-radius:12px}
+.level-chip{font-size:8px;padding:5px 8px}
+.path-item{grid-template-columns:29px minmax(0,1fr);gap:8px;min-height:0}
+.path-dot{width:26px;height:26px;font-size:10px}
+.path-card{padding:11px 13px;margin-bottom:9px;border-radius:12px}
+.path-card h3{font-size:12px;line-height:1.5;margin:4px 0}
+.path-card p{font-size:9px;line-height:1.7;margin:4px 0 7px}
+.lesson-details{font-size:8px;gap:9px}
+.small-primary,.secondary-button{min-height:31px;padding:6px 9px;font-size:9px}
+.vocab-toolbar{margin-bottom:11px}.vocab-count b{font-size:20px}
+.search-field{min-height:39px;border-radius:9px;padding-inline:10px}
+.vocab-list{border-radius:12px}.vocab-row{padding:11px 13px;min-height:63px}
+.vocab-word h3{font-size:14px}.vocab-meaning b{font-size:10px}.vocab-meaning span{font-size:9px}
+.bookmark-button,.sound-button{width:30px;height:30px;border-radius:8px}
+.assistant-placeholder{padding:28px 22px;border-radius:16px}
+.assistant-symbol{width:54px;height:54px;border-radius:15px}
+.assistant-placeholder h2{font-size:16px}.assistant-placeholder p{font-size:10px;line-height:1.9}
+.lesson-overlay{padding:13px}
+.lesson-dialog{width:min(760px,100%);max-height:88dvh;padding:20px;border-radius:18px}
+.lesson-dialog-head{padding-bottom:11px}.lesson-dialog-head h2{font-size:20px}
+.lesson-steps{margin:11px 0 14px;padding:8px 10px;gap:7px}
+.lesson-body{max-width:690px;padding-bottom:15px}
+.lesson-flow{gap:9px}
+.lesson-phase{padding:11px;gap:8px;border-radius:13px}
+.lesson-phase-head{gap:9px;padding-bottom:2px}
+.lesson-phase-head>span{flex-basis:29px;height:29px;border-radius:8px;font-size:9px}
+.lesson-phase-head b{font-size:12px}.lesson-phase-head small{font-size:9px}
+.lesson-phase .flow-section{padding:11px!important;border-radius:10px!important}
+.lesson-phase .teaching-step{padding:8px 0;gap:8px}
+.lesson-phase .teaching-step>span{flex-basis:24px;height:24px}
+.lesson-phase .teaching-step b{font-size:12px}.lesson-phase .teaching-step p{font-size:10px;line-height:1.85}
+.lesson-phase .lesson-vocabulary button{min-height:50px;padding:8px 9px}
+.lesson-phase .lesson-vocabulary button span{font-size:12px}
+.lesson-phase .dialogue-line{gap:8px;margin:7px 0}
+.lesson-phase .dialogue-line>b{flex-basis:28px;height:28px}
+.lesson-phase .dialogue-bubble strong{font-size:13px}.lesson-phase .dialogue-bubble small{font-size:10px}
+.lesson-phase .lesson-mistake,.lesson-phase .lesson-practice-tip,.lesson-phase .lesson-takeaway{padding:11px!important}
+.dialog-actions{padding-top:11px}
+@media(max-width:720px){
+ .page-wrap{padding:18px 13px 86px}
+ .welcome-block{margin-bottom:14px}
+ .welcome-block h1,.page-intro h1{font-size:20px}
+ .welcome-mark{width:44px;height:44px;border-radius:11px}
+ .next-card{grid-template-columns:minmax(0,1fr);padding:15px 16px;border-radius:13px}
+ .next-card-copy h2{font-size:16px}.next-card-copy p{font-size:9px}
+ .next-visual{display:none}.next-meta{margin:8px 0 10px}
+ .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .overview-card,.overview-card:first-child{grid-column:auto;min-height:112px;padding:10px;border-radius:11px}
+ .card-icon{width:26px;height:26px}.overview-label{font-size:8px;margin-top:6px}
+ .progress-big,.overview-number{font-size:19px}.overview-card p{font-size:7.5px}
+ .simple-panel{padding:12px;margin-top:10px}
+ .section-heading{margin:17px 0 8px}.section-heading h2{font-size:13px}
+ .compact-lesson{padding:7px 1px}.compact-copy b{font-size:9px}.compact-copy small{font-size:7.5px}
+ .course-summary{padding:13px;margin-bottom:13px}
+ .course-summary h2{font-size:14px}.course-summary p{font-size:8px}
+ .course-level{font-size:28px;padding:8px 10px}
+ .path-item{grid-template-columns:24px minmax(0,1fr);gap:7px}
+ .path-dot{width:22px;height:22px}.path-card{padding:9px;margin-bottom:7px}
+ .path-card h3{font-size:10px}.path-card p{font-size:8px}.lesson-details{font-size:7px}
+ .vocab-row{padding:9px 8px;min-height:57px}
+ .vocab-word h3{font-size:12px}.vocab-meaning b{font-size:9px}.vocab-meaning span{font-size:8px}
+ .assistant-placeholder{padding:21px 14px}
+ .lesson-overlay{padding:6px}.lesson-dialog{max-height:calc(100dvh - 12px);padding:12px;border-radius:14px}
+ .lesson-dialog-head h2{font-size:17px}.lesson-steps{margin:8px 0 11px;padding:6px}
+ .lesson-phase{padding:9px;gap:7px}.lesson-phase-head>span{flex-basis:26px;height:26px}
+ .lesson-phase-head b{font-size:11px}.lesson-phase-head small{font-size:8px}
+ .lesson-phase .flow-section{padding:9px!important}
+ .lesson-phase .teaching-step{padding:7px 0}.lesson-phase .teaching-step b{font-size:10px}
+ .lesson-phase .teaching-step p{font-size:9px}.lesson-practice-actions{padding-top:7px}
+}
+@media(max-width:390px){
+ .page-wrap{padding-inline:10px}
+ .overview-card,.overview-card:first-child{min-height:104px;padding:8px}
+ .overview-card p{font-size:7px}.next-card{padding:13px}
+ .path-card-main{gap:5px}.path-card{padding:8px}
+}
