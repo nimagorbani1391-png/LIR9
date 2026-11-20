@@ -6,6 +6,7 @@ export type LearningState = {
   lirBalance?: number;
   savedWords?: string[];
   placementResult?: { score: number; date: string } | null;
+  a1FinalResult?: { score: number; date: string } | null;
   listeningCompleted?: string[];
   listeningScores?: Record<string, boolean>;
 };
