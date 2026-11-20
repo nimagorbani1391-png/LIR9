@@ -1135,3 +1135,144 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
   .lirto-composer{margin:0 10px;border-radius:15px}
   .lirto-composer button{width:40px;height:40px}
 }
+
+
+/* LIR9 visual refinement: readable type, calmer spacing and responsive layouts */
+:root{
+  --ui-card-radius:16px;
+  --ui-card-border:#343a30;
+}
+.page-wrap{max-width:1180px}
+.page-wrap>*+*{margin-top:22px}
+.page-intro{margin:8px 0 24px}
+.page-intro h1,.welcome-block h1{line-height:1.45}
+.page-intro p,.welcome-block p{font-size:13px;line-height:2.05;max-width:650px}
+.section-kicker,.eyebrow{font-size:11px;letter-spacing:0}
+.overview-card,.simple-panel,.course-summary,.path-card,.vocab-list,
+.library-card,.library-reader,.account-card,.account-session-card,
+.certificate-studio,.lirto-shell{
+  border-radius:var(--ui-card-radius);
+}
+.overview-card,.simple-panel,.course-summary,.path-card,.account-card,
+.account-session-card,.certificate-studio{
+  border-color:var(--ui-card-border);
+}
+.overview-label,.lesson-details,.path-unit,.library-card-meta,
+.library-card-link,.library-reader-meta span{font-size:11px}
+.overview-card p,.path-card p,.course-summary p{font-size:12px;line-height:1.95}
+.mobile-tabs button{font-size:10px;gap:5px;padding:6px 4px}
+.mobile-tabs button svg{width:19px;height:19px}
+.search-field input,.library-search input,.lirto-composer input{font-size:14px}
+.library-card-copy{padding:18px}
+.library-card h3{font-size:16px;line-height:1.65}
+.library-card p{font-size:12px;line-height:2.05}
+.library-card-meta{gap:14px}
+.library-reader-intro{font-size:14px;line-height:2.15}
+.library-article-body p{font-size:15px;line-height:2.25}
+.library-vocabulary h2{font-size:16px}
+.library-vocabulary b{font-size:14px}
+.library-vocabulary span{font-size:13px}
+.lirto-message p{font-size:14px;line-height:2.05}
+.lirto-suggestions button{font-size:12px}
+.lirto-footnote{font-size:11px}
+.vocab-meaning b{font-size:13px}
+.vocab-meaning span{font-size:12px;line-height:1.8}
+.vocab-word small{font-size:11px}
+.lesson-details{gap:12px}
+.lesson-details span{font-size:11px}
+.account-detail small,.account-security-note,.account-session-copy p{font-size:12px;line-height:1.9}
+
+@media(max-width:720px){
+  .top-header{
+    display:grid;
+    grid-template-columns:42px minmax(0,1fr);
+    grid-template-areas:"menu crumbs" "stats stats";
+    align-content:center;
+    gap:7px 10px;
+    height:auto;
+    min-height:76px;
+    padding:9px 14px;
+  }
+  .top-header .menu-button{grid-area:menu}
+  .top-header .breadcrumbs{
+    grid-area:crumbs;
+    min-width:0;
+    margin:0;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:11px;
+  }
+  .top-header .header-level{
+    grid-area:stats;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+    gap:8px;
+    min-width:0;
+    font-size:11px;
+  }
+  .top-header .header-level span{font-size:11px}
+  .top-header .header-level b{font-size:12px;padding:6px 9px}
+  .page-wrap{padding:23px 16px calc(104px + env(safe-area-inset-bottom))}
+  .page-wrap>*+*{margin-top:18px}
+  .page-intro{margin:5px 0 19px}
+  .page-intro h1,.welcome-block h1{font-size:clamp(22px,5vw,26px)}
+  .page-intro p,.welcome-block p{font-size:12px;line-height:2}
+  .section-kicker,.eyebrow{font-size:11px}
+  .overview-label,.lesson-details,.path-unit,.library-card-meta,
+  .library-card-link{font-size:11px}
+  .overview-card p,.path-card p,.course-summary p{font-size:11px;line-height:1.9}
+  .mobile-tabs button{font-size:10px;min-height:48px}
+  .mobile-tabs button svg{width:20px;height:20px}
+  .vocab-row{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) 36px 36px;gap:9px;padding:13px 11px;min-height:76px}
+  .vocab-word h3{font-size:16px}
+  .vocab-word small{font-size:11px}
+  .vocab-meaning b{font-size:12px;line-height:1.7}
+  .vocab-meaning span{font-size:11px;line-height:1.75}
+  .bookmark-button,.sound-button{width:36px;height:36px}
+  .library-grid{grid-template-columns:1fr;gap:14px}
+  .library-card{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
+  .library-card-art{
+    height:92px;
+    min-height:92px;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 18px;
+  }
+  .library-card-art svg{width:27px;height:27px}
+  .library-card-copy{padding:15px 16px 17px}
+  .library-card h3{font-size:15px;margin:8px 0 5px}
+  .library-card p{font-size:12px;line-height:1.95;margin-bottom:12px}
+  .library-card-meta,.library-card-link{font-size:11px}
+  .library-feature{padding:17px 16px;gap:13px}
+  .library-feature h2{font-size:17px}
+  .library-feature p{font-size:11px;line-height:1.9}
+  .library-reader{padding:22px 18px}
+  .library-reader-intro{font-size:13px;line-height:2.05}
+  .library-article-body p{font-size:14px;line-height:2.15}
+  .library-vocabulary{padding:15px}
+  .library-vocabulary b{font-size:13px}
+  .library-vocabulary span{font-size:12px}
+  .lirto-message p{font-size:13px}
+  .lirto-suggestions button{font-size:11px}
+  .lirto-footnote{font-size:10px}
+  .account-detail small,.account-security-note,.account-session-copy p{font-size:11px}
+}
+@media(max-width:390px){
+  .top-header{grid-template-columns:38px minmax(0,1fr);padding-inline:10px}
+  .top-header .header-level{gap:6px}
+  .top-header .header-level span{font-size:10px}
+  .top-header .header-level b{font-size:11px;padding:5px 7px}
+  .page-wrap{padding-inline:12px}
+  .vocab-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 32px 32px;gap:6px;padding-inline:8px}
+  .vocab-word h3{font-size:14px}
+  .vocab-meaning b{font-size:11px}
+  .vocab-meaning span{font-size:10px}
+  .bookmark-button,.sound-button{width:32px;height:32px}
+  .mobile-tabs button{font-size:9px}
+}
