@@ -1,0 +1,31 @@
+{
+  "title": "در کافه چه بگوییم؟",
+  "introduction": "این مکالمه کوتاه را بخوان و به عبارت‌های پرکاربرد هنگام سفارش توجه کن.",
+  "paragraphs": [
+    "Barista: Hello! What would you like?",
+    "Customer: Hi. Can I have a cup of tea, please?",
+    "Barista: Of course. Would you like anything else?",
+    "Customer: No, thank you. How much is it?",
+    "Barista: It is three dollars.",
+    "Customer: Here you are. Thank you!",
+    "Barista: You’re welcome. Have a nice day!"
+  ],
+  "vocabulary": [
+    {
+      "word": "What would you like?",
+      "meaning": "چه چیزی میل دارید؟"
+    },
+    {
+      "word": "Can I have…?",
+      "meaning": "می‌توانم ... داشته باشم؟"
+    },
+    {
+      "word": "anything else",
+      "meaning": "چیز دیگری"
+    },
+    {
+      "word": "You’re welcome",
+      "meaning": "خواهش می‌کنم"
+    }
+  ]
+}
