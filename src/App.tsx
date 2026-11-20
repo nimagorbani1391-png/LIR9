@@ -606,7 +606,6 @@ function ContentLibrary() {
       </button>)}
       {!filtered.length && <div className="library-empty"><Search size={24}/><b>مطلبی پیدا نشد</b><span>عبارت جست‌وجو یا دسته‌بندی را تغییر بده.</span></div>}
     </div>}
-    <p className="library-performance-note"><CheckCircle2 size={14}/> محتوای کتابخانه از فایل‌های ثابت بارگذاری می‌شود و برای نمایش آن، درخواستی به دیتابیس ارسال نمی‌شود.</p>
   </section>;
 }
 
