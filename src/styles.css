@@ -846,3 +846,15 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
  .certificate-specimen .certificate-watermark{font-size:clamp(40px,12vw,76px)}
 }
 @media print{#lir9-certificate{display:none!important}}
+
+.certificate-inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:15px 17px;border:1px solid #3b4033;border-radius:13px;background:#171b16}
+.certificate-inputs label{display:flex;flex-direction:column;gap:7px;color:#e3d8bb;font-size:11px}
+.certificate-inputs input{width:100%;min-height:42px;padding:10px 12px;border:1px solid #424638;border-radius:9px;background:#10140f;color:#f4efdf;font:12px Tahoma,Arial,sans-serif}
+.certificate-inputs input:focus{outline:2px solid #d8b45d66;border-color:#d8b45d}
+.certificate-inputs>p{grid-column:1/-1;margin:0;color:#a8aa9e;font-size:9px;line-height:1.9}
+.certificate-date-pair{display:flex;align-items:center;justify-content:center;gap:clamp(20px,5vw,58px);margin:1.2% 0 0}
+.certificate-birth{display:flex;flex-direction:column;gap:4px}
+.certificate-birth span{font:700 clamp(7px,.72vw,9px) Tahoma,Arial,sans-serif;color:#967746}
+.certificate-birth strong{font:700 clamp(9px,1vw,12px) Tahoma,Arial,sans-serif;color:#26384d;direction:rtl}
+.certificate-date-pair .certificate-date-row{margin:0}
+@media(max-width:600px){.certificate-inputs{grid-template-columns:1fr}.certificate-inputs>p{grid-column:auto}.certificate-date-pair{gap:12px}.certificate-birth span{font-size:7px}.certificate-birth strong,.certificate-date-row strong{font-size:8px}}
