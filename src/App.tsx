@@ -177,7 +177,6 @@ function PlacementAssessment() {
   const [result, setResult] = useState<{ score: number; date: string } | null>(() => {
     try { const raw = localStorage.getItem("lir9-placement-result"); return raw ? JSON.parse(raw) : null; } catch { return null; }
   });
-  const score = placementQuestions.reduce((total, question, i) => total + (answers[i] === question.answer ? 1 : 0), 0);
   const finish = () => {
     const finalScore = placementQuestions.reduce((total, question, i) => total + (answers[i] === question.answer ? 1 : 0), 0);
     const next = { score: finalScore, date: new Date().toISOString() };
