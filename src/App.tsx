@@ -7,7 +7,7 @@ import {
   LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles
 } from "lucide-react";
 
-type Tab = "home" | "learn" | "vocabulary" | "library" | "listening" | "assistant" | "certificates" | "vip" | "account";
+type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account";
 type SpeechResultLike = { transcript: string; confidence?: number };
 type SpeechRecognitionLike = {
   lang: string; interimResults: boolean; maxAlternatives: number;
@@ -216,6 +216,7 @@ function ContentLibrary() {
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("همه");
+  const [libraryMode, setLibraryMode] = useState<"reading" | "listening">("reading");
   const [selected, setSelected] = useState<LibraryItem | null>(null);
   const [article, setArticle] = useState<LibraryArticle | null>(null);
   const [articleLoading, setArticleLoading] = useState(false);
@@ -309,7 +310,12 @@ function ContentLibrary() {
   </section>;
 
   return <section className="library-page">
-    <div className="page-intro library-intro"><span className="section-kicker">یادگیری فراتر از درس‌ها</span><h1>کتابخانه محتوا</h1><p>داستان بخوان، نکته یاد بگیر و مکالمه‌های واقعی را دنبال کن.</p></div>
+    <div className="page-intro library-intro"><span className="section-kicker">یادگیری فراتر از درس‌ها</span><h1>کتابخانه محتوا</h1><p>مطالب آموزشی و تمرین‌های شنیداری را در یک فضای منظم دنبال کن.</p></div>
+    <div className="library-mode-switch" role="tablist" aria-label="بخش‌های کتابخانه">
+      <button type="button" role="tab" aria-selected={libraryMode === "reading"} className={libraryMode === "reading" ? "active" : ""} onClick={() => setLibraryMode("reading")}><BookOpen size={16}/> مطالب کتابخانه</button>
+      <button type="button" role="tab" aria-selected={libraryMode === "listening"} className={libraryMode === "listening" ? "active" : ""} onClick={() => setLibraryMode("listening")}><Volume2 size={16}/> آزمایشگاه شنیداری</button>
+    </div>
+    {libraryMode === "listening" ? <ListeningLab /> : <>
     <div className="library-feature">
       <div className="library-feature-icon"><BookOpen size={27}/></div>
       <div><span>فضای مطالعه LIR9</span><h2>هر روز، یک مطلب تازه</h2><p>محتوای کوتاه و سطح‌بندی‌شده برای تقویت زبان انگلیسی.</p></div>
@@ -328,6 +334,7 @@ function ContentLibrary() {
       </button>)}
       {!filtered.length && <div className="library-empty"><Search size={24}/><b>مطلبی پیدا نشد</b><span>عبارت جست‌وجو یا دسته‌بندی را تغییر بده.</span></div>}
     </div>}
+    </>}
   </section>;
 }
 
@@ -476,8 +483,6 @@ function App() {
     { id: "learn" as Tab, label: "درس‌ها", icon: BookOpen },
     { id: "vocabulary" as Tab, label: "لغت‌های من", icon: Library },
     { id: "library" as Tab, label: "کتابخانه محتوا", icon: BookOpen },
-    { id: "listening" as Tab, label: "آزمایشگاه شنیداری", icon: Volume2 },
-    { id: "listening" as Tab, label: "آزمایشگاه شنیداری", icon: Volume2 },
     { id: "assistant" as Tab, label: "دستیار", icon: MessageCircle },
     { id: "certificates" as Tab, label: "مدارک من", icon: GraduationCap },
     { id: "vip" as Tab, label: "اشتراک VIP", icon: Crown }
@@ -641,8 +646,6 @@ function App() {
         </>}
         {tab === "learn" && <><div className="page-intro"><span className="section-kicker">مسیر آموزشی</span><h1>درس‌ها و تمرین‌ها</h1><p>هر واحد یک مهارت مشخص را می‌سازد؛ آموزش را بخوان، مثال‌ها را بررسی کن و با آزمون و تمرین آن را تثبیت کن.</p></div><section className="course-summary"><div><span className="level-chip">A1 · مقدماتی</span><h2>پایه‌های زبان انگلیسی</h2><p>از مکالمه‌های ابتدایی تا واژه‌ها و ساخت جمله‌های ساده را قدم‌به‌قدم یاد می‌گیری.</p><div className="course-progress-line"><i style={{width: progress + "%"}}/></div><small>{completed.length} از {lessons.length} درس تکمیل شده</small></div><div className="course-level">A1</div></section><PlacementAssessment/><div className="curriculum-units">{courseUnits.map((unit,unitIndex)=>{const unitDone=unit.lessons.filter(lesson=>completed.includes(String(lesson.id))).length;return <section className="curriculum-unit" key={unit.unit}><header className="curriculum-unit-head"><div className="curriculum-unit-number">{String(unitIndex+1).padStart(2,"0")}</div><div className="curriculum-unit-copy"><span>واحد آموزشی {unitIndex+1}</span><h2>{unit.unit.split("·").pop()?.trim() || unit.unit}</h2><p>{unit.lessons.length} درس برای ساختن یک مهارت کاربردی</p></div><div className="curriculum-unit-progress"><b>{unitDone}/{unit.lessons.length}</b><span>تکمیل‌شده</span></div></header><div className="curriculum-lesson-list">{unit.lessons.map(lesson=>{const index=lessons.findIndex(item=>item.id===lesson.id);const done=completed.includes(String(lesson.id));const locked=index>0&&!lessons.slice(0,index).every(previous=>completed.includes(String(previous.id)));return <article className={done?"curriculum-lesson done":"curriculum-lesson"} key={lesson.id}><div className="curriculum-lesson-index">{done?<CheckCircle2 size={18}/>:String(lesson.id).padStart(2,"0")}</div><div className="curriculum-lesson-copy"><h3>{lesson.title}</h3><p>{lesson.description}</p><div className="lesson-details"><span><Clock3 size={13}/>{lesson.duration}</span><span><BookOpen size={13}/>{lesson.skill}</span></div></div><button disabled={locked} className={done?"secondary-button":"small-primary"} onClick={()=>openLesson(lesson.id)}>{done?"مرور":locked?"قفل‌شده":"شروع درس"}{locked?<LockKeyhole size={14}/>:<ChevronLeft size={15}/>}</button></article>})}</div></section>})}</div></>}
         {tab === "library" && <ContentLibrary />}
-        {tab === "listening" && <ListeningLab />}
-        {tab === "listening" && <ListeningLab />}
         {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
         {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant/></>}
         {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><p className="vip-price-note">قیمت ویژه در مقایسه با قیمت اصلی اشتراک محاسبه شده است.</p><button className="vip-activate-button" onClick={()=>setNotice("درگاه پرداخت هنوز به LIR9 متصل نشده است؛ فعلاً امکان خرید واقعی وجود ندارد.")}>فعال‌سازی اشتراک VIP <Crown size={17}/></button><span className="vip-secure-note"><ShieldCheck size={14}/> پرداخت آنلاین پس از راه‌اندازی درگاه فعال می‌شود.</span></article></section>}
