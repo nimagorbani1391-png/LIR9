@@ -171,18 +171,14 @@ const placementQuestions: PlacementQuestion[] = [
   { prompt: "He can ___ very well.", options: ["swim", "swims", "to swim"], answer: 0, skill: "توانایی" },
   { prompt: "The class starts ___ 8 o'clock.", options: ["in", "on", "at"], answer: 2, skill: "حروف اضافه زمان" }
 ];
-function PlacementAssessment() {
+function PlacementAssessment({ result, onResultChange }: { result: { score: number; date: string } | null; onResultChange: (result: { score: number; date: string }) => void }) {
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [result, setResult] = useState<{ score: number; date: string } | null>(() => {
-    try { const raw = localStorage.getItem("lir9-placement-result"); return raw ? JSON.parse(raw) : null; } catch { return null; }
-  });
   const finish = () => {
     const finalScore = placementQuestions.reduce((total, question, i) => total + (answers[i] === question.answer ? 1 : 0), 0);
     const next = { score: finalScore, date: new Date().toISOString() };
-    setResult(next);
-    try { localStorage.setItem("lir9-placement-result", JSON.stringify(next)); } catch { /* local storage may be unavailable */ }
+    onResultChange(next);
     setStarted(false);
   };
   const reset = () => { setAnswers({}); setIndex(0); setStarted(true); };
@@ -239,18 +235,14 @@ const a1FinalQuestions: A1FinalQuestion[] = [
   {prompt:"Would you like ___ join us?",options:["to","at","for"],answer:0,skill:"دعوت کردن",explanation:"ساختار درست would like to + فعل است."},
   {prompt:"Someone helps you. You say…",options:["Thank you.","Excuse me.","Good night."],answer:0,skill:"عبارت‌های مؤدبانه",explanation:"برای قدردانی از کمک می‌گوییم Thank you."}
 ];
-function A1FinalAssessment({ unlocked }: { unlocked: boolean }) {
+function A1FinalAssessment({ unlocked, result, onResultChange }: { unlocked: boolean; result: { score: number; date: string } | null; onResultChange: (result: { score: number; date: string }) => void }) {
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [result, setResult] = useState<{score:number; date:string} | null>(() => {
-    try { const raw = localStorage.getItem("lir9-a1-final-result"); return raw ? JSON.parse(raw) : null; } catch { return null; }
-  });
   const score = a1FinalQuestions.reduce((total, question, i) => total + (answers[i] === question.answer ? 1 : 0), 0);
   const finish = () => {
     const next = {score, date:new Date().toISOString()};
-    setResult(next);
-    try { localStorage.setItem("lir9-a1-final-result", JSON.stringify(next)); } catch { /* local storage may be unavailable */ }
+    onResultChange(next);
     setStarted(false);
   };
   const reset = () => { setAnswers({}); setIndex(0); setStarted(true); };
@@ -379,7 +371,7 @@ function ContentLibrary() {
       <button type="button" role="tab" aria-selected={libraryMode === "reading"} className={libraryMode === "reading" ? "active" : ""} onClick={() => setLibraryMode("reading")}><BookOpen size={16}/> مطالب کتابخانه</button>
       <button type="button" role="tab" aria-selected={libraryMode === "listening"} className={libraryMode === "listening" ? "active" : ""} onClick={() => setLibraryMode("listening")}><Volume2 size={16}/> آزمایشگاه شنیداری</button>
     </div>
-    {libraryMode === "listening" ? <ListeningLab /> : <>
+    {libraryMode === "listening" ? <ListeningLab completed={listeningCompleted} scores={listeningScores} onProgressChange={(nextCompleted, nextScores) => { setListeningCompleted(nextCompleted); setListeningScores(nextScores); writeStore("lir9-listening-completed", nextCompleted); try { localStorage.setItem("lir9-listening-scores", JSON.stringify(nextScores)); } catch { /* local storage may be unavailable */ } }}/> : <>
     <div className="library-feature">
       <div className="library-feature-icon"><BookOpen size={27}/></div>
       <div><span>فضای مطالعه LIR9</span><h2>هر روز، یک مطلب تازه</h2><p>محتوای کوتاه و سطح‌بندی‌شده برای تقویت زبان انگلیسی.</p></div>
@@ -494,16 +486,14 @@ const listeningExercises:ListeningExercise[]=[
 {id:"daily-routine-evening",level:"A1",title:"After school",situation:"برنامه بعد از مدرسه",duration:"۲۵ ثانیه",script:"I finish school at two o'clock. I go home and have lunch. Then I do my homework. In the evening, I sometimes play football with my friends.",question:"What does the speaker do after lunch?",options:["Goes to sleep","Does homework","Goes shopping"],answer:1,explanation:"Then I do my homework یعنی بعد از آن تکالیفم را انجام می‌دهم.",vocabulary:[{word:"finish",meaning:"تمام کردن"},{word:"homework",meaning:"تکلیف"},{word:"sometimes",meaning:"گاهی"}]},
 {id:"new-classmate",level:"A1",title:"A new classmate",situation:"آشنایی با هم‌کلاسی جدید",duration:"۲۵ ثانیه",script:"Hi, I'm Emma. What's your name? My name is David. Nice to meet you, David. Where are you from? I'm from Canada, but I live here now.",question:"Where is David from?",options:["Canada","Australia","Germany"],answer:0,explanation:"I'm from Canada یعنی اهل کانادا هستم.",vocabulary:[{word:"classmate",meaning:"هم‌کلاسی"},{word:"Nice to meet you",meaning:"از آشنایی خوشحالم"},{word:"live",meaning:"زندگی کردن"}]}
 ];
-function ListeningLab(){
+function ListeningLab({ completed, scores, onProgressChange }: { completed: string[]; scores: Record<string, boolean>; onProgressChange: (completed: string[], scores: Record<string, boolean>) => void }){
  const [level,setLevel]=useState<"all"|"A1"|"A2">("all"),[selected,setSelected]=useState("cafe-order"),[choice,setChoice]=useState<number|null>(null),[checked,setChecked]=useState(false),[revealed,setRevealed]=useState(false),[speed,setSpeed]=useState(1),[playing,setPlaying]=useState(false),[audioError,setAudioError]=useState("");
- const [completed,setCompleted]=useState<string[]>(()=>readStore("lir9-listening-completed",[]));
- const [scores,setScores]=useState<Record<string,boolean>>(()=>{try{return JSON.parse(localStorage.getItem("lir9-listening-scores")||"{}")}catch{return {}}});
  const available=listeningExercises.filter(x=>level==="all"||x.level===level),exercise=listeningExercises.find(x=>x.id===selected)??listeningExercises[0],score=Object.values(scores).filter(Boolean).length;
  const stop=()=>{if("speechSynthesis"in window)window.speechSynthesis.cancel();setPlaying(false)};
  useEffect(()=>()=>{if("speechSynthesis"in window)window.speechSynthesis.cancel()},[]);
  const play=()=>{if(!("speechSynthesis"in window)||typeof SpeechSynthesisUtterance==="undefined"){setAudioError("پخش گفتار در این مرورگر پشتیبانی نمی‌شود.");return}stop();setAudioError("");const u=new SpeechSynthesisUtterance(exercise.script);u.lang="en-US";u.rate=speed;u.pitch=1;u.onstart=()=>setPlaying(true);u.onend=()=>setPlaying(false);u.onerror=()=>{setPlaying(false);setAudioError("پخش صدا کامل نشد؛ دوباره تلاش کن.")};window.speechSynthesis.speak(u)};
  const selectExercise=(id:string)=>{stop();setSelected(id);setChoice(null);setChecked(false);setRevealed(false);setAudioError("")};
- const check=()=>{if(choice===null)return;const next={...scores,[exercise.id]:choice===exercise.answer};setScores(next);try{localStorage.setItem("lir9-listening-scores",JSON.stringify(next))}catch{}if(choice===exercise.answer&&!completed.includes(exercise.id)){const ids=[...completed,exercise.id];setCompleted(ids);writeStore("lir9-listening-completed",ids)}setChecked(true)};
+ const check=()=>{if(choice===null)return;const nextScores={...scores,[exercise.id]:choice===exercise.answer};const nextCompleted=choice===exercise.answer&&!completed.includes(exercise.id)?[...completed,exercise.id]:completed;onProgressChange(nextCompleted,nextScores);setChecked(true)};
  return <section className="listening-lab" dir="rtl">
  <div className="listening-hero"><div className="listening-hero-copy"><span className="listening-kicker"><i/> LISTENING LAB</span><h1>گوش کن، بفهم، پیشرفت کن.</h1><p>مکالمه‌های کوتاه و کاربردی انگلیسی را بشنو، جزئیات را تشخیص بده و درک شنیداری‌ات را بسنج.</p><div className="listening-hero-meta"><span><Volume2 size={15}/> پخش قابل تکرار</span><span><Target size={15}/> آزمون درک مطلب</span></div></div><div className="listening-hero-art" aria-hidden="true"><div className="listening-wave"><i/><i/><i/><i/><i/><i/><i/></div><div className="listening-headphone"><Volume2 size={32}/></div></div></div>
  <div className="listening-stats"><div><span>تمرین‌های موجود</span><b>{listeningExercises.length}</b><small>از سطح A1 تا A2</small></div><div><span>تمرین‌های تکمیل‌شده</span><b>{completed.length}<small> / {listeningExercises.length}</small></b><small>با پاسخ صحیح</small></div><div><span>پاسخ‌های صحیح</span><b>{score}</b><small>در تلاش‌های ثبت‌شده</small></div></div>
@@ -543,6 +533,11 @@ function App() {
   const [rewarded, setRewarded] = useState<string[]>(() => readStore("lir9-rewarded", []));
   const [lirBalance, setLirBalance] = useState<number>(() => { try { const value = Number(localStorage.getItem("lir9-balance") || 0); return Number.isFinite(value) && value >= 0 ? value : 0; } catch { return 0; } });
   const [saved, setSaved] = useState<string[]>(() => [...new Set(readStore("lir9-saved", ["Hello"]).filter(word => vocabulary.some(item => item.word === word)))]);
+  const [placementResult, setPlacementResult] = useState<{ score: number; date: string } | null>(null);
+  const [a1FinalResult, setA1FinalResult] = useState<{ score: number; date: string } | null>(null);
+  const [listeningCompleted, setListeningCompleted] = useState<string[]>([]);
+  const [listeningScores, setListeningScores] = useState<Record<string, boolean>>({});
+  const lastPersistedSnapshotRef = useRef<string | null>(null);
   const [search, setSearch] = useState("");
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [notice, setNotice] = useState("");
@@ -648,6 +643,7 @@ function App() {
           listeningCompleted: readStore("lir9-listening-completed", []),
           listeningScores: readBooleanMap("lir9-listening-scores"),
           placementResult: readResult("lir9-placement-result"),
+          a1FinalResult: readResult("lir9-a1-final-result"),
         } : {};
         const merged: LearningState = {
           completedLessons: [...new Set([...(local.completedLessons || []), ...(cloud?.completedLessons || [])])].filter(id => lessons.some(lesson => String(lesson.id) === id)),
@@ -657,11 +653,16 @@ function App() {
           listeningCompleted: [...new Set([...(local.listeningCompleted || []), ...(cloud?.listeningCompleted || [])])],
           listeningScores: { ...(local.listeningScores || {}), ...(cloud?.listeningScores || {}) },
           placementResult: latestResult(local.placementResult || null, cloud?.placementResult || null),
+          a1FinalResult: latestResult(local.a1FinalResult || null, cloud?.a1FinalResult || null),
         };
         setCompleted(merged.completedLessons || []);
         setRewarded(merged.rewardedLessons || []);
         setLirBalance(merged.lirBalance || 0);
         setSaved(merged.savedWords || ["Hello"]);
+        setPlacementResult(merged.placementResult || null);
+        setA1FinalResult(merged.a1FinalResult || null);
+        setListeningCompleted(merged.listeningCompleted || []);
+        setListeningScores(merged.listeningScores || {});
         localStorage.setItem("lir9-completed", JSON.stringify(merged.completedLessons || []));
         localStorage.setItem("lir9-rewarded", JSON.stringify(merged.rewardedLessons || []));
         localStorage.setItem("lir9-balance", String(merged.lirBalance || 0));
@@ -669,7 +670,11 @@ function App() {
         localStorage.setItem("lir9-listening-completed", JSON.stringify(merged.listeningCompleted || []));
         localStorage.setItem("lir9-listening-scores", JSON.stringify(merged.listeningScores || {}));
         if (merged.placementResult) localStorage.setItem("lir9-placement-result", JSON.stringify(merged.placementResult));
+        else localStorage.removeItem("lir9-placement-result");
+        if (merged.a1FinalResult) localStorage.setItem("lir9-a1-final-result", JSON.stringify(merged.a1FinalResult));
+        else localStorage.removeItem("lir9-a1-final-result");
         await saveLearningState(merged);
+        lastPersistedSnapshotRef.current = JSON.stringify(merged);
         if (!active) return;
         localStorage.setItem("lir9-learning-owner", userId);
         setLearningStateReady(true);
@@ -689,15 +694,23 @@ function App() {
       rewardedLessons: rewarded,
       lirBalance,
       savedWords: saved,
+      listeningCompleted,
+      listeningScores,
+      placementResult,
+      a1FinalResult,
     };
+    const snapshotKey = JSON.stringify(snapshot);
+    if (snapshotKey === lastPersistedSnapshotRef.current) return;
     const timer = window.setTimeout(() => {
-      saveLearningState(snapshot).catch(error => {
+      void saveLearningState(snapshot).then(() => {
+        lastPersistedSnapshotRef.current = snapshotKey;
+      }).catch(error => {
         console.error("Could not save learning state:", error);
         setNotice("ذخیره پیشرفت در فضای ابری انجام نشد؛ دوباره تلاش کن.");
       });
-    }, 650);
+    }, 1000);
     return () => window.clearTimeout(timer);
-  }, [authSession?.user.id, learningStateReady, completed, rewarded, lirBalance, saved]);
+  }, [authSession?.user.id, learningStateReady, completed, rewarded, lirBalance, saved, listeningCompleted, listeningScores, placementResult, a1FinalResult]);
 
   const handleSignOut = async () => {
     if (!supabase || signOutBusy) return;
@@ -822,7 +835,7 @@ function App() {
           <section className="overview-grid"><div className="overview-card progress-card"><div className="card-icon"><Target size={19}/></div><div className="overview-label">درصد تکمیل مسیر</div><div className="progress-big">{progress}<small>٪</small></div><div className="progress-bar"><i style={{width: progress + "%"}}/></div><p>تاکنون {completed.length} درس از {lessons.length} درس را کامل کرده‌ای.</p></div><div className="overview-card"><div className="card-icon"><Award size={19}/></div><div className="overview-label">امتیازهای من</div><div className="overview-number">{lirBalance}</div><p>با تکمیل هر درس برای نخستین بار، ۲ امتیاز LIR می‌گیری.</p></div><div className="overview-card"><div className="card-icon"><BookOpen size={19}/></div><div className="overview-label">درس‌های این بخش</div><div className="overview-number">{lessons.length}</div><p>درس کوتاه و مرحله‌به‌مرحله</p><button className="card-action" onClick={() => go("learn")}>رفتن به درس‌ها <ChevronLeft size={14}/></button></div><div className="overview-card"><div className="card-icon"><Bookmark size={19}/></div><div className="overview-label">لغت‌های ذخیره‌شده</div><div className="overview-number">{saved.length}</div><p>لغت‌هایی که برای مرور نگه داشتی</p><button className="card-action" onClick={() => go("vocabulary")}>مرور لغت‌ها <ChevronLeft size={14}/></button></div></section>
           <section className="simple-panel"><div className="section-heading"><div><span className="section-kicker">برنامه یادگیری</span><h2>درس‌های این بخش</h2></div><span className="level-chip">A1 · مقدماتی</span></div><div className="compact-lessons">{lessons.slice(0,5).map((lesson,index)=><button className="compact-lesson" key={lesson.id} onClick={() => openLesson(lesson.id)}><span className={completed.includes(String(lesson.id)) ? "compact-number done" : "compact-number"}>{completed.includes(String(lesson.id)) ? <CheckCircle2 size={17}/> : String(index+1).padStart(2,"0")}</span><span className="compact-copy"><b>{lesson.title}</b><small>{lesson.duration} · {lesson.skill}</small></span><ChevronLeft size={17}/></button>)}</div><button className="all-lessons-button" onClick={() => go("learn")}>مشاهده برنامه کامل آموزشی <ArrowRight size={15}/></button></section>
         </>}
-        {tab === "learn" && <><div className="page-intro"><span className="section-kicker">مسیر آموزشی</span><h1>درس‌ها و تمرین‌ها</h1><p>هر واحد یک مهارت مشخص را می‌سازد؛ آموزش را بخوان، مثال‌ها را بررسی کن و با آزمون و تمرین آن را تثبیت کن.</p></div><section className="course-summary"><div><span className="level-chip">A1 · مقدماتی</span><h2>پایه‌های زبان انگلیسی</h2><p>از مکالمه‌های ابتدایی تا واژه‌ها و ساخت جمله‌های ساده را قدم‌به‌قدم یاد می‌گیری.</p><div className="course-progress-line"><i style={{width: progress + "%"}}/></div><small>{completed.length} از {lessons.length} درس تکمیل شده</small></div><div className="course-level">A1</div></section><PlacementAssessment/><div className="curriculum-units">{courseUnits.map((unit,unitIndex)=>{const unitDone=unit.lessons.filter(lesson=>completed.includes(String(lesson.id))).length;return <section className="curriculum-unit" key={unit.unit}><header className="curriculum-unit-head"><div className="curriculum-unit-number">{String(unitIndex+1).padStart(2,"0")}</div><div className="curriculum-unit-copy"><span>واحد آموزشی {unitIndex+1}</span><h2>{unit.unit.split("·").pop()?.trim() || unit.unit}</h2><p>{unit.lessons.length} درس برای ساختن یک مهارت کاربردی</p></div><div className="curriculum-unit-progress"><b>{unitDone}/{unit.lessons.length}</b><span>تکمیل‌شده</span></div></header><div className="curriculum-lesson-list">{unit.lessons.map(lesson=>{const index=lessons.findIndex(item=>item.id===lesson.id);const done=completed.includes(String(lesson.id));const locked=index>0&&!lessons.slice(0,index).every(previous=>completed.includes(String(previous.id)));return <article className={done?"curriculum-lesson done":"curriculum-lesson"} key={lesson.id}><div className="curriculum-lesson-index">{done?<CheckCircle2 size={18}/>:String(lesson.id).padStart(2,"0")}</div><div className="curriculum-lesson-copy"><h3>{lesson.title}</h3><p>{lesson.description}</p><div className="lesson-details"><span><Clock3 size={13}/>{lesson.duration}</span><span><BookOpen size={13}/>{lesson.skill}</span></div></div><button disabled={locked} className={done?"secondary-button":"small-primary"} onClick={()=>openLesson(lesson.id)}>{done?"مرور":locked?"قفل‌شده":"شروع درس"}{locked?<LockKeyhole size={14}/>:<ChevronLeft size={15}/>}</button></article>})}</div></section>})}</div><A1FinalAssessment unlocked={completed.length === lessons.length}/></>}
+        {tab === "learn" && <><div className="page-intro"><span className="section-kicker">مسیر آموزشی</span><h1>درس‌ها و تمرین‌ها</h1><p>هر واحد یک مهارت مشخص را می‌سازد؛ آموزش را بخوان، مثال‌ها را بررسی کن و با آزمون و تمرین آن را تثبیت کن.</p></div><section className="course-summary"><div><span className="level-chip">A1 · مقدماتی</span><h2>پایه‌های زبان انگلیسی</h2><p>از مکالمه‌های ابتدایی تا واژه‌ها و ساخت جمله‌های ساده را قدم‌به‌قدم یاد می‌گیری.</p><div className="course-progress-line"><i style={{width: progress + "%"}}/></div><small>{completed.length} از {lessons.length} درس تکمیل شده</small></div><div className="course-level">A1</div></section><PlacementAssessment result={placementResult} onResultChange={result => { setPlacementResult(result); try { localStorage.setItem("lir9-placement-result", JSON.stringify(result)); } catch { /* local storage may be unavailable */ } }}/><div className="curriculum-units">{courseUnits.map((unit,unitIndex)=>{const unitDone=unit.lessons.filter(lesson=>completed.includes(String(lesson.id))).length;return <section className="curriculum-unit" key={unit.unit}><header className="curriculum-unit-head"><div className="curriculum-unit-number">{String(unitIndex+1).padStart(2,"0")}</div><div className="curriculum-unit-copy"><span>واحد آموزشی {unitIndex+1}</span><h2>{unit.unit.split("·").pop()?.trim() || unit.unit}</h2><p>{unit.lessons.length} درس برای ساختن یک مهارت کاربردی</p></div><div className="curriculum-unit-progress"><b>{unitDone}/{unit.lessons.length}</b><span>تکمیل‌شده</span></div></header><div className="curriculum-lesson-list">{unit.lessons.map(lesson=>{const index=lessons.findIndex(item=>item.id===lesson.id);const done=completed.includes(String(lesson.id));const locked=index>0&&!lessons.slice(0,index).every(previous=>completed.includes(String(previous.id)));return <article className={done?"curriculum-lesson done":"curriculum-lesson"} key={lesson.id}><div className="curriculum-lesson-index">{done?<CheckCircle2 size={18}/>:String(lesson.id).padStart(2,"0")}</div><div className="curriculum-lesson-copy"><h3>{lesson.title}</h3><p>{lesson.description}</p><div className="lesson-details"><span><Clock3 size={13}/>{lesson.duration}</span><span><BookOpen size={13}/>{lesson.skill}</span></div></div><button disabled={locked} className={done?"secondary-button":"small-primary"} onClick={()=>openLesson(lesson.id)}>{done?"مرور":locked?"قفل‌شده":"شروع درس"}{locked?<LockKeyhole size={14}/>:<ChevronLeft size={15}/>}</button></article>})}</div></section>})}</div><A1FinalAssessment unlocked={completed.length === lessons.length} result={a1FinalResult} onResultChange={result => { setA1FinalResult(result); try { localStorage.setItem("lir9-a1-final-result", JSON.stringify(result)); } catch { /* local storage may be unavailable */ } }}/></>}
         {tab === "library" && <ContentLibrary />}
         {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
         {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant/></>}
