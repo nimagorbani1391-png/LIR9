@@ -732,3 +732,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 @media(max-width:380px){.page-wrap{padding-inline:11px}.header-level>span:nth-of-type(2),.header-level>b:last-child{display:none}.overview-card,.overview-card:first-child{min-height:116px;padding:10px}.vocab-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 30px 30px;gap:5px;padding-inline:7px}.vocab-word h3{font-size:13px}.bookmark-button,.sound-button{width:30px;height:30px}.lesson-steps span{font-size:8px}}
 @media(hover:none){.overview-card:hover,.path-card:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+
+/* Speech transcript feedback */
+.voice-transcript-panel{display:flex;flex-direction:column;gap:10px;margin:12px 0 16px;padding:16px 18px;border:1px solid #55462b;border-radius:15px;background:#1d201b;min-height:92px}
+.voice-transcript-panel>span{font-size:12px;color:#b8b7aa}
+.voice-transcript-panel>strong{display:block;min-height:28px;color:#f5e8c7;font:600 17px/1.7 Arial,sans-serif;overflow-wrap:anywhere;text-align:left;direction:ltr}
+.voice-auto-next{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0;padding:13px;border-radius:12px;background:#1f3025;color:#a8ddb2;font-size:13px}
