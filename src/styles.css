@@ -970,7 +970,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 
 /* نشان مرکزی نوار بالایی؛ بدون قاب تزئینی */
 .top-header{position:sticky;}
-.header-brand-logo{display:block;width:46px;height:46px;flex:0 0 46px;object-fit:contain;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0;margin-inline:clamp(4px,1.2vw,14px)}
+.header-brand-logo{display:block;width:58px;height:58px;flex:0 0 58px;object-fit:contain;object-position:center;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0;margin-inline-start:0;margin-inline-end:18px;mix-blend-mode:screen;filter:contrast(1.12) saturate(1.12) drop-shadow(0 0 5px rgba(225,181,82,.16));image-rendering:auto}
 .brand-logo-image{border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
-@media(max-width:720px){.header-brand-logo{width:39px;height:39px;flex-basis:39px;margin-inline:2px}}
-@media(max-width:380px){.header-brand-logo{width:34px;height:34px;flex-basis:34px;margin-inline:0}}
+@media(max-width:720px){.header-brand-logo{width:49px;height:49px;flex-basis:49px;margin-inline-start:0;margin-inline-end:14px}}
+@media(max-width:380px){.header-brand-logo{width:44px;height:44px;flex-basis:44px;margin-inline-start:0;margin-inline-end:11px}}
