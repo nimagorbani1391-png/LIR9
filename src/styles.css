@@ -1454,3 +1454,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .a1-final-result>small{color:#aeb5a5;font-size:11px}
 .a1-final-note{margin:0;color:#8f9888;font-size:10px;line-height:1.9}
 @media(max-width:720px){.a1-final-card{gap:14px;margin-top:20px;padding:15px;border-radius:16px}.a1-final-head h2{font-size:17px}.a1-final-head p{font-size:12px}.a1-final-mark{flex-basis:62px;padding:9px 6px}.a1-final-mark svg{width:20px}.a1-final-mark b{font-size:20px}.a1-final-quiz{padding:12px}.a1-final-quiz h3{font-size:15px}.a1-final-options button{font-size:13px;padding:12px}}
+
+/* Sidebar about link and About LIR9 page */
+.sidebar-about{width:100%;display:flex;align-items:center;gap:10px;margin:16px 0 2px;padding:11px 10px;border:1px solid #49422f;border-radius:11px;background:linear-gradient(110deg,#29271f,#20211b);color:#d9d2bf;text-align:right;cursor:pointer}
+.sidebar-about:hover,.sidebar-about.active{border-color:#8c7440;background:#302a1d;color:var(--gold-light)}
+.sidebar-about-icon{width:31px;height:31px;display:grid;place-items:center;border-radius:9px;background:#3a321f;color:var(--gold-light);flex:none}
+.sidebar-about>span:nth-child(2){display:grid;gap:4px;flex:1}.sidebar-about b{font-size:11px}.sidebar-about small{font-size:9px;color:var(--muted)}
+.about-page{max-width:850px}.about-card{margin-top:24px;padding:28px;border:1px solid #403b2d;border-radius:18px;background:linear-gradient(145deg,#24241d,#1b1d18);text-align:right}.about-mark{width:54px;height:54px;display:grid;place-items:center;border:1px solid #79643a;border-radius:15px;background:#332b1c;color:var(--gold-light);font:800 27px Arial}.about-card h2{font-size:20px;margin:19px 0 9px}.about-card>p{max-width:680px;color:#b8b8ad;font-size:12px;line-height:2.2;margin:0}.about-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:25px 0}.about-values>div{display:grid;align-content:start;gap:9px;padding:15px;border:1px solid #393a30;border-radius:12px;background:#20221c}.about-values svg{color:var(--gold-light)}.about-values b{font-size:11px}.about-values span{font-size:10px;color:var(--muted);line-height:1.9}
+@media(max-width:600px){.about-card{padding:20px}.about-values{grid-template-columns:1fr}}
