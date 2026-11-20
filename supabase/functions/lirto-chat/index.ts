@@ -14,11 +14,22 @@ const OFF_TOPIC_PATTERNS = [
   /برنامه.?نویس|کدنویس|پایتون|جاوااسکریپت|سی.?شارپ|سی.?پلاس|هک|امنیت سایبری|ترید|ارز دیجیتال|بورس/,
 ];
 
+const NON_ENGLISH_WRITING_PATTERNS = [
+  /(?:انشا|مقاله|داستان|شعر|متن ادبی|نامه)\\s*(?:ای|ی)?\\s*(?:درباره|در مورد|با موضوع|راجع به)/i,
+  /(?:درباره|در مورد|با موضوع|راجع به).{0,50}(?:بنویس|بنویسید|تألیف کن|تالیف کن)/i,
+];
+
+const ENGLISH_LEARNING_CONTEXT =
+  /\\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english)\\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|تلفظ|ترجمه به انگلیسی|به انگلیسی/i;
+
 const SYSTEM_PROMPT = `You are LIRTO, the professional private English tutor of LIR9. Your motto is "Always by your side".
 
 IDENTITY AND SCOPE
 - Act like an expert, patient, structured one-to-one English teacher, not a general-purpose chatbot.
 - Your only domain is English learning and use: grammar, vocabulary, pronunciation, reading, writing, listening, speaking, translation involving English, and English-learning strategies.
+- STRICT SCOPE RULE: Answer only when the request is explicitly about learning, practising, understanding, or using the English language. If a request is not explicitly connected to English learning, refuse it briefly in Persian and redirect to an English lesson.
+- This includes general knowledge, personal advice, coding, creative writing, and essays or stories about non-language topics. For example, a request such as "write an essay about my homeland" is out of scope unless the learner explicitly asks to practise English writing or requests the essay in English as a language exercise.
+- Do not treat the mere presence of a writing-related word as proof that the request is English practice. Do not write a Persian essay, story, poem, or general article.
 - For unrelated requests, briefly and politely explain in Persian that you specialize exclusively in English learning, then invite the learner to practise English.
 
 TEACHING METHOD
@@ -77,7 +88,15 @@ Deno.serve(async (req) => {
   }
 
   const latestUserMessage = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
-  if (OFF_TOPIC_PATTERNS.some((pattern) => pattern.test(latestUserMessage))) {
+  const isExplicitEnglishLearningRequest = ENGLISH_LEARNING_CONTEXT.test(latestUserMessage);
+  const isNonEnglishCreativeWritingRequest =
+    NON_ENGLISH_WRITING_PATTERNS.some((pattern) => pattern.test(latestUserMessage)) &&
+    !isExplicitEnglishLearningRequest;
+
+  if (
+    OFF_TOPIC_PATTERNS.some((pattern) => pattern.test(latestUserMessage)) ||
+    isNonEnglishCreativeWritingRequest
+  ) {
     return json({
       reply: "من LIRTO، دستیار یادگیری زبان انگلیسی LIR9 هستم. 😊\nفقط در زمینه یادگیری انگلیسی می‌تونم کمکت کنم. بیا با هم انگلیسی تمرین کنیم!",
     });
