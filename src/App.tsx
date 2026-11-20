@@ -482,6 +482,8 @@ function AuthScreen() {
 }
 
 function App() {
+  const [authSession, setAuthSession] = useState<import("@supabase/supabase-js").Session | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
