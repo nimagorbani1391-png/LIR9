@@ -3,7 +3,7 @@ import { supabase } from "./lib/supabase";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star
+  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account";
@@ -610,6 +610,53 @@ function ContentLibrary() {
   </section>;
 }
 
+
+type LirtoMessage = { role: "assistant" | "user"; text: string };
+
+function LirtoAssistant() {
+  const [messages, setMessages] = useState<LirtoMessage[]>([
+    { role: "assistant", text: "سلام! من LIRTO هستم؛ دستیار هوشمند LIR9. همیشه کنار تو. ✨\n\nمی‌تونم در یادگیری زبان انگلیسی، گرامر، واژگان و مکالمه کمکت کنم." }
+  ]);
+  const [draft, setDraft] = useState("");
+  const sendMessage = () => {
+    const value = draft.trim();
+    if (!value) return;
+    const normalized = value.toLowerCase();
+    let reply = "هنوز موتور هوش مصنوعی من به سرویس پاسخ‌گویی متصل نشده. به‌زودی می‌تونیم گفت‌وگوی واقعی درباره یادگیری زبان انگلیسی رو شروع کنیم. 💛";
+    if (/(اسمت چیه|اسم تو چیه|نامت چیه|تو کی هستی|who are you|what is your name)/i.test(normalized)) {
+      reply = "من LIRTO هستم؛ دستیار هوشمند پلتفرم LIR9. همیشه کنار تو! 🤖";
+    } else if (/(پایتون|برنامه.?نویسی|کدنویسی|جاوااسکریپت|سی.?شارپ|python|javascript|programming|write code|کد بنویس)/i.test(normalized)) {
+      reply = "من LIRTO هستم؛ دستیار تخصصی یادگیری زبان انگلیسی در LIR9. 😊\n\nتمرکزم روی آموزش زبان، گرامر، واژگان و مکالمه است؛ برای برنامه‌نویسی طراحی نشده‌ام. بیا انگلیسی تمرین کنیم!";
+    }
+    setMessages(current => [...current, { role: "user", text: value }, { role: "assistant", text: reply }]);
+    setDraft("");
+  };
+  return <section className="lirto-shell" aria-label="دستیار LIRTO">
+    <header className="lirto-header">
+      <div className="lirto-brand">
+        <div className="lirto-avatar"><Bot size={25}/><i/></div>
+        <div><strong>LIRTO</strong><span>همیشه کنار تو</span></div>
+      </div>
+      <span className="lirto-specialty"><Sparkles size={13}/> دستیار یادگیری زبان</span>
+    </header>
+    <div className="lirto-intro"><span className="lirto-kicker">YOUR LANGUAGE COMPANION</span><h2>سلام! من LIRTO هستم.</h2><p>برای یادگیری انگلیسی، از اولین کلمه تا مکالمه‌های واقعی، کنارت هستم.</p></div>
+    <div className="lirto-chat" aria-live="polite">
+      {messages.map((message, index) => <div className={message.role === "user" ? "lirto-message user" : "lirto-message assistant"} key={index}>
+        {message.role === "assistant" && <span className="lirto-message-avatar"><Bot size={15}/></span>}
+        <p>{message.text}</p>
+      </div>)}
+    </div>
+    <div className="lirto-suggestions"><span>شروع سریع:</span>
+      {["اسمت چیه؟","چطور انگلیسی سلام کنم؟","گرامر رو توضیح بده"].map(item => <button key={item} onClick={() => setDraft(item)}>{item}</button>)}
+    </div>
+    <form className="lirto-composer" onSubmit={event => { event.preventDefault(); sendMessage(); }}>
+      <input value={draft} onChange={event => setDraft(event.target.value)} placeholder="پیامت رو برای LIRTO بنویس..." aria-label="پیام به LIRTO"/>
+      <button type="submit" disabled={!draft.trim()} aria-label="ارسال پیام"><Send size={17}/></button>
+    </form>
+    <div className="lirto-footnote"><ShieldCheck size={13}/> نسخه اولیه رابط کاربری؛ اتصال امن به هوش مصنوعی در مرحله بعد</div>
+  </section>;
+}
+
 function App() {
   const [authSession, setAuthSession] = useState<import("@supabase/supabase-js").Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -811,7 +858,7 @@ function App() {
         {tab === "learn" && <><div className="page-intro"><span className="section-kicker">مسیر آموزشی</span><h1>درس‌ها و تمرین‌ها</h1><p>درس‌ها را به ترتیب پیش ببر. بعد از هر آموزش، یک تمرین کوتاه داری.</p></div><section className="course-summary"><div><span className="level-chip">A1 · مقدماتی</span><h2>پایه‌های زبان انگلیسی</h2><p>از مکالمه‌های ابتدایی تا واژه‌ها و ساخت جمله‌های ساده را قدم‌به‌قدم یاد می‌گیری.</p><div className="course-progress-line"><i style={{width: progress + "%"}}/></div><small>{completed.length} از {lessons.length} درس تکمیل شده</small></div><div className="course-level">A1</div></section><div className="lesson-path">{lessons.map((lesson,index)=>{const done=completed.includes(String(lesson.id));const locked=index>0&&!lessons.slice(0,index).every(previous=>completed.includes(String(previous.id)));return <article className="path-item" key={lesson.id}><div className="path-rail"><span className={done?"path-dot done": "path-dot"}>{done?<CheckCircle2 size={17}/>:index+1}</span>{index!==lessons.length-1&&<i/>}</div><div className="path-card"><div className="path-card-main"><div><span className="path-unit">{lesson.unit}</span><h3>{lesson.title}</h3><p>{lesson.description}</p><div className="lesson-details"><span><Clock3 size={13}/>{lesson.duration}</span><span><BookOpen size={13}/>{lesson.skill}</span></div></div><button disabled={locked} className={done?"secondary-button":"small-primary"} onClick={()=>openLesson(lesson.id)}>{done?"مرور درس":locked?"قفل‌شده":"شروع"}{locked?<LockKeyhole size={14}/>:<ChevronLeft size={15}/>}</button></div></div></article>})}</div></>}
         {tab === "library" && <ContentLibrary />}
         {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
-        {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار هوشمند</h1><p>قرار است در مسیر یادگیری به پرسش‌هایت پاسخ دهد و تمرین پیشنهاد کند.</p></div><section className="assistant-placeholder"><div className="assistant-symbol"><MessageCircle size={30}/></div><span className="coming-label">در حال آماده‌سازی</span><h2>دستیار هنوز به مدل هوش مصنوعی متصل نشده است.</h2><p>نمی‌خواهیم وانمود کنیم پاسخ‌های این بخش از AI می‌آیند. اتصال امن به سرویس هوش مصنوعی در مرحله فنی بعدی انجام می‌شود.</p><button className="primary-button" onClick={()=>go("learn")}>فعلاً ادامه یادگیری <ArrowRight size={16}/></button></section></>}
+        {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant/></>}
         {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><p className="vip-price-note">قیمت ویژه در مقایسه با قیمت اصلی اشتراک محاسبه شده است.</p><button className="vip-activate-button" onClick={()=>setNotice("درگاه پرداخت هنوز به LIR9 متصل نشده است؛ فعلاً امکان خرید واقعی وجود ندارد.")}>فعال‌سازی اشتراک VIP <Crown size={17}/></button><span className="vip-secure-note"><ShieldCheck size={14}/> پرداخت آنلاین پس از راه‌اندازی درگاه فعال می‌شود.</span></article></section>}
         {tab === "account" && <section className="account-page">
           <div className="account-hero"><div className="account-avatar"><UserRound size={32}/></div><div><span className="section-kicker">حساب شخصی در LIR9</span><h1>حساب کاربری</h1><p>اطلاعات حسابی که با آن وارد LIR9 شده‌ای.</p></div><span className="account-status"><i/> فعال</span></div>
