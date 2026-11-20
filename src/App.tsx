@@ -373,7 +373,7 @@ const vocabulary = [
   { word: "That", phonetic: "/ðæt/", meaning: "آن (دور)", example: "That is a bus.", lesson: "اشاره به چیزها: this و that" },
   { word: "Book", phonetic: "/bʊk/", meaning: "کتاب", example: "I have two books.", lesson: "جمع بستن اسم‌ها" },
   { word: "Books", phonetic: "/bʊks/", meaning: "کتاب‌ها", example: "I have three books.", lesson: "جمع بستن اسم‌ها" },
-  { word: "Two cats", phonetic: "/tuː kæts/", meaning: "دو گربه", example: "I have two cats.", lesson: "جمع بستن اسم‌ها" }
+  { word: "Two cats", phonetic: "/tuː kæts/", meaning: "دو گربه", example: "I have two cats.", lesson: "جمع بستن اسم‌ها" },
   { word:"Usually",phonetic:"/ˈjuːʒuəli/",meaning:"معمولاً",example:"I usually walk to school.",lesson:"قیدهای تکرار" },
   { word:"Sometimes",phonetic:"/ˈsʌmtaɪmz/",meaning:"گاهی",example:"I sometimes read comics.",lesson:"قیدهای تکرار" },
   { word:"Always",phonetic:"/ˈɔːlweɪz/",meaning:"همیشه",example:"She always does her homework.",lesson:"قیدهای تکرار" },
@@ -494,7 +494,7 @@ function App() {
         const result = event.results[event.resultIndex] || event.results[0];
         const alternatives = Array.from(result || []).map(item => item.transcript);
         const transcript = alternatives[0] || "";
-        const expected = normalizeSpeech(active.keyWords[voiceIndex]?.word || "");
+        const expected = normalizeSpeech(active.keyWords[0]?.word || "");
         const target = speechCanonical(expected);\n        const matched = alternatives.some(value => { const spoken = speechCanonical(value); return spoken.includes(target) && spoken.split(" ").length >= 3; });
         setVoiceTranscript(transcript);
         setVoiceStatus(matched ? "matched" : "retry");
@@ -517,9 +517,10 @@ function App() {
   const beginQuiz = () => { if (!active) return; setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, active.id)); setChoice(null); setStep("quiz"); };
   const checkTypedAnswer = () => {
     if (!active) return;
-    const expected = normalizeSpeech(active.keyWords[voiceIndex]?.word || "");
+    const expected = normalizeSpeech(active.keyWords[0]?.word || "");
     const actual = normalizeSpeech(typedAnswer);
-    setTypingStatus(actual && actual === expected ? "matched" : "retry");
+    const containsTarget = expected.length > 0 && actual.split(" ").includes(expected);
+    setTypingStatus(containsTarget && actual.split(" ").length >= 3 ? "matched" : "retry");
   };
   const advanceTypingPractice = () => { if (!active) return; setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setStep("voice"); };
   const advanceVoicePractice = () => { if (!active) return; completeLesson(); };
@@ -565,20 +566,20 @@ function App() {
 <section className="lesson-practice-tip flow-section"><b>قبل از آزمون</b><p>{lessonContent[active.id].practiceTip}</p></section></div>
 </div><div className="dialog-actions lesson-practice-actions"><button className="primary-button" onClick={beginQuiz}>آزمون این درس <ArrowRight size={16}/></button></div></>}<>{step==="voice"&&<><div className="lesson-body voice-practice">
   <div className="voice-intro"><span className="voice-kicker"><Mic size={15}/> تمرین تلفظ با میکروفون</span><h3>این عبارت را با صدای بلند بگو</h3><p>با استفاده از عبارت هدف، یک جمله درباره خودت بساز و آن را با صدای بلند بگو. سیستم فقط وجود عبارت و چند کلمه بودن جمله را بررسی می‌کند؛ کیفیت تلفظ را به‌طور قطعی نمره نمی‌دهد.</p></div>
-  <div className="voice-counter">عبارت {voiceIndex+1} از {active.keyWords.length}</div>
-  <div className="voice-target"><strong dir="ltr">{active.keyWords[voiceIndex].word.replace(/…/g,"").trim()}</strong><span>{active.keyWords[voiceIndex].meaning}</span><button onClick={()=>speak(active.keyWords[voiceIndex].word.replace(/…/g,"").trim())}><Volume2 size={15}/> شنیدن نمونه</button></div>
+  <div className="voice-counter">تمرین جمله‌سازی و گفتار</div>
+  <div className="voice-target"><strong dir="ltr">{active.keyWords[0].word.replace(/…/g,"").trim()}</strong><span>{active.keyWords[0].meaning}</span><button onClick={()=>speak(active.keyWords[0].word.replace(/…/g,"").trim())}><Volume2 size={15}/> شنیدن عبارت</button></div>
   <div className={"voice-status "+voiceStatus}>
     {voiceStatus==="matched"?<CheckCircle2 size={23}/>:voiceStatus==="listening"?<Mic size={22}/>:voiceStatus==="retry"||voiceStatus==="error"?<RotateCcw size={21}/>:<MicOff size={21}/>}
-    <div><b>{voiceStatus==="matched"?"آفرین! عبارت تشخیص داده شد.":voiceStatus==="listening"?"دارم گوش می‌دهم…":voiceStatus==="retry"?"عبارت دقیق تشخیص داده نشد.":voiceStatus==="unsupported"?"این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="error"?"مشکل در ضبط صدا":"آماده‌ای؟"}</b>
+    <div><b>{voiceStatus==="matched"?"آفرین! عبارت تشخیص داده شد.":voiceStatus==="listening"?"دارم گوش می‌دهم…":voiceStatus==="retry"?"جمله‌ات عبارت هدف را نداشت یا خیلی کوتاه بود.":voiceStatus==="unsupported"?"این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="error"?"مشکل در ضبط صدا":"آماده‌ای؟"}</b>
     <span>{voiceTranscript || (voiceStatus==="unsupported"?"می‌توانی آزمون نوشتاری را ادامه بدهی؛ این دستگاه امکان ارزیابی گفتار را فراهم نکرد.":voiceStatus==="listening"?"حالا عبارت را واضح و با صدای طبیعی بگو.":"برای شروع، با عبارت هدف یک جمله بساز و دکمه میکروفون را بزن.")}</span></div>
   </div>
-  {voiceStatus==="matched"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>{voiceIndex<active.keyWords.length-1?"عبارت بعدی":"پایان تمرین گفتاری"} <ArrowRight size={16}/></button>:voiceStatus==="unsupported"||voiceStatus==="error"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>عبارت را با صدای بلند تمرین کردم <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
+  {voiceStatus==="matched"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>{"پایان تمرین گفتاری"} <ArrowRight size={16}/></button>:voiceStatus==="unsupported"||voiceStatus==="error"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>عبارت را با صدای بلند تمرین کردم <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
   {voiceStatus==="retry"&&<button className="text-button voice-retry" onClick={startVoiceAttempt}>تلاش دوباره</button>}
   <p className="voice-privacy">برای این تمرین، تشخیص گفتار از قابلیت مرورگر استفاده می‌کند. در بعضی مرورگرها صدا برای پردازش به سرویس آنلاین ارسال می‌شود.</p>
 </div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button></div></>}</>{step==="typing"&&<><div className="lesson-body voice-practice">
 <div className="voice-intro"><span className="voice-kicker"><BookOpen size={15}/> آزمون نوشتاری</span><h3>یک جمله از خودت بساز</h3><p>با عبارت هدف، یک جمله انگلیسی حداقل سه‌کلمه‌ای درباره خودت یا زندگی روزمره‌ات بنویس. لازم نیست جمله نمونه درس را کپی کنی.</p></div>
-<div className="voice-counter">عبارت {voiceIndex+1} از {active.keyWords.length}</div>
-<div className="voice-target"><strong>{active.keyWords[voiceIndex].meaning}</strong><span>معادل انگلیسی را بنویس</span><button onClick={()=>speak(active.keyWords[voiceIndex].word.replace(/…/g,"").trim())}><Volume2 size={15}/> شنیدن نمونه</button></div>
+<div className="voice-counter">تمرین نوشتن در موقعیت واقعی</div>
+<div className="voice-target"><strong>{active.keyWords[0].word.replace(/…/g,"").trim()}</strong><span>{active.keyWords[0].meaning} · با این عبارت جمله خودت را بساز</span><button onClick={()=>speak(active.keyWords[0].word.replace(/…/g,"").trim())}><Volume2 size={15}/> شنیدن عبارت</button></div>
 <label className="typing-answer"><span>پاسخ تو</span><input dir="ltr" lang="en" autoComplete="off" spellCheck={false} value={typedAnswer} onChange={event=>{setTypedAnswer(event.target.value);setTypingStatus("idle");}} onKeyDown={event=>{if(event.key==="Enter")checkTypedAnswer();}} placeholder="Type in English…"/></label>
 {typingStatus!=="idle"&&<div className={"voice-status "+typingStatus}>{typingStatus==="matched"?<CheckCircle2 size={22}/>:<RotateCcw size={21}/>}<div><b>{typingStatus==="matched"?"جمله‌ات ساخته شد!":"یک بار دیگر امتحان کن."}</b><span>{typingStatus==="matched"?"عبارت هدف و ساختار جمله شناسایی شد؛ درستی کامل گرامر هنوز با این بررسی خودکار سنجیده نمی‌شود.":"عبارت هدف را در یک جمله حداقل سه‌کلمه‌ای به کار ببر."}</span></div></div>}
 {typingStatus==="matched"?<button className="primary-button voice-next" onClick={advanceTypingPractice}>{voiceIndex<active.keyWords.length-1?"عبارت بعدی":"رفتن به تمرین گفتاری"} <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={checkTypedAnswer} disabled={!typedAnswer.trim()}>بررسی پاسخ <CheckCircle2 size={16}/></button>}
