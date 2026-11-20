@@ -1,0 +1,26 @@
+{
+  "title": "Around My Town",
+  "introduction": "Read about places in a town and simple directions.",
+  "paragraphs": [
+    "I live in a small town. There is a school next to my house. There is a supermarket opposite the park. The library is near the bus station.",
+    "To go to the library, walk straight and turn left at the bank. The library is on your right. It is a quiet place, and I like reading there."
+  ],
+  "vocabulary": [
+    {
+      "word": "town",
+      "meaning": "شهر کوچک"
+    },
+    {
+      "word": "opposite",
+      "meaning": "روبروی"
+    },
+    {
+      "word": "near",
+      "meaning": "نزدیک"
+    },
+    {
+      "word": "turn left",
+      "meaning": "به چپ بپیچ"
+    }
+  ]
+}
