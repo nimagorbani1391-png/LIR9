@@ -668,7 +668,7 @@ function App() {
     </aside>
     {menuOpen && <button className="mobile-scrim" onClick={() => setMenuOpen(false)} aria-label="بستن منو"/>}
     <main className="main-area">
-      <header className="top-header"><button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="باز کردن منو"><Menu/></button><div className="breadcrumbs"><span>فضای یادگیری</span><ChevronLeft size={14}/><b>{tab === "account" ? "حساب کاربری" : nav.find(n => n.id === tab)?.label}</b></div><div className="header-level"><span>امتیاز من</span><b>{lirBalance} LIR</b><span>سطح</span><b>A1</b></div></header>
+      <header className="top-header"><button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="باز کردن منو"><Menu/></button><div className="breadcrumbs"><span>فضای یادگیری</span><ChevronLeft size={14}/><b>{tab === "account" ? "حساب کاربری" : nav.find(n => n.id === tab)?.label}</b></div><img className="header-brand-logo" src="/LIR9/lir9-brand.jpg" alt="نشان LIR9"/><div className="header-level"><span>امتیاز من</span><b>{lirBalance} LIR</b><span>سطح</span><b>A1</b></div></header>
       <div className="page-wrap">
         {tab === "home" && <>
           <section className="welcome-block"><div><span className="eyebrow"><i/> فضای شخصی یادگیری</span><h1>از همین‌جا شروع کن.</h1><p>قرار نیست همه‌چیز را یک‌روزه یاد بگیری؛ فقط درس بعدی را بردار.</p></div><div className="welcome-mark"><img src="/LIR9/lir9-brand.jpg" alt="نشان LIR9؛ پلتفرم یادگیری زبان انگلیسی" /></div></section>
