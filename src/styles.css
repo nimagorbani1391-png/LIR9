@@ -310,3 +310,230 @@ button:active:not(:disabled){transform:scale(.975)}
  .lesson-practice-actions{gap:8px}
  .lesson-practice-actions .secondary-button,.lesson-practice-actions .primary-button{flex:1;min-width:0;padding:10px 8px;font-size:10px}
 }
+
+
+/* LIR9 visual system refresh — unified surfaces, spacing and responsive hierarchy */
+:root{
+ --radius-sm:11px;--radius-md:16px;--radius-lg:22px;--radius-xl:28px;
+ --surface-1:#171914;--surface-2:#1d201a;--surface-3:#24271f;
+ --stroke-soft:#34372d;--stroke-gold:#66532e;
+ --gold-glow:0 12px 34px rgba(216,180,93,.10);
+}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 75% -8%,rgba(216,180,93,.10),transparent 36%),#10110f}
+.app-shell{background:transparent}
+.sidebar{background:linear-gradient(180deg,#191b16 0%,#141611 100%);border-left:1px solid #34362c;box-shadow:-12px 0 42px rgba(0,0,0,.14)}
+.brand{padding:2px 5px 22px;gap:13px}
+.brand-logo-image{width:50px;height:50px;flex-basis:50px;border-radius:15px;box-shadow:0 7px 22px #0007,0 0 0 4px #d8b45d0b}
+.brand b{font-size:21px;letter-spacing:1.5px}
+.brand small{font-size:10px;letter-spacing:.1px}
+.side-caption{margin-top:27px;font-size:10px;letter-spacing:.4px}
+.side-nav{gap:7px}
+.nav-link{height:48px;border-radius:12px;padding:0 14px;font-size:12px}
+.nav-link.active{background:linear-gradient(100deg,#3b321f,#29251b);box-shadow:inset 0 0 0 1px #8b703b35}
+.nav-link.active i{height:25px;box-shadow:0 0 12px #d8b45d66}
+.sidebar-progress{border-radius:16px;padding:16px;background:linear-gradient(145deg,#28291f,#1d201a);border-color:#4b432e;box-shadow:0 12px 30px #0003}
+.sidebar-bottom{font-size:9px;line-height:1.9}
+.top-header{height:76px;padding-inline:clamp(22px,4.5vw,62px);background:rgba(18,20,16,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom-color:#2d3027}
+.breadcrumbs{font-size:11px}
+.header-level{gap:10px}
+.header-level b{border:1px solid #66532e;border-radius:9px;padding:7px 11px;box-shadow:inset 0 1px #ffffff0a}
+.icon-button{width:40px;height:40px;border-radius:12px;background:#22251e;border-color:#3a3d32}
+.icon-button:hover{background:#302a1d;border-color:#806a3a;color:var(--gold-light)}
+.page-wrap{max-width:1220px;padding-top:42px;padding-bottom:76px}
+.welcome-block{margin-bottom:30px}
+.welcome-block h1,.page-intro h1{font-size:clamp(25px,3vw,32px);line-height:1.55;letter-spacing:-.7px}
+.welcome-block p,.page-intro p{font-size:12px;line-height:2.1;max-width:560px}
+.eyebrow,.section-kicker{font-size:11px;font-weight:700;letter-spacing:.15px}
+.welcome-mark{width:104px;height:104px;border-radius:24px;box-shadow:0 16px 38px #0007,0 0 0 5px #d8b45d0b,0 0 32px #d8b45d18}
+.next-card{min-height:250px;padding:34px 38px;border-radius:24px;border-color:#776039;background:radial-gradient(ellipse at 84% 38%,#5a4826 0%,#30291d 37%,#1d201a 78%);box-shadow:0 22px 60px #0005,inset 0 1px #ffffff0b}
+.next-card-copy h2{font-size:clamp(22px,2.4vw,27px);line-height:1.6;margin:11px 0 8px}
+.next-card-copy p{font-size:12px;line-height:2.1;max-width:530px}
+.next-meta{gap:20px;margin:18px 0 22px;font-size:10px}
+.primary-button{min-height:46px;padding:12px 19px;border-radius:12px;font-size:12px;box-shadow:0 9px 24px #d8b45d1c}
+.next-visual{height:190px}
+.visual-orbit{width:172px;height:172px;border-color:#c3a35b55}
+.orbit-two{width:126px;height:126px}
+.visual-core{width:82px;height:82px;box-shadow:0 0 36px #d8b45d1b}
+.section-heading{margin:34px 0 16px}
+.section-heading h2{font-size:18px}
+.overview-grid{gap:15px}
+.overview-card{min-height:178px;padding:21px;border-radius:19px;border-color:#34372d;background:linear-gradient(145deg,#20221d,#181a16);box-shadow:0 12px 32px #0002,inset 0 1px #ffffff08}
+.card-icon{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#40351f,#2a281f);color:#e7c56e}
+.overview-label{font-size:11px;margin-top:14px}
+.progress-big,.overview-number{font-size:29px}
+.overview-card p{font-size:10px;line-height:1.8}
+.progress-bar,.course-progress-line{height:7px;border-radius:99px;background:#34372d}
+.simple-panel{margin-top:22px;padding:24px;border-radius:20px;border-color:#34372d;background:linear-gradient(145deg,#1d201a,#171914);box-shadow:0 14px 34px #0002}
+.simple-panel .section-heading{margin-bottom:16px}
+.level-chip{border:1px solid #66532e;border-radius:999px;padding:7px 12px;font-size:10px}
+.compact-lessons{gap:3px}
+.compact-lesson{padding:15px 7px;border-radius:12px;border-top:1px solid #2e3128}
+.compact-lesson:hover{background:#26281f}
+.compact-number{width:38px;height:38px;border-radius:12px;font-size:11px}
+.compact-copy b{font-size:12px}
+.compact-copy small{font-size:10px}
+.all-lessons-button{min-height:43px;border-radius:11px;font-size:11px;background:#2a281f;border-color:#5b4b2d}
+.page-intro{margin:8px 0 29px}
+.course-summary{padding:28px 30px;border-radius:21px;border-color:#66532e;background:radial-gradient(ellipse at 90% 15%,#4a3b20 0%,transparent 42%),linear-gradient(120deg,#1b1e18,#282419);box-shadow:0 14px 34px #0003}
+.course-summary h2{font-size:21px;line-height:1.6}
+.course-summary p{font-size:12px;line-height:2.1}
+.course-level{font-size:48px;border-radius:19px;padding:18px 23px;box-shadow:inset 0 0 30px #d8b45d0a}
+.lesson-path{gap:2px}
+.path-item{grid-template-columns:42px 1fr;gap:13px;min-height:140px}
+.path-dot{width:36px;height:36px;font-size:12px;box-shadow:0 0 0 5px #10110f}
+.path-rail>i{background:linear-gradient(#80683b,#36382d)}
+.path-card{padding:19px 21px;margin-bottom:14px;border-radius:17px;background:linear-gradient(145deg,#20221d,#181a16);border-color:#34372d;box-shadow:0 8px 24px #0002}
+.path-card h3{font-size:14px;line-height:1.7}
+.path-card p{font-size:11px;line-height:1.9}
+.lesson-details{font-size:10px}
+.small-primary,.secondary-button{min-height:39px;padding:9px 13px;border-radius:10px;font-size:10px}
+.vocab-toolbar{margin-bottom:18px}
+.vocab-count b{font-size:26px}
+.search-field{border-radius:13px;min-height:46px;padding-inline:14px}
+.search-field input{font-size:12px}
+.vocab-list{border-radius:17px;border-color:#34372d;box-shadow:0 12px 30px #0002}
+.vocab-row{padding:18px 20px;min-height:84px}
+.vocab-word h3{font-size:18px}
+.vocab-meaning b{font-size:12px}
+.vocab-meaning span{font-size:11px}
+.bookmark-button,.sound-button{width:36px;height:36px;border-radius:10px}
+.assistant-placeholder{border-radius:23px;padding:46px 38px;background:linear-gradient(145deg,#20221d,#171914);border-color:#3c3e32;box-shadow:0 18px 48px #0003}
+.assistant-symbol{width:72px;height:72px;border-radius:21px;box-shadow:0 0 0 7px #d8b45d0b}
+.assistant-placeholder h2{font-size:20px;line-height:1.7}
+.assistant-placeholder p{font-size:12px;line-height:2.2}
+.lesson-overlay{padding:22px;background:rgba(4,5,4,.78)}
+.lesson-dialog{width:min(900px,100%);max-height:min(92dvh,1000px);padding:clamp(22px,3.3vw,38px);border-radius:26px;border-color:#6a5734;background:linear-gradient(160deg,#20221d,#171914 55%);box-shadow:0 35px 110px #000c,0 0 0 1px #d8b45d12;scrollbar-color:#66532e #1b1d18}
+.lesson-dialog-head{align-items:center;padding-bottom:20px}
+.lesson-dialog-head h2{font-size:clamp(22px,2.6vw,29px)}
+.lesson-steps{gap:10px;margin:20px 0 26px;padding:13px 15px;border-radius:14px;background:#171914;border-color:#34372d}
+.lesson-steps span{font-size:10px}
+.lesson-steps span.current{padding:8px 12px;background:#3a301d;color:#f0d58b}
+.lesson-body{max-width:780px;padding-bottom:26px}
+.lesson-phase{padding:18px;border-radius:20px;gap:14px;background:linear-gradient(145deg,#20221d,#191b17);border-color:#373a30;box-shadow:0 8px 24px #0002}
+.lesson-phase-head{gap:14px}
+.lesson-phase-head>span{flex-basis:42px;height:42px;border-radius:13px;font-size:11px}
+.lesson-phase-head b{font-size:15px}
+.lesson-phase-head small{font-size:11px}
+.lesson-phase .flow-section{padding:19px!important;border-radius:15px!important}
+.lesson-phase .lesson-section-label{font-size:13px}
+.lesson-phase .teaching-step{gap:14px;padding:16px 0}
+.lesson-phase .teaching-step>span{flex-basis:32px;height:32px;border-radius:10px}
+.lesson-phase .teaching-step b{font-size:15px}
+.lesson-phase .teaching-step p{font-size:13px;line-height:2.1}
+.lesson-phase .lesson-vocabulary>div{gap:11px}
+.lesson-phase .lesson-vocabulary button{min-height:68px;border-radius:13px;padding:13px 15px}
+.lesson-phase .lesson-vocabulary button span{font-size:15px}
+.lesson-phase .lesson-vocabulary button small{font-size:11px}
+.lesson-phase .dialogue-line{gap:12px;margin:13px 0}
+.lesson-phase .dialogue-line>b{flex-basis:36px;height:36px}
+.lesson-phase .dialogue-bubble{border-radius:15px}
+.lesson-phase .lesson-mistake,.lesson-phase .lesson-practice-tip{padding:18px!important}
+.dialog-actions{padding-top:19px}
+.text-button{font-size:11px}
+.notice{border-radius:13px;padding:14px 17px;font-size:12px}
+.page-footer{padding-top:21px;padding-bottom:21px}
+button:focus-visible,input:focus-visible{outline-offset:4px}
+@media(min-width:1200px){
+ .overview-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .overview-card{min-height:190px}
+}
+@media(max-width:1000px){
+ .page-wrap{padding-inline:clamp(18px,3vw,34px)}
+ .next-card{grid-template-columns:1fr 180px}
+ .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .overview-card:first-child{grid-column:auto}
+}
+@media(max-width:720px){
+ .sidebar{width:min(310px,86vw);padding:22px 18px 18px}
+ .top-header{height:64px;padding:0 14px}
+ .page-wrap{padding:25px 16px 100px}
+ .welcome-block{gap:14px;margin-bottom:22px}
+ .welcome-block h1,.page-intro h1{font-size:23px}
+ .welcome-block p,.page-intro p{font-size:10px}
+ .welcome-mark{width:66px;height:66px;border-radius:17px}
+ .next-card{grid-template-columns:1fr;padding:22px 20px;border-radius:19px;min-height:0}
+ .next-card-copy h2{font-size:19px}
+ .next-card-copy p{font-size:11px}
+ .next-meta{gap:13px;flex-wrap:wrap;font-size:9px}
+ .next-visual{display:none}
+ .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .overview-card{min-height:155px;padding:15px;border-radius:15px}
+ .overview-card:first-child{grid-column:1/-1}
+ .card-icon{width:37px;height:37px;border-radius:11px}
+ .overview-label{font-size:10px}
+ .progress-big,.overview-number{font-size:25px}
+ .simple-panel{padding:17px;border-radius:17px}
+ .section-heading{margin:25px 0 13px}
+ .section-heading h2{font-size:15px}
+ .compact-lesson{padding:13px 4px}
+ .compact-copy b{font-size:11px}
+ .course-summary{padding:19px;border-radius:17px}
+ .course-summary h2{font-size:16px}
+ .course-summary p{font-size:10px}
+ .course-level{font-size:33px;padding:12px 15px;border-radius:14px}
+ .path-item{grid-template-columns:32px minmax(0,1fr);gap:8px;min-height:128px}
+ .path-dot{width:30px;height:30px}
+ .path-card{padding:14px;border-radius:14px}
+ .path-card h3{font-size:12px}
+ .path-card p{font-size:10px;line-height:1.8}
+ .lesson-details{flex-wrap:wrap;font-size:8px}
+ .small-primary,.secondary-button{min-height:35px;padding:7px 9px}
+ .vocab-list{border-radius:14px}
+ .vocab-row{padding:14px 11px;min-height:74px;gap:7px}
+ .vocab-word h3{font-size:15px}
+ .vocab-meaning b{font-size:10px}
+ .vocab-meaning span{font-size:9px}
+ .assistant-placeholder{padding:30px 19px;border-radius:18px}
+ .assistant-placeholder h2{font-size:16px}
+ .lesson-overlay{padding:9px;align-items:center}
+ .lesson-dialog{width:100%;max-height:calc(100dvh - 18px);padding:17px;border-radius:20px}
+ .lesson-dialog-head{padding-bottom:14px}
+ .lesson-dialog-head h2{font-size:20px}
+ .lesson-steps{gap:5px;margin:14px 0 18px;padding:10px 8px;overflow-x:auto}
+ .lesson-steps span{font-size:8px}
+ .lesson-steps span.current{padding:6px 8px}
+ .lesson-flow{gap:12px}
+ .lesson-phase{padding:12px;gap:10px;border-radius:15px}
+ .lesson-phase-head{gap:10px}
+ .lesson-phase-head>span{flex-basis:34px;height:34px;border-radius:10px}
+ .lesson-phase-head b{font-size:12px}
+ .lesson-phase-head small{font-size:9px}
+ .lesson-phase .flow-section{padding:13px!important;border-radius:12px!important}
+ .lesson-phase .teaching-step{gap:10px;padding:12px 0}
+ .lesson-phase .teaching-step>span{flex-basis:27px;height:27px}
+ .lesson-phase .teaching-step b{font-size:13px}
+ .lesson-phase .teaching-step p{font-size:11px;line-height:2}
+ .lesson-phase .lesson-vocabulary>div{gap:7px}
+ .lesson-phase .lesson-vocabulary button{min-height:58px;padding:9px;border-radius:10px}
+ .lesson-phase .lesson-vocabulary button span{font-size:12px}
+ .lesson-phase .lesson-vocabulary button small{font-size:9px}
+ .lesson-phase .dialogue-bubble strong{font-size:14px}
+ .lesson-phase .dialogue-bubble small{font-size:11px}
+ .lesson-practice-actions{gap:8px}
+ .lesson-practice-actions button{min-height:44px}
+ .mobile-tabs{padding-inline:8px}
+ .mobile-tabs button{min-height:48px;border-radius:11px}
+ .page-footer{display:none}
+ .notice{left:12px;right:12px;bottom:78px}
+}
+@media(max-width:390px){
+ .page-wrap{padding-inline:12px}
+ .header-level{gap:5px}
+ .header-level b{font-size:10px;padding:6px 7px}
+ .overview-card{padding:12px}
+ .path-card-main{gap:7px}
+ .path-card{padding:11px}
+ .lesson-steps{justify-content:flex-start}
+ .lesson-steps i{min-width:9px}
+ .lesson-steps span{font-size:7px}
+ .lesson-phase .lesson-vocabulary>div{grid-template-columns:1fr}
+}
+@media(hover:none){
+ .overview-card:hover,.path-card:hover{transform:none}
+ .primary-button::after{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .overview-card,.path-card,.nav-link,.primary-button,.small-primary,.secondary-button,.icon-button{transition:none!important}
+}
