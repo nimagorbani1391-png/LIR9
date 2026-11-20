@@ -245,7 +245,6 @@ function App() {
       setVoiceTranscript("شروع میکروفون ممکن نشد؛ دوباره امتحان کن.");
     }
   };
-  const beginVoicePractice = () => { setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); setStep("voice"); };
   const beginTypingPractice = () => { setVoiceIndex(0); setTypedAnswer(""); setTypingStatus("idle"); setStep("typing"); };
   const beginQuiz = () => { if (!active) return; setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, active.id)); setChoice(null); setStep("quiz"); };
   const checkTypedAnswer = () => {
