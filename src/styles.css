@@ -878,3 +878,17 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .auth-loading{display:flex;align-items:center;flex-direction:column;gap:12px;color:#d9c48f}.auth-loading b{font:900 22px Arial,sans-serif;letter-spacing:3px}.auth-loading p{color:#aaa995;font-size:11px}
 .sidebar-user-email{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c7b47f;font-size:9px;direction:ltr;text-align:center}.sidebar-signout{align-self:center;padding:7px 12px;border:1px solid #554333;border-radius:8px;background:#211b17;color:#d7bda0;font:inherit;font-size:10px;cursor:pointer}.sidebar-signout:hover{border-color:#a77a55;background:#2b211b}
 @media(max-width:520px){.auth-card{padding:23px 19px;border-radius:17px}.auth-heading h1{font-size:22px}}
+
+/* LIR9 account profile */
+.account-page{max-width:900px;margin:0 auto;padding:8px 0 30px}
+.account-hero{position:relative;display:flex;align-items:center;gap:18px;padding:25px 27px;border:1px solid #65502d;border-radius:18px;background:radial-gradient(ellipse at 12% 20%,#c49a3b20,transparent 45%),linear-gradient(120deg,#22251c,#171b15);box-shadow:0 16px 38px #0003}
+.account-avatar{display:grid;place-items:center;flex:0 0 66px;height:66px;border:1px solid #b18b49;border-radius:19px;background:#b18b4918;color:#e4c477}
+.account-hero h1{margin:5px 0 4px;color:#f4ecd8;font-size:25px}.account-hero p{margin:0;color:#a9aa9c;font-size:11px;line-height:1.9}
+.account-status{display:flex;align-items:center;gap:7px;margin-right:auto;padding:7px 11px;border:1px solid #416448;border-radius:30px;background:#1d3022;color:#b9dfbd;font-size:10px}.account-status i{width:7px;height:7px;border-radius:50%;background:#7ac68a;box-shadow:0 0 9px #7ac68a}
+.account-card{margin-top:19px;padding:22px 24px;border:1px solid #343b30;border-radius:17px;background:linear-gradient(145deg,#1c211a,#151912)}
+.account-card-heading{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid #343b30;color:#d8b96f}.account-card-heading h2{margin:5px 0 0;color:#f0eadb;font-size:17px}
+.account-detail{display:flex;align-items:center;gap:13px;padding:17px 2px;border-bottom:1px solid #30362b}.account-detail:last-child{border-bottom:0;padding-bottom:4px}
+.account-detail-icon{display:grid;place-items:center;flex:0 0 40px;height:40px;border:1px solid #54452b;border-radius:12px;background:#b18b4912;color:#d9bb70}
+.account-detail>div{display:flex;flex-direction:column;gap:6px;min-width:0}.account-detail small{color:#a4a696;font-size:10px}.account-detail strong{color:#f0eadb;font-size:13px;overflow-wrap:anywhere}
+.account-security-note{display:flex;align-items:center;gap:9px;margin:14px 3px;color:#969b8d;font-size:10px;line-height:1.9}.account-security-note svg{flex:0 0 auto;color:#c6a45b}
+@media(max-width:560px){.account-hero{align-items:flex-start;padding:19px 16px;gap:12px}.account-avatar{flex-basis:52px;height:52px;border-radius:15px}.account-hero h1{font-size:21px}.account-status{position:absolute;left:13px;top:13px;padding:5px 8px;font-size:9px}.account-card{padding:18px 15px}.account-detail{gap:10px}.account-detail-icon{flex-basis:36px;height:36px}}
