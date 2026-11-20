@@ -74,4 +74,7 @@ export async function saveLearningState(patch: LearningState, userId: string): P
   }
 
   await worker;
+  if (pendingSaves.has(userId) && !saveWorkers.has(userId)) {
+    await saveLearningState(pendingSaves.get(userId)!, userId);
+  }
 }
