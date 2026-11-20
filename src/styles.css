@@ -936,10 +936,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 /* VIP offer banner and subscription details */
 .vip-promo-banner{position:relative;isolation:isolate;overflow:hidden;width:100%;min-height:94px;margin:0 0 18px;padding:17px 19px;display:flex;align-items:center;gap:14px;text-align:right;border:1px solid rgba(238,202,119,.72);border-radius:15px;background:linear-gradient(112deg,#3b2d16 0%,#292719 48%,#1b2019 100%);color:#fff3d4;box-shadow:0 8px 28px rgba(0,0,0,.2),0 0 18px rgba(226,184,91,.18),inset 0 1px rgba(255,255,255,.08);transform-origin:center;animation:vip-banner-pulse 1.65s ease-in-out infinite}
 .vip-promo-banner:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 82% 50%,rgba(218,177,89,.2),transparent 58%)}
-.vip-promo-icon{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border:1px solid #d5b66b88;border-radius:14px;background:linear-gradient(145deg,#594622,#302719);color:#f1d58f}
-.vip-promo-copy{display:grid;gap:4px;flex:1;min-width:0}
-.vip-promo-copy small{font-size:9px;color:#d9bd7a}
-.vip-promo-copy strong{font-size:14px;font-weight:800}
+.vip-promo-icon{width:64px;height:64px;flex:0 0 64px;display:grid;place-items:center;border:1px solid #d5b66b88;border-radius:18px;background:linear-gradient(145deg,#594622,#302719);color:#f1d58f}
+.vip-promo-copy{display:grid;gap:7px;flex:1;min-width:0}
+.vip-promo-copy small{font-size:13px;font-weight:800;letter-spacing:.1px;color:#f2d58e}
+.vip-promo-copy strong{font-size:23px;line-height:1.35;font-weight:900;letter-spacing:-.3px}
 .vip-promo-copy em{font-size:10px;font-style:normal;color:#b9b5a6}
 .vip-promo-action{display:flex;align-items:center;gap:4px;white-space:nowrap;color:#f0d48d;font-size:10px;font-weight:700}
 .vip-pulse{position:absolute;inset:5px;border:1px solid rgba(226,192,116,.15);border-radius:11px;pointer-events:none;animation:vip-ring-pulse 2.8s ease-out infinite}
@@ -964,6 +964,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .vip-activate-button{width:100%;min-height:48px;display:flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:10px;background:linear-gradient(100deg,#d4ad58,#f0d58f);color:#211a0d;font-size:12px;font-weight:900;box-shadow:0 8px 24px #d0a84a26;transition:transform .2s,filter .2s}
 .vip-activate-button:hover{transform:translateY(-2px);filter:brightness(1.06)}
 .vip-secure-note{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:14px;color:#96988d;font-size:9px}
-@media(max-width:720px){.vip-promo-banner{min-height:86px;padding:13px 12px;gap:10px;border-radius:13px}.vip-promo-icon{width:40px;height:40px;flex-basis:40px;border-radius:12px}.vip-promo-copy strong{font-size:11px}.vip-promo-copy small,.vip-promo-copy em{font-size:8px}.vip-promo-action{font-size:8px;gap:1px}.vip-price-card{margin-top:16px;padding:23px 18px;border-radius:18px}.vip-price-card h2{font-size:23px}}
-@media(max-width:390px){.vip-promo-banner{gap:8px;padding-inline:9px}.vip-promo-icon{width:35px;height:35px;flex-basis:35px}.vip-promo-copy strong{font-size:10px}.vip-promo-action{font-size:7px}.vip-promo-action svg{width:13px}}
+@media(max-width:720px){.vip-promo-banner{min-height:86px;padding:13px 12px;gap:10px;border-radius:13px}.vip-promo-icon{width:48px;height:48px;flex-basis:48px;border-radius:13px}.vip-promo-copy strong{font-size:19px}.vip-promo-copy small{font-size:11px}.vip-promo-action{font-size:8px;gap:1px}.vip-price-card{margin-top:16px;padding:23px 18px;border-radius:18px}.vip-price-card h2{font-size:23px}}
+@media(max-width:390px){.vip-promo-banner{gap:8px;padding-inline:9px}.vip-promo-icon{width:35px;height:35px;flex-basis:35px}.vip-promo-copy strong{font-size:17px}.vip-promo-action{font-size:7px}.vip-promo-action svg{width:13px}}
 @media(prefers-reduced-motion:reduce){.vip-promo-banner,.vip-pulse{animation:none!important}.vip-activate-button{transition:none}}
