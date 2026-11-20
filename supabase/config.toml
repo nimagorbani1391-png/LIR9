@@ -1,0 +1,2 @@
+[functions.lirto-chat]
+verify_jwt = true
