@@ -858,3 +858,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .certificate-birth strong{font:700 clamp(9px,1vw,12px) Tahoma,Arial,sans-serif;color:#26384d;direction:rtl}
 .certificate-date-pair .certificate-date-row{margin:0}
 @media(max-width:600px){.certificate-inputs{grid-template-columns:1fr}.certificate-inputs>p{grid-column:auto}.certificate-date-pair{gap:12px}.certificate-birth span{font-size:7px}.certificate-birth strong,.certificate-date-row strong{font-size:8px}}
+
+/* LIR9 certificate artwork */
+.certificate-artwork{display:block;width:100%;height:auto;max-width:980px;margin:0 auto;border:1px solid #b18b49;border-radius:4px;box-shadow:0 24px 65px #0009;background:#eee7d5}
