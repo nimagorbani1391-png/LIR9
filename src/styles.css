@@ -1391,3 +1391,20 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
  .worked-example p{font-size:13px;line-height:2}
  .worked-example small{font-size:12px;line-height:2}
 }
+
+
+/* Initial English placement assessment */
+.placement-card{display:grid;grid-template-columns:52px minmax(0,1fr);gap:17px;margin:20px 0 24px;padding:22px;border:1px solid rgba(190,158,91,.3);border-radius:19px;background:linear-gradient(135deg,#24291f,#191e17);box-shadow:0 12px 30px #0002}
+.placement-card-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:#d8b45d18;color:#e8cf91}
+.placement-card-copy{min-width:0}.placement-card-copy h2{margin:5px 0 7px;color:#f2eee2;font-size:19px}.placement-card-copy>p{margin:0;color:#b5b9ac;font-size:13px;line-height:2}
+.placement-result{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1px solid #48513e;border-radius:12px;background:#11170f}
+.placement-result strong{color:#e8d39b;font-size:20px}.placement-result span{color:#d1d4c8;font-size:12px}
+.placement-start{margin-top:15px}
+.placement-quiz{margin-top:20px;padding:17px;border:1px solid #394235;border-radius:15px;background:#11160f}
+.placement-quiz-top{display:flex;justify-content:space-between;color:#c9c4b4;font:600 11px Arial}
+.placement-track{height:5px;margin:10px 0 19px;overflow:hidden;border-radius:8px;background:#30382c}.placement-track i{display:block;height:100%;border-radius:8px;background:#c5a45e;transition:width .2s}
+.placement-quiz h3{margin:0 0 14px;color:#f4f0e5;font:700 17px/1.6 Arial,sans-serif}
+.placement-options{display:grid;gap:9px}.placement-options button{padding:12px 14px;border:1px solid #3c4537;border-radius:11px;background:#20271d;color:#e7e7dc;text-align:left;font:14px Arial,sans-serif;transition:border-color .15s,background .15s}
+.placement-options button.selected{border-color:#c5a45e;background:#514329;color:#fff0c8}
+.placement-actions{display:flex;justify-content:space-between;gap:10px;margin-top:16px}.placement-actions button:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:720px){.placement-card{grid-template-columns:38px minmax(0,1fr);gap:11px;padding:15px;border-radius:16px}.placement-card-icon{width:37px;height:37px;border-radius:11px}.placement-card-copy h2{font-size:16px}.placement-card-copy>p{font-size:12px}.placement-quiz{padding:12px}.placement-quiz h3{font-size:16px}.placement-options button{font-size:13px;padding:12px}}
