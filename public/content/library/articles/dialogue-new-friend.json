@@ -1,0 +1,31 @@
+{
+  "title": "آشنایی با یک دوست تازه",
+  "introduction": "در این گفت‌وگو، دو نفر برای اولین بار با هم آشنا می‌شوند. عبارت‌ها را با صدای بلند تمرین کن.",
+  "paragraphs": [
+    "Alex: Hi! Is this your first English class?",
+    "Mina: Yes, it is. My name is Mina. What’s your name?",
+    "Alex: I’m Alex. Nice to meet you!",
+    "Mina: Nice to meet you, too. Where are you from?",
+    "Alex: I’m from Canada. How about you?",
+    "Mina: I’m from Iran. What do you like doing in your free time?",
+    "Alex: I like reading and playing football."
+  ],
+  "vocabulary": [
+    {
+      "word": "Nice to meet you",
+      "meaning": "از آشنایی با تو خوشحالم"
+    },
+    {
+      "word": "Where are you from?",
+      "meaning": "اهل کجا هستی؟"
+    },
+    {
+      "word": "How about you?",
+      "meaning": "تو چطور؟"
+    },
+    {
+      "word": "free time",
+      "meaning": "اوقات فراغت"
+    }
+  ]
+}
