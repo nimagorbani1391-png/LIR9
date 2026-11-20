@@ -24,6 +24,7 @@ export const lessons: Lesson[] = [
 ];
 export type LessonContent = {
   concept: string;
+  workedExamples: { english: string; translation: string; why: string }[];
   steps: { heading: string; detail: string }[];
   dialogue: { speaker: string; line: string; translation: string }[];
   commonMistake: string;
@@ -33,6 +34,7 @@ export type LessonContent = {
 export const lessonContent: Record<number, LessonContent> = {
   1: {
     concept: "در انگلیسی معمولاً سلام را با توجه به صمیمیت و موقعیت انتخاب می‌کنیم. بعد از سلام، می‌توانیم حال طرف مقابل را بپرسیم و به پاسخ او واکنش کوتاهی نشان دهیم.",
+    workedExamples: [{"english":"Hi, Alex!","translation":"سلام، الکس!","why":"برای شروع دوستانه مکالمه از Hi استفاده می‌کنیم."},{"english":"I'm fine, thanks. And you?","translation":"خوبم، ممنون. تو چطوری؟","why":"پاسخ حال با یک سؤال متقابل طبیعی‌تر می‌شود."}],
     steps: [
       { heading: "شروع دوستانه", detail: "Hi! در گفت‌وگو با دوست، هم‌کلاسی یا فردی که با او راحتی طبیعی است." },
       { heading: "شروع خنثی‌تر", detail: "Hello! در بیشتر موقعیت‌ها مناسب است و کمی رسمی‌تر از Hi به نظر می‌رسد." },
@@ -54,6 +56,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   2: {
     concept: "برای معرفی نام، دو الگوی بسیار رایج داریم: My name is + name و I'm + name. هر دو درست‌اند؛ دومی کوتاه‌تر و محاوره‌ای‌تر است.",
+    workedExamples: [{"english":"My name is Reza.","translation":"اسم من رضاست.","why":"در الگوی کامل، بعد از My name فعل is لازم است."},{"english":"I'm Reza. Nice to meet you.","translation":"من رضا هستم. از آشنایی با تو خوشحالم.","why":"I'm شکل کوتاه I am است و در مکالمه رایج‌تر است."}],
     steps: [
       { heading: "الگوی کامل", detail: "My name is Nima. یعنی «اسم من نیما است». بعد از My name حتماً فعل is می‌آید." },
       { heading: "الگوی کوتاه", detail: "I'm Nima. شکل کوتاه I am است و در مکالمه روزمره بسیار رایج است." },
@@ -76,6 +79,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   3: {
     concept: "برای گفتن اینکه اهل کجا هستی، از ساختار be + from + place استفاده می‌کنیم. در جمله ساده I am به شکل کوتاه I'm نوشته و گفته می‌شود.",
+    workedExamples: [{"english":"I'm from Iran.","translation":"من اهل ایران هستم.","why":"from مبدأ یا زادگاه را نشان می‌دهد."},{"english":"I'm in Berlin now.","translation":"من الان در برلین هستم.","why":"in مکان حضور فعلی را نشان می‌دهد، نه لزوماً زادگاه."}],
     steps: [
       { heading: "ساختار اصلی", detail: "I'm from Iran. یعنی «من اهل ایران هستم». بعد از from نام شهر یا کشور می‌آید." },
       { heading: "درباره شخص دیگر", detail: "برای he و she فعل is می‌آید: He is from Spain. / She's from Italy." },
@@ -97,6 +101,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   4: {
     concept: "ضمیر فاعلی جای نام شخص یا گروه را می‌گیرد و معمولاً پیش از فعل قرار می‌گیرد. انتخاب ضمیر به شخص و تعداد بستگی دارد.",
+    workedExamples: [{"english":"She is my sister.","translation":"او خواهر من است.","why":"برای یک زن یا دختر از She و فعل is استفاده می‌کنیم."},{"english":"They are my friends.","translation":"آن‌ها دوستان من هستند.","why":"برای چند نفر از They و فعل are استفاده می‌کنیم."}],
     steps: [
       { heading: "شخص اول و دوم", detail: "I یعنی من؛ you یعنی تو یا شما. You هم برای یک نفر و هم برای چند نفر استفاده می‌شود." },
       { heading: "شخص سوم مفرد", detail: "He برای مرد یا پسر، she برای زن یا دختر و it برای شیء، حیوان یا مفهوم به کار می‌رود." },
@@ -119,6 +124,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   5: {
     concept: "عددها برای بیان تعداد، سن، شماره و قیمت در مکالمه‌های روزمره لازم‌اند. در این درس روی چند عدد پایه و تفاوت شکل نوشتاری آن‌ها تمرکز می‌کنیم.",
+    workedExamples: [{"english":"I have three books.","translation":"من سه کتاب دارم.","why":"عدد پیش از اسم می‌آید و برای بیش از یکی، اسم معمولاً جمع می‌شود."},{"english":"My brother is fifteen.","translation":"برادرم پانزده ساله است.","why":"برای گفتن سن از عدد همراه فعل be استفاده می‌کنیم."}],
     steps: [
       { heading: "عددهای پایه", detail: "one یعنی یک، two یعنی دو و three یعنی سه. این سه عدد را چند بار با صدای بلند تکرار کن." },
       { heading: "عددهای پنج و ده", detail: "five یعنی پنج و ten یعنی ده. به املای five دقت کن؛ حرف پایانی آن e است." },
@@ -140,6 +146,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   6: {
     concept: "برای صحبت درباره خانواده، نام اعضا را یاد می‌گیریم و آن‌ها را با ساختارهای ساده معرفی می‌کنیم.",
+    workedExamples: [{"english":"This is my mother.","translation":"این مادر من است.","why":"my پیش از اسم می‌آید و مالکیت یا نسبت را نشان می‌دهد."},{"english":"I have two brothers.","translation":"من دو برادر دارم.","why":"برای بیش از یک برادر از جمع brothers استفاده می‌کنیم."}],
     steps: [
       { heading: "والدین", detail: "mother یعنی مادر و father یعنی پدر. برای گفتن «مادر من» می‌گوییم my mother." },
       { heading: "خواهر و برادر", detail: "sister یعنی خواهر و brother یعنی برادر." },
@@ -162,6 +169,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   7: {
     concept: "برای معرفی شغل افراد از نام شغل همراه فعل be استفاده می‌کنیم. در این درس چند شغل رایج و ساختار جمله را می‌آموزی.",
+    workedExamples: [{"english":"My father is a driver.","translation":"پدرم راننده است.","why":"در معرفی شغل مفرد معمولاً a یا an پیش از اسم شغل می‌آید."},{"english":"She is an artist.","translation":"او هنرمند است.","why":"artist با صدای واکه شروع می‌شود؛ پس an می‌آید."}],
     steps: [
       { heading: "نام شغل‌ها", detail: "teacher یعنی معلم، doctor یعنی پزشک و student یعنی دانش‌آموز یا دانشجو." },
       { heading: "معرفی شغل", detail: "I am a student یعنی من دانش‌آموز/دانشجو هستم. برای he و she از is استفاده می‌کنیم." },
@@ -183,6 +191,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   8: {
     concept: "a و an هر دو معنی «یک» می‌دهند و پیش از اسم مفرد قابل‌شمارش می‌آیند. انتخاب میان آن‌ها به صدای آغازین واژه بعدی بستگی دارد.",
+    workedExamples: [{"english":"It is a university.","translation":"این یک دانشگاه است.","why":"university با صدای /juː/ آغاز می‌شود؛ بنابراین a درست است."},{"english":"He eats an apple.","translation":"او یک سیب می‌خورد.","why":"apple با صدای واکه آغاز می‌شود؛ بنابراین an درست است."}],
     steps: [
       { heading: "کاربرد a", detail: "پیش از صدای همخوان از a استفاده می‌کنیم: a book، a teacher." },
       { heading: "کاربرد an", detail: "پیش از صدای واکه از an استفاده می‌کنیم: an apple، an egg." },
@@ -204,6 +213,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   9: {
     concept: "this و that برای اشاره به یک شخص یا چیز به کار می‌روند. تفاوت اصلی آن‌ها فاصله است: this نزدیک و that دور.",
+    workedExamples: [{"english":"This is my pen.","translation":"این خودکار من است.","why":"برای یک چیز نزدیک از this استفاده می‌کنیم."},{"english":"That is your car.","translation":"آن ماشین توست.","why":"برای یک چیز دورتر از that استفاده می‌کنیم."}],
     steps: [
       { heading: "چیز نزدیک", detail: "This یعنی این. وقتی چیزی نزدیک توست می‌گویی This is my pen." },
       { heading: "چیز دور", detail: "That یعنی آن. برای چیزی دورتر می‌گویی That is a car." },
@@ -226,6 +236,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   10: {
     concept: "در انگلیسی بسیاری از اسم‌های قابل‌شمارش برای نشان دادن بیش از یکی، s می‌گیرند. این شکل را جمع می‌نامیم.",
+    workedExamples: [{"english":"One box, two boxes.","translation":"یک جعبه، دو جعبه.","why":"اسم‌هایی که به x ختم می‌شوند معمولاً برای جمع es می‌گیرند."},{"english":"One baby, two babies.","translation":"یک نوزاد، دو نوزاد.","why":"در بسیاری از اسم‌های پایان‌یافته به consonant + y، y به ies تبدیل می‌شود."}],
     steps: [
       { heading: "اسم مفرد", detail: "book یعنی یک کتاب و cat یعنی یک گربه." },
       { heading: "ساخت جمع ساده", detail: "برای بسیاری از اسم‌ها s اضافه می‌کنیم: book → books و cat → cats." },
@@ -247,6 +258,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   11: {
     concept: "برای گفتن اینکه چیزی یا کسی این‌طور نیست، not را به فعل be اضافه می‌کنیم. در انگلیسی جای کلمه‌ها مهم است؛ پس به ترتیب فاعل، فعل و not دقت کن.",
+    workedExamples: [{"english":"I am not busy.","translation":"من مشغول نیستم.","why":"برای I از am not استفاده می‌کنیم."},{"english":"They aren't at home.","translation":"آن‌ها خانه نیستند.","why":"برای they از are not یا شکل کوتاه aren't استفاده می‌کنیم."}],
     steps: [{heading:"جمله مثبت را ببین",detail:"He is tired یعنی او خسته است. اول فاعل He و بعد فعل is آمده است."},{heading:"not را اضافه کن",detail:"He is not tired یعنی او خسته نیست. not بعد از am/is/are می‌آید."},{heading:"شکل کوتاه و طبیعی",detail:"He isn't tired همان معنی را دارد. I'm not شکل کوتاه I am not است."}],
     dialogue:[{speaker:"A",line:"Are you tired?",translation:"خسته‌ای؟"},{speaker:"B",line:"No, I'm not. I'm ready!",translation:"نه، خسته نیستم. آماده‌ام!"}],
     commonMistake:"نگو He not is tired. ترتیب درست He is not tired است؛ not بعد از فعل be قرار می‌گیرد.",
@@ -255,6 +267,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   12: {
     concept:"در سؤال‌های ساده با am/is/are، فعل را به ابتدای جمله می‌بریم. این تغییر ترتیب کمک می‌کند شنونده بفهمد سؤال می‌پرسیم.",
+    workedExamples: [{"english":"Are you ready? — Yes, I am.","translation":"آماده‌ای؟ — بله، هستم.","why":"در سؤال، are پیش از فاعل می‌آید و در پاسخ کوتاه دوباره فعل را می‌آوریم."},{"english":"Is Sara a student? — No, she isn't.","translation":"آیا سارا دانش‌آموز است؟ — نه، نیست.","why":"برای سوم‌شخص مفرد، is در ابتدای سؤال قرار می‌گیرد."}],
     steps:[{heading:"جمله معمولی",detail:"You are ready یعنی تو آماده‌ای. فاعل You اول آمده و بعد are."},{heading:"جمله را سؤالی کن",detail:"Are you ready? فقط جای are و you عوض می‌شود؛ معنی اصلی حفظ می‌شود."},{heading:"پاسخ کوتاه",detail:"Yes, I am یا No, I'm not. در پاسخ کوتاه، فعل را تکرار می‌کنیم."}],
     dialogue:[{speaker:"A",line:"Are you in class?",translation:"در کلاس هستی؟"},{speaker:"B",line:"Yes, I am. Are you?",translation:"بله، هستم. تو چطور؟"}],
     commonMistake:"در سؤال نگو You are ready? در انگلیسی معیار مبتدی، شکل روشن و درست این است: Are you ready?",
@@ -263,6 +276,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   13: {
     concept:"برای اینکه معلوم شود یک چیز متعلق به چه کسی است، از کلمات مالکیت استفاده می‌کنیم. این کلمات قبل از اسم قرار می‌گیرند و جای اسم را نمی‌گیرند.",
+    workedExamples: [{"english":"This is my notebook.","translation":"این دفتر من است.","why":"my پیش از اسم می‌آید؛ my notebook یک گروه اسمی کامل است."},{"english":"Her bag is blue.","translation":"کیف او آبی است.","why":"her مالکیت را برای یک زن یا دختر نشان می‌دهد و پیش از bag می‌آید."}],
     steps:[{heading:"my و your",detail:"my یعنی مال من و your یعنی مال تو یا شما: my phone، your notebook."},{heading:"his و her",detail:"his برای مالکیت یک مرد/پسر و her برای یک زن/دختر است: his game، her bag."},{heading:"در جمله استفاده کن",detail:"This is my phone. یعنی این گوشی من است. کلمه my پیش از phone آمده است."}],
     dialogue:[{speaker:"A",line:"Is this your notebook?",translation:"این دفتر توست؟"},{speaker:"B",line:"No, it's her notebook.",translation:"نه، دفتر اوست."}],
     commonMistake:"my با me فرق دارد. my قبل از اسم می‌آید (my book)، اما me شکل مفعولی ضمیر است.",
@@ -271,6 +285,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   14: {
     concept:"have و has هر دو معنی «داشتن» می‌دهند. انتخابشان به فاعل جمله بستگی دارد، نه به چیزی که داریم.",
+    workedExamples: [{"english":"We have a small garden.","translation":"ما یک باغ کوچک داریم.","why":"با we از have استفاده می‌کنیم."},{"english":"My sister has a bicycle.","translation":"خواهرم یک دوچرخه دارد.","why":"فاعل my sister معادل she است؛ پس has می‌آید."}],
     steps:[{heading:"با I و you",detail:"I have a phone و You have a bike. برای I و you از have استفاده می‌کنیم."},{heading:"با he و she",detail:"He has a ball و She has a cat. برای he و she از has استفاده می‌کنیم."},{heading:"فاعل را پیدا کن",detail:"قبل از انتخاب فعل، ببین چه کسی چیزی دارد. My brother مثل he است، پس has می‌گیرد."}],
     dialogue:[{speaker:"A",line:"Do you have a pet?",translation:"حیوان خانگی داری؟"},{speaker:"B",line:"Yes, I have a cat.",translation:"بله، یک گربه دارم."}],
     commonMistake:"نگو She have a dog. چون فاعل she است، باید بگویی She has a dog.",
@@ -279,6 +294,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   15: {
     concept:"حال ساده برای کارهایی است که معمولاً، مرتب یا به‌عنوان عادت انجام می‌دهیم؛ نه لزوماً همین لحظه.",
+    workedExamples: [{"english":"I study English every evening.","translation":"من هر عصر انگلیسی می‌خوانم.","why":"برای I در حال ساده، فعل به شکل پایه می‌آید."},{"english":"Arman watches TV after dinner.","translation":"آرمان بعد از شام تلویزیون تماشا می‌کند.","why":"با he/she/it معمولاً به فعل s یا es اضافه می‌شود."}],
     steps:[{heading:"درباره خودت",detail:"I study English یعنی من انگلیسی می‌خوانم. با I شکل ساده فعل study را می‌آوریم."},{heading:"درباره یک نفر دیگر",detail:"با he/she/it در جمله مثبت معمولاً به فعل s یا es اضافه می‌کنیم: She studies."},{heading:"نشانه‌های عادت",detail:"عبارت‌هایی مثل every day و after school کمک می‌کنند بفهمیم درباره برنامه و عادت حرف می‌زنیم."}],
     dialogue:[{speaker:"A",line:"What do you do after school?",translation:"بعد از مدرسه چه کار می‌کنی؟"},{speaker:"B",line:"I play basketball and study English.",translation:"بسکتبال بازی می‌کنم و انگلیسی می‌خوانم."}],
     commonMistake:"برای he یا she در جمله مثبت، s فعل را فراموش نکن: He plays، نه He play.",
@@ -287,6 +303,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   16: {
     concept:"گاهی مهم نیست فقط چه کاری انجام می‌دهیم؛ مهم است چند بار آن را انجام می‌دهیم. قیدهای تکرار این مقدار را نشان می‌دهند.",
+    workedExamples: [{"english":"I usually walk to school.","translation":"من معمولاً پیاده به مدرسه می‌روم.","why":"قید usually پیش از فعل اصلی walk قرار می‌گیرد."},{"english":"She is always polite.","translation":"او همیشه مؤدب است.","why":"وقتی فعل be داریم، قید تکرار بعد از am/is/are می‌آید."}],
     steps:[{heading:"از همیشه تا هرگز",detail:"always یعنی همیشه، usually یعنی معمولاً، sometimes یعنی گاهی و never یعنی هرگز."},{heading:"جای قید با فعل اصلی",detail:"معمولاً قید پیش از فعل اصلی می‌آید: I usually study."},{heading:"جای قید با be",detail:"اگر فعل جمله am/is/are باشد، قید بعد از آن می‌آید: She is always kind."}],
     dialogue:[{speaker:"A",line:"Do you always play games?",translation:"همیشه بازی می‌کنی؟"},{speaker:"B",line:"No, I sometimes read books.",translation:"نه، گاهی کتاب می‌خوانم."}],
     commonMistake:"نگو I play always football. جای طبیعی قید تکرار در این جمله I always play football است.",
@@ -295,6 +312,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   17: {
     concept:"can برای بیان توانایی یا اجازه به کار می‌رود. در این درس از آن برای گفتن کارهایی استفاده می‌کنیم که بلدیم انجام بدهیم.",
+    workedExamples: [{"english":"I can speak English.","translation":"من می‌توانم انگلیسی صحبت کنم.","why":"بعد از can فعل به شکل ساده می‌آید؛ to یا s اضافه نمی‌کنیم."},{"english":"Can you ride a bike? — Yes, I can.","translation":"می‌توانی دوچرخه‌سواری کنی؟ — بله، می‌توانم.","why":"برای سؤال، can به ابتدای جمله می‌رود."}],
     steps:[{heading:"توانایی خودت",detail:"I can swim یعنی من می‌توانم شنا کنم. can برای همه فاعل‌ها یکسان است."},{heading:"بعد از can چه می‌آید؟",detail:"بعد از can شکل ساده فعل می‌آید: can play، can draw. نه to می‌آوریم و نه s."},{heading:"سؤال بساز",detail:"Can you ride a bike? یعنی می‌توانی دوچرخه‌سواری کنی؟ پاسخ: Yes, I can یا No, I can't."}],
     dialogue:[{speaker:"A",line:"Can you play chess?",translation:"می‌توانی شطرنج بازی کنی؟"},{speaker:"B",line:"Yes, I can, but I can't play the guitar.",translation:"بله، می‌توانم؛ اما نمی‌توانم گیتار بزنم."}],
     commonMistake:"بعد از can، فعل ساده می‌آید. can to swim و can swims نادرست‌اند.",
@@ -303,6 +321,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   18: {
     concept:"برای حرف زدن درباره علاقه‌ها از like استفاده می‌کنیم. می‌توانیم بگوییم چه چیزی را دوست داریم یا از انجام چه کاری لذت می‌بریم.",
+    workedExamples: [{"english":"I like listening to music.","translation":"من گوش دادن به موسیقی را دوست دارم.","why":"بعد از like می‌توان از فعل ingدار برای بیان فعالیت استفاده کرد."},{"english":"My brother likes football.","translation":"برادرم فوتبال را دوست دارد.","why":"با he/she/it در جمله مثبت از likes استفاده می‌کنیم."}],
     steps:[{heading:"اسم بعد از like",detail:"I like music یعنی من موسیقی را دوست دارم. بعد از like می‌توان اسم آورد."},{heading:"فعل ingدار",detail:"I like reading یعنی من کتاب خواندن را دوست دارم. برای بیان فعالیت موردعلاقه، فعل ingدار می‌آید."},{heading:"با he و she",detail:"در جمله مثبت حال ساده با he/she می‌گوییم likes: She likes art."}],
     dialogue:[{speaker:"A",line:"What kind of music do you like?",translation:"چه نوع موسیقی‌ای دوست داری؟"},{speaker:"B",line:"I like pop music. I also like reading.",translation:"موسیقی پاپ دوست دارم. کتاب خواندن را هم دوست دارم."}],
     commonMistake:"در جمله مثبت با he یا she، likes را به کار ببر؛ اما بعد از can همچنان فعل ساده می‌آید.",
@@ -311,6 +330,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   19: {
     concept:"حروف اضافه مکان مثل یک نقشه کوچک‌اند؛ به شنونده می‌گویند چیزی دقیقاً کجاست.",
+    workedExamples: [{"english":"The keys are in the bag.","translation":"کلیدها داخل کیف هستند.","why":"in یعنی داخل یک فضا یا محفظه."},{"english":"The phone is on the table.","translation":"گوشی روی میز است.","why":"on برای قرار گرفتن روی یک سطح به کار می‌رود."}],
     steps:[{heading:"in یعنی داخل",detail:"The keys are in the bag یعنی کلیدها داخل کیف هستند."},{heading:"on یعنی روی سطح",detail:"The phone is on the desk یعنی گوشی روی میز است."},{heading:"under یعنی زیر",detail:"The ball is under the chair یعنی توپ زیر صندلی است."}],
     dialogue:[{speaker:"A",line:"Where is my phone?",translation:"گوشی من کجاست؟"},{speaker:"B",line:"It's on your desk.",translation:"روی میزت است."}],
     commonMistake:"in و on را جابه‌جا نکن: داخل کیف in the bag است؛ روی میز on the desk.",
@@ -319,6 +339,7 @@ export const lessonContent: Record<number, LessonContent> = {
   },
   20: {
     concept:"برای برنامه‌ریزی و صحبت درباره روز، باید بتوانیم ساعت و بخش‌های مختلف روز را بیان کنیم.",
+    workedExamples: [{"english":"It's eight o'clock.","translation":"ساعت هشت است.","why":"برای ساعت دقیق از It's + عدد + o'clock استفاده می‌کنیم."},{"english":"I do my homework in the evening.","translation":"من عصرها تکالیفم را انجام می‌دهم.","why":"برای بخش‌های روز معمولاً از in the morning/afternoon/evening استفاده می‌کنیم."}],
     steps:[{heading:"ساعت دقیق",detail:"It's seven o'clock یعنی ساعت هفت است. برای ساعت‌های دقیق می‌توانی o'clock را به کار ببری."},{heading:"زمان‌های روز",detail:"in the morning یعنی صبح، in the afternoon یعنی بعدازظهر و in the evening یعنی عصر."},{heading:"یک نکته کاربردی",detail:"برای night معمولاً می‌گوییم at night. مثال: I read at night."}],
     dialogue:[{speaker:"A",line:"What time do you get up?",translation:"چه ساعتی بیدار می‌شوی؟"},{speaker:"B",line:"I get up at seven o'clock.",translation:"ساعت هفت بیدار می‌شوم."}],
     commonMistake:"برای گفتن «شب‌ها» معمولاً at night می‌گوییم، نه in the night در جمله‌های ساده روزمره.",
