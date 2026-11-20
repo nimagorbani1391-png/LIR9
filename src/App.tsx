@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "./lib/supabase";
-import { loadLearningState, saveLearningState, type LearningState } from "./lib/learningState";
+import { areLearningStatesEqual, loadLearningState, saveLearningState, type LearningState } from "./lib/learningState";
 import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/curriculum";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
@@ -673,7 +673,9 @@ function App() {
         else localStorage.removeItem("lir9-placement-result");
         if (merged.a1FinalResult) localStorage.setItem("lir9-a1-final-result", JSON.stringify(merged.a1FinalResult));
         else localStorage.removeItem("lir9-a1-final-result");
-        await saveLearningState(merged);
+        if (!areLearningStatesEqual(cloud, merged)) {
+          await saveLearningState(merged, userId);
+        }
         lastPersistedSnapshotRef.current = JSON.stringify(merged);
         if (!active) return;
         localStorage.setItem("lir9-learning-owner", userId);
@@ -702,7 +704,7 @@ function App() {
     const snapshotKey = JSON.stringify(snapshot);
     if (snapshotKey === lastPersistedSnapshotRef.current) return;
     const timer = window.setTimeout(() => {
-      void saveLearningState(snapshot).then(() => {
+      void saveLearningState(snapshot, authSession.user.id).then(() => {
         lastPersistedSnapshotRef.current = snapshotKey;
       }).catch(error => {
         console.error("Could not save learning state:", error);
