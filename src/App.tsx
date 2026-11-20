@@ -6,7 +6,7 @@ import {
   LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star
 } from "lucide-react";
 
-type Tab = "home" | "learn" | "vocabulary" | "assistant" | "certificates" | "vip" | "account";
+type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account";
 type SpeechResultLike = { transcript: string; confidence?: number };
 type SpeechRecognitionLike = {
   lang: string; interimResults: boolean; maxAlternatives: number;
@@ -481,6 +481,99 @@ function AuthScreen() {
   </main>;
 }
 
+
+type LibraryItem = {
+  id: string; title: string; summary: string; category: "داستان" | "مقاله" | "مکالمه";
+  level: string; minutes: number; file: string; featured?: boolean;
+};
+type LibraryArticle = { title: string; introduction: string; paragraphs: string[]; vocabulary?: { word: string; meaning: string }[]; };
+const libraryCache = new Map<string, LibraryItem[] | LibraryArticle>();
+function ContentLibrary() {
+  const [items, setItems] = useState<LibraryItem[]>(() => (libraryCache.get("index") as LibraryItem[] | undefined) ?? []);
+  const [loading, setLoading] = useState(() => !libraryCache.has("index"));
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("همه");
+  const [selected, setSelected] = useState<LibraryItem | null>(null);
+  const [article, setArticle] = useState<LibraryArticle | null>(null);
+  const [articleLoading, setArticleLoading] = useState(false);
+
+  useEffect(() => {
+    if (libraryCache.has("index")) return;
+    let active = true;
+    fetch(`${import.meta.env.BASE_URL}content/library/index.json`, { cache: "force-cache" })
+      .then(response => { if (!response.ok) throw new Error("فهرست محتوا دریافت نشد."); return response.json(); })
+      .then((data: LibraryItem[]) => {
+        if (!Array.isArray(data)) throw new Error("ساختار فهرست محتوا معتبر نیست.");
+        libraryCache.set("index", data);
+        if (active) { setItems(data); setError(""); }
+      })
+      .catch(() => { if (active) setError("بارگذاری کتابخانه با مشکل روبه‌رو شد. اتصال اینترنت را بررسی و دوباره تلاش کن."); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    if (!selected) { setArticle(null); return; }
+    const cached = libraryCache.get(selected.file) as LibraryArticle | undefined;
+    if (cached) { setArticle(cached); setArticleLoading(false); return; }
+    let active = true;
+    setArticle(null);
+    setArticleLoading(true);
+    fetch(`${import.meta.env.BASE_URL}${selected.file}`, { cache: "force-cache" })
+      .then(response => { if (!response.ok) throw new Error("مطلب دریافت نشد."); return response.json(); })
+      .then((data: LibraryArticle) => {
+        libraryCache.set(selected.file, data);
+        if (active) setArticle(data);
+      })
+      .catch(() => { if (active) setError("این مطلب فعلاً در دسترس نیست. دوباره تلاش کن."); })
+      .finally(() => { if (active) setArticleLoading(false); });
+    return () => { active = false; };
+  }, [selected]);
+
+  const filtered = useMemo(() => items.filter(item =>
+    (category === "همه" || item.category === category) &&
+    `${item.title} ${item.summary} ${item.level} ${item.category}`.toLocaleLowerCase("fa").includes(query.trim().toLocaleLowerCase("fa"))
+  ), [items, category, query]);
+
+  if (selected) return <section className="library-page">
+    <button className="library-back" onClick={() => { setSelected(null); setError(""); }}><ChevronLeft size={17}/> بازگشت به کتابخانه</button>
+    {articleLoading && <div className="library-state"><span className="library-spinner"/> در حال آماده‌سازی مطلب…</div>}
+    {error && <div className="library-error" role="alert">{error}<button onClick={() => { setSelected(null); setError(""); }}>بازگشت</button></div>}
+    {article && <article className="library-reader">
+      <div className="library-reader-meta"><span>{selected.category}</span><span>{selected.level}</span><span><Clock3 size={13}/> {selected.minutes} دقیقه</span></div>
+      <h1>{article.title || selected.title}</h1>
+      <p className="library-reader-intro">{article.introduction}</p>
+      <div className="library-article-body">{article.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
+      {!!article.vocabulary?.length && <section className="library-vocabulary"><h2>واژه‌های کاربردی</h2>{article.vocabulary.map(word => <div key={word.word}><b dir="ltr">{word.word}</b><span>{word.meaning}</span></div>)}</section>}
+      <div className="library-reader-footer"><BookOpen size={17}/> مطالعه‌ات را با آرامش ادامه بده؛ هر روز یک قدم کافی است.</div>
+    </article>}
+  </section>;
+
+  return <section className="library-page">
+    <div className="page-intro library-intro"><span className="section-kicker">یادگیری فراتر از درس‌ها</span><h1>کتابخانه محتوا</h1><p>داستان بخوان، نکته یاد بگیر و مکالمه‌های واقعی را دنبال کن.</p></div>
+    <div className="library-feature">
+      <div className="library-feature-icon"><BookOpen size={27}/></div>
+      <div><span>فضای مطالعه LIR9</span><h2>هر روز، یک مطلب تازه</h2><p>محتوای کوتاه و سطح‌بندی‌شده برای تقویت زبان انگلیسی.</p></div>
+      <span className="library-feature-mark">LIR9</span>
+    </div>
+    <label className="library-search"><Search size={18}/><input value={query} onChange={event => setQuery(event.target.value)} placeholder="جست‌وجو در داستان‌ها، مقاله‌ها و مکالمه‌ها…" aria-label="جست‌وجو در کتابخانه محتوا"/></label>
+    <div className="library-filters" aria-label="دسته‌بندی محتوا">
+      {["همه", "داستان", "مقاله", "مکالمه"].map(item => <button key={item} className={category===item?"active":""} onClick={() => setCategory(item)} aria-pressed={category===item}>{item}</button>)}
+    </div>
+    {loading && <div className="library-state"><span className="library-spinner"/> در حال دریافت فهرست کتابخانه…</div>}
+    {error && <div className="library-error" role="alert">{error}<button onClick={() => { setError(""); setLoading(true); window.location.reload(); }}>تلاش دوباره</button></div>}
+    {!loading && !error && <div className="library-grid">
+      {filtered.map((item, index) => <button className="library-card" key={item.id} onClick={() => { setSelected(item); setError(""); }} style={{animationDelay:`${index*45}ms`}}>
+        <div className={`library-card-art art-${item.category === "داستان" ? "story" : item.category === "مقاله" ? "article" : "dialogue"}`}><span>{item.category}</span><BookOpen size={25}/></div>
+        <div className="library-card-copy"><div className="library-card-meta"><span>{item.level}</span><span><Clock3 size={12}/>{item.minutes} دقیقه</span></div><h3>{item.title}</h3><p>{item.summary}</p><span className="library-card-link">مطالعه مطلب <ArrowRight size={15}/></span></div>
+      </button>)}
+      {!filtered.length && <div className="library-empty"><Search size={24}/><b>مطلبی پیدا نشد</b><span>عبارت جست‌وجو یا دسته‌بندی را تغییر بده.</span></div>}
+    </div>}
+    <p className="library-performance-note"><CheckCircle2 size={14}/> محتوای کتابخانه از فایل‌های ثابت بارگذاری می‌شود و برای نمایش آن، درخواستی به دیتابیس ارسال نمی‌شود.</p>
+  </section>;
+}
+
 function App() {
   const [authSession, setAuthSession] = useState<import("@supabase/supabase-js").Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -517,6 +610,7 @@ function App() {
     { id: "home" as Tab, label: "خانه", icon: LayoutDashboard },
     { id: "learn" as Tab, label: "درس‌ها", icon: BookOpen },
     { id: "vocabulary" as Tab, label: "لغت‌های من", icon: Library },
+    { id: "library" as Tab, label: "کتابخانه محتوا", icon: BookOpen },
     { id: "assistant" as Tab, label: "دستیار", icon: MessageCircle },
     { id: "certificates" as Tab, label: "مدارک من", icon: GraduationCap },
     { id: "vip" as Tab, label: "اشتراک VIP", icon: Crown }
@@ -679,6 +773,7 @@ function App() {
           <section className="simple-panel"><div className="section-heading"><div><span className="section-kicker">برنامه یادگیری</span><h2>درس‌های این بخش</h2></div><span className="level-chip">A1 · مقدماتی</span></div><div className="compact-lessons">{lessons.slice(0,5).map((lesson,index)=><button className="compact-lesson" key={lesson.id} onClick={() => openLesson(lesson.id)}><span className={completed.includes(String(lesson.id)) ? "compact-number done" : "compact-number"}>{completed.includes(String(lesson.id)) ? <CheckCircle2 size={17}/> : String(index+1).padStart(2,"0")}</span><span className="compact-copy"><b>{lesson.title}</b><small>{lesson.duration} · {lesson.skill}</small></span><ChevronLeft size={17}/></button>)}</div><button className="all-lessons-button" onClick={() => go("learn")}>مشاهده برنامه کامل آموزشی <ArrowRight size={15}/></button></section>
         </>}
         {tab === "learn" && <><div className="page-intro"><span className="section-kicker">مسیر آموزشی</span><h1>درس‌ها و تمرین‌ها</h1><p>درس‌ها را به ترتیب پیش ببر. بعد از هر آموزش، یک تمرین کوتاه داری.</p></div><section className="course-summary"><div><span className="level-chip">A1 · مقدماتی</span><h2>پایه‌های زبان انگلیسی</h2><p>از مکالمه‌های ابتدایی تا واژه‌ها و ساخت جمله‌های ساده را قدم‌به‌قدم یاد می‌گیری.</p><div className="course-progress-line"><i style={{width: progress + "%"}}/></div><small>{completed.length} از {lessons.length} درس تکمیل شده</small></div><div className="course-level">A1</div></section><div className="lesson-path">{lessons.map((lesson,index)=>{const done=completed.includes(String(lesson.id));const locked=index>0&&!lessons.slice(0,index).every(previous=>completed.includes(String(previous.id)));return <article className="path-item" key={lesson.id}><div className="path-rail"><span className={done?"path-dot done": "path-dot"}>{done?<CheckCircle2 size={17}/>:index+1}</span>{index!==lessons.length-1&&<i/>}</div><div className="path-card"><div className="path-card-main"><div><span className="path-unit">{lesson.unit}</span><h3>{lesson.title}</h3><p>{lesson.description}</p><div className="lesson-details"><span><Clock3 size={13}/>{lesson.duration}</span><span><BookOpen size={13}/>{lesson.skill}</span></div></div><button disabled={locked} className={done?"secondary-button":"small-primary"} onClick={()=>openLesson(lesson.id)}>{done?"مرور درس":locked?"قفل‌شده":"شروع"}{locked?<LockKeyhole size={14}/>:<ChevronLeft size={15}/>}</button></div></div></article>})}</div></>}
+        {tab === "library" && <ContentLibrary />}
         {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
         {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار هوشمند</h1><p>قرار است در مسیر یادگیری به پرسش‌هایت پاسخ دهد و تمرین پیشنهاد کند.</p></div><section className="assistant-placeholder"><div className="assistant-symbol"><MessageCircle size={30}/></div><span className="coming-label">در حال آماده‌سازی</span><h2>دستیار هنوز به مدل هوش مصنوعی متصل نشده است.</h2><p>نمی‌خواهیم وانمود کنیم پاسخ‌های این بخش از AI می‌آیند. اتصال امن به سرویس هوش مصنوعی در مرحله فنی بعدی انجام می‌شود.</p><button className="primary-button" onClick={()=>go("learn")}>فعلاً ادامه یادگیری <ArrowRight size={16}/></button></section></>}
         {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><p className="vip-price-note">قیمت ویژه در مقایسه با قیمت اصلی اشتراک محاسبه شده است.</p><button className="vip-activate-button" onClick={()=>setNotice("درگاه پرداخت هنوز به LIR9 متصل نشده است؛ فعلاً امکان خرید واقعی وجود ندارد.")}>فعال‌سازی اشتراک VIP <Crown size={17}/></button><span className="vip-secure-note"><ShieldCheck size={14}/> پرداخت آنلاین پس از راه‌اندازی درگاه فعال می‌شود.</span></article></section>}
