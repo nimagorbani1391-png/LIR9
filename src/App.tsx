@@ -261,7 +261,25 @@ const vocabulary = [
   { word: "Introduce", phonetic: "/ˌɪntrəˈduːs/", meaning: "معرفی کردن", example: "Let me introduce myself.", lesson: "معرفی نام" },
   { word: "Friendly", phonetic: "/ˈfrendli/", meaning: "دوستانه، صمیمی", example: "She is very friendly.", lesson: "سلام و احوال‌پرسی" },
   { word: "Improve", phonetic: "/ɪmˈpruːv/", meaning: "بهبود دادن", example: "I want to improve my English.", lesson: "مرور" },
-  { word: "From", phonetic: "/frʌm/", meaning: "از، اهلِ", example: "I'm from Iran.", lesson: "معرفی محل زندگی" }
+  { word: "From", phonetic: "/frʌm/", meaning: "از، اهلِ", example: "I'm from Iran.", lesson: "معرفی محل زندگی" },
+  { word: "One", phonetic: "/wʌn/", meaning: "یک", example: "I have one book.", lesson: "اعداد ۱ تا ۲۰" },
+  { word: "Five", phonetic: "/faɪv/", meaning: "پنج", example: "I have five books.", lesson: "اعداد ۱ تا ۲۰" },
+  { word: "Ten", phonetic: "/ten/", meaning: "ده", example: "Ten students are here.", lesson: "اعداد ۱ تا ۲۰" },
+  { word: "Twelve", phonetic: "/twelv/", meaning: "دوازده", example: "I am twelve.", lesson: "اعداد ۱ تا ۲۰" },
+  { word: "Mother", phonetic: "/ˈmʌðər/", meaning: "مادر", example: "This is my mother.", lesson: "اعضای خانواده" },
+  { word: "Father", phonetic: "/ˈfɑːðər/", meaning: "پدر", example: "He is my father.", lesson: "اعضای خانواده" },
+  { word: "Sister", phonetic: "/ˈsɪstər/", meaning: "خواهر", example: "She is my sister.", lesson: "اعضای خانواده" },
+  { word: "Teacher", phonetic: "/ˈtiːtʃər/", meaning: "معلم", example: "She is a teacher.", lesson: "شغل‌ها و معرفی افراد" },
+  { word: "Doctor", phonetic: "/ˈdɑːktər/", meaning: "پزشک", example: "My mother is a doctor.", lesson: "شغل‌ها و معرفی افراد" },
+  { word: "Student", phonetic: "/ˈstuːdənt/", meaning: "دانش‌آموز / دانشجو", example: "I'm a student.", lesson: "شغل‌ها و معرفی افراد" },
+  { word: "A book", phonetic: "/ə bʊk/", meaning: "یک کتاب", example: "It is a book.", lesson: "حروف تعریف a و an" },
+  { word: "An apple", phonetic: "/ən ˈæpəl/", meaning: "یک سیب", example: "It is an apple.", lesson: "حروف تعریف a و an" },
+  { word: "An egg", phonetic: "/ən eɡ/", meaning: "یک تخم‌مرغ", example: "This is an egg.", lesson: "حروف تعریف a و an" },
+  { word: "This", phonetic: "/ðɪs/", meaning: "این (نزدیک)", example: "This is my phone.", lesson: "اشاره به چیزها: this و that" },
+  { word: "That", phonetic: "/ðæt/", meaning: "آن (دور)", example: "That is a bus.", lesson: "اشاره به چیزها: this و that" },
+  { word: "Book", phonetic: "/bʊk/", meaning: "کتاب", example: "I have two books.", lesson: "جمع بستن اسم‌ها" },
+  { word: "Books", phonetic: "/bʊks/", meaning: "کتاب‌ها", example: "I have three books.", lesson: "جمع بستن اسم‌ها" },
+  { word: "Two cats", phonetic: "/tuː kæts/", meaning: "دو گربه", example: "I have two cats.", lesson: "جمع بستن اسم‌ها" }
 ];
 const readStore = (key: string, fallback: string[]) => { try { const raw = localStorage.getItem(key); if (!raw) return fallback; const value: unknown = JSON.parse(raw); return Array.isArray(value) && value.every(item => typeof item === "string") ? value : fallback; } catch { return fallback; } };
 const writeStore = (key: string, value: string[]) => { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; } };
