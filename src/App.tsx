@@ -523,6 +523,7 @@ function App() {
   const [authLoading, setAuthLoading] = useState(true);
   const [signOutBusy, setSignOutBusy] = useState(false);
   const [learningStateReady, setLearningStateReady] = useState(false);
+  const [learningStateError, setLearningStateError] = useState("");
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
@@ -596,6 +597,108 @@ function App() {
     });
     return () => { active = false; subscription.unsubscribe(); };
   }, []);
+
+  useEffect(() => {
+    const userId = authSession?.user.id;
+    if (!userId) {
+      setLearningStateReady(false);
+      return;
+    }
+    let active = true;
+    setLearningStateReady(false);
+    setLearningStateError("");
+    const readNumber = (key: string) => {
+      try {
+        const value = Number(localStorage.getItem(key) || 0);
+        return Number.isFinite(value) && value >= 0 ? value : 0;
+      } catch { return 0; }
+    };
+    const readBooleanMap = (key: string): Record<string, boolean> => {
+      try {
+        const value: unknown = JSON.parse(localStorage.getItem(key) || "{}");
+        if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+        return Object.fromEntries(Object.entries(value).filter(([, item]) => typeof item === "boolean")) as Record<string, boolean>;
+      } catch { return {}; }
+    };
+    const readResult = (key: string): { score: number; date: string } | null => {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || "null");
+        return value && Number.isFinite(value.score) && typeof value.date === "string" ? value : null;
+      } catch { return null; }
+    };
+    const latestResult = (
+      first: { score: number; date: string } | null,
+      second: { score: number; date: string } | null
+    ) => {
+      if (!first) return second;
+      if (!second) return first;
+      return new Date(first.date).getTime() >= new Date(second.date).getTime() ? first : second;
+    };
+    const sync = async () => {
+      try {
+        const cloud = await loadLearningState();
+        if (!active) return;
+        const owner = localStorage.getItem("lir9-learning-owner");
+        const canImportLocal = !owner || owner === userId;
+        const local: LearningState = canImportLocal ? {
+          completedLessons: readStore("lir9-completed", []),
+          rewardedLessons: readStore("lir9-rewarded", []),
+          lirBalance: readNumber("lir9-balance"),
+          savedWords: readStore("lir9-saved", ["Hello"]),
+          listeningCompleted: readStore("lir9-listening-completed", []),
+          listeningScores: readBooleanMap("lir9-listening-scores"),
+          placementResult: readResult("lir9-placement-result"),
+        } : {};
+        const merged: LearningState = {
+          completedLessons: [...new Set([...(local.completedLessons || []), ...(cloud?.completedLessons || [])])].filter(id => lessons.some(lesson => String(lesson.id) === id)),
+          rewardedLessons: [...new Set([...(local.rewardedLessons || []), ...(cloud?.rewardedLessons || [])])],
+          lirBalance: Math.max(local.lirBalance || 0, cloud?.lirBalance || 0),
+          savedWords: [...new Set([...(local.savedWords || []), ...(cloud?.savedWords || [])])].filter(word => vocabulary.some(item => item.word === word)),
+          listeningCompleted: [...new Set([...(local.listeningCompleted || []), ...(cloud?.listeningCompleted || [])])],
+          listeningScores: { ...(local.listeningScores || {}), ...(cloud?.listeningScores || {}) },
+          placementResult: latestResult(local.placementResult || null, cloud?.placementResult || null),
+        };
+        setCompleted(merged.completedLessons || []);
+        setRewarded(merged.rewardedLessons || []);
+        setLirBalance(merged.lirBalance || 0);
+        setSaved(merged.savedWords || ["Hello"]);
+        localStorage.setItem("lir9-completed", JSON.stringify(merged.completedLessons || []));
+        localStorage.setItem("lir9-rewarded", JSON.stringify(merged.rewardedLessons || []));
+        localStorage.setItem("lir9-balance", String(merged.lirBalance || 0));
+        localStorage.setItem("lir9-saved", JSON.stringify(merged.savedWords || ["Hello"]));
+        localStorage.setItem("lir9-listening-completed", JSON.stringify(merged.listeningCompleted || []));
+        localStorage.setItem("lir9-listening-scores", JSON.stringify(merged.listeningScores || {}));
+        if (merged.placementResult) localStorage.setItem("lir9-placement-result", JSON.stringify(merged.placementResult));
+        await saveLearningState(merged);
+        if (!active) return;
+        localStorage.setItem("lir9-learning-owner", userId);
+        setLearningStateReady(true);
+      } catch (error) {
+        console.error("Learning state sync failed:", error);
+        if (active) setLearningStateError("همگام‌سازی پیشرفت آموزشی انجام نشد. اتصال اینترنت و تنظیمات دیتابیس را بررسی کن.");
+      }
+    };
+    void sync();
+    return () => { active = false; };
+  }, [authSession?.user.id]);
+
+  useEffect(() => {
+    if (!authSession || !learningStateReady) return;
+    const snapshot: LearningState = {
+      completedLessons: completed,
+      rewardedLessons: rewarded,
+      lirBalance,
+      savedWords: saved,
+    };
+    const timer = window.setTimeout(() => {
+      saveLearningState(snapshot).catch(error => {
+        console.error("Could not save learning state:", error);
+        setNotice("ذخیره پیشرفت در فضای ابری انجام نشد؛ دوباره تلاش کن.");
+      });
+    }, 650);
+    return () => window.clearTimeout(timer);
+  }, [authSession?.user.id, learningStateReady, completed, rewarded, lirBalance, saved]);
+
   const handleSignOut = async () => {
     if (!supabase || signOutBusy) return;
     const confirmed = window.confirm("آیا مطمئنی می‌خواهی از حساب کاربری LIR9 خارج شوی؟");
@@ -697,6 +800,7 @@ function App() {
   const advanceVoicePractice = () => { if (!active) return; completeLesson(); };
   if (authLoading) return <main className="auth-screen" dir="rtl"><div className="auth-loading"><span className="auth-brand-mark">L</span><b>LIR9</b><p>در حال بررسی حساب کاربری…</p></div></main>;
   if (!authSession) return <AuthScreen />;
+  if (!learningStateReady && learningStateError) return <main className="auth-screen" dir="rtl"><div className="auth-loading"><span className="auth-brand-mark">L</span><b>LIR9</b><p>{learningStateError}</p><button className="auth-submit" onClick={() => window.location.reload()}>تلاش دوباره</button></div></main>;
   if (!learningStateReady) return <main className="auth-screen" dir="rtl"><div className="auth-loading"><span className="auth-brand-mark">L</span><b>LIR9</b><p>در حال همگام‌سازی امن پیشرفت آموزشی…</p></div></main>;
   return <div className="app-shell" dir="rtl">
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
