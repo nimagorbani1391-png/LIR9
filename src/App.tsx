@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "./lib/supabase";
+import { loadLearningState, saveLearningState, type LearningState } from "./lib/learningState";
 import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/curriculum";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
@@ -521,6 +522,7 @@ function App() {
   const [authSession, setAuthSession] = useState<import("@supabase/supabase-js").Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [signOutBusy, setSignOutBusy] = useState(false);
+  const [learningStateReady, setLearningStateReady] = useState(false);
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
@@ -695,6 +697,7 @@ function App() {
   const advanceVoicePractice = () => { if (!active) return; completeLesson(); };
   if (authLoading) return <main className="auth-screen" dir="rtl"><div className="auth-loading"><span className="auth-brand-mark">L</span><b>LIR9</b><p>در حال بررسی حساب کاربری…</p></div></main>;
   if (!authSession) return <AuthScreen />;
+  if (!learningStateReady) return <main className="auth-screen" dir="rtl"><div className="auth-loading"><span className="auth-brand-mark">L</span><b>LIR9</b><p>در حال همگام‌سازی امن پیشرفت آموزشی…</p></div></main>;
   return <div className="app-shell" dir="rtl">
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
       <div className="brand"><div><b>LIR9</b><small>یادگیری، قدم‌به‌قدم</small></div><button className="icon-button mobile-close" onClick={() => setMenuOpen(false)} aria-label="بستن منو"><X/></button></div>
