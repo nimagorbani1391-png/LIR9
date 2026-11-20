@@ -1,0 +1,26 @@
+{
+  "title": "At the Market",
+  "introduction": "Read a simple shopping conversation and notice how to ask about prices.",
+  "paragraphs": [
+    "Mia is at the market. She wants some apples and oranges. She asks the seller, 'How much are the apples?' The seller says, 'They are three euros a kilo.'",
+    "Mia buys one kilo of apples and two oranges. She also wants a bottle of water. She says, 'Can I have a bottle of water, please?' The seller smiles and gives her the things."
+  ],
+  "vocabulary": [
+    {
+      "word": "market",
+      "meaning": "بازار"
+    },
+    {
+      "word": "seller",
+      "meaning": "فروشنده"
+    },
+    {
+      "word": "a kilo",
+      "meaning": "یک کیلو"
+    },
+    {
+      "word": "How much are…?",
+      "meaning": "قیمت ... چقدر است؟"
+    }
+  ]
+}
