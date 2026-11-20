@@ -53,5 +53,41 @@
     "level": "A1 · مقدماتی",
     "minutes": 3,
     "file": "content/library/articles/dialogue-new-friend.json"
+  },
+  {
+    "id": "a1-daily-routine",
+    "title": "A Day in My Life",
+    "summary": "متنی ساده درباره ساعت بیدار شدن، مدرسه و برنامه روزانه.",
+    "category": "مقاله",
+    "level": "A1 · مقدماتی",
+    "minutes": 4,
+    "file": "content/library/articles/a1-daily-routine.json"
+  },
+  {
+    "id": "a1-my-family",
+    "title": "My Family",
+    "summary": "معرفی اعضای خانواده و شغل آن‌ها با جمله‌های پایه.",
+    "category": "مقاله",
+    "level": "A1 · مقدماتی",
+    "minutes": 4,
+    "file": "content/library/articles/a1-my-family.json"
+  },
+  {
+    "id": "a1-in-the-city",
+    "title": "Around My Town",
+    "summary": "خواندن درباره مکان‌های شهر و پرسیدن مسیر ساده.",
+    "category": "مقاله",
+    "level": "A1 · مقدماتی",
+    "minutes": 4,
+    "file": "content/library/articles/a1-in-the-city.json"
+  },
+  {
+    "id": "a1-at-the-market",
+    "title": "At the Market",
+    "summary": "متن کوتاه خرید میوه و پرسیدن قیمت در بازار.",
+    "category": "مقاله",
+    "level": "A1 · مقدماتی",
+    "minutes": 4,
+    "file": "content/library/articles/a1-at-the-market.json"
   }
 ]
