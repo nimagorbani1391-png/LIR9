@@ -647,3 +647,45 @@ button:focus-visible,input:focus-visible{outline-offset:4px}
  .overview-card p{font-size:7px}.next-card{padding:13px}
  .path-card-main{gap:5px}.path-card{padding:8px}
 }
+
+
+/* Celebration state and unified assessment finish */
+.lesson-complete{
+  position:relative;isolation:isolate;overflow:hidden;min-height:390px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:13px;text-align:center;padding:38px 22px;border:1px solid #80683c;
+  border-radius:22px;background:
+    radial-gradient(circle at 50% 12%,rgba(226,190,103,.22),transparent 42%),
+    linear-gradient(145deg,#292719,#1b1e18 68%);
+  box-shadow:0 22px 65px #0007,inset 0 1px #fff1;
+  animation:lessonCelebrate .65s cubic-bezier(.2,.8,.2,1) both;
+}
+.lesson-complete h3{margin:2px 0;font-size:clamp(23px,4vw,32px);line-height:1.55;color:#f5d98e}
+.lesson-complete>p{margin:0;color:#d0d0c4;font-size:13px;line-height:2}
+.completion-medal{
+  width:82px;height:82px;display:grid;place-items:center;border-radius:26px;
+  color:#241d0d;background:linear-gradient(145deg,#ffe7a0,#c69b42);
+  box-shadow:0 0 0 8px #d8b45d16,0 13px 35px #d8b45d38;
+  animation:medalPop .8s .12s both;
+}
+.completion-kicker{font-size:10px;font-weight:800;letter-spacing:3px;color:#d9b967}
+.completion-reward{
+  display:flex;align-items:center;gap:9px;padding:11px 17px;margin:5px 0 7px;
+  border:1px solid #756039;border-radius:13px;background:#d8b45d12;color:#f0d58b;
+}
+.completion-reward b{font-size:17px}.completion-reward span{font-size:11px;color:#c9c4b2}
+.completion-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.completion-confetti i{position:absolute;top:-18px;width:7px;height:15px;border-radius:3px;background:#e6c46e;opacity:0;animation:confettiFall 2.4s ease-in infinite}
+.completion-confetti i:nth-child(1){left:12%;animation-delay:.05s;transform:rotate(22deg)}
+.completion-confetti i:nth-child(2){left:25%;animation-delay:.45s;background:#f4e4b2}
+.completion-confetti i:nth-child(3){left:38%;animation-delay:.2s;transform:rotate(55deg)}
+.completion-confetti i:nth-child(4){left:51%;animation-delay:.7s;background:#9c8752}
+.completion-confetti i:nth-child(5){left:64%;animation-delay:.3s;transform:rotate(35deg)}
+.completion-confetti i:nth-child(6){left:77%;animation-delay:.85s;background:#f4e4b2}
+.completion-confetti i:nth-child(7){left:88%;animation-delay:.55s;transform:rotate(65deg)}
+.completion-confetti i:nth-child(8){left:5%;animation-delay:1s;background:#9c8752}
+@keyframes lessonCelebrate{from{opacity:0;transform:translateY(15px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes medalPop{0%{transform:scale(.55) rotate(-16deg);opacity:0}70%{transform:scale(1.12) rotate(5deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes confettiFall{0%{transform:translateY(-15px) rotate(0);opacity:0}12%{opacity:.9}100%{transform:translateY(440px) rotate(300deg);opacity:0}}
+@media(max-width:720px){.lesson-complete{min-height:340px;padding:27px 16px;border-radius:16px}.completion-medal{width:68px;height:68px;border-radius:21px}.lesson-complete>p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.lesson-complete,.completion-medal,.completion-confetti i{animation:none!important}}
