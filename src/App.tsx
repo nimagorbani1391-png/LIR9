@@ -16,6 +16,7 @@ type SpeechRecognitionLike = {
 };
 type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
 const normalizeSpeech = (value: string) => value.toLowerCase().replace(/[’']/g, "").replace(/…/g, "").replace(/\bi am\b/g, "im").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+const createOptionOrders = (content: Record<number, LessonContent>, lessonId: number) => Object.fromEntries((content[lessonId]?.questions ?? []).map((question, questionIndex) => { const order = question.options.map((_, index) => index); for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; } return [questionIndex, order]; })) as Record<number, number[]>;
 type Lesson = { id: number; unit: string; title: string; description: string; duration: string; skill: string; goal: string; explanation: string; takeaway: string; keyWords: { word: string; meaning: string }[]; example: string; translation: string; question: string; choices: string[]; correct: number; answerWhy: string; };
 const lessons: Lesson[] = [
   { id: 1, unit: "واحد ۱ · شروع مکالمه", title: "سلام و احوال‌پرسی", description: "یاد بگیر مکالمه را طبیعی شروع کنی.", goal: "بتوانی مکالمه‌ای کوتاه را با سلام و پرسیدن حال طرف مقابل آغاز کنی.", takeaway: "Hi در گفت‌وگوی دوستانه رایج است؛ Hello کمی خنثی‌تر و رسمی‌تر است. برای پاسخ می‌توانی بگویی: I'm fine, thanks.", keyWords: [{"word":"Hello","meaning":"سلام"},{"word":"How are you?","meaning":"حالت چطور است؟"},{"word":"I'm fine","meaning":"من خوبم"}], duration: "۸ دقیقه", skill: "مکالمه", explanation: "برای سلام کردن در موقعیت‌های روزمره از Hello یا Hi استفاده می‌کنیم. برای پرسیدن حال طرف مقابل می‌گوییم: How are you?", example: "Hi! How are you?", translation: "سلام! حالت چطوره؟", question: "کدام عبارت برای پرسیدن حال یک نفر است؟", choices: ["How are you?", "What is your name?", "Where are you from?"], answerWhy: "How are you? برای پرسیدن حال مخاطب استفاده می‌شود. What is your name? نام را می‌پرسد و Where are you from? درباره محل یا کشور مبدأ است.", correct: 0 },
@@ -132,10 +133,11 @@ function App() {
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
-  const [step, setStep] = useState<"learn" | "voice" | "typing" | "quiz" | "result">("learn");
+  const [step, setStep] = useState<"learn" | "quiz" | "result" | "typing" | "voice" | "complete">("learn");
   const [choice, setChoice] = useState<number | null>(null);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+  const [quizOptionOrders, setQuizOptionOrders] = useState<Record<number, number[]>>({});
   const [voiceIndex, setVoiceIndex] = useState(0);
   const [voiceStatus, setVoiceStatus] = useState<"idle" | "listening" | "matched" | "retry" | "unsupported" | "error">("idle");
   const [voiceTranscript, setVoiceTranscript] = useState("");
@@ -162,8 +164,8 @@ function App() {
     { id: "assistant" as Tab, label: "دستیار", icon: MessageCircle }
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
-  const openLesson = (id: number) => { const index = lessons.findIndex(lesson => lesson.id === id); if (index < 0) return; const unlocked = lessons.slice(0, index).every(lesson => completed.includes(String(lesson.id))); if (!unlocked) { setNotice("برای باز کردن این درس، ابتدا درس‌های قبلی را کامل کن."); setMenuOpen(false); return; } setActiveLesson(id); setStep("learn"); setChoice(null); setQuizIndex(0); setQuizAnswers({}); setMenuOpen(false); };
-  const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizAnswers({}); setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); };
+  const openLesson = (id: number) => { const index = lessons.findIndex(lesson => lesson.id === id); if (index < 0) return; const unlocked = lessons.slice(0, index).every(lesson => completed.includes(String(lesson.id))); if (!unlocked) { setNotice("برای باز کردن این درس، ابتدا درس‌های قبلی را کامل کن."); setMenuOpen(false); return; } setActiveLesson(id); setStep("learn"); setChoice(null); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, id)); setMenuOpen(false); };
+  const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders({}); setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); };
   useEffect(() => {
     if (!activeLesson) return;
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") { setActiveLesson(null); setChoice(null); setStep("learn"); } };
@@ -196,7 +198,7 @@ function App() {
     } else {
       setNotice(progressSaved ? "این درس قبلاً تکمیل شده است؛ برای مرور دوباره امتیاز جدیدی دریافت نمی‌کنی." : "ذخیره پیشرفت در این مرورگر ممکن نشد.");
     }
-    setStep("result");
+    setStep("complete");
   };
   const toggleWord = (word: string) => {
     const updated = saved.includes(word) ? saved.filter(w => w !== word) : [...saved, word];
@@ -243,17 +245,15 @@ function App() {
   };
   const beginVoicePractice = () => { setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); setStep("voice"); };
   const beginTypingPractice = () => { setVoiceIndex(0); setTypedAnswer(""); setTypingStatus("idle"); setStep("typing"); };
+  const beginQuiz = () => { if (!active) return; setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, active.id)); setChoice(null); setStep("quiz"); };
   const checkTypedAnswer = () => {
     if (!active) return;
     const expected = normalizeSpeech(active.keyWords[voiceIndex]?.word || "");
     const actual = normalizeSpeech(typedAnswer);
     setTypingStatus(actual && actual === expected ? "matched" : "retry");
   };
-  const advanceVoicePractice = () => {
-    if (!active) return;
-    if (voiceIndex < active.keyWords.length - 1) { setVoiceIndex(index => index + 1); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); }
-    else { setQuizIndex(0); setQuizAnswers({}); setChoice(null); setStep("quiz"); }
-  };
+  const advanceTypingPractice = () => { if (!active) return; if (voiceIndex < active.keyWords.length - 1) { setVoiceIndex(index => index + 1); setTypedAnswer(""); setTypingStatus("idle"); } else { setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setStep("voice"); } };
+  const advanceVoicePractice = () => { if (!active) return; if (voiceIndex < active.keyWords.length - 1) { setVoiceIndex(index => index + 1); setVoiceStatus("idle"); setVoiceTranscript(""); } else { completeLesson(); } };
   return <div className="app-shell" dir="rtl">
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
       <div className="brand"><img className="brand-logo-image" src="/LIR9/lir9-brand.jpg" alt="نشان LIR9"/><div><b>LIR9</b><small>یادگیری، قدم‌به‌قدم</small></div><button className="icon-button mobile-close" onClick={() => setMenuOpen(false)} aria-label="بستن منو"><X/></button></div>
