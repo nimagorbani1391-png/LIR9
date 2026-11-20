@@ -615,7 +615,7 @@ type LirtoMessage = { role: "assistant" | "user"; text: string };
 
 function LirtoAssistant() {
   const [messages, setMessages] = useState<LirtoMessage[]>([
-    { role: "assistant", text: "سلام! من LIRTO هستم؛ دستیار هوشمند LIR9. همیشه کنار تو. ✨\\n\\nمی‌تونم در یادگیری زبان انگلیسی، گرامر، واژگان و مکالمه کمکت کنم." }
+    { role: "assistant", text: "درود! من LIRTO، دستیار آموزشی LIR9 هستم. ✨\\n\\nاینجا می‌تونیم یادگیری زبان انگلیسی رو هدفمند و قدم‌به‌قدم پیش ببریم؛ از گرامر و واژگان تا درک مطلب، نوشتن و مکالمه.\\n\\nبرای شروع، موضوع یا پرسشت رو بنویس تا با هم تمرین کنیم." }
   ]);
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
