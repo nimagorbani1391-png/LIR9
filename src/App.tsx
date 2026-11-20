@@ -481,7 +481,7 @@ function App() {
   const nav = [
     { id: "home" as Tab, label: "خانه", icon: LayoutDashboard },
     { id: "learn" as Tab, label: "درس‌ها", icon: BookOpen },
-    { id: "vocabulary" as Tab, label: "لغت‌های من", icon: Library },
+    { id: "vocabulary" as Tab, label: "لغت‌های من", icon: Languages },
     { id: "library" as Tab, label: "کتابخانه محتوا", icon: Library },
     { id: "assistant" as Tab, label: "دستیار", icon: MessageCircle },
     { id: "certificates" as Tab, label: "مدارک من", icon: GraduationCap },
