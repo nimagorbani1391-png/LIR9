@@ -1296,3 +1296,79 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
     box-shadow:0 5px 16px #0004;
   }
 }
+
+
+/* LIR9 learning redesign: clear curriculum hierarchy and readable lesson content */
+.curriculum-units{display:grid;gap:22px;margin-top:22px}
+.curriculum-unit{overflow:hidden;border:1px solid #343b30;border-radius:20px;background:linear-gradient(150deg,#1d221b,#171b15);box-shadow:0 12px 30px #0002}
+.curriculum-unit-head{display:grid;grid-template-columns:48px minmax(0,1fr) auto;align-items:center;gap:15px;padding:20px 22px;border-bottom:1px solid #343b30;background:linear-gradient(110deg,#28271e,#1d211a)}
+.curriculum-unit-number{display:grid;place-items:center;width:46px;height:46px;border:1px solid #78613a;border-radius:14px;background:#d8b45d12;color:#f0d58b;font-size:15px;font-weight:850;font-variant-numeric:tabular-nums}
+.curriculum-unit-copy>span{font-size:11px;font-weight:800;color:#d8b45d}
+.curriculum-unit-copy h2{margin:4px 0;font-size:17px;color:#f2eee2}
+.curriculum-unit-copy p{margin:0;color:#a8ad9f;font-size:12px;line-height:1.8}
+.curriculum-unit-progress{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px;padding:9px 11px;border:1px solid #3b4335;border-radius:12px;background:#171c16}
+.curriculum-unit-progress b{font-size:15px;color:#e8d39b;font-variant-numeric:tabular-nums}
+.curriculum-unit-progress span{font-size:10px;color:#a8ad9f}
+.curriculum-lesson-list{display:grid;padding:8px 18px}
+.curriculum-lesson{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #30372d}
+.curriculum-lesson:last-child{border-bottom:0}
+.curriculum-lesson-index{display:grid;place-items:center;width:38px;height:38px;border:1px solid #424a3b;border-radius:12px;background:#20261e;color:#d9c58f;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.curriculum-lesson.done .curriculum-lesson-index{border-color:#647a4e;background:#283523;color:#b8d69c}
+.curriculum-lesson-copy h3{margin:0 0 4px;font-size:14px;line-height:1.8;color:#f1eee5}
+.curriculum-lesson-copy p{margin:0 0 8px;font-size:12px;line-height:1.9;color:#b5b9ac}
+.curriculum-lesson .lesson-details{display:flex;flex-wrap:wrap;gap:12px;color:#a5aa9b;font-size:11px}
+.curriculum-lesson>button{white-space:nowrap;min-width:104px}
+.curriculum-lesson>button:disabled{opacity:.55;cursor:not-allowed}
+.lesson-dialog{width:min(920px,100%);max-height:min(92dvh,1080px)}
+.lesson-body{max-width:820px}
+.lesson-flow{gap:18px}
+.lesson-phase{padding:20px}
+.lesson-phase .flow-section p,.lesson-phase .teaching-step p{font-size:14px;line-height:2.15}
+.lesson-phase .teaching-step b{font-size:14px}
+.lesson-goal p{font-size:14px;line-height:2.1}
+.lesson-phase-head b{font-size:15px}
+.lesson-phase-head small{font-size:12px;line-height:1.8}
+.lesson-section-label,.flow-label{font-size:12px}
+.lesson-dialog-head h2{font-size:23px}
+.lesson-steps span{font-size:11px}
+@media(max-width:720px){
+  .curriculum-units{gap:15px;margin-top:16px}
+  .curriculum-unit{border-radius:16px}
+  .curriculum-unit-head{grid-template-columns:40px minmax(0,1fr) auto;gap:10px;padding:14px 12px}
+  .curriculum-unit-number{width:38px;height:38px;border-radius:11px;font-size:13px}
+  .curriculum-unit-copy>span{font-size:10px}
+  .curriculum-unit-copy h2{font-size:14px}
+  .curriculum-unit-copy p{font-size:11px}
+  .curriculum-unit-progress{min-width:48px;padding:7px}
+  .curriculum-unit-progress b{font-size:13px}
+  .curriculum-unit-progress span{font-size:9px}
+  .curriculum-lesson-list{padding:4px 11px}
+  .curriculum-lesson{grid-template-columns:34px minmax(0,1fr);gap:10px;padding:13px 0}
+  .curriculum-lesson-index{width:32px;height:32px;border-radius:10px;font-size:11px}
+  .curriculum-lesson-copy h3{font-size:13px}
+  .curriculum-lesson-copy p{font-size:12px;line-height:1.95}
+  .curriculum-lesson .lesson-details{font-size:10px;gap:9px}
+  .curriculum-lesson>button{grid-column:2;justify-self:start;min-width:94px;min-height:36px;margin-top:1px}
+  .lesson-dialog{width:100%;max-height:94dvh;padding:16px 13px;border-radius:18px}
+  .lesson-dialog-head{padding-bottom:12px}
+  .lesson-dialog-head h2{font-size:19px}
+  .lesson-steps{gap:6px;margin:12px 0 16px;padding:9px 7px}
+  .lesson-steps span{font-size:10px;white-space:nowrap}
+  .lesson-steps span.current{padding:6px 8px}
+  .lesson-body{max-width:100%;padding-bottom:18px}
+  .lesson-flow{gap:13px}
+  .lesson-phase{padding:13px;border-radius:14px}
+  .lesson-phase .flow-section{padding:13px!important}
+  .lesson-phase .flow-section p,.lesson-phase .teaching-step p{font-size:14px!important;line-height:2.15!important}
+  .lesson-phase .teaching-step b{font-size:14px!important}
+  .lesson-phase-head b{font-size:14px}
+  .lesson-phase-head small{font-size:11px;line-height:1.9}
+  .lesson-goal{padding:13px}
+  .lesson-goal p{font-size:14px!important;line-height:2.1}
+  .lesson-section-label,.flow-label{font-size:12px}
+  .lesson-phase .lesson-vocabulary button{min-height:58px;padding:10px}
+  .lesson-phase .lesson-vocabulary button span{font-size:14px}
+  .lesson-phase .lesson-vocabulary button small{font-size:12px}
+  .lesson-phase .dialogue-bubble strong{font-size:14px}
+  .lesson-phase .dialogue-bubble small{font-size:12px}
+}
