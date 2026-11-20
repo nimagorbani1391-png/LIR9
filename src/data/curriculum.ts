@@ -51,7 +51,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "برای پرسیدن حال دوستت کدام عبارت درست است؟", options: ["How are you?", "What is your name?", "Where are you from?"], correct: 0, explanation: "How are you? درباره حال مخاطب سؤال می‌کند. دو گزینه دیگر به‌ترتیب نام و محل مبدأ را می‌پرسند." },
       { prompt: "کدام پاسخ برای «How are you?» طبیعی است؟", options: ["I'm fine, thanks.", "My name is Ali.", "I'm from Iran."], correct: 0, explanation: "I'm fine, thanks یعنی «خوبم، ممنون» و پاسخ مستقیم به پرسش حال است." },
-      { prompt: "کدام گزینه لحن دوستانه‌تری برای سلام دارد؟", options: ["Hi!", "Goodbye!", "Sorry!"], correct: 0, explanation: "Hi! یک سلام کوتاه و دوستانه است؛ Goodbye برای خداحافظی و Sorry برای عذرخواهی است." }
+      { prompt: "کدام گزینه لحن دوستانه‌تری برای سلام دارد؟", options: ["Hi!", "Goodbye!", "Sorry!"], correct: 0, explanation: "Hi! یک سلام کوتاه و دوستانه است؛ Goodbye برای خداحافظی و Sorry برای عذرخواهی است." },
     {"prompt":"اگر دوستت بگوید How are you? کدام پاسخ مناسب است؟","options":["I'm good, thanks.","I'm from Iran.","My name is Ali."],"correct":0,"explanation":"I'm good, thanks پاسخ طبیعی به پرسش درباره حال است."},{"prompt":"برای خداحافظی کدام عبارت مناسب است؟","options":["Goodbye!","Hello!","Nice to meet you."],"correct":0,"explanation":"Goodbye برای خداحافظی است؛ Hello و Nice to meet you برای شروع یا آشنایی‌اند."}]
   },
   2: {
@@ -74,7 +74,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "کدام جمله کامل و درست است؟", options: ["My name Ali.", "My name is Ali.", "I name is Ali."], correct: 1, explanation: "ساختار درست My name is + نام است؛ فعل is نباید حذف شود." },
       { prompt: "شکل کوتاه I am کدام است؟", options: ["I'm", "Is", "My"], correct: 0, explanation: "I'm کوتاه‌شده I am است و برای معرفی خود استفاده می‌شود." },
-      { prompt: "برای گفتن «من هم از آشنایی با تو خوشحالم» چه می‌گویی؟", options: ["Nice to meet you, too.", "How are you?", "Good night."], correct: 0, explanation: "too در پایان این پاسخ معنی «هم» می‌دهد." }
+      { prompt: "برای گفتن «من هم از آشنایی با تو خوشحالم» چه می‌گویی؟", options: ["Nice to meet you, too.", "How are you?", "Good night."], correct: 0, explanation: "too در پایان این پاسخ معنی «هم» می‌دهد." },
     {"prompt":"جای خالی را کامل کن: ___ name is Mina.","options":["My","I","Me"],"correct":0,"explanation":"در ساختار My name is از صفت ملکی my پیش از name استفاده می‌کنیم."},{"prompt":"پس از معرفی، کدام عبارت مؤدبانه است؟","options":["Nice to meet you.","Where are you from?","How old are you?"],"correct":0,"explanation":"Nice to meet you برای ابراز خوشحالی از آشنایی استفاده می‌شود."}]
   },
   3: {
@@ -96,7 +96,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "جای خالی را کامل کن: I'm ___ Iran.", options: ["from", "at", "are"], correct: 0, explanation: "برای بیان مبدأ از from استفاده می‌کنیم: I'm from Iran." },
       { prompt: "معنی Where are you from? چیست؟", options: ["چند سالته؟", "اهل کجا هستی؟", "حالت چطوره؟"], correct: 1, explanation: "Where درباره مکان می‌پرسد و Where are you from? یعنی اهل کجا هستی؟" },
-      { prompt: "کدام جمله می‌گوید «او (مذکر) اهل اسپانیاست»؟", options: ["He is from Spain.", "He are from Spain.", "He from Spain."], correct: 0, explanation: "برای he در زمان حال ساده فعل be به شکل is می‌آید." }
+      { prompt: "کدام جمله می‌گوید «او (مذکر) اهل اسپانیاست»؟", options: ["He is from Spain.", "He are from Spain.", "He from Spain."], correct: 0, explanation: "برای he در زمان حال ساده فعل be به شکل is می‌آید." },
     {"prompt":"اگر کسی بپرسد Where are you from? درباره چه چیزی می‌پرسد؟","options":["محل مبدأ یا زادگاه","مکان فعلی","سن"],"correct":0,"explanation":"Where are you from? درباره اهل کجا بودن می‌پرسد."},{"prompt":"کدام جمله می‌گوید «من الان در خانه هستم»؟","options":["I'm at home.","I'm from home.","I home am."],"correct":0,"explanation":"at home مکان حضور را نشان می‌دهد؛ from home مبدأ را بیان می‌کند."}]
   },
   4: {
@@ -119,7 +119,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "برای اشاره به یک مرد از کدام ضمیر استفاده می‌کنیم؟", options: ["She", "He", "They"], correct: 1, explanation: "He ضمیر سوم‌شخص مفرد برای مرد یا پسر است." },
       { prompt: "جای خالی را کامل کن: They ___ my friends.", options: ["am", "is", "are"], correct: 2, explanation: "They با فعل are می‌آید: They are my friends." },
-      { prompt: "کدام گزینه برای «ما» است؟", options: ["We", "You", "It"], correct: 0, explanation: "We یعنی ما؛ You یعنی تو/شما و It برای یک شیء یا حیوان است." }
+      { prompt: "کدام گزینه برای «ما» است؟", options: ["We", "You", "It"], correct: 0, explanation: "We یعنی ما؛ You یعنی تو/شما و It برای یک شیء یا حیوان است." },
     {"prompt":"جای خالی را کامل کن: My parents ___ at home.","options":["are","is","am"],"correct":0,"explanation":"My parents جمع است و با are می‌آید."},{"prompt":"برای یک گربه در جمله ساده از کدام ضمیر استفاده می‌کنیم؟","options":["It","He","We"],"correct":0,"explanation":"برای یک حیوان وقتی جنسیت را مشخص نمی‌کنیم، معمولاً از it استفاده می‌شود."}]
   },
   5: {
@@ -141,7 +141,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "کدام واژه به معنی دوازده است؟", options: ["Twelve", "Twenty", "Two"], correct: 0, explanation: "Twelve یعنی دوازده؛ twenty بیست و two دو است." },
       { prompt: "عدد پنج کدام است؟", options: ["Five", "Fifteen", "Four"], correct: 0, explanation: "Five یعنی پنج؛ fifteen پانزده و four چهار است." },
-      { prompt: "جای خالی را کامل کن: I have ___ books. (۱۰)", options: ["ten", "one", "three"], correct: 0, explanation: "عدد ده در انگلیسی ten نوشته می‌شود." }
+      { prompt: "جای خالی را کامل کن: I have ___ books. (۱۰)", options: ["ten", "one", "three"], correct: 0, explanation: "عدد ده در انگلیسی ten نوشته می‌شود." },
     {"prompt":"عدد ۱۳ کدام است؟","options":["Thirteen","Thirty","Three"],"correct":0,"explanation":"Thirteen یعنی سیزده؛ thirty یعنی سی و three یعنی سه."},{"prompt":"جمله «دو مداد دارم» کدام است؟","options":["I have two pencils.","I has two pencil.","I have a pencils."],"correct":0,"explanation":"با I از have استفاده می‌کنیم و بعد از two اسم به شکل جمع می‌آید."}]
   },
   6: {
@@ -164,7 +164,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "معنی sister چیست؟", options: ["خواهر", "مادر", "برادر"], correct: 0, explanation: "Sister یعنی خواهر؛ brother یعنی برادر." },
       { prompt: "جای خالی را کامل کن: This is ___ mother.", options: ["my", "I", "me"], correct: 0, explanation: "برای گفتن «مادر من» از my mother استفاده می‌کنیم." },
-      { prompt: "کدام جمله می‌گوید «او پدر من است»؟", options: ["He is my father.", "She is my sister.", "I am a student."], correct: 0, explanation: "He is my father یعنی او پدر من است." }
+      { prompt: "کدام جمله می‌گوید «او پدر من است»؟", options: ["He is my father.", "She is my sister.", "I am a student."], correct: 0, explanation: "He is my father یعنی او پدر من است." },
     {"prompt":"معنی uncle چیست؟","options":["عمو / دایی","خواهر","پدربزرگ"],"correct":0,"explanation":"Uncle به معنی عمو یا دایی است."},{"prompt":"کدام جمله معرفی درست است؟","options":["This is my brother.","This my brother is.","This are my brother."],"correct":0,"explanation":"برای معرفی یک نفر از This is + my + اسم استفاده می‌کنیم."}]
   },
   7: {
@@ -186,7 +186,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "معنی doctor چیست؟", options: ["پزشک", "معلم", "دانش‌آموز"], correct: 0, explanation: "Doctor یعنی پزشک." },
       { prompt: "کدام جمله درست است؟", options: ["She is a teacher.", "She are a teacher.", "She is teacher."], correct: 0, explanation: "با she از is استفاده می‌کنیم و پیش از شغل مفرد a می‌آید." },
-      { prompt: "کدام واژه به معنی دانش‌آموز یا دانشجو است؟", options: ["Student", "Doctor", "Father"], correct: 0, explanation: "Student به معنی دانش‌آموز یا دانشجو است." }
+      { prompt: "کدام واژه به معنی دانش‌آموز یا دانشجو است؟", options: ["Student", "Doctor", "Father"], correct: 0, explanation: "Student به معنی دانش‌آموز یا دانشجو است." },
     {"prompt":"کدام گزینه به معنی «او مهندس است» می‌باشد؟","options":["He is an engineer.","He is a engineer.","He are an engineer."],"correct":0,"explanation":"engineer با صدای واکه آغاز می‌شود، پس an درست است؛ با he نیز is می‌آید."},{"prompt":"برای پرسیدن شغل یک نفر کدام سؤال طبیعی است؟","options":["What do you do?","Where do you do?","How do you job?"],"correct":0,"explanation":"What do you do? پرسش رایج درباره شغل است."}]
   },
   8: {
@@ -208,7 +208,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "کدام عبارت درست است؟", options: ["an apple", "a apple", "an book"], correct: 0, explanation: "Apple با صدای واکه آغاز می‌شود؛ پس an apple درست است." },
       { prompt: "پیش از book از چه چیزی استفاده می‌کنیم؟", options: ["a", "an", "are"], correct: 0, explanation: "Book با صدای همخوان آغاز می‌شود؛ عبارت درست a book است." },
-      { prompt: "کدام جمله درست است؟", options: ["It is an egg.", "It is a egg.", "It an egg."], correct: 0, explanation: "Egg با صدای واکه آغاز می‌شود و جمله کامل به فعل is نیاز دارد." }
+      { prompt: "کدام جمله درست است؟", options: ["It is an egg.", "It is a egg.", "It an egg."], correct: 0, explanation: "Egg با صدای واکه آغاز می‌شود و جمله کامل به فعل is نیاز دارد." },
     {"prompt":"کدام گزینه بر اساس صدا درست است؟","options":["an hour","a hour","an university"],"correct":0,"explanation":"h در hour تلفظ نمی‌شود و واژه با صدای واکه آغاز می‌شود؛ university با صدای /juː/ آغاز می‌شود و a می‌گیرد."},{"prompt":"کدام مورد اسم مفرد قابل‌شمارش است؟","options":["an egg","water","music"],"correct":0,"explanation":"egg اسم مفرد قابل‌شمارش است و می‌توان گفت an egg؛ water و music معمولاً غیرقابل‌شمارش‌اند."}]
   },
   9: {
@@ -231,7 +231,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "برای اشاره به یک چیز نزدیک کدام واژه مناسب است؟", options: ["This", "That", "Those"], correct: 0, explanation: "This برای یک چیز نزدیک استفاده می‌شود." },
       { prompt: "معنی That is my bag چیست؟", options: ["آن کیف من است.", "این کیف من است.", "کیف من کجاست؟"], correct: 0, explanation: "That یعنی آن؛ پس جمله یعنی «آن کیف من است»." },
-      { prompt: "شکل کوتاه That is کدام است؟", options: ["That's", "This's", "Those"], correct: 0, explanation: "That's شکل کوتاه That is است." }
+      { prompt: "شکل کوتاه That is کدام است؟", options: ["That's", "This's", "Those"], correct: 0, explanation: "That's شکل کوتاه That is است." },
     {"prompt":"برای اشاره به چند چیز نزدیک کدام واژه درست است؟","options":["These","This","That"],"correct":0,"explanation":"These شکل جمع this است و برای چند چیز نزدیک به کار می‌رود."},{"prompt":"کدام جمله برای چیزی دور درست است؟","options":["That is a bus.","This are a bus.","Those is a bus."],"correct":0,"explanation":"برای یک چیز دور از That is استفاده می‌کنیم."}]
   },
   10: {
@@ -253,7 +253,7 @@ export const lessonContent: Record<number, LessonContent> = {
     questions: [
       { prompt: "جمع ساده book کدام است؟", options: ["books", "bookes", "book"], correct: 0, explanation: "برای جمع ساده book فقط s اضافه می‌کنیم: books." },
       { prompt: "کدام عبارت درست است؟", options: ["two cats", "two cat", "two cates"], correct: 0, explanation: "بعد از two اسم به شکل جمع می‌آید: two cats." },
-      { prompt: "جمع بی‌قاعده child کدام است؟", options: ["childs", "children", "childes"], correct: 1, explanation: "Children شکل جمع بی‌قاعده child است." }
+      { prompt: "جمع بی‌قاعده child کدام است؟", options: ["childs", "children", "childes"], correct: 1, explanation: "Children شکل جمع بی‌قاعده child است." },
     {"prompt":"جمع کلمه box کدام است؟","options":["boxes","boxs","boxies"],"correct":0,"explanation":"اسم‌هایی که به x ختم می‌شوند معمولاً برای جمع es می‌گیرند."},{"prompt":"جمع بی‌قاعده child کدام است؟","options":["children","childs","childes"],"correct":0,"explanation":"Child جمع بی‌قاعده children دارد."}]
   },
   11: {
