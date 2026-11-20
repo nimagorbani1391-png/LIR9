@@ -1,0 +1,26 @@
+{
+  "title": "My Family",
+  "introduction": "Read a short introduction to a family and the things they do.",
+  "paragraphs": [
+    "My family is small. There are four people in my family: my father, my mother, my sister and me. My father is a driver. My mother is a teacher.",
+    "My sister is twelve years old. She likes music and drawing. We usually have dinner together. On Fridays, we visit our grandparents."
+  ],
+  "vocabulary": [
+    {
+      "word": "family",
+      "meaning": "خانواده"
+    },
+    {
+      "word": "driver",
+      "meaning": "راننده"
+    },
+    {
+      "word": "together",
+      "meaning": "با هم"
+    },
+    {
+      "word": "grandparents",
+      "meaning": "پدربزرگ و مادربزرگ"
+    }
+  ]
+}
