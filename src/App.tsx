@@ -500,7 +500,10 @@ function ContentLibrary() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [audioError, setAudioError] = useState("");
 
+  const articleContainsPersian = article?.paragraphs?.some(paragraph => /[\u0600-\u06FF]/.test(paragraph)) ?? false;
+
   const toggleArticleAudio = () => {
+    if (articleContainsPersian) return;
     if (!("speechSynthesis" in window)) { setAudioError("پخش صوت در این مرورگر پشتیبانی نمی‌شود."); return; }
     if (isSpeaking) { window.speechSynthesis.cancel(); setIsSpeaking(false); return; }
     if (!article?.paragraphs?.length) return;
@@ -568,13 +571,15 @@ function ContentLibrary() {
       <div className="library-reader-meta"><span>{selected.category}</span><span>{selected.level}</span><span><Clock3 size={13}/> {selected.minutes} دقیقه</span></div>
       <h1>{article.title || selected.title}</h1>
       <p className="library-reader-intro">{article.introduction}</p>
-      <div className="library-audio-control">
-        <button type="button" className={isSpeaking ? "library-audio-button is-speaking" : "library-audio-button"} onClick={toggleArticleAudio} aria-pressed={isSpeaking}>
-          <Volume2 size={18}/>{isSpeaking ? "توقف پخش صوت" : "شنیدن متن انگلیسی"}
-        </button>
-        <span>{isSpeaking ? "در حال خواندن متن انگلیسی…" : "برای شنیدن مکالمه، دکمه را بزن."}</span>
-      </div>
-      {audioError && <p className="library-audio-error" role="status">{audioError}</p>}
+      {!articleContainsPersian && <>
+        <div className="library-audio-control">
+          <button type="button" className={isSpeaking ? "library-audio-button is-speaking" : "library-audio-button"} onClick={toggleArticleAudio} aria-pressed={isSpeaking}>
+            <Volume2 size={18}/>{isSpeaking ? "توقف پخش صوت" : "شنیدن متن انگلیسی"}
+          </button>
+          <span>{isSpeaking ? "در حال خواندن متن انگلیسی…" : "برای شنیدن مکالمه، دکمه را بزن."}</span>
+        </div>
+        {audioError && <p className="library-audio-error" role="status">{audioError}</p>}
+      </>}
       <div className="library-article-body">{article.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
       {!!article.vocabulary?.length && <section className="library-vocabulary"><h2>واژه‌های کاربردی</h2>{article.vocabulary.map(word => <div key={word.word}><b dir="ltr">{word.word}</b><span>{word.meaning}</span></div>)}</section>}
       <div className="library-reader-footer"><BookOpen size={17}/> مطالعه‌ات را با آرامش ادامه بده؛ هر روز یک قدم کافی است.</div>
