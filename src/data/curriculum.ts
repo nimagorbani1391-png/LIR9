@@ -52,7 +52,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "برای پرسیدن حال دوستت کدام عبارت درست است؟", options: ["How are you?", "What is your name?", "Where are you from?"], correct: 0, explanation: "How are you? درباره حال مخاطب سؤال می‌کند. دو گزینه دیگر به‌ترتیب نام و محل مبدأ را می‌پرسند." },
       { prompt: "کدام پاسخ برای «How are you?» طبیعی است؟", options: ["I'm fine, thanks.", "My name is Ali.", "I'm from Iran."], correct: 0, explanation: "I'm fine, thanks یعنی «خوبم، ممنون» و پاسخ مستقیم به پرسش حال است." },
       { prompt: "کدام گزینه لحن دوستانه‌تری برای سلام دارد؟", options: ["Hi!", "Goodbye!", "Sorry!"], correct: 0, explanation: "Hi! یک سلام کوتاه و دوستانه است؛ Goodbye برای خداحافظی و Sorry برای عذرخواهی است." }
-    ]
+    {"prompt":"اگر دوستت بگوید How are you? کدام پاسخ مناسب است؟","options":["I'm good, thanks.","I'm from Iran.","My name is Ali."],"correct":0,"explanation":"I'm good, thanks پاسخ طبیعی به پرسش درباره حال است."},{"prompt":"برای خداحافظی کدام عبارت مناسب است؟","options":["Goodbye!","Hello!","Nice to meet you."],"correct":0,"explanation":"Goodbye برای خداحافظی است؛ Hello و Nice to meet you برای شروع یا آشنایی‌اند."}]
   },
   2: {
     concept: "برای معرفی نام، دو الگوی بسیار رایج داریم: My name is + name و I'm + name. هر دو درست‌اند؛ دومی کوتاه‌تر و محاوره‌ای‌تر است.",
@@ -75,7 +75,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "کدام جمله کامل و درست است؟", options: ["My name Ali.", "My name is Ali.", "I name is Ali."], correct: 1, explanation: "ساختار درست My name is + نام است؛ فعل is نباید حذف شود." },
       { prompt: "شکل کوتاه I am کدام است؟", options: ["I'm", "Is", "My"], correct: 0, explanation: "I'm کوتاه‌شده I am است و برای معرفی خود استفاده می‌شود." },
       { prompt: "برای گفتن «من هم از آشنایی با تو خوشحالم» چه می‌گویی؟", options: ["Nice to meet you, too.", "How are you?", "Good night."], correct: 0, explanation: "too در پایان این پاسخ معنی «هم» می‌دهد." }
-    ]
+    {"prompt":"جای خالی را کامل کن: ___ name is Mina.","options":["My","I","Me"],"correct":0,"explanation":"در ساختار My name is از صفت ملکی my پیش از name استفاده می‌کنیم."},{"prompt":"پس از معرفی، کدام عبارت مؤدبانه است؟","options":["Nice to meet you.","Where are you from?","How old are you?"],"correct":0,"explanation":"Nice to meet you برای ابراز خوشحالی از آشنایی استفاده می‌شود."}]
   },
   3: {
     concept: "برای گفتن اینکه اهل کجا هستی، از ساختار be + from + place استفاده می‌کنیم. در جمله ساده I am به شکل کوتاه I'm نوشته و گفته می‌شود.",
@@ -97,7 +97,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "جای خالی را کامل کن: I'm ___ Iran.", options: ["from", "at", "are"], correct: 0, explanation: "برای بیان مبدأ از from استفاده می‌کنیم: I'm from Iran." },
       { prompt: "معنی Where are you from? چیست؟", options: ["چند سالته؟", "اهل کجا هستی؟", "حالت چطوره؟"], correct: 1, explanation: "Where درباره مکان می‌پرسد و Where are you from? یعنی اهل کجا هستی؟" },
       { prompt: "کدام جمله می‌گوید «او (مذکر) اهل اسپانیاست»؟", options: ["He is from Spain.", "He are from Spain.", "He from Spain."], correct: 0, explanation: "برای he در زمان حال ساده فعل be به شکل is می‌آید." }
-    ]
+    {"prompt":"اگر کسی بپرسد Where are you from? درباره چه چیزی می‌پرسد؟","options":["محل مبدأ یا زادگاه","مکان فعلی","سن"],"correct":0,"explanation":"Where are you from? درباره اهل کجا بودن می‌پرسد."},{"prompt":"کدام جمله می‌گوید «من الان در خانه هستم»؟","options":["I'm at home.","I'm from home.","I home am."],"correct":0,"explanation":"at home مکان حضور را نشان می‌دهد؛ from home مبدأ را بیان می‌کند."}]
   },
   4: {
     concept: "ضمیر فاعلی جای نام شخص یا گروه را می‌گیرد و معمولاً پیش از فعل قرار می‌گیرد. انتخاب ضمیر به شخص و تعداد بستگی دارد.",
@@ -120,7 +120,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "برای اشاره به یک مرد از کدام ضمیر استفاده می‌کنیم؟", options: ["She", "He", "They"], correct: 1, explanation: "He ضمیر سوم‌شخص مفرد برای مرد یا پسر است." },
       { prompt: "جای خالی را کامل کن: They ___ my friends.", options: ["am", "is", "are"], correct: 2, explanation: "They با فعل are می‌آید: They are my friends." },
       { prompt: "کدام گزینه برای «ما» است؟", options: ["We", "You", "It"], correct: 0, explanation: "We یعنی ما؛ You یعنی تو/شما و It برای یک شیء یا حیوان است." }
-    ]
+    {"prompt":"جای خالی را کامل کن: My parents ___ at home.","options":["are","is","am"],"correct":0,"explanation":"My parents جمع است و با are می‌آید."},{"prompt":"برای یک گربه در جمله ساده از کدام ضمیر استفاده می‌کنیم؟","options":["It","He","We"],"correct":0,"explanation":"برای یک حیوان وقتی جنسیت را مشخص نمی‌کنیم، معمولاً از it استفاده می‌شود."}]
   },
   5: {
     concept: "عددها برای بیان تعداد، سن، شماره و قیمت در مکالمه‌های روزمره لازم‌اند. در این درس روی چند عدد پایه و تفاوت شکل نوشتاری آن‌ها تمرکز می‌کنیم.",
@@ -142,7 +142,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "کدام واژه به معنی دوازده است؟", options: ["Twelve", "Twenty", "Two"], correct: 0, explanation: "Twelve یعنی دوازده؛ twenty بیست و two دو است." },
       { prompt: "عدد پنج کدام است؟", options: ["Five", "Fifteen", "Four"], correct: 0, explanation: "Five یعنی پنج؛ fifteen پانزده و four چهار است." },
       { prompt: "جای خالی را کامل کن: I have ___ books. (۱۰)", options: ["ten", "one", "three"], correct: 0, explanation: "عدد ده در انگلیسی ten نوشته می‌شود." }
-    ]
+    {"prompt":"عدد ۱۳ کدام است؟","options":["Thirteen","Thirty","Three"],"correct":0,"explanation":"Thirteen یعنی سیزده؛ thirty یعنی سی و three یعنی سه."},{"prompt":"جمله «دو مداد دارم» کدام است؟","options":["I have two pencils.","I has two pencil.","I have a pencils."],"correct":0,"explanation":"با I از have استفاده می‌کنیم و بعد از two اسم به شکل جمع می‌آید."}]
   },
   6: {
     concept: "برای صحبت درباره خانواده، نام اعضا را یاد می‌گیریم و آن‌ها را با ساختارهای ساده معرفی می‌کنیم.",
@@ -165,7 +165,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "معنی sister چیست؟", options: ["خواهر", "مادر", "برادر"], correct: 0, explanation: "Sister یعنی خواهر؛ brother یعنی برادر." },
       { prompt: "جای خالی را کامل کن: This is ___ mother.", options: ["my", "I", "me"], correct: 0, explanation: "برای گفتن «مادر من» از my mother استفاده می‌کنیم." },
       { prompt: "کدام جمله می‌گوید «او پدر من است»؟", options: ["He is my father.", "She is my sister.", "I am a student."], correct: 0, explanation: "He is my father یعنی او پدر من است." }
-    ]
+    {"prompt":"معنی uncle چیست؟","options":["عمو / دایی","خواهر","پدربزرگ"],"correct":0,"explanation":"Uncle به معنی عمو یا دایی است."},{"prompt":"کدام جمله معرفی درست است؟","options":["This is my brother.","This my brother is.","This are my brother."],"correct":0,"explanation":"برای معرفی یک نفر از This is + my + اسم استفاده می‌کنیم."}]
   },
   7: {
     concept: "برای معرفی شغل افراد از نام شغل همراه فعل be استفاده می‌کنیم. در این درس چند شغل رایج و ساختار جمله را می‌آموزی.",
@@ -187,7 +187,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "معنی doctor چیست؟", options: ["پزشک", "معلم", "دانش‌آموز"], correct: 0, explanation: "Doctor یعنی پزشک." },
       { prompt: "کدام جمله درست است؟", options: ["She is a teacher.", "She are a teacher.", "She is teacher."], correct: 0, explanation: "با she از is استفاده می‌کنیم و پیش از شغل مفرد a می‌آید." },
       { prompt: "کدام واژه به معنی دانش‌آموز یا دانشجو است؟", options: ["Student", "Doctor", "Father"], correct: 0, explanation: "Student به معنی دانش‌آموز یا دانشجو است." }
-    ]
+    {"prompt":"کدام گزینه به معنی «او مهندس است» می‌باشد؟","options":["He is an engineer.","He is a engineer.","He are an engineer."],"correct":0,"explanation":"engineer با صدای واکه آغاز می‌شود، پس an درست است؛ با he نیز is می‌آید."},{"prompt":"برای پرسیدن شغل یک نفر کدام سؤال طبیعی است؟","options":["What do you do?","Where do you do?","How do you job?"],"correct":0,"explanation":"What do you do? پرسش رایج درباره شغل است."}]
   },
   8: {
     concept: "a و an هر دو معنی «یک» می‌دهند و پیش از اسم مفرد قابل‌شمارش می‌آیند. انتخاب میان آن‌ها به صدای آغازین واژه بعدی بستگی دارد.",
@@ -209,7 +209,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "کدام عبارت درست است؟", options: ["an apple", "a apple", "an book"], correct: 0, explanation: "Apple با صدای واکه آغاز می‌شود؛ پس an apple درست است." },
       { prompt: "پیش از book از چه چیزی استفاده می‌کنیم؟", options: ["a", "an", "are"], correct: 0, explanation: "Book با صدای همخوان آغاز می‌شود؛ عبارت درست a book است." },
       { prompt: "کدام جمله درست است؟", options: ["It is an egg.", "It is a egg.", "It an egg."], correct: 0, explanation: "Egg با صدای واکه آغاز می‌شود و جمله کامل به فعل is نیاز دارد." }
-    ]
+    {"prompt":"کدام گزینه بر اساس صدا درست است؟","options":["an hour","a hour","an university"],"correct":0,"explanation":"h در hour تلفظ نمی‌شود و واژه با صدای واکه آغاز می‌شود؛ university با صدای /juː/ آغاز می‌شود و a می‌گیرد."},{"prompt":"کدام مورد اسم مفرد قابل‌شمارش است؟","options":["an egg","water","music"],"correct":0,"explanation":"egg اسم مفرد قابل‌شمارش است و می‌توان گفت an egg؛ water و music معمولاً غیرقابل‌شمارش‌اند."}]
   },
   9: {
     concept: "this و that برای اشاره به یک شخص یا چیز به کار می‌روند. تفاوت اصلی آن‌ها فاصله است: this نزدیک و that دور.",
@@ -232,7 +232,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "برای اشاره به یک چیز نزدیک کدام واژه مناسب است؟", options: ["This", "That", "Those"], correct: 0, explanation: "This برای یک چیز نزدیک استفاده می‌شود." },
       { prompt: "معنی That is my bag چیست؟", options: ["آن کیف من است.", "این کیف من است.", "کیف من کجاست؟"], correct: 0, explanation: "That یعنی آن؛ پس جمله یعنی «آن کیف من است»." },
       { prompt: "شکل کوتاه That is کدام است؟", options: ["That's", "This's", "Those"], correct: 0, explanation: "That's شکل کوتاه That is است." }
-    ]
+    {"prompt":"برای اشاره به چند چیز نزدیک کدام واژه درست است؟","options":["These","This","That"],"correct":0,"explanation":"These شکل جمع this است و برای چند چیز نزدیک به کار می‌رود."},{"prompt":"کدام جمله برای چیزی دور درست است؟","options":["That is a bus.","This are a bus.","Those is a bus."],"correct":0,"explanation":"برای یک چیز دور از That is استفاده می‌کنیم."}]
   },
   10: {
     concept: "در انگلیسی بسیاری از اسم‌های قابل‌شمارش برای نشان دادن بیش از یکی، s می‌گیرند. این شکل را جمع می‌نامیم.",
@@ -254,7 +254,7 @@ export const lessonContent: Record<number, LessonContent> = {
       { prompt: "جمع ساده book کدام است؟", options: ["books", "bookes", "book"], correct: 0, explanation: "برای جمع ساده book فقط s اضافه می‌کنیم: books." },
       { prompt: "کدام عبارت درست است؟", options: ["two cats", "two cat", "two cates"], correct: 0, explanation: "بعد از two اسم به شکل جمع می‌آید: two cats." },
       { prompt: "جمع بی‌قاعده child کدام است؟", options: ["childs", "children", "childes"], correct: 1, explanation: "Children شکل جمع بی‌قاعده child است." }
-    ]
+    {"prompt":"جمع کلمه box کدام است؟","options":["boxes","boxs","boxies"],"correct":0,"explanation":"اسم‌هایی که به x ختم می‌شوند معمولاً برای جمع es می‌گیرند."},{"prompt":"جمع بی‌قاعده child کدام است؟","options":["children","childs","childes"],"correct":0,"explanation":"Child جمع بی‌قاعده children دارد."}]
   },
   11: {
     concept: "برای گفتن اینکه چیزی یا کسی این‌طور نیست، not را به فعل be اضافه می‌کنیم. در انگلیسی جای کلمه‌ها مهم است؛ پس به ترتیب فاعل، فعل و not دقت کن.",
@@ -263,7 +263,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Are you tired?",translation:"خسته‌ای؟"},{speaker:"B",line:"No, I'm not. I'm ready!",translation:"نه، خسته نیستم. آماده‌ام!"}],
     commonMistake:"نگو He not is tired. ترتیب درست He is not tired است؛ not بعد از فعل be قرار می‌گیرد.",
     practiceTip:"سه جمله درباره خودت بساز: یک جمله مثبت و یک جمله منفی درباره حالت، و یک جمله درباره دوستت.",
-    questions:[{prompt:"کدام جمله منفی درست است؟",options:["She isn't hungry.","She not is hungry.","She aren't hungry."],correct:0,explanation:"با she از is استفاده می‌کنیم و شکل کوتاه منفی آن isn't است."},{prompt:"معنی I'm not late چیست؟",options:["من دیر نکرده‌ام / دیر نیستم.","من خیلی خوشحالم.","من آماده‌ام."],correct:0,explanation:"I'm not یعنی من نیستم؛ late یعنی دیر. پس جمله می‌گوید من دیر نیستم."},{prompt:"جای خالی را کامل کن: They ___ at home.",options:["aren't","isn't","am not"],correct:0,explanation:"برای they از are استفاده می‌کنیم؛ شکل منفی کوتاه آن aren't است."}]
+    questions:[{prompt:"کدام جمله منفی درست است؟",options:["She isn't hungry.","She not is hungry.","She aren't hungry."],correct:0,explanation:"با she از is استفاده می‌کنیم و شکل کوتاه منفی آن isn't است."},{prompt:"معنی I'm not late چیست؟",options:["من دیر نکرده‌ام / دیر نیستم.","من خیلی خوشحالم.","من آماده‌ام."],correct:0,explanation:"I'm not یعنی من نیستم؛ late یعنی دیر. پس جمله می‌گوید من دیر نیستم."},{prompt:"جای خالی را کامل کن: They ___ at home.",options:["aren't","isn't","am not"],correct:0,explanation:"برای they از are استفاده می‌کنیم؛ شکل منفی کوتاه آن aren't است."},{"prompt":"جمله را منفی کن: She is happy.","options":["She isn't happy.","She not is happy.","She don't happy."],"correct":0,"explanation":"برای منفی کردن فعل be، not بعد از is می‌آید: She is not / isn't happy."},{"prompt":"جای خالی را کامل کن: I ___ hungry.","options":["am not","isn't","aren't"],"correct":0,"explanation":"با I از am not استفاده می‌کنیم."}]
   },
   12: {
     concept:"در سؤال‌های ساده با am/is/are، فعل را به ابتدای جمله می‌بریم. این تغییر ترتیب کمک می‌کند شنونده بفهمد سؤال می‌پرسیم.",
@@ -272,7 +272,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Are you in class?",translation:"در کلاس هستی؟"},{speaker:"B",line:"Yes, I am. Are you?",translation:"بله، هستم. تو چطور؟"}],
     commonMistake:"در سؤال نگو You are ready? در انگلیسی معیار مبتدی، شکل روشن و درست این است: Are you ready?",
     practiceTip:"از یک دوست سه سؤال بساز: Are you happy? Are you a student? Are you ready?",
-    questions:[{prompt:"کدام سؤال ترتیب درست دارد؟",options:["Is he your friend?","He is your friend?","Is your friend he?"],correct:0,explanation:"فعل is قبل از فاعل he قرار می‌گیرد."},{prompt:"پاسخ کوتاه مثبت به Are they ready? کدام است؟",options:["Yes, they are.","Yes, they is.","Yes, are they."],correct:0,explanation:"در پاسخ کوتاه، فاعل و شکل درست فعل را می‌آوریم: they are."},{prompt:"کدام جمله یک سؤال بله/خیر است؟",options:["Are you okay?","You are okay.","You okay are."],correct:0,explanation:"قرار گرفتن are در ابتدای جمله، آن را به سؤال بله/خیر تبدیل می‌کند."}]
+    questions:[{prompt:"کدام سؤال ترتیب درست دارد؟",options:["Is he your friend?","He is your friend?","Is your friend he?"],correct:0,explanation:"فعل is قبل از فاعل he قرار می‌گیرد."},{prompt:"پاسخ کوتاه مثبت به Are they ready? کدام است؟",options:["Yes, they are.","Yes, they is.","Yes, are they."],correct:0,explanation:"در پاسخ کوتاه، فاعل و شکل درست فعل را می‌آوریم: they are."},{prompt:"کدام جمله یک سؤال بله/خیر است؟",options:["Are you okay?","You are okay.","You okay are."],correct:0,explanation:"قرار گرفتن are در ابتدای جمله، آن را به سؤال بله/خیر تبدیل می‌کند."},{"prompt":"کدام پاسخ کوتاه به Is he tired? درست است؟","options":["No, he isn't.","No, he don't.","No, isn't he."],"correct":0,"explanation":"برای پاسخ کوتاه با be، فاعل و شکل درست be را می‌آوریم."},{"prompt":"کدام سؤال درباره مکان درست است؟","options":["Where are they?","Where they are?","Where is they?"],"correct":0,"explanation":"در سؤال با be، فعل پیش از فاعل می‌آید: Where are they?"}]
   },
   13: {
     concept:"برای اینکه معلوم شود یک چیز متعلق به چه کسی است، از کلمات مالکیت استفاده می‌کنیم. این کلمات قبل از اسم قرار می‌گیرند و جای اسم را نمی‌گیرند.",
@@ -281,7 +281,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Is this your notebook?",translation:"این دفتر توست؟"},{speaker:"B",line:"No, it's her notebook.",translation:"نه، دفتر اوست."}],
     commonMistake:"my با me فرق دارد. my قبل از اسم می‌آید (my book)، اما me شکل مفعولی ضمیر است.",
     practiceTip:"سه وسیله اطرافت را انتخاب کن و با my، your یا his/her معرفی کن.",
-    questions:[{prompt:"اگر وسیله متعلق به یک دختر باشد، کدام مناسب است؟",options:["her pencil","his pencil","I pencil"],correct:0,explanation:"her برای مالکیت یک دختر/زن استفاده می‌شود."},{prompt:"کدام عبارت یعنی «دفتر تو»؟",options:["your notebook","you notebook","yours notebook"],correct:0,explanation:"your صفت ملکی است و پیش از اسم notebook می‌آید."},{prompt:"جمله را کامل کن: Ali has a bike. It is ___ bike.",options:["his","her","my"],correct:0,explanation:"Ali نام پسرانه در این مثال است؛ برای مالکیت او از his استفاده می‌کنیم."}]
+    questions:[{prompt:"اگر وسیله متعلق به یک دختر باشد، کدام مناسب است؟",options:["her pencil","his pencil","I pencil"],correct:0,explanation:"her برای مالکیت یک دختر/زن استفاده می‌شود."},{prompt:"کدام عبارت یعنی «دفتر تو»؟",options:["your notebook","you notebook","yours notebook"],correct:0,explanation:"your صفت ملکی است و پیش از اسم notebook می‌آید."},{prompt:"جمله را کامل کن: Ali has a bike. It is ___ bike.",options:["his","her","my"],correct:0,explanation:"Ali نام پسرانه در این مثال است؛ برای مالکیت او از his استفاده می‌کنیم."},{"prompt":"جای خالی را کامل کن: We love ___ school.","options":["our","we","us"],"correct":0,"explanation":"our صفت ملکی است و پیش از اسم school می‌آید."},{"prompt":"کدام عبارت یعنی «خانه آن‌ها»؟","options":["their house","they house","them house"],"correct":0,"explanation":"their برای مالکیت آن‌ها استفاده می‌شود."}]
   },
   14: {
     concept:"have و has هر دو معنی «داشتن» می‌دهند. انتخابشان به فاعل جمله بستگی دارد، نه به چیزی که داریم.",
@@ -290,7 +290,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Do you have a pet?",translation:"حیوان خانگی داری؟"},{speaker:"B",line:"Yes, I have a cat.",translation:"بله، یک گربه دارم."}],
     commonMistake:"نگو She have a dog. چون فاعل she است، باید بگویی She has a dog.",
     practiceTip:"درباره خودت، دوستت و یکی از اعضای خانواده سه جمله با have یا has بساز.",
-    questions:[{prompt:"کدام جمله درست است؟",options:["My sister has a tablet.","My sister have a tablet.","My sister haves a tablet."],correct:0,explanation:"My sister برابر she است؛ پس has درست است."},{prompt:"جای خالی: We ___ two English books.",options:["have","has","is"],correct:0,explanation:"برای we از have استفاده می‌کنیم."},{prompt:"معنی He has a new bag چیست؟",options:["او یک کیف جدید دارد.","او یک کیف جدید است.","آن‌ها کیف جدید دارند."],correct:0,explanation:"has در این ساختار معنی داشتن می‌دهد و he یعنی او (مذکر)."}]
+    questions:[{prompt:"کدام جمله درست است؟",options:["My sister has a tablet.","My sister have a tablet.","My sister haves a tablet."],correct:0,explanation:"My sister برابر she است؛ پس has درست است."},{prompt:"جای خالی: We ___ two English books.",options:["have","has","is"],correct:0,explanation:"برای we از have استفاده می‌کنیم."},{prompt:"معنی He has a new bag چیست؟",options:["او یک کیف جدید دارد.","او یک کیف جدید است.","آن‌ها کیف جدید دارند."],correct:0,explanation:"has در این ساختار معنی داشتن می‌دهد و he یعنی او (مذکر)."},{"prompt":"جمله را کامل کن: Does your brother ___ a car?","options":["have","has","having"],"correct":0,"explanation":"بعد از does فعل اصلی به شکل پایه می‌آید: have."},{"prompt":"کدام جمله درست است؟","options":["They have a dog.","They has a dog.","They haves a dog."],"correct":0,"explanation":"با they از have استفاده می‌کنیم."}]
   },
   15: {
     concept:"حال ساده برای کارهایی است که معمولاً، مرتب یا به‌عنوان عادت انجام می‌دهیم؛ نه لزوماً همین لحظه.",
@@ -299,7 +299,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What do you do after school?",translation:"بعد از مدرسه چه کار می‌کنی؟"},{speaker:"B",line:"I play basketball and study English.",translation:"بسکتبال بازی می‌کنم و انگلیسی می‌خوانم."}],
     commonMistake:"برای he یا she در جمله مثبت، s فعل را فراموش نکن: He plays، نه He play.",
     practiceTip:"برنامه یک روز معمولی خودت را با سه جمله انگلیسی توصیف کن.",
-    questions:[{prompt:"کدام جمله درباره عادت درست است؟",options:["I watch videos after school.","I watches videos after school.","I watching videos after school."],correct:0,explanation:"با I، فعل در شکل ساده watch می‌آید."},{prompt:"جای خالی: Sara ___ English every day.",options:["studies","study","studying"],correct:0,explanation:"Sara برابر she است. study به studies تبدیل می‌شود."},{prompt:"کدام عبارت بیشتر به عادت اشاره می‌کند؟",options:["every day","right now","at this second"],correct:0,explanation:"every day یعنی هر روز و نشانه‌ای از تکرار و عادت است."}]
+    questions:[{prompt:"کدام جمله درباره عادت درست است؟",options:["I watch videos after school.","I watches videos after school.","I watching videos after school."],correct:0,explanation:"با I، فعل در شکل ساده watch می‌آید."},{prompt:"جای خالی: Sara ___ English every day.",options:["studies","study","studying"],correct:0,explanation:"Sara برابر she است. study به studies تبدیل می‌شود."},{prompt:"کدام عبارت بیشتر به عادت اشاره می‌کند؟",options:["every day","right now","at this second"],correct:0,explanation:"every day یعنی هر روز و نشانه‌ای از تکرار و عادت است."},{"prompt":"کدام شکل سوم‌شخص فعل study درست است؟","options":["studies","studys","studyies"],"correct":0,"explanation":"وقتی فعل به consonant + y ختم شود، y به ies تبدیل می‌شود."},{"prompt":"جای خالی را کامل کن: He ___ TV every night.","options":["watches","watch","watching"],"correct":0,"explanation":"watch به ch ختم می‌شود و برای he شکل watches می‌گیرد."}]
   },
   16: {
     concept:"گاهی مهم نیست فقط چه کاری انجام می‌دهیم؛ مهم است چند بار آن را انجام می‌دهیم. قیدهای تکرار این مقدار را نشان می‌دهند.",
@@ -308,7 +308,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Do you always play games?",translation:"همیشه بازی می‌کنی؟"},{speaker:"B",line:"No, I sometimes read books.",translation:"نه، گاهی کتاب می‌خوانم."}],
     commonMistake:"نگو I play always football. جای طبیعی قید تکرار در این جمله I always play football است.",
     practiceTip:"چهار فعالیت روزانه انتخاب کن و با always، usually، sometimes یا never درباره‌شان جمله بساز.",
-    questions:[{prompt:"کدام جمله ترتیب درست دارد؟",options:["I sometimes read.","I read sometimes books.","Sometimes I am read."],correct:0,explanation:"قید sometimes پیش از فعل اصلی read آمده است."},{prompt:"معنی usually چیست؟",options:["معمولاً","هرگز","به‌ندرت"],correct:0,explanation:"usually یعنی معمولاً؛ یعنی کاری در بیشتر مواقع انجام می‌شود."},{prompt:"جای درست قید را انتخاب کن: He is ___ late.",options:["never","late never","is neverly"],correct:0,explanation:"با فعل be، قید تکرار بعد از آن می‌آید: is never late."}]
+    questions:[{prompt:"کدام جمله ترتیب درست دارد؟",options:["I sometimes read.","I read sometimes books.","Sometimes I am read."],correct:0,explanation:"قید sometimes پیش از فعل اصلی read آمده است."},{prompt:"معنی usually چیست؟",options:["معمولاً","هرگز","به‌ندرت"],correct:0,explanation:"usually یعنی معمولاً؛ یعنی کاری در بیشتر مواقع انجام می‌شود."},{prompt:"جای درست قید را انتخاب کن: He is ___ late.",options:["never","late never","is neverly"],correct:0,explanation:"با فعل be، قید تکرار بعد از آن می‌آید: is never late."},{"prompt":"جای درست قید usually کجاست؟","options":["I usually drink tea.","I drink usually tea.","I drink tea usually always."],"correct":0,"explanation":"قید تکرار معمولاً پیش از فعل اصلی قرار می‌گیرد."},{"prompt":"برای پرسیدن «هر چند وقت ورزش می‌کنی؟» کدام سؤال درست است؟","options":["How often do you exercise?","How many often you exercise?","How often are you exercise?"],"correct":0,"explanation":"How often درباره دفعات تکرار می‌پرسد و با do you + فعل پایه ساخته می‌شود."}]
   },
   17: {
     concept:"can برای بیان توانایی یا اجازه به کار می‌رود. در این درس از آن برای گفتن کارهایی استفاده می‌کنیم که بلدیم انجام بدهیم.",
@@ -317,7 +317,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Can you play chess?",translation:"می‌توانی شطرنج بازی کنی؟"},{speaker:"B",line:"Yes, I can, but I can't play the guitar.",translation:"بله، می‌توانم؛ اما نمی‌توانم گیتار بزنم."}],
     commonMistake:"بعد از can، فعل ساده می‌آید. can to swim و can swims نادرست‌اند.",
     practiceTip:"سه توانایی واقعی خودت را با I can و یک کاری را که هنوز بلد نیستی با I can't بنویس.",
-    questions:[{prompt:"کدام جمله درست است؟",options:["I can draw.","I can to draw.","I cans draw."],correct:0,explanation:"بعد از can فعل ساده draw می‌آید."},{prompt:"پاسخ کوتاه به Can she sing? کدام است؟",options:["Yes, she can.","Yes, she cans.","Yes, can she."],correct:0,explanation:"در پاسخ کوتاه، فاعل و can را می‌آوریم."},{prompt:"معنی I can't skate چیست؟",options:["من نمی‌توانم اسکیت کنم.","من اسکیت دوست دارم.","من همیشه اسکیت می‌کنم."],correct:0,explanation:"can't شکل منفی cannot است و ناتوانی را نشان می‌دهد."}]
+    questions:[{prompt:"کدام جمله درست است؟",options:["I can draw.","I can to draw.","I cans draw."],correct:0,explanation:"بعد از can فعل ساده draw می‌آید."},{prompt:"پاسخ کوتاه به Can she sing? کدام است؟",options:["Yes, she can.","Yes, she cans.","Yes, can she."],correct:0,explanation:"در پاسخ کوتاه، فاعل و can را می‌آوریم."},{prompt:"معنی I can't skate چیست؟",options:["من نمی‌توانم اسکیت کنم.","من اسکیت دوست دارم.","من همیشه اسکیت می‌کنم."],correct:0,explanation:"can't شکل منفی cannot است و ناتوانی را نشان می‌دهد."},{"prompt":"کدام جمله منفی درست است؟","options":["She can't drive.","She doesn't can drive.","She can't to drive."],"correct":0,"explanation":"منفی can با can't ساخته می‌شود و پس از آن فعل ساده می‌آید."},{"prompt":"جای خالی را کامل کن: ___ they swim?","options":["Can","Do can","Are can"],"correct":0,"explanation":"برای سؤال درباره توانایی، can به ابتدای جمله می‌آید."}]
   },
   18: {
     concept:"برای حرف زدن درباره علاقه‌ها از like استفاده می‌کنیم. می‌توانیم بگوییم چه چیزی را دوست داریم یا از انجام چه کاری لذت می‌بریم.",
@@ -326,7 +326,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What kind of music do you like?",translation:"چه نوع موسیقی‌ای دوست داری؟"},{speaker:"B",line:"I like pop music. I also like reading.",translation:"موسیقی پاپ دوست دارم. کتاب خواندن را هم دوست دارم."}],
     commonMistake:"در جمله مثبت با he یا she، likes را به کار ببر؛ اما بعد از can همچنان فعل ساده می‌آید.",
     practiceTip:"سه علاقه‌ات را با I like بنویس و از یک دوست بپرس What do you like?",
-    questions:[{prompt:"کدام جمله درست است؟",options:["He likes football.","He like football.","He likes play football."],correct:0,explanation:"با he از likes استفاده می‌کنیم؛ برای جمله ساده همین ساختار کافی است."},{prompt:"کدام عبارت یعنی «من نقاشی کردن را دوست دارم»؟",options:["I like drawing.","I like draw.","I likes drawing."],correct:0,explanation:"بعد از like برای فعالیت می‌توان از فعل ingدار drawing استفاده کرد."},{prompt:"جای خالی: They ___ video games.",options:["like","likes","liking"],correct:0,explanation:"برای they از شکل ساده like استفاده می‌کنیم."}]
+    questions:[{prompt:"کدام جمله درست است؟",options:["He likes football.","He like football.","He likes play football."],correct:0,explanation:"با he از likes استفاده می‌کنیم؛ برای جمله ساده همین ساختار کافی است."},{prompt:"کدام عبارت یعنی «من نقاشی کردن را دوست دارم»؟",options:["I like drawing.","I like draw.","I likes drawing."],correct:0,explanation:"بعد از like برای فعالیت می‌توان از فعل ingدار drawing استفاده کرد."},{prompt:"جای خالی: They ___ video games.",options:["like","likes","liking"],correct:0,explanation:"برای they از شکل ساده like استفاده می‌کنیم."},{"prompt":"کدام جمله درباره علاقه درست است؟","options":["I like cooking.","I likes cooking.","I like cookings."],"correct":0,"explanation":"با I از like استفاده می‌کنیم؛ برای فعالیت می‌توان از فعل ingدار استفاده کرد."},{"prompt":"جمله «او قهوه دوست ندارد» کدام است؟","options":["She doesn't like coffee.","She don't likes coffee.","She not like coffee."],"correct":0,"explanation":"برای منفی کردن حال ساده با she از doesn't + فعل پایه استفاده می‌کنیم."}]
   },
   19: {
     concept:"حروف اضافه مکان مثل یک نقشه کوچک‌اند؛ به شنونده می‌گویند چیزی دقیقاً کجاست.",
@@ -335,7 +335,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Where is my phone?",translation:"گوشی من کجاست؟"},{speaker:"B",line:"It's on your desk.",translation:"روی میزت است."}],
     commonMistake:"in و on را جابه‌جا نکن: داخل کیف in the bag است؛ روی میز on the desk.",
     practiceTip:"به اتاقت نگاه کن و جای سه وسیله را با in، on یا under توصیف کن.",
-    questions:[{prompt:"اگر مداد داخل جامدادی باشد، کدام درست است؟",options:["in the pencil case","on the pencil case","under the pencil case"],correct:0,explanation:"in یعنی داخل؛ پس in the pencil case درست است."},{prompt:"معنی under the table چیست؟",options:["زیر میز","روی میز","داخل میز"],correct:0,explanation:"under به معنی زیر است."},{prompt:"کدام جمله درست است؟",options:["The book is on the desk.","The book is in the desk (برای روی میز).","The book under is desk."],correct:0,explanation:"برای قرار داشتن روی سطح میز از on the desk استفاده می‌کنیم."}]
+    questions:[{prompt:"اگر مداد داخل جامدادی باشد، کدام درست است؟",options:["in the pencil case","on the pencil case","under the pencil case"],correct:0,explanation:"in یعنی داخل؛ پس in the pencil case درست است."},{prompt:"معنی under the table چیست؟",options:["زیر میز","روی میز","داخل میز"],correct:0,explanation:"under به معنی زیر است."},{prompt:"کدام جمله درست است؟",options:["The book is on the desk.","The book is in the desk (برای روی میز).","The book under is desk."],correct:0,explanation:"برای قرار داشتن روی سطح میز از on the desk استفاده می‌کنیم."},{"prompt":"اگر کیف کنار صندلی باشد، کدام عبارت درست است؟","options":["next to the chair","in the chair","under of chair"],"correct":0,"explanation":"next to یعنی کنار."},{"prompt":"معنی behind the door چیست؟","options":["پشت در","جلوی در","داخل در"],"correct":0,"explanation":"behind به معنی پشت است."}]
   },
   20: {
     concept:"برای برنامه‌ریزی و صحبت درباره روز، باید بتوانیم ساعت و بخش‌های مختلف روز را بیان کنیم.",
@@ -344,7 +344,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What time do you get up?",translation:"چه ساعتی بیدار می‌شوی؟"},{speaker:"B",line:"I get up at seven o'clock.",translation:"ساعت هفت بیدار می‌شوم."}],
     commonMistake:"برای گفتن «شب‌ها» معمولاً at night می‌گوییم، نه in the night در جمله‌های ساده روزمره.",
     practiceTip:"برنامه صبح تا شب خودت را با سه ساعت ساده و عبارت‌های morning و night تعریف کن.",
-    questions:[{prompt:"کدام عبارت یعنی «ساعت هشت»؟",options:["eight o'clock","eight clock","o'clock eight"],correct:0,explanation:"الگوی رایج برای ساعت دقیق عدد + o'clock است."},{prompt:"کدام عبارت یعنی «شب‌ها»؟",options:["at night","in the morning","in the afternoon"],correct:0,explanation:"at night برای اشاره به شب به کار می‌رود."},{prompt:"جمله را کامل کن: I go to school ___ the morning.",options:["in","on","under"],correct:0,explanation:"ترکیب درست in the morning است."}]
+    questions:[{prompt:"کدام عبارت یعنی «ساعت هشت»؟",options:["eight o'clock","eight clock","o'clock eight"],correct:0,explanation:"الگوی رایج برای ساعت دقیق عدد + o'clock است."},{prompt:"کدام عبارت یعنی «شب‌ها»؟",options:["at night","in the morning","in the afternoon"],correct:0,explanation:"at night برای اشاره به شب به کار می‌رود."},{prompt:"جمله را کامل کن: I go to school ___ the morning.",options:["in","on","under"],correct:0,explanation:"ترکیب درست in the morning است."},{"prompt":"جای خالی را کامل کن: The class starts ___ 9 o'clock.","options":["at","in","on"],"correct":0,"explanation":"برای ساعت دقیق از at استفاده می‌کنیم."},{"prompt":"کدام عبارت درست است؟","options":["on Friday","at Friday","in Friday"],"correct":0,"explanation":"برای روزهای هفته از on استفاده می‌کنیم."}]
   },
 };
 
