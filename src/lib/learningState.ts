@@ -22,10 +22,48 @@ export async function loadLearningState(): Promise<LearningState | null> {
   return (data?.state as LearningState | undefined) ?? null;
 }
 
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, item]) => [key, canonicalize(item)])
+    );
+  }
+  return value;
+}
+
+export function areLearningStatesEqual(
+  first: LearningState | null | undefined,
+  second: LearningState | null | undefined
+): boolean {
+  return JSON.stringify(canonicalize(first ?? {})) === JSON.stringify(canonicalize(second ?? {}));
+}
+
+// Coalesce overlapping saves: while one RPC is running, keep only the newest
+// snapshot instead of sending every intermediate state to Postgres.
+let pendingSave: LearningState | null = null;
+let saveWorker: Promise<void> | null = null;
+
 export async function saveLearningState(patch: LearningState): Promise<void> {
   if (!supabase) throw new Error("Supabase is not configured");
-  const { error } = await supabase.rpc("save_my_learning_state", {
-    p_patch: patch,
-  });
-  if (error) throw error;
+  pendingSave = patch;
+
+  if (!saveWorker) {
+    saveWorker = (async () => {
+      while (pendingSave) {
+        const latest = pendingSave;
+        pendingSave = null;
+        const { error } = await supabase!.rpc("save_my_learning_state", {
+          p_patch: latest,
+        });
+        if (error) throw error;
+      }
+    })().finally(() => {
+      saveWorker = null;
+    });
+  }
+
+  await saveWorker;
 }
