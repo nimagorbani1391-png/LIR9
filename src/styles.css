@@ -1025,3 +1025,113 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .lirto-composer{display:flex;align-items:center;gap:9px;margin:0 18px;padding:7px 8px 7px 12px;border:1px solid #655634;border-radius:13px;background:#11140f}.lirto-composer input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#f0eadb;font-size:11px;padding:9px 2px}.lirto-composer input::placeholder{color:#777a70}.lirto-composer button{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:10px;background:var(--gold);color:#211b0d}.lirto-composer button:disabled{opacity:.35}
 .lirto-footnote{display:flex;justify-content:center;align-items:center;gap:6px;padding:13px 10px 16px;color:#777b70;font-size:9px}
 @media(max-width:720px){.lirto-shell{border-radius:17px}.lirto-header{padding:14px}.lirto-intro{padding:23px 15px 12px}.lirto-intro h2{font-size:18px}.lirto-chat{padding:14px 12px;min-height:170px}.lirto-message{max-width:94%}.lirto-suggestions{padding:8px 12px 13px}.lirto-composer{margin:0 10px}.lirto-footnote{font-size:8px}}
+
+
+/* LIRTO chat — refined premium interface */
+.lirto-shell{
+  max-width:860px;
+  margin:0 auto;
+  border:1px solid rgba(190,158,91,.25);
+  border-radius:26px;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 92% 0%,rgba(173,137,65,.13),transparent 38%),
+    linear-gradient(155deg,#1d211b 0%,#151812 58%,#12150f 100%);
+  box-shadow:0 28px 80px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.lirto-header{
+  padding:20px 24px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:rgba(8,11,8,.28);
+}
+.lirto-avatar{
+  width:48px;height:48px;border-radius:16px;
+  background:linear-gradient(145deg,rgba(198,165,94,.22),rgba(198,165,94,.06));
+  border-color:rgba(198,165,94,.42);
+  box-shadow:0 6px 22px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.lirto-brand strong{font-size:17px;letter-spacing:2px}
+.lirto-brand span{font-size:10px;color:#aaa99e}
+.lirto-specialty{
+  font-size:10px;padding:9px 13px;
+  background:rgba(198,165,94,.09);
+  border-color:rgba(198,165,94,.2);
+}
+.lirto-intro{padding:34px 22px 22px}
+.lirto-kicker{font-size:9px;letter-spacing:2.4px}
+.lirto-intro h2{font-size:clamp(20px,3vw,25px);font-weight:800;letter-spacing:-.4px;margin:12px 0 8px}
+.lirto-intro p{font-size:12px;line-height:1.9;color:#b4b2a7}
+.lirto-chat{
+  min-height:230px;max-height:440px;
+  margin:0 18px;padding:22px 18px 18px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:20px;
+  background:rgba(7,10,7,.25);
+  gap:16px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(190,158,91,.35) transparent;
+}
+.lirto-message{max-width:min(86%,620px);gap:10px}
+.lirto-message p{
+  padding:13px 17px;border-radius:17px;
+  font-size:12px;line-height:2.05;
+  box-shadow:0 5px 16px rgba(0,0,0,.12);
+}
+.lirto-message.assistant p{
+  background:linear-gradient(145deg,#292d25,#23271f);
+  border:1px solid rgba(255,255,255,.075);
+  border-bottom-right-radius:6px;
+}
+.lirto-message.user p{
+  background:linear-gradient(145deg,#655333,#4a3c25);
+  border:1px solid rgba(204,171,103,.35);
+  border-bottom-left-radius:6px;
+}
+.lirto-message-avatar{
+  width:30px;height:30px;border-radius:11px;
+  border:1px solid rgba(198,165,94,.17);
+}
+.lirto-suggestions{padding:17px 22px 18px;gap:9px}
+.lirto-suggestions>span{font-size:10px;margin-left:2px}
+.lirto-suggestions button{
+  font-size:10px;padding:9px 13px;border-radius:22px;
+  border-color:rgba(190,158,91,.2);
+  transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.lirto-suggestions button:hover{border-color:rgba(190,158,91,.48);transform:translateY(-1px)}
+.lirto-composer{
+  margin:0 18px;padding:8px 9px 8px 16px;
+  border:1px solid rgba(190,158,91,.3);
+  border-radius:17px;
+  background:rgba(8,11,8,.72);
+  box-shadow:0 8px 26px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.025);
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.lirto-composer:focus-within{
+  border-color:rgba(211,179,111,.72);
+  box-shadow:0 0 0 3px rgba(190,158,91,.09),0 8px 26px rgba(0,0,0,.2);
+}
+.lirto-composer input{font-size:12px;padding:12px 3px}
+.lirto-composer button{
+  width:42px;height:42px;border-radius:13px;
+  background:linear-gradient(145deg,#d4b875,#a98a4b);
+  box-shadow:0 4px 14px rgba(169,138,75,.22);
+  transition:transform .18s ease,filter .18s ease;
+}
+.lirto-composer button:not(:disabled):hover{transform:translateY(-1px);filter:brightness(1.08)}
+.lirto-footnote{padding:16px 10px 19px;font-size:10px}
+@media(max-width:720px){
+  .lirto-shell{border-radius:21px}
+  .lirto-header{padding:15px 16px}
+  .lirto-avatar{width:43px;height:43px}
+  .lirto-specialty{font-size:9px;padding:8px 10px}
+  .lirto-intro{padding:27px 15px 18px}
+  .lirto-intro p{font-size:11px}
+  .lirto-chat{margin:0 10px;padding:16px 12px;min-height:210px;max-height:390px;border-radius:17px}
+  .lirto-message{max-width:95%}
+  .lirto-message p{font-size:11px;padding:11px 13px}
+  .lirto-suggestions{padding:14px 12px 15px;gap:7px}
+  .lirto-suggestions button{font-size:9px;padding:8px 10px}
+  .lirto-composer{margin:0 10px;border-radius:15px}
+  .lirto-composer button{width:40px;height:40px}
+}
