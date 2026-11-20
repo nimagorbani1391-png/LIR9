@@ -409,6 +409,7 @@ function App() {
   const [lastLessonRewarded, setLastLessonRewarded] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState<"idle" | "listening" | "matched" | "retry" | "unsupported" | "error">("idle");
   const [voiceTranscript, setVoiceTranscript] = useState("");
+  const [voiceError, setVoiceError] = useState("");
   const [typedAnswer, setTypedAnswer] = useState("");
   const [typingStatus, setTypingStatus] = useState<"idle" | "matched" | "retry">("idle");
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
@@ -447,6 +448,11 @@ function App() {
     const timeout = window.setTimeout(() => setNotice(""), 4200);
     return () => window.clearTimeout(timeout);
   }, [notice]);
+  useEffect(() => {
+    if (step !== "voice" || voiceStatus !== "matched") return;
+    const timeout = window.setTimeout(() => completeLesson(), 900);
+    return () => window.clearTimeout(timeout);
+  }, [voiceStatus, step, activeLesson]);
   const completeLesson = () => {
     if (!active) return;
     const id = String(active.id);
@@ -497,20 +503,24 @@ function App() {
         const target = speechCanonical(expected);
         const matched = alternatives.some(value => { const spoken = speechCanonical(value); return target.length > 0 && (" " + spoken + " ").includes(" " + target + " "); });
         setVoiceTranscript(transcript);
+        setVoiceError("");
         setVoiceStatus(matched ? "matched" : "retry");
       };
       recognition.onerror = event => {
         setVoiceStatus("error");
-        setVoiceTranscript(event.error === "not-allowed" ? "دسترسی میکروفون داده نشده است." : event.error === "no-speech" ? "صدایی تشخیص داده نشد؛ دوباره تلاش کن." : "تشخیص صدا با مشکل روبه‌رو شد؛ اتصال و مجوز میکروفون را بررسی کن.");
+        setVoiceTranscript("");
+        setVoiceError(event.error === "not-allowed" ? "دسترسی میکروفون داده نشده است؛ مجوز میکروفون مرورگر را فعال کن." : event.error === "no-speech" ? "صدایی تشخیص داده نشد؛ دوباره واضح‌تر صحبت کن." : "تشخیص صدا با مشکل روبه‌رو شد؛ اتصال و مجوز میکروفون را بررسی کن.");
       };
       recognition.onend = () => setVoiceStatus(current => current === "listening" ? "idle" : current);
       recognitionRef.current = recognition;
       setVoiceTranscript("");
+      setVoiceError("");
       setVoiceStatus("listening");
       recognition.start();
     } catch {
       setVoiceStatus("error");
-      setVoiceTranscript("شروع میکروفون ممکن نشد؛ دوباره امتحان کن.");
+      setVoiceTranscript("");
+      setVoiceError("شروع میکروفون ممکن نشد؛ دوباره امتحان کن.");
     }
   };
   const beginTypingPractice = () => { setTypedAnswer(""); setTypingStatus("idle"); setStep("typing"); };
@@ -522,7 +532,7 @@ function App() {
     const containsTarget = expected.length > 0 && (" " + actual + " ").includes(" " + expected + " ");
     setTypingStatus(containsTarget && actual.split(" ").length >= 3 ? "matched" : "retry");
   };
-  const advanceTypingPractice = () => { if (!active) return; setVoiceStatus("idle"); setVoiceTranscript(""); setStep("voice"); };
+  const advanceTypingPractice = () => { if (!active) return; setVoiceStatus("idle"); setVoiceTranscript(""); setVoiceError(""); setStep("voice"); };
   const advanceVoicePractice = () => { if (!active) return; completeLesson(); };
   return <div className="app-shell" dir="rtl">
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
@@ -570,10 +580,14 @@ function App() {
   <div className="voice-target"><strong dir="ltr">{active.keyWords[0].word.replace(/…/g,"").trim()}</strong><span>{active.keyWords[0].meaning}</span><button onClick={()=>speak(active.keyWords[0].word.replace(/…/g,"").trim())}><Volume2 size={15}/> شنیدن عبارت</button></div>
   <div className={"voice-status "+voiceStatus}>
     {voiceStatus==="matched"?<CheckCircle2 size={23}/>:voiceStatus==="listening"?<Mic size={22}/>:voiceStatus==="retry"||voiceStatus==="error"?<RotateCcw size={21}/>:<MicOff size={21}/>}
-    <div><b>{voiceStatus==="matched"?"جمله‌ات تشخیص داده شد!":voiceStatus==="listening"?"دارم گوش می‌دهم…":voiceStatus==="retry"?"جمله‌ات عبارت هدف را نداشت یا خیلی کوتاه بود.":voiceStatus==="unsupported"?"این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="error"?"مشکل در ضبط صدا":"آماده‌ای؟"}</b>
-    <span>{voiceTranscript || (voiceStatus==="unsupported"?"می‌توانی آزمون نوشتاری را ادامه بدهی؛ این دستگاه امکان ارزیابی گفتار را فراهم نکرد.":voiceStatus==="listening"?"جمله‌ای را که ساختی واضح و با صدای طبیعی بگو.":"برای شروع، با عبارت هدف یک جمله بساز و دکمه میکروفون را بزن.")}</span></div>
+    <div><b>{voiceStatus==="matched"?"آفرین! پاسخ درست تشخیص داده شد.":voiceStatus==="listening"?"دارم گوش می‌دهم…":voiceStatus==="retry"?"پاسخ با عبارت هدف مطابقت نداشت. دوباره تلاش کن.":voiceStatus==="unsupported"?"این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="error"?"مشکل در ضبط صدا":"آماده‌ای؟"}</b>
+    <span>{voiceStatus==="error"?voiceError:voiceStatus==="unsupported"?"می‌توانی عبارت را دستی تمرین کنی؛ این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="listening"?"صحبت کن؛ متن تشخیص‌داده‌شده همین‌جا نمایش داده می‌شود.":voiceStatus==="matched"?"پاسخت پذیرفته شد؛ در حال رفتن به مرحله بعدی…":voiceStatus==="retry"?"متن شنیده‌شده را پایین ببین و دوباره امتحان کن.":"برای شروع، دکمه میکروفون را بزن."}</span></div>
   </div>
-  {voiceStatus==="matched"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>{"پایان تمرین گفتاری"} <ArrowRight size={16}/></button>:voiceStatus==="unsupported"||voiceStatus==="error"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>جمله را با صدای بلند تمرین کردم <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
+  <div className="voice-transcript-panel" aria-live="polite">
+    <span>متنی که سیستم از صدایت تشخیص داد</span>
+    <strong dir="ltr" lang="en">{voiceTranscript || (voiceStatus==="listening"?"در انتظار تشخیص صدا…":"هنوز گفتاری ثبت نشده است.")}</strong>
+  </div>
+  {voiceStatus==="matched"?<div className="voice-auto-next"><CheckCircle2 size={16}/> پاسخ درست بود؛ خودکار ادامه می‌دهیم.</div>:voiceStatus==="unsupported"||voiceStatus==="error"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>عبارت را با صدای بلند تمرین کردم <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
   {voiceStatus==="retry"&&<button className="text-button voice-retry" onClick={startVoiceAttempt}>تلاش دوباره</button>}
   <p className="voice-privacy">برای این تمرین، تشخیص گفتار از قابلیت مرورگر استفاده می‌کند. در بعضی مرورگرها صدا برای پردازش به سرویس آنلاین ارسال می‌شود.</p>
 </div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button></div></>}</>{step==="typing"&&<><div className="lesson-body voice-practice">
