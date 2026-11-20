@@ -892,3 +892,13 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .account-detail>div{display:flex;flex-direction:column;gap:6px;min-width:0}.account-detail small{color:#a4a696;font-size:10px}.account-detail strong{color:#f0eadb;font-size:13px;overflow-wrap:anywhere}
 .account-security-note{display:flex;align-items:center;gap:9px;margin:14px 3px;color:#969b8d;font-size:10px;line-height:1.9}.account-security-note svg{flex:0 0 auto;color:#c6a45b}
 @media(max-width:560px){.account-hero{align-items:flex-start;padding:19px 16px;gap:12px}.account-avatar{flex-basis:52px;height:52px;border-radius:15px}.account-hero h1{font-size:21px}.account-status{position:absolute;left:13px;top:13px;padding:5px 8px;font-size:9px}.account-card{padding:18px 15px}.account-detail{gap:10px}.account-detail-icon{flex-basis:36px;height:36px}}
+
+
+/* Account session actions */
+.account-session-card{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:22px;padding:21px 23px;border:1px solid #493b30;border-radius:16px;background:linear-gradient(135deg,#211d19,#191914)}
+.account-session-copy{min-width:0}.account-session-copy h2{margin:5px 0 6px;color:#f0eadb;font-size:16px}.account-session-copy p{margin:0;color:#a6a394;font-size:11px;line-height:1.9}
+.account-signout-button{display:inline-flex;align-items:center;justify-content:center;gap:9px;flex:0 0 auto;min-height:43px;padding:0 16px;border:1px solid #75483d;border-radius:10px;background:linear-gradient(135deg,#492b27,#35211f);color:#f0c2b5;font:inherit;font-size:11px;font-weight:700;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.account-signout-button:hover:not(:disabled){border-color:#b36b5a;background:linear-gradient(135deg,#60352f,#432724);transform:translateY(-1px)}
+.account-signout-button:focus-visible{outline:2px solid #d5b66d;outline-offset:3px}
+.account-signout-button:disabled{opacity:.6;cursor:wait}
+@media(max-width:560px){.account-session-card{align-items:stretch;flex-direction:column;gap:16px;padding:18px 15px}.account-signout-button{width:100%}}
