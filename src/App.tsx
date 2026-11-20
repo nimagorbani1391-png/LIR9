@@ -161,14 +161,14 @@ type PlacementQuestion = { prompt: string; options: string[]; answer: number; sk
 const placementQuestions: PlacementQuestion[] = [
   { prompt: "Choose the correct greeting.", options: ["Good morning!", "I am twelve.", "It is a book."], answer: 0, skill: "مکالمه" },
   { prompt: "My name ___ Sara.", options: ["am", "is", "are"], answer: 1, skill: "فعل be" },
-  { prompt: "They ___ from Canada.", options: ["is", "am", "are"], answer: 2, skill: "فعل be" },
   { prompt: "I have ___ apple.", options: ["a", "an", "the"], answer: 1, skill: "حروف تعریف" },
-  { prompt: "She ___ to school every day.", options: ["go", "goes", "going"], answer: 1, skill: "حال ساده" },
-  { prompt: "There ___ two books on the desk.", options: ["is", "are", "am"], answer: 1, skill: "There is / are" },
-  { prompt: "I ___ TV right now.", options: ["watch", "watched", "am watching"], answer: 2, skill: "حال استمراری" },
-  { prompt: "We went to the park ___.", options: ["yesterday", "tomorrow", "now"], answer: 0, skill: "گذشته ساده" },
-  { prompt: "If it rains, we ___ at home.", options: ["stay", "will stay", "stayed"], answer: 1, skill: "شرطی نوع اول" },
-  { prompt: "Which sentence is correct?", options: ["He don't like tea.", "He doesn't likes tea.", "He doesn't like tea."], answer: 2, skill: "ساختار جمله" }
+  { prompt: "The plural of book is ___.", options: ["books", "bookes", "book"], answer: 0, skill: "اسم جمع" },
+  { prompt: "This is Ali's phone. It is ___.", options: ["his", "he", "him"], answer: 0, skill: "مالکیت" },
+  { prompt: "She ___ English every day.", options: ["study", "studies", "studying"], answer: 1, skill: "حال ساده" },
+  { prompt: "___ you like tea?", options: ["Do", "Does", "Are"], answer: 0, skill: "سؤال حال ساده" },
+  { prompt: "There ___ two chairs.", options: ["is", "are", "am"], answer: 1, skill: "There is / are" },
+  { prompt: "He can ___ very well.", options: ["swim", "swims", "to swim"], answer: 0, skill: "توانایی" },
+  { prompt: "The class starts ___ 8 o'clock.", options: ["in", "on", "at"], answer: 2, skill: "حروف اضافه زمان" }
 ];
 function PlacementAssessment() {
   const [started, setStarted] = useState(false);
@@ -185,13 +185,13 @@ function PlacementAssessment() {
     setStarted(false);
   };
   const reset = () => { setAnswers({}); setIndex(0); setStarted(true); };
-  const band = result ? result.score <= 4 ? "پایه‌های مقدماتی را از ابتدا بساز" : result.score <= 7 ? "پایه A1 را تقویت کن" : "پایه‌های A1 خوب است؛ ارزیابی گسترده‌تری لازم داری" : "";
+  const band = result ? result.score <= 4 ? "بهتر است آموزش A1 را از پایه شروع کنی" : result.score <= 7 ? "بخشی از پایه A1 را بلدی؛ درس‌ها را کامل کن" : "پایه اولیه خوبی داری؛ مسیر کامل A1 را ادامه بده" : "";
   return <section className="placement-card">
     <div className="placement-card-icon"><Target size={22}/></div>
     <div className="placement-card-copy">
       <span className="section-kicker">شروع هوشمند مسیر</span>
       <h2>ارزیابی اولیه زبان انگلیسی</h2>
-      <p>۱۰ سؤال کوتاه از مهارت‌های پایه. نتیجه، یک تخمین اولیه است و جای آزمون استاندارد تعیین سطح را نمی‌گیرد.</p>
+      <p>۱۰ سؤال کوتاه از مباحث پایه A1. نتیجه فقط یک تخمین اولیه است و جای آزمون استاندارد تعیین سطح را نمی‌گیرد.</p>
       {result && !started && <div className="placement-result"><strong>{result.score} از ۱۰</strong><span>{band}</span></div>}
       {started ? <div className="placement-quiz" dir="ltr">
         <div className="placement-quiz-top"><span>Question {index + 1} of {placementQuestions.length}</span><span>{Math.round((index + 1) / placementQuestions.length * 100)}%</span></div>
