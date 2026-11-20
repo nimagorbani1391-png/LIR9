@@ -16,6 +16,12 @@ type SpeechRecognitionLike = {
 };
 type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
 const normalizeSpeech = (value: string) => value.toLowerCase().replace(/[’']/g, "").replace(/…/g, "").replace(/\bi am\b/g, "im").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+const speechCanonical = (value: string) => {
+  const normalized = normalizeSpeech(value);
+  const numberWords: Record<string, string> = { "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine", "10": "ten", "11": "eleven", "12": "twelve", "13": "thirteen", "14": "fourteen", "15": "fifteen", "16": "sixteen", "17": "seventeen", "18": "eighteen", "19": "nineteen", "20": "twenty" };
+  const aliases: Record<string, string> = { "won": "one", "too": "two", "to": "two", "for": "four", "ate": "eight" };
+  return normalized.split(" ").map(token => numberWords[token] || aliases[token] || token).join(" ");
+};
 const createOptionOrders = (content: Record<number, LessonContent>, lessonId: number) => Object.fromEntries((content[lessonId]?.questions ?? []).map((question, questionIndex) => { const order = question.options.map((_, index) => index); for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; } return [questionIndex, order]; })) as Record<number, number[]>;
 type Lesson = { id: number; unit: string; title: string; description: string; duration: string; skill: string; goal: string; explanation: string; takeaway: string; keyWords: { word: string; meaning: string }[]; example: string; translation: string; question: string; choices: string[]; correct: number; answerWhy: string; };
 const lessons: Lesson[] = [
@@ -379,7 +385,7 @@ function App() {
         const alternatives = Array.from(result || []).map(item => item.transcript);
         const transcript = alternatives[0] || "";
         const expected = normalizeSpeech(active.keyWords[voiceIndex]?.word || "");
-        const matched = alternatives.some(value => normalizeSpeech(value) === expected);
+        const matched = alternatives.some(value => speechCanonical(value) === speechCanonical(expected));
         setVoiceTranscript(transcript);
         setVoiceStatus(matched ? "matched" : "retry");
       };
