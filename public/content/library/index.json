@@ -1,0 +1,57 @@
+[
+  {
+    "id": "story-first-day",
+    "title": "اولین روز در مدرسه جدید",
+    "summary": "یک داستان کوتاه و ساده درباره شروعی تازه و پیدا کردن یک دوست.",
+    "category": "داستان",
+    "level": "A1 · مقدماتی",
+    "minutes": 4,
+    "file": "content/library/articles/story-first-day.json",
+    "featured": true
+  },
+  {
+    "id": "article-small-steps",
+    "title": "چطور با روزی ۱۰ دقیقه انگلیسی‌ات را تقویت کنی؟",
+    "summary": "یک روش واقع‌بینانه برای ساختن عادت یادگیری بدون خستگی.",
+    "category": "مقاله",
+    "level": "همه سطح‌ها",
+    "minutes": 3,
+    "file": "content/library/articles/article-small-steps.json"
+  },
+  {
+    "id": "dialogue-cafe",
+    "title": "در کافه چه بگوییم؟",
+    "summary": "یک مکالمه کاربردی برای سفارش نوشیدنی و پرسیدن قیمت.",
+    "category": "مکالمه",
+    "level": "A1 · مقدماتی",
+    "minutes": 3,
+    "file": "content/library/articles/dialogue-cafe.json"
+  },
+  {
+    "id": "story-lost-key",
+    "title": "کلید گمشده",
+    "summary": "داستانی کوتاه برای تمرین واژه‌های مکان و توصیف اشیا.",
+    "category": "داستان",
+    "level": "A1 · مقدماتی",
+    "minutes": 4,
+    "file": "content/library/articles/story-lost-key.json"
+  },
+  {
+    "id": "article-learn-words",
+    "title": "واژه‌ها را چطور بهتر به خاطر بسپاریم؟",
+    "summary": "سه تکنیک ساده برای یادگیری ماندگار واژگان انگلیسی.",
+    "category": "مقاله",
+    "level": "A1–A2",
+    "minutes": 4,
+    "file": "content/library/articles/article-learn-words.json"
+  },
+  {
+    "id": "dialogue-new-friend",
+    "title": "آشنایی با یک دوست تازه",
+    "summary": "تمرین معرفی خود، پرسیدن نام و صحبت درباره علاقه‌مندی‌ها.",
+    "category": "مکالمه",
+    "level": "A1 · مقدماتی",
+    "minutes": 3,
+    "file": "content/library/articles/dialogue-new-friend.json"
+  }
+]
