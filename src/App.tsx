@@ -407,7 +407,6 @@ function App() {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizOptionOrders, setQuizOptionOrders] = useState<Record<number, number[]>>({});
   const [lastLessonRewarded, setLastLessonRewarded] = useState(false);
-  const [voiceIndex, setVoiceIndex] = useState(0);
   const [voiceStatus, setVoiceStatus] = useState<"idle" | "listening" | "matched" | "retry" | "unsupported" | "error">("idle");
   const [voiceTranscript, setVoiceTranscript] = useState("");
   const [typedAnswer, setTypedAnswer] = useState("");
@@ -434,7 +433,7 @@ function App() {
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const openLesson = (id: number) => { const index = lessons.findIndex(lesson => lesson.id === id); if (index < 0) return; const unlocked = lessons.slice(0, index).every(lesson => completed.includes(String(lesson.id))); if (!unlocked) { setNotice("برای باز کردن این درس، ابتدا درس‌های قبلی را کامل کن."); setMenuOpen(false); return; } setActiveLesson(id); setStep("learn"); setChoice(null); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, id)); setMenuOpen(false); };
-  const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders({}); setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); };
+  const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders({}); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); };
   useEffect(() => {
     if (!activeLesson) return;
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") { setActiveLesson(null); setChoice(null); setStep("learn"); } };
@@ -514,7 +513,7 @@ function App() {
       setVoiceTranscript("شروع میکروفون ممکن نشد؛ دوباره امتحان کن.");
     }
   };
-  const beginTypingPractice = () => { setVoiceIndex(0); setTypedAnswer(""); setTypingStatus("idle"); setStep("typing"); };
+  const beginTypingPractice = () => { setTypedAnswer(""); setTypingStatus("idle"); setStep("typing"); };
   const beginQuiz = () => { if (!active) return; setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, active.id)); setChoice(null); setStep("quiz"); };
   const checkTypedAnswer = () => {
     if (!active) return;
@@ -523,7 +522,7 @@ function App() {
     const containsTarget = expected.length > 0 && (" " + actual + " ").includes(" " + expected + " ");
     setTypingStatus(containsTarget && actual.split(" ").length >= 3 ? "matched" : "retry");
   };
-  const advanceTypingPractice = () => { if (!active) return; setVoiceIndex(0); setVoiceStatus("idle"); setVoiceTranscript(""); setStep("voice"); };
+  const advanceTypingPractice = () => { if (!active) return; setVoiceStatus("idle"); setVoiceTranscript(""); setStep("voice"); };
   const advanceVoicePractice = () => { if (!active) return; completeLesson(); };
   return <div className="app-shell" dir="rtl">
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
