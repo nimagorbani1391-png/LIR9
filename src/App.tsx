@@ -615,21 +615,48 @@ type LirtoMessage = { role: "assistant" | "user"; text: string };
 
 function LirtoAssistant() {
   const [messages, setMessages] = useState<LirtoMessage[]>([
-    { role: "assistant", text: "سلام! من LIRTO هستم؛ دستیار هوشمند LIR9. همیشه کنار تو. ✨\n\nمی‌تونم در یادگیری زبان انگلیسی، گرامر، واژگان و مکالمه کمکت کنم." }
+    { role: "assistant", text: "سلام! من LIRTO هستم؛ دستیار هوشمند LIR9. همیشه کنار تو. ✨\\n\\nمی‌تونم در یادگیری زبان انگلیسی، گرامر، واژگان و مکالمه کمکت کنم." }
   ]);
   const [draft, setDraft] = useState("");
-  const sendMessage = () => {
+  const [isSending, setIsSending] = useState(false);
+  const sendMessage = async () => {
     const value = draft.trim();
-    if (!value) return;
-    const normalized = value.toLowerCase();
-    let reply = "هنوز موتور هوش مصنوعی من به سرویس پاسخ‌گویی متصل نشده. به‌زودی می‌تونیم گفت‌وگوی واقعی درباره یادگیری زبان انگلیسی رو شروع کنیم. 💛";
-    if (/(اسمت چیه|اسم تو چیه|نامت چیه|تو کی هستی|who are you|what is your name)/i.test(normalized)) {
-      reply = "من LIRTO هستم؛ دستیار هوشمند پلتفرم LIR9. همیشه کنار تو! 🤖";
-    } else if (/(پایتون|برنامه.?نویسی|کدنویسی|جاوااسکریپت|سی.?شارپ|python|javascript|programming|write code|کد بنویس)/i.test(normalized)) {
-      reply = "من LIRTO هستم؛ دستیار تخصصی یادگیری زبان انگلیسی در LIR9. 😊\n\nتمرکزم روی آموزش زبان، گرامر، واژگان و مکالمه است؛ برای برنامه‌نویسی طراحی نشده‌ام. بیا انگلیسی تمرین کنیم!";
+    if (!value || isSending) return;
+    if (!supabase) {
+      setMessages(current => [...current, { role: "user", text: value }, { role: "assistant", text: "اتصال حساب کاربری برقرار نیست. لطفاً صفحه را تازه‌سازی کن و دوباره وارد شو." }]);
+      setDraft("");
+      return;
     }
-    setMessages(current => [...current, { role: "user", text: value }, { role: "assistant", text: reply }]);
+    const nextMessages: LirtoMessage[] = [...messages, { role: "user", text: value }];
+    setMessages(nextMessages);
     setDraft("");
+    setIsSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("lirto-chat", {
+        body: {
+          messages: nextMessages
+            .filter(message => message.role !== "assistant" || messages.length > 0)
+            .slice(-8)
+            .map(message => ({ role: message.role, content: message.text }))
+        }
+      });
+      if (error) throw error;
+      if (typeof data?.reply !== "string" || !data.reply.trim()) {
+        throw new Error(data?.error || "پاسخ معتبری دریافت نشد.");
+      }
+      setMessages(current => [...current, { role: "assistant", text: data.reply }]);
+    } catch (error) {
+      console.error("LIRTO request failed:", error);
+      const message = error instanceof Error ? error.message : "";
+      setMessages(current => [...current, {
+        role: "assistant",
+        text: message.includes("JWT") || message.includes("401")
+          ? "برای استفاده از LIRTO باید وارد حساب کاربری‌ات شده باشی."
+          : "فعلاً نتونستم به موتور هوش مصنوعی وصل بشم. کمی بعد دوباره تلاش کن."
+      }]);
+    } finally {
+      setIsSending(false);
+    }
   };
   return <section className="lirto-shell" aria-label="دستیار LIRTO">
     <header className="lirto-header">
@@ -645,15 +672,16 @@ function LirtoAssistant() {
         {message.role === "assistant" && <span className="lirto-message-avatar"><Bot size={15}/></span>}
         <p>{message.text}</p>
       </div>)}
+      {isSending && <div className="lirto-message assistant"><span className="lirto-message-avatar"><Bot size={15}/></span><p>دارم فکر می‌کنم... ✨</p></div>}
     </div>
     <div className="lirto-suggestions"><span>شروع سریع:</span>
-      {["اسمت چیه؟","چطور انگلیسی سلام کنم؟","گرامر رو توضیح بده"].map(item => <button key={item} onClick={() => setDraft(item)}>{item}</button>)}
+      {["چطور انگلیسی سلام کنم؟","گرامر حال ساده رو توضیح بده","با من انگلیسی مکالمه کن"].map(item => <button key={item} type="button" disabled={isSending} onClick={() => setDraft(item)}>{item}</button>)}
     </div>
-    <form className="lirto-composer" onSubmit={event => { event.preventDefault(); sendMessage(); }}>
-      <input value={draft} onChange={event => setDraft(event.target.value)} placeholder="پیامت رو برای LIRTO بنویس..." aria-label="پیام به LIRTO"/>
-      <button type="submit" disabled={!draft.trim()} aria-label="ارسال پیام"><Send size={17}/></button>
+    <form className="lirto-composer" onSubmit={event => { event.preventDefault(); void sendMessage(); }}>
+      <input value={draft} onChange={event => setDraft(event.target.value)} placeholder="پیامت رو برای LIRTO بنویس..." aria-label="پیام به LIRTO" maxLength={1200} disabled={isSending}/>
+      <button type="submit" disabled={!draft.trim() || isSending} aria-label="ارسال پیام"><Send size={17}/></button>
     </form>
-    <div className="lirto-footnote"><ShieldCheck size={13}/> نسخه اولیه رابط کاربری؛ اتصال امن به هوش مصنوعی در مرحله بعد</div>
+    <div className="lirto-footnote"><ShieldCheck size={13}/> اتصال امن به موتور هوش مصنوعی Groq</div>
   </section>;
 }
 
