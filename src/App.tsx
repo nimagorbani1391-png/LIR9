@@ -495,7 +495,8 @@ function App() {
         const alternatives = Array.from(result || []).map(item => item.transcript);
         const transcript = alternatives[0] || "";
         const expected = normalizeSpeech(active.keyWords[0]?.word || "");
-        const target = speechCanonical(expected);\n        const matched = alternatives.some(value => { const spoken = speechCanonical(value); return spoken.includes(target) && spoken.split(" ").length >= 3; });
+        const target = speechCanonical(expected);
+        const matched = alternatives.some(value => { const spoken = speechCanonical(value); return spoken.includes(target) && spoken.split(" ").length >= 3; });
         setVoiceTranscript(transcript);
         setVoiceStatus(matched ? "matched" : "retry");
       };
