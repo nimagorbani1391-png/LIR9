@@ -1425,3 +1425,32 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .library-mode-switch button:hover{color:#ead9ad;border-color:#615033}
 .library-mode-switch button.active{border-color:#80683b;background:linear-gradient(120deg,#c5a35b,#9b783d);color:#211b10;font-weight:800}
 @media(max-width:520px){.library-mode-switch{width:100%;display:grid;grid-template-columns:1fr 1fr}.library-mode-switch button{padding:0 8px;font-size:10px}}
+
+
+/* A1 comprehensive exit assessment */
+.a1-final-card{display:grid;gap:17px;margin:26px 0 8px;padding:22px;border:1px solid rgba(190,158,91,.34);border-radius:20px;background:linear-gradient(135deg,#24291f,#171c16);box-shadow:0 14px 34px #0002}
+.a1-final-head{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.a1-final-head h2{margin:5px 0 7px;color:#f2eee2;font-size:20px}
+.a1-final-head p{max-width:620px;margin:0;color:#b5b9ac;font-size:13px;line-height:2}
+.a1-final-mark{display:grid;justify-items:center;gap:2px;flex:0 0 76px;padding:12px 8px;border:1px solid #6c5835;border-radius:15px;background:#d8b45d12;color:#e8d39b}
+.a1-final-mark b{font-size:23px}.a1-final-mark small{font-size:10px;color:#b8b5a7}
+.a1-final-locked{display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid #414a39;border-radius:12px;background:#151b14;color:#c5cabb;font-size:12px;line-height:1.9}
+.a1-final-locked svg{flex-shrink:0;color:#d4b46c}
+.a1-final-quiz{padding:18px;border:1px solid #3c4637;border-radius:15px;background:#11170f}
+.a1-final-progress{display:flex;justify-content:space-between;gap:12px;color:#c9c4b4;font:600 11px Arial,sans-serif}
+.a1-final-progress b{color:#e5cb8c}
+.a1-final-track{height:5px;margin:10px 0 18px;overflow:hidden;border-radius:8px;background:#30382c}
+.a1-final-track i{display:block;height:100%;border-radius:8px;background:#c5a45e;transition:width .2s}
+.a1-final-skill{display:inline-block;margin-bottom:8px;padding:5px 8px;border-radius:7px;background:#d8b45d14;color:#e0c782;font-size:10px}
+.a1-final-quiz h3{margin:0 0 15px;color:#f4f0e5;font:700 17px/1.7 Arial,sans-serif;text-align:left}
+.a1-final-options{display:grid;gap:8px}
+.a1-final-options button{padding:12px 14px;border:1px solid #3c4537;border-radius:11px;background:#20271d;color:#e7e7dc;text-align:left;font:14px Arial,sans-serif;transition:border-color .15s,background .15s}
+.a1-final-options button.selected{border-color:#c5a45e;background:#514329;color:#fff0c8}
+.a1-final-actions{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.a1-final-actions button:disabled{opacity:.4;cursor:not-allowed}
+.a1-final-result{display:grid;justify-items:start;gap:9px;padding:16px;border:1px solid #4b5940;border-radius:13px;background:#151c13;color:#e4e6d9}
+.a1-final-result>strong{color:#e8d39b;font-size:27px;font-variant-numeric:tabular-nums}
+.a1-final-result>span{font-size:13px;line-height:1.9}
+.a1-final-result>small{color:#aeb5a5;font-size:11px}
+.a1-final-note{margin:0;color:#8f9888;font-size:10px;line-height:1.9}
+@media(max-width:720px){.a1-final-card{gap:14px;margin-top:20px;padding:15px;border-radius:16px}.a1-final-head h2{font-size:17px}.a1-final-head p{font-size:12px}.a1-final-mark{flex-basis:62px;padding:9px 6px}.a1-final-mark svg{width:20px}.a1-final-mark b{font-size:20px}.a1-final-quiz{padding:12px}.a1-final-quiz h3{font-size:15px}.a1-final-options button{font-size:13px;padding:12px}}
