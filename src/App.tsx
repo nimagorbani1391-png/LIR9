@@ -3,7 +3,7 @@ import { supabase } from "./lib/supabase";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck
+  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "assistant" | "certificates" | "account";
@@ -484,6 +484,7 @@ function AuthScreen() {
 function App() {
   const [authSession, setAuthSession] = useState<import("@supabase/supabase-js").Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [signOutBusy, setSignOutBusy] = useState(false);
   const [tab, setTab] = useState<Tab>("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
@@ -556,9 +557,22 @@ function App() {
     return () => { active = false; subscription.unsubscribe(); };
   }, []);
   const handleSignOut = async () => {
-    if (!supabase) return;
-    const { error } = await supabase.auth.signOut();
-    if (error) setNotice("خروج از حساب انجام نشد؛ دوباره تلاش کن.");
+    if (!supabase || signOutBusy) return;
+    const confirmed = window.confirm("آیا مطمئنی می‌خواهی از حساب کاربری LIR9 خارج شوی؟");
+    if (!confirmed) return;
+    setSignOutBusy(true);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        setNotice("خروج از حساب انجام نشد؛ دوباره تلاش کن.");
+        return;
+      }
+      setMenuOpen(false);
+    } catch {
+      setNotice("ارتباط با سرویس حساب کاربری برقرار نشد؛ دوباره تلاش کن.");
+    } finally {
+      setSignOutBusy(false);
+    }
   };
   const completeLesson = () => {
     if (!active) return;
@@ -649,7 +663,7 @@ function App() {
       <div className="lir-wallet"><span>موجودی امتیاز</span><b>{lirBalance} <small>LIR</small></b></div><div className="side-caption">منوی اصلی</div>
       <nav className="side-nav">{nav.map(item => <button key={item.id} className={tab === item.id ? "nav-link active" : "nav-link"} onClick={() => go(item.id)}><item.icon size={19}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}<button className={tab === "account" ? "nav-link active" : "nav-link"} onClick={() => go("account")}><UserRound size={19}/><span>حساب کاربری</span>{tab === "account" && <i/>}</button></nav>
       <div className="sidebar-progress"><div className="side-progress-icon"><Target size={18}/></div><div><b>مسیر فعلی تو</b><small>سطح A1 · مقدماتی</small></div><strong>{progress}٪</strong><div className="side-track"><i style={{width: progress + "%"}}/></div><button onClick={() => go("learn")}>ادامه مسیر <ChevronLeft size={14}/></button></div>
-      <div className="sidebar-bottom"><span className="brand-mini">LIR9</span><span className="sidebar-user-email" title={authSession.user.email || ""}>{authSession.user.email}</span><button className="sidebar-signout" onClick={handleSignOut}>خروج از حساب</button></div>
+      <div className="sidebar-bottom"><span className="brand-mini">LIR9</span><span className="sidebar-user-email" title={authSession.user.email || ""}>{authSession.user.email}</span></div>
     </aside>
     {menuOpen && <button className="mobile-scrim" onClick={() => setMenuOpen(false)} aria-label="بستن منو"/>}
     <main className="main-area">
@@ -673,6 +687,12 @@ function App() {
             <div className="account-detail"><span className="account-detail-icon"><CalendarDays size={18}/></span><div><small>تاریخ ایجاد حساب</small><strong>{authSession.user.created_at ? new Date(authSession.user.created_at).toLocaleDateString("fa-IR", { year:"numeric", month:"long", day:"numeric" }) : "نامشخص"}</strong></div></div>
           </div>
           <p className="account-security-note"><LockKeyhole size={16}/> اطلاعات این بخش از حساب کاربری شما خوانده می‌شود.</p>
+          <section className="account-session-card" aria-labelledby="account-session-title">
+            <div className="account-session-copy"><span className="section-kicker">ACCOUNT SESSION</span><h2 id="account-session-title">مدیریت نشست کاربری</h2><p>برای پایان دادن به نشست فعلی و خروج امن از حساب LIR9 از این گزینه استفاده کن.</p></div>
+            <button className="account-signout-button" type="button" onClick={handleSignOut} disabled={signOutBusy}>
+              <LogOut size={17}/><span>{signOutBusy ? "در حال خروج…" : "خروج از حساب کاربری"}</span>
+            </button>
+          </section>
         </section>}
         {tab === "certificates" && <><div className="page-intro"><span className="section-kicker">LIR9 HONORS & ACHIEVEMENTS</span><h1>تالار افتخارات</h1><p>هر سطح، یک دستاورد تازه؛ گواهی نهایی پس از تأیید رسمی تکمیل دوره صادر خواهد شد.</p></div><section className="certificate-studio"><div className="certificate-status"><span className="certificate-status-icon"><LockKeyhole size={19}/></span><div><b>پیش‌نمایش طرح گواهی · فاقد اعتبار</b><p>این تصویر، قالب بصری گواهی LIR9 است و به‌تنهایی مدرک رسمی محسوب نمی‌شود. اطلاعات هر زبان‌آموز و شماره استعلام در نسخه نهایی باید به‌صورت امن و پویا درج شود.</p></div></div><div className="certificate-preview-wrap"><img className="certificate-artwork" src="/LIR9/file_00000000a8d481f4b0fd7bb26c886845.png" alt="قالب گواهی پایان سطح LIR9 با طراحی فارسی و انگلیسی"/></div><div className="certificate-future-note"><Award size={17}/><span>پس از راه‌اندازی حساب کاربری و تأیید تکمیل سطح در سرور، نام زبان‌آموز، سطح، تاریخ صدور و شناسه یکتای گواهی به‌صورت پویا اضافه می‌شوند.</span></div></section></>}
         {notice && <div className="notice" role="status" aria-live="polite">{notice}<button onClick={()=>setNotice("")} aria-label="بستن پیام">×</button></div>}
