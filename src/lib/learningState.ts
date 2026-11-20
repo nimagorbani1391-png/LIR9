@@ -43,27 +43,35 @@ export function areLearningStatesEqual(
 
 // Coalesce overlapping saves: while one RPC is running, keep only the newest
 // snapshot instead of sending every intermediate state to Postgres.
-let pendingSave: LearningState | null = null;
-let saveWorker: Promise<void> | null = null;
+const pendingSaves = new Map<string, LearningState>();
+const saveWorkers = new Map<string, Promise<void>>();
 
-export async function saveLearningState(patch: LearningState): Promise<void> {
+export async function saveLearningState(patch: LearningState, userId: string): Promise<void> {
   if (!supabase) throw new Error("Supabase is not configured");
-  pendingSave = patch;
+  if (!userId) throw new Error("Authenticated user is required");
+  pendingSaves.set(userId, patch);
 
-  if (!saveWorker) {
-    saveWorker = (async () => {
-      while (pendingSave) {
-        const latest = pendingSave;
-        pendingSave = null;
+  let worker = saveWorkers.get(userId);
+  if (!worker) {
+    worker = (async () => {
+      while (pendingSaves.has(userId)) {
+        const latest = pendingSaves.get(userId)!;
+        pendingSaves.delete(userId);
+        const { data } = await supabase!.auth.getSession();
+        if (data.session?.user.id !== userId) {
+          pendingSaves.delete(userId);
+          throw new Error("User changed before learning state could be saved");
+        }
         const { error } = await supabase!.rpc("save_my_learning_state", {
           p_patch: latest,
         });
         if (error) throw error;
       }
     })().finally(() => {
-      saveWorker = null;
+      saveWorkers.delete(userId);
     });
+    saveWorkers.set(userId, worker);
   }
 
-  await saveWorker;
+  await worker;
 }
