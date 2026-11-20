@@ -1,4 +1,3 @@
-import type { Json } from "@supabase/supabase-js";
 import { supabase } from "./supabase";
 
 export type LearningState = {
@@ -25,7 +24,7 @@ export async function loadLearningState(): Promise<LearningState | null> {
 export async function saveLearningState(patch: LearningState): Promise<void> {
   if (!supabase) throw new Error("Supabase is not configured");
   const { error } = await supabase.rpc("save_my_learning_state", {
-    p_patch: patch as Json,
+    p_patch: patch,
   });
   if (error) throw error;
 }
