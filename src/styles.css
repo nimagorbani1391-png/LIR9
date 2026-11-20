@@ -967,3 +967,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 @media(max-width:720px){.vip-promo-banner{min-height:86px;padding:13px 12px;gap:10px;border-radius:13px}.vip-promo-icon{width:48px;height:48px;flex-basis:48px;border-radius:13px}.vip-promo-copy strong{font-size:19px}.vip-promo-copy small{font-size:11px}.vip-promo-action{font-size:8px;gap:1px}.vip-price-card{margin-top:16px;padding:23px 18px;border-radius:18px}.vip-price-card h2{font-size:23px}}
 @media(max-width:390px){.vip-promo-banner{gap:8px;padding-inline:9px}.vip-promo-icon{width:35px;height:35px;flex-basis:35px}.vip-promo-copy strong{font-size:17px}.vip-promo-action{font-size:7px}.vip-promo-action svg{width:13px}}
 @media(prefers-reduced-motion:reduce){.vip-promo-banner,.vip-pulse{animation:none!important}.vip-activate-button{transition:none}}
+
+/* نشان مرکزی نوار بالایی؛ بدون قاب تزئینی */
+.top-header{position:sticky;}
+.header-brand-logo{display:block;width:46px;height:46px;flex:0 0 46px;object-fit:contain;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0;margin-inline:clamp(4px,1.2vw,14px)}
+.brand-logo-image{border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+@media(max-width:720px){.header-brand-logo{width:39px;height:39px;flex-basis:39px;margin-inline:2px}}
+@media(max-width:380px){.header-brand-logo{width:34px;height:34px;flex-basis:34px;margin-inline:0}}
