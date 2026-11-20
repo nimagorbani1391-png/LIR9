@@ -999,3 +999,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .library-error{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:1px solid #70433b;border-radius:11px;background:#321f1d;color:#f0c2b5;font-size:11px;line-height:1.8}.library-error button{flex:0 0 auto;padding:7px 10px;border:1px solid #9a6558;border-radius:8px;background:#4b2a25;color:#ffe0d5;font:inherit;font-size:10px}
 @keyframes library-spin{to{transform:rotate(360deg)}}@keyframes library-card-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:850px){.library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.library-grid{grid-template-columns:1fr;gap:12px}.library-card{display:grid;grid-template-columns:108px minmax(0,1fr);min-height:156px}.library-card-art{height:100%;min-height:156px;flex-direction:column;justify-content:space-between;align-items:center;padding:15px 8px}.library-card-art svg{width:23px}.library-card-copy{padding:12px 13px}.library-card h3{font-size:13px;margin:8px 0 5px}.library-card p{font-size:9px;line-height:1.8;margin-bottom:10px}.library-feature{gap:12px;padding:17px 14px}.library-feature-icon{flex-basis:46px;height:46px}.library-feature h2{font-size:16px}.library-feature p{font-size:9px}.library-feature-mark{display:none}.library-reader{padding:20px 16px}.library-article-body p{font-size:12px}}@media(prefers-reduced-motion:reduce){.library-card,.library-spinner{animation:none!important;transition:none!important}}
+
+/* Bidirectional text and punctuation: let each text block choose its own base direction. */
+.app-shell :where(p,h1,h2,h3,h4,h5,li,small,label,blockquote,dt,dd){
+  unicode-bidi:plaintext;
+}
+.app-shell :where(.dialogue-bubble small,.lesson-example>span,.answer-explanation span,.library-reader-intro,.library-article-body p,.notice){
+  unicode-bidi:plaintext;
+}
