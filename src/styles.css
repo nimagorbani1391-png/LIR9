@@ -1372,3 +1372,22 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
   .lesson-phase .dialogue-bubble strong{font-size:14px}
   .lesson-phase .dialogue-bubble small{font-size:12px}
 }
+
+
+/* Worked examples inside each lesson */
+.lesson-worked-examples{display:grid;gap:12px}
+.worked-examples-intro{margin:0;color:#aeb3a5;font-size:13px;line-height:1.9}
+.worked-example{display:grid;grid-template-columns:30px minmax(0,1fr) 34px;align-items:start;gap:11px;padding:13px;border:1px solid #394235;border-radius:13px;background:linear-gradient(120deg,#20271e,#191e18)}
+.worked-example-number{display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:#d8b45d18;color:#e8cf91;font-size:11px;font-weight:800}
+.worked-example>div{min-width:0}
+.worked-example strong{display:block;color:#f2e7c7;font-size:15px;line-height:1.8;overflow-wrap:anywhere}
+.worked-example p{margin:3px 0 5px;color:#e1dfd4;font-size:13px;line-height:1.9}
+.worked-example small{display:block;color:#aeb5a5;font-size:12px;line-height:1.95}
+.worked-example>button{display:grid;place-items:center;width:32px;height:32px;border:1px solid #5b4b2d;border-radius:10px;background:#d8b45d12;color:#e8d39b}
+@media(max-width:720px){
+ .worked-examples-intro{font-size:13px;line-height:2}
+ .worked-example{grid-template-columns:27px minmax(0,1fr) 32px;gap:8px;padding:11px}
+ .worked-example strong{font-size:14px;line-height:1.9}
+ .worked-example p{font-size:13px;line-height:2}
+ .worked-example small{font-size:12px;line-height:2}
+}
