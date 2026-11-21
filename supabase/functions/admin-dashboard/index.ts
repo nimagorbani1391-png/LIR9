@@ -46,8 +46,8 @@ Deno.serve(async (req: Request) => {
 
   const page = Number.isInteger(body.page) && Number(body.page) > 0 ? Number(body.page) : 1;
   const pageSize = Number.isInteger(body.pageSize)
-    ? Math.min(50, Math.max(10, Number(body.pageSize)))
-    : 50;
+    ? Math.min(100, Math.max(10, Number(body.pageSize)))
+    : 100;
 
   const adminClient = createClient(supabaseUrl, serviceRoleKey, {
     auth: { autoRefreshToken: false, persistSession: false },
