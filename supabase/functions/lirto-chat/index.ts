@@ -12,8 +12,8 @@ const OFF_TOPIC_PATTERNS = [
   /\b(write|debug|build|create|fix)\s+(me\s+)?(a\s+)?(python|javascript|typescript|java|c\+\+|html|css|sql)\b/i,
   /\b(programming|programmer|source code|github|api key|database|cybersecurity|hacking|trading|crypto|stock market)\b/i,
   /برنامه.?نویس|کدنویس|پایتون|جاوااسکریپت|سی.?شارپ|سی.?پلاس|هک|امنیت سایبری|ترید|ارز دیجیتال|بورس/,
-  /\\b(write|compose|draft)\\s+(an?\\s+)?(essay|story|poem|article|speech)\\s+(about|on)\\s+(my\\s+)?(country|homeland|politics|history|religion|war|football|sports)\\b/i,
-  /(?:انشا|مقاله|داستان|شعر|سخنرانی)\\s*(?:ای|ی)?\\s*(?:درباره|در مورد|راجع به)\\s*(?:وطن|کشور|سیاست|تاریخ|مذهب|دین|جنگ|فوتبال|ورزش)/i,
+  /\b(write|compose|draft)\s+(an?\s+)?(essay|story|poem|article|speech)\s+(about|on)\s+(my\s+)?(country|homeland|politics|history|religion|war|football|sports)\b/i,
+  /(?:انشا|مقاله|داستان|شعر|سخنرانی)\s*(?:ای|ی)?\s*(?:درباره|در مورد|راجع به)\s*(?:وطن|کشور|سیاست|تاریخ|مذهب|دین|جنگ|فوتبال|ورزش)/i,
 ];
 
 const NON_ENGLISH_WRITING_PATTERNS = [
