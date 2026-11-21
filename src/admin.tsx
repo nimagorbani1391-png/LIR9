@@ -36,7 +36,7 @@ function AdminApp() {
     setError("");
     try {
       const { data, error: invokeError } = await supabase.functions.invoke("admin-dashboard", {
-        body: { page, pageSize: 100 },
+        body: { page, pageSize: 50 },
       });
       if (invokeError) throw invokeError;
       if (!data || !Array.isArray(data.users)) throw new Error("پاسخ سرور معتبر نیست.");
@@ -81,7 +81,7 @@ function AdminApp() {
       <button className="admin-primary" disabled={busy}>{busy ? "در حال ورود…" : "ورود به پنل"}</button>
     </form> : <>
       <section className="admin-summary">
-        <article><span>کاربران در این صفحه</span><strong>{users.length}</strong><small>تا ۱۰۰ حساب در هر صفحه</small></article>
+        <article><span>کاربران در این صفحه</span><strong>{users.length}</strong><small>تا ۵۰ حساب در هر صفحه</small></article>
         <article><span>جدیدترین عضویت این صفحه</span><strong className="admin-date">{users[0]?.created_at ? new Date(users[0].created_at).toLocaleDateString("fa-IR") : "—"}</strong><small>مرتب‌شده از جدید به قدیم</small></article>
         <article><span>اشتراک‌های خریداری‌شده</span><strong className="admin-na">فعلاً نامشخص</strong><small>ثبت خرید و درگاه پرداخت هنوز متصل نیست</small></article>
       </section>
@@ -90,7 +90,7 @@ function AdminApp() {
         {error && <div className="admin-error">{error}</div>}
         {busy ? <div className="admin-empty">در حال دریافت کاربران…</div> : users.length === 0 ? <div className="admin-empty">کاربری برای نمایش وجود ندارد.</div> :
           <div className="admin-table-wrap"><table><thead><tr><th>#</th><th>نام نمایشی</th><th>ایمیل</th><th>تاریخ عضویت</th></tr></thead><tbody>
-            {users.map((user, index) => <tr key={user.id}><td>{(page - 1) * 100 + index + 1}</td><td>{user.display_name || "بدون نام"}</td><td dir="ltr">{user.email || "—"}</td><td>{new Date(user.created_at).toLocaleString("fa-IR", { dateStyle:"medium", timeStyle:"short" })}</td></tr>)}
+            {users.map((user, index) => <tr key={user.id}><td>{(page - 1) * 50 + index + 1}</td><td>{user.display_name || "بدون نام"}</td><td dir="ltr">{user.email || "—"}</td><td>{new Date(user.created_at).toLocaleString("fa-IR", { dateStyle:"medium", timeStyle:"short" })}</td></tr>)}
           </tbody></table></div>}
         <footer className="admin-pagination"><span>صفحه {page}</span><div><button disabled={page === 1 || busy} onClick={() => setPage(v => Math.max(1, v - 1))}>قبلی</button><button disabled={!hasMore || busy} onClick={() => setPage(v => v + 1)}>بعدی</button></div></footer>
       </section>
