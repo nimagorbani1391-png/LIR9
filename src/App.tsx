@@ -8,7 +8,7 @@ import {
   LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info
 } from "lucide-react";
 
-type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account" | "about" | "admin";
+type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account" | "about";
 type SpeechResultLike = { transcript: string; confidence?: number };
 type SpeechRecognitionLike = {
   lang: string; interimResults: boolean; maxAlternatives: number;
@@ -512,12 +512,6 @@ function App() {
   const [authSession, setAuthSession] = useState<import("@supabase/supabase-js").Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [signOutBusy, setSignOutBusy] = useState(false);
-  const [adminUsers, setAdminUsers] = useState<Array<{ id: string; email: string | null; created_at: string; display_name: string }>>([]);
-  const [adminPage, setAdminPage] = useState(1);
-  const [adminRefreshKey, setAdminRefreshKey] = useState(0);
-  const [adminHasMore, setAdminHasMore] = useState(false);
-  const [adminLoading, setAdminLoading] = useState(false);
-  const [adminError, setAdminError] = useState("");
   const [learningStateReady, setLearningStateReady] = useState(false);
   const [learningStateError, setLearningStateError] = useState("");
   const [tab, setTab] = useState<Tab>("home");
@@ -553,7 +547,6 @@ function App() {
   const progress = Math.round(completed.length / lessons.length * 100);
   const nextLesson = lessons.find(l => !completed.includes(String(l.id))) ?? lessons[0];
   const filteredWords = useMemo(() => vocabulary.filter(w => (!showSavedOnly || saved.includes(w.word)) && (w.word + w.phonetic + w.meaning + w.example + w.lesson).toLowerCase().includes(search.trim().toLowerCase())), [search, showSavedOnly, saved]);
-  const isAdmin = authSession?.user.id === "6904d216-c40a-4e06-a8fe-aacd9ec2c46c";
   const nav = [
     { id: "home" as Tab, label: "خانه", icon: LayoutDashboard },
     { id: "learn" as Tab, label: "درس‌ها", icon: BookOpen },
@@ -562,35 +555,10 @@ function App() {
     { id: "assistant" as Tab, label: "دستیار", icon: MessageCircle },
     { id: "certificates" as Tab, label: "مدارک من", icon: GraduationCap },
     { id: "vip" as Tab, label: "اشتراک VIP", icon: Crown },
-    ...(isAdmin ? [{ id: "admin" as Tab, label: "پنل مدیریت", icon: ShieldCheck }] : [])
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const openLesson = (id: number) => { const index = lessons.findIndex(lesson => lesson.id === id); if (index < 0) return; const unlocked = lessons.slice(0, index).every(lesson => completed.includes(String(lesson.id))); if (!unlocked) { setNotice("برای باز کردن این درس، ابتدا درس‌های قبلی را کامل کن."); setMenuOpen(false); return; } setActiveLesson(id); setStep("learn"); setChoice(null); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, id)); setMenuOpen(false); };
   const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders({}); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); };
-  useEffect(() => {
-    if (tab !== "admin" || !authSession || !isAdmin || !supabase) return;
-    let active = true;
-    setAdminLoading(true);
-    setAdminError("");
-    supabase.functions.invoke("admin-dashboard", { body: { page: adminPage, pageSize: 50 } })
-      .then(({ data, error }) => {
-        if (!active) return;
-        if (error) throw error;
-        if (!data || !Array.isArray(data.users)) throw new Error("پاسخ سرور معتبر نیست.");
-        setAdminUsers([...data.users].sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)));
-        setAdminHasMore(Boolean(data.hasMore));
-      })
-      .catch((error: unknown) => {
-        if (!active) return;
-        console.error("Admin dashboard request failed:", error);
-        setAdminError("دریافت اطلاعات پنل مدیریت انجام نشد. دسترسی حساب و تنظیمات تابع سرور را بررسی کن.");
-        setAdminUsers([]);
-        setAdminHasMore(false);
-      })
-      .finally(() => { if (active) setAdminLoading(false); });
-    return () => { active = false; };
-  }, [tab, authSession?.user.id, isAdmin, adminPage, adminRefreshKey]);
-
   useEffect(() => {
     if (!activeLesson) return;
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") { setActiveLesson(null); setChoice(null); setStep("learn"); } };
@@ -875,21 +843,6 @@ function App() {
         {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant/></>}
         {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><button className="vip-activate-button" onClick={()=>setNotice("درگاه پرداخت هنوز به LIR9 متصل نشده است؛ فعلاً امکان خرید واقعی وجود ندارد.")}>فعال‌سازی اشتراک VIP <Crown size={17}/></button><span className="vip-secure-note"><ShieldCheck size={14}/> پرداخت آنلاین پس از راه‌اندازی درگاه فعال می‌شود.</span></article></section>}
         {tab === "about" && <section className="about-page"><div className="page-intro"><span className="section-kicker">درباره ما</span><h1>یادگیری، قدم‌به‌قدم</h1><p>به LIR9 خوش آمدی؛ فضایی برای یادگیری اصولی زبان انگلیسی، از پایه تا سطح پیشرفته.</p></div><article className="about-card"><div className="about-mark">L</div><h2><bdi dir="ltr">LIR9</bdi>؛ همراه مسیر یادگیری تو</h2><p>LIR9 با هدف ساده‌تر، منظم‌تر و کاربردی‌تر کردن یادگیری زبان انگلیسی ساخته شده است. در این مسیر، آموزش مرحله‌به‌مرحله، تمرین، مرور و سنجش پیشرفت کنار هم قرار می‌گیرند تا بتوانی با برنامه و آگاهی جلو بروی.</p><div className="about-values"><div><BookOpen size={19}/><b>آموزش ساختارمند</b><span>یادگیری مفاهیم در مسیر مشخص و سطح‌بندی‌شده</span></div><div><Target size={19}/><b>تمرین و پیشرفت</b><span>تمرین آموخته‌ها و پیگیری مسیر آموزشی</span></div><div><Sparkles size={19}/><b>یادگیری پیوسته</b><span>هر روز یک قدم نزدیک‌تر به تسلط بیشتر</span></div></div><button className="primary-button" onClick={() => go("learn")}>ادامه یادگیری <ArrowRight size={16}/></button></article></section>}
-        {tab === "admin" && isAdmin && <section className="admin-page">
-          <div className="page-intro"><span className="section-kicker">مدیریت امن LIR9</span><h1>پنل مدیریت</h1><p>اطلاعات پایه حساب‌های ثبت‌شده؛ دسترسی این بخش در سمت سرور نیز کنترل می‌شود.</p></div>
-          <div className="admin-stat-grid">
-            <article className="admin-stat-card"><span className="admin-stat-icon"><UserRound size={19}/></span><small>کاربران در این صفحه</small><strong>{adminUsers.length}</strong><span>حداکثر ۵۰ حساب در هر صفحه</span></article>
-            <article className="admin-stat-card"><span className="admin-stat-icon"><CalendarDays size={19}/></span><small>جدیدترین عضویت این صفحه</small><strong className="admin-stat-date">{adminUsers[0]?.created_at ? new Date(adminUsers[0].created_at).toLocaleDateString("fa-IR", { year:"numeric", month:"short", day:"numeric" }) : "—"}</strong><span>مرتب‌شده از جدید به قدیم</span></article>
-            <article className="admin-stat-card"><span className="admin-stat-icon"><Crown size={19}/></span><small>خرید اشتراک VIP</small><strong className="admin-stat-na">قابل بررسی نیست</strong><span>درگاه پرداخت و ثبت خرید متصل نشده</span></article>
-          </div>
-          <section className="admin-users-card">
-            <div className="admin-users-head"><div><span className="section-kicker">فهرست حساب‌ها</span><h2>کاربران ثبت‌نام‌شده</h2><p>ایمیل و تاریخ عضویت از Supabase Auth خوانده می‌شود.</p></div><button className="admin-refresh" type="button" onClick={() => { setAdminUsers([]); setAdminPage(1); setAdminRefreshKey(value => value + 1); }} disabled={adminLoading}><RotateCcw size={15}/> بروزرسانی</button></div>
-            {adminError && <div className="admin-error" role="alert">{adminError}</div>}
-            {adminLoading ? <div className="admin-empty"><span className="admin-spinner"/>در حال دریافت فهرست کاربران…</div> : adminUsers.length === 0 ? <div className="admin-empty">هنوز کاربری برای نمایش دریافت نشده است.</div> : <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>کاربر</th><th>ایمیل</th><th>تاریخ عضویت</th></tr></thead><tbody>{adminUsers.map((user,index) => <tr key={user.id}><td><span className="admin-user-index">{(adminPage - 1) * 50 + index + 1}</span><b>{user.display_name || "بدون نام نمایشی"}</b></td><td dir="ltr">{user.email || "—"}</td><td>{new Date(user.created_at).toLocaleString("fa-IR", { year:"numeric", month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" })}</td></tr>)}</tbody></table></div>}
-            <div className="admin-pagination"><span>صفحه {adminPage}</span><div><button type="button" onClick={() => setAdminPage(page => Math.max(1, page - 1))} disabled={adminPage === 1 || adminLoading}>قبلی</button><button type="button" onClick={() => setAdminPage(page => page + 1)} disabled={!adminHasMore || adminLoading}>بعدی</button></div></div>
-          </section>
-          <p className="admin-security-note"><LockKeyhole size={15}/> رمز عبور، توکن‌ها و کلیدهای امنیتی هیچ‌وقت به مرورگر ارسال نمی‌شوند.</p>
-        </section>}
         {tab === "account" && <section className="account-page">
           <div className="account-hero"><div className="account-avatar"><UserRound size={32}/></div><div><span className="section-kicker">حساب شخصی در LIR9</span><h1>حساب کاربری</h1><p>اطلاعات حسابی که با آن وارد LIR9 شده‌ای.</p></div><span className="account-status"><i/> فعال</span></div>
           <div className="account-card"><div className="account-card-heading"><div><span className="section-kicker">اطلاعات حساب</span><h2>اطلاعات شخصی</h2></div><ShieldCheck size={22}/></div>
