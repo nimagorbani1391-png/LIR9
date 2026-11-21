@@ -553,7 +553,7 @@ function App() {
   const progress = Math.round(completed.length / lessons.length * 100);
   const nextLesson = lessons.find(l => !completed.includes(String(l.id))) ?? lessons[0];
   const filteredWords = useMemo(() => vocabulary.filter(w => (!showSavedOnly || saved.includes(w.word)) && (w.word + w.phonetic + w.meaning + w.example + w.lesson).toLowerCase().includes(search.trim().toLowerCase())), [search, showSavedOnly, saved]);
-  const isAdmin = authSession.user.id === "6904d216-c40a-4e06-a8fe-aacd9ec2c46c";
+  const isAdmin = authSession?.user.id === "6904d216-c40a-4e06-a8fe-aacd9ec2c46c";
   const nav = [
     { id: "home" as Tab, label: "خانه", icon: LayoutDashboard },
     { id: "learn" as Tab, label: "درس‌ها", icon: BookOpen },
