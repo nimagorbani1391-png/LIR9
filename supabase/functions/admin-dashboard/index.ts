@@ -10,30 +10,46 @@ const corsHeaders = {
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: corsHeaders });
 
+function constantTimeEqual(a: string, b: string): boolean {
+  const left = new TextEncoder().encode(a);
+  const right = new TextEncoder().encode(b);
+  let difference = left.length ^ right.length;
+  const length = Math.max(left.length, right.length);
+  for (let i = 0; i < length; i++) {
+    difference |= (left[i] ?? 0) ^ (right[i] ?? 0);
+  }
+  return difference === 0;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed." }, 405);
 
-  const authorization = req.headers.get("Authorization");
-  if (!authorization?.startsWith("Bearer ")) return json({ error: "ابتدا وارد حساب مدیر شو." }, 401);
+  // Supabase's gateway verifies the public JWT because Verify JWT is enabled.
+  if (!req.headers.get("Authorization")?.startsWith("Bearer ")) {
+    return json({ error: "درخواست معتبر نیست." }, 401);
+  }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  const adminUserId = Deno.env.get("ADMIN_USER_ID");
+  const expectedPassword = Deno.env.get("ADMIN_PANEL_PASSWORD");
 
-  if (!supabaseUrl || !anonKey || !serviceRoleKey || !adminUserId) {
+  if (!supabaseUrl || !serviceRoleKey || !expectedPassword) {
     console.error("Admin dashboard environment is incomplete.");
     return json({ error: "تنظیمات امن پنل مدیریت کامل نیست." }, 500);
   }
 
-  const userClient = createClient(supabaseUrl, anonKey, {
-    global: { headers: { Authorization: authorization } },
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  const { data: userResult, error: userError } = await userClient.auth.getUser();
-  if (userError || !userResult.user) return json({ error: "نشست معتبر نیست؛ دوباره وارد شو." }, 401);
-  if (userResult.user.id !== adminUserId) return json({ error: "این حساب اجازه دسترسی به پنل مدیریت را ندارد." }, 403);
+  let submittedPassword = "";
+  try {
+    const body = await req.json();
+    if (typeof body?.password === "string") submittedPassword = body.password;
+  } catch {
+    return json({ error: "درخواست نامعتبر است." }, 400);
+  }
+
+  if (!constantTimeEqual(submittedPassword, expectedPassword)) {
+    return json({ error: "رمز ورود صحیح نیست." }, 401);
+  }
 
   const adminClient = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
