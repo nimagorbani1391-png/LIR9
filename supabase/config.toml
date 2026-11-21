@@ -1,5 +1,2 @@
 [functions.lirto-chat]
 verify_jwt = true
-
-[functions.admin-dashboard]
-verify_jwt = true
