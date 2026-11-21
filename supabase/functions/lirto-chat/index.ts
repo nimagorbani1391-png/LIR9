@@ -12,15 +12,17 @@ const OFF_TOPIC_PATTERNS = [
   /\b(write|debug|build|create|fix)\s+(me\s+)?(a\s+)?(python|javascript|typescript|java|c\+\+|html|css|sql)\b/i,
   /\b(programming|programmer|source code|github|api key|database|cybersecurity|hacking|trading|crypto|stock market)\b/i,
   /برنامه.?نویس|کدنویس|پایتون|جاوااسکریپت|سی.?شارپ|سی.?پلاس|هک|امنیت سایبری|ترید|ارز دیجیتال|بورس/,
+  /\\b(write|compose|draft)\\s+(an?\\s+)?(essay|story|poem|article|speech)\\s+(about|on)\\s+(my\\s+)?(country|homeland|politics|history|religion|war|football|sports)\\b/i,
+  /(?:انشا|مقاله|داستان|شعر|سخنرانی)\\s*(?:ای|ی)?\\s*(?:درباره|در مورد|راجع به)\\s*(?:وطن|کشور|سیاست|تاریخ|مذهب|دین|جنگ|فوتبال|ورزش)/i,
 ];
 
 const NON_ENGLISH_WRITING_PATTERNS = [
-  /(?:انشا|مقاله|داستان|شعر|متن ادبی|نامه)\\s*(?:ای|ی)?\\s*(?:درباره|در مورد|با موضوع|راجع به)/i,
+  /(?:انشا|مقاله|داستان|شعر|متن ادبی|نامه)\s*(?:ای|ی)?\s*(?:درباره|در مورد|با موضوع|راجع به)/i,
   /(?:درباره|در مورد|با موضوع|راجع به).{0,50}(?:بنویس|بنویسید|تألیف کن|تالیف کن)/i,
 ];
 
 const ENGLISH_LEARNING_CONTEXT =
-  /\\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english)\\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|تلفظ|ترجمه به انگلیسی|به انگلیسی/i;
+  /\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english)\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|تلفظ|ترجمه به انگلیسی|به انگلیسی/i;
 
 const SYSTEM_PROMPT = `You are LIRTO, the professional private English tutor of LIR9. Your motto is "Always by your side".
 
