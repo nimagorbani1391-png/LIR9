@@ -845,7 +845,7 @@ function App() {
               <p>یک مسیر روشن برای یادگیری؛ هر درس را بفهم، تمرین کن و با اطمینان به مرحله بعد برو.</p>
               <div className="learning-hero-actions"><span className="learning-level-pill">A1 · مقدماتی</span><span className="learning-duration"><Clock3 size={14}/> {lessons.length} درس ساختاریافته</span></div>
             </div>
-            <div className="learning-progress-orb" style={{"--learning-progress": progress + "%"} as React.CSSProperties}>
+            <div className="learning-progress-orb" style={{background: `conic-gradient(var(--gold) ${progress*3.6}deg, #34382e 0deg)`}}>
               <div><strong>{progress}<small>٪</small></strong><span>پیشرفت دوره</span></div>
             </div>
           </section>
