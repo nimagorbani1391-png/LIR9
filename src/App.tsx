@@ -872,11 +872,10 @@ function App() {
                   <div className="learning-unit-meter"><strong>{unitPercent}٪</strong><div><i style={{width:unitPercent+"%"}}/></div></div>
                 </header>
                 <div className="learning-lesson-list">
-                  {unit.lessons.map((lesson,lessonIndex)=>{
+                  {unit.lessons.map(lesson=>{
                     const index=lessons.findIndex(item=>item.id===lesson.id);
                     const done=completed.includes(String(lesson.id));
                     const locked=index>0&&!lessons.slice(0,index).every(previous=>completed.includes(String(previous.id)));
-                    const current=!done&&!locked;
                     return <article className={`learning-lesson-row ${done?"is-done":locked?"is-locked":"is-current"}`} key={lesson.id}>
                       <div className="learning-lesson-status">{done?<CheckCircle2 size={18}/>:locked?<LockKeyhole size={16}/>:<span>{String(lesson.id).padStart(2,"0")}</span>}</div>
                       <div className="learning-lesson-info"><h4>{lesson.title}</h4><p>{lesson.description}</p><div className="learning-lesson-meta"><span><Clock3 size={12}/>{lesson.duration}</span><span><BookOpen size={12}/>{lesson.skill}</span></div></div>
