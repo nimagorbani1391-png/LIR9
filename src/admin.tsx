@@ -33,7 +33,7 @@ export default function AdminApp() {
   async function loadDashboard() {
     if (!supabase) return;
     setLoading(true); setError("");
-    const { data: result, error: invokeError } = await supabase.functions.invoke("admin-dashboard", { body: { action: "overview" } });
+    const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", { body: { action: "overview" } });
     if (invokeError) {
       setError("دریافت اطلاعات انجام نشد. دسترسی تابع سرور و تنظیمات آن را بررسی کنید.");
       setData(null);
