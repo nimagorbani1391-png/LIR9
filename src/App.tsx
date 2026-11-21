@@ -514,6 +514,7 @@ function App() {
   const [signOutBusy, setSignOutBusy] = useState(false);
   const [adminUsers, setAdminUsers] = useState<Array<{ id: string; email: string | null; created_at: string; display_name: string }>>([]);
   const [adminPage, setAdminPage] = useState(1);
+  const [adminRefreshKey, setAdminRefreshKey] = useState(0);
   const [adminHasMore, setAdminHasMore] = useState(false);
   const [adminLoading, setAdminLoading] = useState(false);
   const [adminError, setAdminError] = useState("");
@@ -576,7 +577,7 @@ function App() {
         if (!active) return;
         if (error) throw error;
         if (!data || !Array.isArray(data.users)) throw new Error("پاسخ سرور معتبر نیست.");
-        setAdminUsers(data.users);
+        setAdminUsers([...data.users].sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)));
         setAdminHasMore(Boolean(data.hasMore));
       })
       .catch((error: unknown) => {
@@ -588,7 +589,7 @@ function App() {
       })
       .finally(() => { if (active) setAdminLoading(false); });
     return () => { active = false; };
-  }, [tab, authSession?.user.id, isAdmin, adminPage]);
+  }, [tab, authSession?.user.id, isAdmin, adminPage, adminRefreshKey]);
 
   useEffect(() => {
     if (!activeLesson) return;
@@ -882,7 +883,7 @@ function App() {
             <article className="admin-stat-card"><span className="admin-stat-icon"><Crown size={19}/></span><small>خرید اشتراک VIP</small><strong className="admin-stat-na">قابل بررسی نیست</strong><span>درگاه پرداخت و ثبت خرید متصل نشده</span></article>
           </div>
           <section className="admin-users-card">
-            <div className="admin-users-head"><div><span className="section-kicker">فهرست حساب‌ها</span><h2>کاربران ثبت‌نام‌شده</h2><p>ایمیل و تاریخ عضویت از Supabase Auth خوانده می‌شود.</p></div><button className="admin-refresh" type="button" onClick={() => { setAdminUsers([]); setAdminPage(1); if (adminPage === 1) setTab("home"), window.setTimeout(() => setTab("admin"), 0); }} disabled={adminLoading}><RotateCcw size={15}/> بروزرسانی</button></div>
+            <div className="admin-users-head"><div><span className="section-kicker">فهرست حساب‌ها</span><h2>کاربران ثبت‌نام‌شده</h2><p>ایمیل و تاریخ عضویت از Supabase Auth خوانده می‌شود.</p></div><button className="admin-refresh" type="button" onClick={() => { setAdminUsers([]); setAdminPage(1); setAdminRefreshKey(value => value + 1); }} disabled={adminLoading}><RotateCcw size={15}/> بروزرسانی</button></div>
             {adminError && <div className="admin-error" role="alert">{adminError}</div>}
             {adminLoading ? <div className="admin-empty"><span className="admin-spinner"/>در حال دریافت فهرست کاربران…</div> : adminUsers.length === 0 ? <div className="admin-empty">هنوز کاربری برای نمایش دریافت نشده است.</div> : <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>کاربر</th><th>ایمیل</th><th>تاریخ عضویت</th></tr></thead><tbody>{adminUsers.map((user,index) => <tr key={user.id}><td><span className="admin-user-index">{(adminPage - 1) * 50 + index + 1}</span><b>{user.display_name || "بدون نام نمایشی"}</b></td><td dir="ltr">{user.email || "—"}</td><td>{new Date(user.created_at).toLocaleString("fa-IR", { year:"numeric", month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" })}</td></tr>)}</tbody></table></div>}
             <div className="admin-pagination"><span>صفحه {adminPage}</span><div><button type="button" onClick={() => setAdminPage(page => Math.max(1, page - 1))} disabled={adminPage === 1 || adminLoading}>قبلی</button><button type="button" onClick={() => setAdminPage(page => page + 1)} disabled={!adminHasMore || adminLoading}>بعدی</button></div></div>
