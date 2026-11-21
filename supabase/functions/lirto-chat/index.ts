@@ -22,10 +22,10 @@ const NON_ENGLISH_WRITING_PATTERNS = [
 ];
 
 const ENGLISH_LEARNING_CONTEXT =
-  /\\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english|meaning of|what does .{1,40} mean|how do you say|correct my|check my english|is this sentence)\\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|لغت انگلیسی|کلمه انگلیسی|تلفظ|ترجمه|به انگلیسی|جمله انگلیسی|متن انگلیسی|مکالمه انگلیسی|رایتینگ|ریدینگ|لیسنینگ|اسپیکینگ|معنی [a-z]+/i;
+  /\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english|meaning of|what does .{1,40} mean|how do you say|correct my|check my english|is this sentence)\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|لغت انگلیسی|کلمه انگلیسی|تلفظ|ترجمه|به انگلیسی|جمله انگلیسی|متن انگلیسی|مکالمه انگلیسی|رایتینگ|ریدینگ|لیسنینگ|اسپیکینگ|معنی [a-z]+/i;
 
 const SIMPLE_GREETING =
-  /^(hi|hello|hey|good morning|good afternoon|good evening|سلام|سلاممم)[!؟.\\s]*$/i;
+  /^(hi|hello|hey|good morning|good afternoon|good evening|سلام|سلاممم)[!؟.\s]*$/i;
 
 const SYSTEM_PROMPT = `You are LIRTO, the professional private English tutor of LIR9. Your motto is "Always by your side".
 
