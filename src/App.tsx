@@ -416,7 +416,7 @@ function LirtoAssistant() {
     setDraft("");
     setIsSending(true);
     try {
-      const { data, error } = await supabase.functions.invoke("quick-worker", {
+      const { data, error } = await supabase.functions.invoke("lirto-chat", {
         body: {
           messages: nextMessages
             .filter(message => message.role !== "assistant" || messages.length > 0)
