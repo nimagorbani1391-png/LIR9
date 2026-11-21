@@ -22,7 +22,10 @@ const NON_ENGLISH_WRITING_PATTERNS = [
 ];
 
 const ENGLISH_LEARNING_CONTEXT =
-  /\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english)\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|تلفظ|ترجمه به انگلیسی|به انگلیسی/i;
+  /\\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english|meaning of|what does .{1,40} mean|how do you say|correct my|check my english|is this sentence)\\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|لغت انگلیسی|کلمه انگلیسی|تلفظ|ترجمه|به انگلیسی|جمله انگلیسی|متن انگلیسی|مکالمه انگلیسی|رایتینگ|ریدینگ|لیسنینگ|اسپیکینگ|معنی [a-z]+/i;
+
+const SIMPLE_GREETING =
+  /^(hi|hello|hey|good morning|good afternoon|good evening|سلام|سلاممم)[!؟.\\s]*$/i;
 
 const SYSTEM_PROMPT = `You are LIRTO, the professional private English tutor of LIR9. Your motto is "Always by your side".
 
@@ -91,13 +94,16 @@ Deno.serve(async (req) => {
 
   const latestUserMessage = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
   const isExplicitEnglishLearningRequest = ENGLISH_LEARNING_CONTEXT.test(latestUserMessage);
+  const isSimpleGreeting = SIMPLE_GREETING.test(latestUserMessage);
   const isNonEnglishCreativeWritingRequest =
     NON_ENGLISH_WRITING_PATTERNS.some((pattern) => pattern.test(latestUserMessage)) &&
     !isExplicitEnglishLearningRequest;
 
+  // Default-deny: unrelated requests are rejected before reaching the model.
   if (
     OFF_TOPIC_PATTERNS.some((pattern) => pattern.test(latestUserMessage)) ||
-    isNonEnglishCreativeWritingRequest
+    isNonEnglishCreativeWritingRequest ||
+    (!isExplicitEnglishLearningRequest && !isSimpleGreeting)
   ) {
     return json({
       reply: "من LIRTO، دستیار یادگیری زبان انگلیسی LIR9 هستم. ☺️فقط در زمینه یادگیری انگلیسی می‌تونم کمکت کنم. بیا با هم انگلیسی تمرین کنیم!",
