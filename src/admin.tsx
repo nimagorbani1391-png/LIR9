@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { FormEvent } from "react";
 import { Activity, ArrowDownToLine, CalendarDays, CircleDollarSign, LogOut, RefreshCw, ShieldCheck, Users } from "lucide-react";
 import { supabase } from "./lib/supabase";
@@ -9,58 +9,57 @@ type DashboardData = { totalUsers: number; users: AdminUser[]; hasMore: boolean;
 const formatDate = (value: string) => new Intl.DateTimeFormat("fa-IR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 
 export default function AdminApp() {
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [sessionReady, setSessionReady] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (!supabase) { setError("تنظیمات اتصال Supabase در دسترس نیست."); setSessionReady(true); return; }
-    supabase.auth.getSession().then(({ data: result }) => {
-      setSignedIn(Boolean(result.session));
-      setSessionReady(true);
+  async function requestDashboard(secret: string) {
+    if (!supabase) {
+      setError("تنظیمات اتصال Supabase در دسترس نیست.");
+      return false;
+    }
+    const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
+      body: { password: secret },
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSignedIn(Boolean(session));
-      if (!session) setData(null);
-    });
-    return () => listener.subscription.unsubscribe();
-  }, []);
-
-  async function loadDashboard() {
-    if (!supabase) return;
-    setLoading(true); setError("");
-    const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", { body: { action: "overview" } });
     if (invokeError) {
-      setError("دریافت اطلاعات انجام نشد. دسترسی تابع سرور و تنظیمات آن را بررسی کنید.");
+      setError("ارتباط با سرور برقرار نشد. تنظیمات تابع را بررسی کن.");
       setData(null);
-    } else if (result?.error) {
+      return false;
+    }
+    if (result?.error) {
       setError(result.error);
       setData(null);
-    } else {
-      setData(result as DashboardData);
+      return false;
     }
-    setLoading(false);
+    setData(result as DashboardData);
+    setAuthorized(true);
+    setError("");
+    return true;
   }
-
-  useEffect(() => { if (signedIn) void loadDashboard(); }, [signedIn]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!supabase) return;
-    setLoading(true); setError("");
-    const { error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    setLoading(true);
+    setError("");
+    const ok = await requestDashboard(password);
+    if (!ok) setPassword("");
     setLoading(false);
-    if (authError) setError("ورود انجام نشد. ایمیل و رمز عبور را بررسی کن.");
-    setPassword("");
   }
 
-  async function signOut() {
-    await supabase?.auth.signOut();
+  async function refresh() {
+    setLoading(true);
+    setError("");
+    await requestDashboard(password);
+    setLoading(false);
+  }
+
+  function signOut() {
+    setAuthorized(false);
+    setPassword("");
     setData(null);
+    setError("");
   }
 
   function exportCsv() {
@@ -71,24 +70,20 @@ export default function AdminApp() {
     const anchor = document.createElement("a"); anchor.href = url; anchor.download = "lir9-users.csv"; anchor.click(); URL.revokeObjectURL(url);
   }
 
-  if (!sessionReady) return <main className="admin-shell"><div className="loading-card">در حال بررسی نشست امن...</div></main>;
-
-  if (!signedIn) return (
+  if (!authorized) return (
     <main className="login-shell">
       <section className="login-card">
         <div className="brand-mark">L9</div>
         <span className="eyebrow">LIR9 / PRIVATE CONSOLE</span>
         <h1>ورود به مدیریت</h1>
-        <p>این بخش فقط برای حساب مدیر مجاز است.</p>
+        <p>برای ورود، رمز اختصاصی پنل را وارد کن.</p>
         <form onSubmit={signIn}>
-          <label htmlFor="admin-email">ایمیل مدیر</label>
-          <input id="admin-email" type="email" autoComplete="username" value={email} onChange={event => setEmail(event.target.value)} required />
-          <label htmlFor="admin-password">رمز عبور</label>
+          <label htmlFor="admin-password">رمز ورود</label>
           <input id="admin-password" type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)} required />
           {error && <div className="error-box">{error}</div>}
-          <button className="primary-button" disabled={loading}>{loading ? "در حال ورود..." : "ورود امن"}</button>
+          <button className="primary-button" disabled={loading || !password}>{loading ? "در حال بررسی..." : "ورود به پنل"}</button>
         </form>
-        <div className="security-note"><ShieldCheck size={17} /> مجوز مدیریت در سمت سرور بررسی می‌شود.</div>
+        <div className="security-note"><ShieldCheck size={17} /> اعتبار رمز فقط در سمت سرور بررسی می‌شود.</div>
       </section>
     </main>
   );
@@ -97,11 +92,11 @@ export default function AdminApp() {
     <main className="admin-shell">
       <header className="topbar">
         <div className="brand-lockup"><div className="brand-mark small">L9</div><div><strong>LIR9</strong><span>ADMIN CONSOLE</span></div></div>
-        <div className="top-actions"><span className="secure-label"><ShieldCheck size={15}/> نشست احراز هویت‌شده</span><button className="ghost-button" onClick={signOut}><LogOut size={16}/> خروج</button></div>
+        <div className="top-actions"><span className="secure-label"><ShieldCheck size={15}/> دسترسی تأییدشده</span><button className="ghost-button" onClick={signOut}><LogOut size={16}/> خروج</button></div>
       </header>
       <section className="welcome-row">
         <div><span className="eyebrow">OVERVIEW / CONTROL CENTER</span><h1>داشبورد مدیریت</h1><p>نمای کلی کاربران و وضعیت فعالیت در LIR9</p></div>
-        <button className="refresh-button" onClick={() => void loadDashboard()} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""}/> به‌روزرسانی</button>
+        <button className="refresh-button" onClick={() => void refresh()} disabled={loading}><RefreshCw size={16} className={loading ? "spin" : ""}/> به‌روزرسانی</button>
       </section>
       {error && <div className="error-box wide">{error}</div>}
       <section className="stats-grid">
