@@ -1,5 +1,8 @@
-[functions.lirto-chat]
+[functions.quick-worker]
 verify_jwt = true
 
-[functions.admin-dashboard]
+[functions.smooth-function]
+verify_jwt = true
+
+[functions.lirto-chat]
 verify_jwt = true
