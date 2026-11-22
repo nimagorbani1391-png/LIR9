@@ -1697,3 +1697,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .lirto-quota-later{margin:12px auto 5px;padding:8px 18px;border:0;background:transparent;color:var(--muted,#777);font:inherit;cursor:pointer}
 .lirto-quota-dialog small{display:block;margin-top:8px;color:var(--muted,#888);font-size:11px}
 @media(max-width:520px){.lirto-quota-dialog{padding:32px 20px 22px}.lirto-quota-dialog h3{font-size:19px}}
+
+
+/* VIP access gate for the content library */
+.library-vip-overlay{z-index:120}
+.library-vip-dialog{max-width:440px}
+.library-mode-switch button svg{flex-shrink:0}
+.library-card:not(:disabled){position:relative}
+.library-card:not(:disabled):focus-visible{outline:2px solid #d5b66d;outline-offset:3px}
