@@ -5,10 +5,11 @@ import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info
+  LockKeyhole, ArrowRight, Search, SearchCheck, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account" | "about";
+type CertificateRecord = { student_name: string; level: string; score: number; verification_code: string; issued_at: string };
 type SpeechResultLike = { transcript: string; confidence?: number };
 type SpeechRecognitionLike = {
   lang: string; interimResults: boolean; maxAlternatives: number;
@@ -249,7 +250,7 @@ function A1FinalAssessment({ unlocked, result, onResultChange }: { unlocked: boo
   const current = a1FinalQuestions[index];
   return <section className="a1-final-card">
     <div className="a1-final-head"><div><span className="section-kicker">ارزیابی پایانی</span><h2>آزمون جامع پایان A1</h2><p>۳۰ سؤال از گرامر، واژگان و کاربرد زبان؛ برای قبولی باید دست‌کم ۲۴ پاسخ درست داشته باشی.</p></div><div className="a1-final-mark"><Award size={24}/><b>۳۰</b><small>سؤال</small></div></div>
-    {!unlocked ? <div className="a1-final-locked"><LockKeyhole size={18}/><span>پس از تکمیل همه ۴۵ درس، آزمون جامع برایت باز می‌شود.</span></div> : started ? <div className="a1-final-quiz" dir="ltr">
+    {!unlocked ? <div className="a1-final-locked"><LockKeyhole size={18}/><span>پس از تکمیل همه {lessons.length} درس، آزمون جامع برایت باز می‌شود.</span></div> : started ? <div className="a1-final-quiz" dir="ltr">
       <div className="a1-final-progress"><span>Question {index+1} of {a1FinalQuestions.length}</span><b>{Math.round((index+1)/a1FinalQuestions.length*100)}%</b></div>
       <div className="a1-final-track"><i style={{width:((index+1)/a1FinalQuestions.length*100)+"%"}}/></div>
       <small className="a1-final-skill">{current.skill}</small><h3>{current.prompt}</h3>
@@ -535,6 +536,10 @@ function App() {
   const [saved, setSaved] = useState<string[]>(() => [...new Set(readStore("lir9-saved", ["Hello"]).filter(word => vocabulary.some(item => item.word === word)))]);
   const [placementResult, setPlacementResult] = useState<{ score: number; date: string } | null>(null);
   const [a1FinalResult, setA1FinalResult] = useState<{ score: number; date: string } | null>(null);
+  const [issuedCertificate, setIssuedCertificate] = useState<CertificateRecord | null>(null);
+  const [certificateBusy, setCertificateBusy] = useState(false);
+  const [certificateLoading, setCertificateLoading] = useState(false);
+  const [certificateError, setCertificateError] = useState("");
   const [listeningCompleted, setListeningCompleted] = useState<string[]>([]);
   const [listeningScores, setListeningScores] = useState<Record<string, boolean>>({});
   const lastPersistedSnapshotRef = useRef<string | null>(null);
@@ -557,6 +562,40 @@ function App() {
     { id: "vip" as Tab, label: "اشتراک VIP", icon: Crown },
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  useEffect(() => {
+    if (tab !== "certificates" || !authSession || !supabase) return;
+    let active = true;
+    setCertificateLoading(true);
+    setCertificateError("");
+    supabase.rpc("get_my_a1_certificate").then(({ data, error }) => {
+      if (!active) return;
+      if (error) { setCertificateError("دریافت وضعیت مدرک انجام نشد. دوباره تلاش کن."); return; }
+      setIssuedCertificate(data as CertificateRecord | null);
+    }).finally(() => { if (active) setCertificateLoading(false); });
+    return () => { active = false; };
+  }, [tab, authSession?.user.id]);
+  const handleIssueCertificate = async () => {
+    if (!supabase || !authSession || certificateBusy) return;
+    if (completed.length !== lessons.length || !a1FinalResult || a1FinalResult.score < 24) {
+      setCertificateError("برای دریافت مدرک باید همه درس‌های A1 را کامل کنی و حداقل ۲۴ از ۳۰ بگیری.");
+      return;
+    }
+    setCertificateBusy(true);
+    setCertificateError("");
+    try {
+      await saveLearningState({ completedLessons: completed, a1FinalResult }, authSession.user.id);
+      const { data, error } = await supabase.rpc("issue_my_a1_certificate");
+      if (error) throw error;
+      const record = data as CertificateRecord | null;
+      if (!record?.verification_code) throw new Error("Certificate response was incomplete");
+      setIssuedCertificate(record);
+    } catch (error) {
+      console.error("Certificate issuance failed:", error);
+      setCertificateError("صدور مدرک انجام نشد. مطمئن شو مهاجرت دیتابیس اجرا شده و شرایط قبولی را داری؛ سپس دوباره تلاش کن.");
+    } finally {
+      setCertificateBusy(false);
+    }
+  };
   const openLesson = (id: number) => { const index = lessons.findIndex(lesson => lesson.id === id); if (index < 0) return; const unlocked = lessons.slice(0, index).every(lesson => completed.includes(String(lesson.id))); if (!unlocked) { setNotice("برای باز کردن این درس، ابتدا درس‌های قبلی را کامل کن."); setMenuOpen(false); return; } setActiveLesson(id); setStep("learn"); setChoice(null); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, id)); setMenuOpen(false); };
   const closeLesson = () => { recognitionRef.current?.abort(); recognitionRef.current = null; setActiveLesson(null); setChoice(null); setStep("learn"); setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders({}); setVoiceStatus("idle"); setVoiceTranscript(""); setTypedAnswer(""); setTypingStatus("idle"); };
   useEffect(() => {
@@ -832,7 +871,7 @@ function App() {
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
       <div className="brand"><div><b>LIR9</b><small>یادگیری، قدم‌به‌قدم</small></div><button className="icon-button mobile-close" onClick={() => setMenuOpen(false)} aria-label="بستن منو"><X/></button></div>
       <button className={tab === "about" ? "sidebar-about active" : "sidebar-about"} onClick={() => go("about")}><span className="sidebar-about-icon"><Info size={17}/></span><span><b>درباره LIR9</b><small>با مسیر و هدف ما آشنا شو</small></span><ChevronLeft size={15}/></button><div className="side-caption">منوی اصلی</div>
-      <nav className="side-nav">{nav.map(item => <button key={item.id} className={tab === item.id ? "nav-link active" : "nav-link"} onClick={() => go(item.id)}><item.icon size={19}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}<button className={tab === "account" ? "nav-link active" : "nav-link"} onClick={() => go("account")}><UserRound size={19}/><span>حساب کاربری</span>{tab === "account" && <i/>}</button></nav>
+      <nav className="side-nav">{nav.map(item => <button key={item.id} className={tab === item.id ? "nav-link active" : "nav-link"} onClick={() => go(item.id)}><item.icon size={19}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}<button className={tab === "account" ? "nav-link active" : "nav-link"} onClick={() => go("account")}><UserRound size={19}/><span>حساب کاربری</span>{tab === "account" && <i/>}</button><a className="nav-link" href={`${import.meta.env.BASE_URL}verify.html`}><SearchCheck size={19}/><span>استعلام مدرک</span></a></nav>
       <div className="sidebar-progress"><div className="side-progress-icon"><Target size={18}/></div><div><b>مسیر فعلی تو</b><small>سطح A1 · مقدماتی</small></div><strong>{progress}٪</strong><div className="side-track"><i style={{width: progress + "%"}}/></div><button onClick={() => go("learn")}>ادامه مسیر <ChevronLeft size={14}/></button></div>
       <div className="sidebar-bottom"><span className="brand-mini">LIR9</span><span className="sidebar-user-email" title={authSession.user.email || ""}>{authSession.user.email}</span></div>
     </aside>
@@ -919,7 +958,7 @@ function App() {
             </button>
           </section>
         </section>}
-        {tab === "certificates" && <><div className="page-intro"><span className="section-kicker">افتخارات و دستاوردهای LIR9</span><h1>تالار افتخارات</h1><p>هر سطح، یک دستاورد تازه؛ گواهی نهایی پس از تأیید رسمی تکمیل دوره صادر خواهد شد.</p></div><section className="certificate-studio"><div className="certificate-status"><span className="certificate-status-icon"><LockKeyhole size={19}/></span><div><b>پیش‌نمایش طرح گواهی · فاقد اعتبار</b><p>این تصویر، قالب بصری گواهی LIR9 است و به‌تنهایی مدرک رسمی محسوب نمی‌شود. اطلاعات هر زبان‌آموز و شماره استعلام در نسخه نهایی باید به‌صورت امن و پویا درج شود.</p></div></div><div className="certificate-preview-wrap"><img className="certificate-artwork" src="/LIR9/file_00000000a8d481f4b0fd7bb26c886845.png" alt="قالب گواهی پایان سطح LIR9 با طراحی فارسی و انگلیسی"/></div><div className="certificate-future-note"><Award size={17}/><span>پس از راه‌اندازی حساب کاربری و تأیید تکمیل سطح در سرور، نام زبان‌آموز، سطح، تاریخ صدور و شناسه یکتای گواهی به‌صورت پویا اضافه می‌شوند.</span></div></section></>}
+        {tab === "certificates" && <><div className="page-intro"><span className="section-kicker">افتخارات و دستاوردهای LIR9</span><h1>مدارک من</h1><p>گواهی پایان دوره A1 پس از تکمیل همه درس‌ها و قبولی در آزمون پایانی صادر می‌شود.</p></div><section className="certificate-studio"><div className="certificate-status"><span className="certificate-status-icon"><ShieldCheck size={19}/></span><div><b>گواهی داخلی پایان دوره LIR9</b><p>این گواهی توسط LIR9 صادر و از طریق شناسه یکتا قابل استعلام است؛ مدرک رسمی CEFR یا مدرک بین‌المللی محسوب نمی‌شود.</p></div></div><div className="certificate-eligibility"><div><span>درس‌های تکمیل‌شده</span><strong>{completed.length} / {lessons.length}</strong><small>{completed.length === lessons.length ? "تمام درس‌ها تکمیل شده‌اند" : "برای صدور، همه درس‌ها را کامل کن"}</small></div><div><span>آزمون پایانی A1</span><strong>{a1FinalResult ? `${a1FinalResult.score} / 30` : "—"}</strong><small>{a1FinalResult?.score >= 24 ? "حدنصاب قبولی کسب شده" : "حداقل نمره قبولی ۲۴ است"}</small></div></div>{certificateLoading ? <div className="certificate-empty-state">در حال بررسی وضعیت مدرک…</div> : issuedCertificate ? <><div id="lir9-certificate-print" className="lir9-certificate certificate-specimen certificate-issued"><div className="certificate-frame"><div className="certificate-ornament certificate-ornament-top">✦　✧　✦</div><div className="certificate-topline">LIR9 · ENGLISH LEARNING PROGRAM</div><div className="certificate-brand">LIR<span>9</span></div><div className="certificate-brand-sub">LEARN · PRACTICE · PROGRESS</div><div className="certificate-emblem"><Award size={25}/></div><div className="certificate-eyebrow">CERTIFICATE OF COMPLETION</div><h2>گواهی پایان دوره</h2><p className="certificate-intro">بدین‌وسیله گواهی می‌شود که</p><div className="certificate-recipient">{issuedCertificate.student_name}</div><p className="certificate-body">با موفقیت محتوای آموزشی سطح زیر را تکمیل کرده و حدنصاب آزمون پایانی برنامه آموزشی LIR9 را کسب نموده است.</p><div className="certificate-level"><i className="certificate-level-rule"/><b>{issuedCertificate.level}</b><i className="certificate-level-rule"/></div><div className="certificate-level-caption">ENGLISH PROFICIENCY · COURSE LEVEL</div><div className="certificate-date-row"><span>DATE OF ISSUE</span><strong>{new Date(issuedCertificate.issued_at).toLocaleDateString("fa-IR", {year:"numeric",month:"long",day:"numeric"})}</strong></div><div className="certificate-bottom"><div><small>VERIFICATION CODE</small><b dir="ltr">{issuedCertificate.verification_code}</b></div><div className="certificate-seal"><Award size={17}/><b>LIR9</b><small>VERIFIED</small></div><div><small>FINAL ASSESSMENT</small><b>{issuedCertificate.score} / 30</b></div></div><div className="certificate-number">VERIFY ONLINE · LIR9</div><div className="certificate-ornament certificate-ornament-bottom">✦　✧　✦</div></div></div><div className="certificate-actions"><button className="primary-button" onClick={() => window.print()}><Award size={16}/> چاپ / ذخیره PDF</button><a className="certificate-verify-link" href={`${import.meta.env.BASE_URL}verify.html?code=${encodeURIComponent(issuedCertificate.verification_code)}`} target="_blank" rel="noreferrer"><ShieldCheck size={16}/> استعلام اصالت مدرک</a></div></> : <div className="certificate-issue-panel"><div><b>هنوز گواهی صادر نشده است</b><p>پس از تکمیل {lessons.length} درس و کسب حداقل ۲۴ از ۳۰ در آزمون پایانی، می‌توانی گواهی A1 را دریافت کنی.</p></div><button className="primary-button" disabled={certificateBusy || completed.length !== lessons.length || !a1FinalResult || a1FinalResult.score < 24} onClick={() => void handleIssueCertificate()}>{certificateBusy ? "در حال صدور…" : "صدور گواهی A1"} <Award size={16}/></button></div>}{certificateError && <p className="certificate-error" role="alert">{certificateError}</p>}</section></>}
         {notice && <div className="notice" role="status" aria-live="polite">{notice}<button onClick={()=>setNotice("")} aria-label="بستن پیام">×</button></div>}
       </div>
       <footer className="page-footer"><span>LIR9</span><span>نسخه آزمایشی رابط کاربری · بازخورد تو مسیر را بهتر می‌کند.</span></footer>
