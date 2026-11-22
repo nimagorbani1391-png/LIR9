@@ -1,51 +1,51 @@
 // Structured A1 English curriculum. Keep lesson data separate from application UI.
-export type Lesson = { id: number; unit: string; title: string; description: string; duration: string; skill: string; goal: string; explanation?: string; takeaway: string; keyWords: { word: string; meaning: string }[]; example: string; translation: string; question: string; choices: string[]; correct: number; answerWhy: string; };
+export type Lesson = { id: number; unit: string; title: string; description: string; duration: string; skill: string; goal: string; explanation?: string; takeaway: string; keyWords: { word: string; meaning: string }[]; example: string; translation: string; question: string; choices: string[]; answerWhy: string; };
 export const lessons: Lesson[] = [
-  { id: 1, unit: "واحد ۱ · شروع مکالمه", title: "سلام و احوال‌پرسی", description: "یاد بگیر مکالمه را طبیعی شروع کنی.", goal: "بتوانی مکالمه‌ای کوتاه را با سلام و پرسیدن حال طرف مقابل آغاز کنی.", takeaway: "Hi در گفت‌وگوی دوستانه رایج است؛ Hello کمی خنثی‌تر و رسمی‌تر است. برای پاسخ می‌توانی بگویی: I'm fine, thanks.", keyWords: [{"word":"Hello","meaning":"سلام"},{"word":"How are you?","meaning":"حالت چطور است؟"},{"word":"I'm fine","meaning":"من خوبم"}], duration: "۸ دقیقه", skill: "مکالمه", explanation: "برای سلام کردن در موقعیت‌های روزمره از Hello یا Hi استفاده می‌کنیم. برای پرسیدن حال طرف مقابل می‌گوییم: How are you?", example: "Hi! How are you?", translation: "سلام! حالت چطوره؟", question: "کدام عبارت برای پرسیدن حال یک نفر است؟", choices: ["How are you?", "What is your name?", "Where are you from?"], answerWhy: "How are you? برای پرسیدن حال مخاطب استفاده می‌شود. What is your name? نام را می‌پرسد و Where are you from? درباره محل یا کشور مبدأ است.", correct: 0 },
-  { id: 2, unit: "واحد ۱ · شروع مکالمه", title: "معرفی نام", description: "نام خودت و دیگران را معرفی کن.", goal: "بتوانی نام خودت را با دو ساختار رایج معرفی کنی.", takeaway: "بعد از My name is یا I'm، نام شخص می‌آید. فعل is را در ساختار My name is حذف نکن.", keyWords: [{"word":"My name is…","meaning":"اسم من ... است"},{"word":"I'm…","meaning":"من ... هستم"},{"word":"Nice to meet you","meaning":"از آشنایی با تو خوشحالم"}], duration: "۱۰ دقیقه", skill: "واژگان و مکالمه", explanation: "برای گفتن نام از الگوی My name is … استفاده کن. شکل کوتاه و رایج آن I'm … است.", example: "My name is Sara. / I'm Sara.", translation: "اسم من سارا است. / من سارا هستم.", question: "کدام جمله از نظر گرامری درست است؟", choices: ["My name Sara.", "My name is Sara.", "I name is Sara."], answerWhy: "ساختار درست My name is + name است. در جمله My name Sara فعل is جا افتاده است.", correct: 1 },
-  { id: 3, unit: "واحد ۱ · شروع مکالمه", title: "معرفی محل زندگی", description: "بگو اهل کجا هستی.", goal: "بتوانی بگویی اهل کجا هستی یا از کجا آمده‌ای.", takeaway: "ساختار I'm from + نام شهر یا کشور است. بعد از from معمولاً نام مکان می‌آید.", keyWords: [{"word":"from","meaning":"از / اهلِ"},{"word":"country","meaning":"کشور"},{"word":"city","meaning":"شهر"}], duration: "۹ دقیقه", skill: "گرامر", explanation: "برای گفتن اینکه اهل کجا هستی از ساختار I'm from + place استفاده می‌کنیم.", example: "I'm from Iran.", translation: "من اهل ایران هستم.", question: "جای خالی را کامل کن: I'm ___ Germany.", choices: ["from", "at", "is"], answerWhy: "در این جمله برای بیان مبدأ از from استفاده می‌کنیم؛ at و is در این ساختار درست نیستند.", correct: 0 },
-  { id: 4, unit: "واحد ۱ · شروع مکالمه", title: "ضمیرهای فاعلی", description: "با I, you, he و she آشنا شو.", goal: "ضمیر مناسب را برای اشاره به خودت، مخاطب یا شخص دیگر انتخاب کنی.", takeaway: "He برای یک مرد و She برای یک زن استفاده می‌شود. They برای بیش از یک نفر یا در بعضی کاربردهای مفرد به کار می‌رود.", keyWords: [{"word":"I","meaning":"من"},{"word":"You","meaning":"تو / شما"},{"word":"He","meaning":"او (مذکر)"},{"word":"She","meaning":"او (مونث)"}], duration: "۱۲ دقیقه", skill: "گرامر", explanation: "ضمیر فاعلی نشان می‌دهد چه کسی کار را انجام می‌دهد: I برای من، You برای تو/شما، He برای او (مذکر) و She برای او (مونث).", example: "She is a student. He is my friend.", translation: "او دانش‌آموز است. او دوست من است.", question: "کدام ضمیر برای یک مرد به کار می‌رود؟", choices: ["She", "He", "They"], answerWhy: "He ضمیر فاعلی سوم‌شخص مفرد برای مرد است. She برای زن و They برای جمع به کار می‌رود.", correct: 1 },
-  { id: 5, unit: "واحد ۲ · واژه‌های روزمره", title: "اعداد ۱ تا ۲۰", description: "عددهای پرکاربرد را بشناس و در موقعیت‌های ساده به کار ببر.", goal: "بتوانی عددهای ۱ تا ۲۰ را بخوانی، بشنوی و بنویسی.", takeaway: "به املای fourteen و fifteen دقت کن؛ در عددهای thirteen تا nineteen معمولاً پسوند teen دیده می‌شود.", keyWords: [{word:"one",meaning:"یک"},{word:"five",meaning:"پنج"},{word:"ten",meaning:"ده"}], duration: "۱۰ دقیقه", skill: "واژگان و شنیدار", explanation: "عددها برای گفتن سن، تعداد و شماره‌ها ضروری‌اند. در این درس با شکل نوشتاری و تلفظ چند عدد پایه آشنا می‌شوی.", example: "I have five books.", translation: "من پنج کتاب دارم.", question: "عدد ۱۲ در انگلیسی کدام است؟", choices: ["Twenty", "Twelve", "Two"], answerWhy: "Twelve یعنی دوازده؛ Two یعنی دو و Twenty یعنی بیست.", correct: 1 },
-  { id: 6, unit: "واحد ۲ · واژه‌های روزمره", title: "اعضای خانواده", description: "درباره اعضای خانواده‌ات صحبت کن.", goal: "بتوانی چند عضو خانواده را نام ببری و با جمله ساده معرفی کنی.", takeaway: "برای گفتن «مادر من» می‌گوییم my mother. واژه my مالکیت را نشان می‌دهد.", keyWords: [{word:"mother",meaning:"مادر"},{word:"father",meaning:"پدر"},{word:"sister",meaning:"خواهر"}], duration: "۱۱ دقیقه", skill: "واژگان و مکالمه", explanation: "واژه‌های خانواده در مکالمه‌های روزمره بسیار پرکاربردند. می‌توانی نام عضو خانواده را بعد از my بیاوری.", example: "This is my mother.", translation: "این مادر من است.", question: "معنی brother چیست؟", choices: ["برادر", "خواهر", "پدر"], answerWhy: "Brother یعنی برادر؛ sister یعنی خواهر و father یعنی پدر.", correct: 0 },
-  { id: 7, unit: "واحد ۲ · واژه‌های روزمره", title: "شغل‌ها و معرفی افراد", description: "شغل افراد را با جمله‌های کوتاه بیان کن.", goal: "بتوانی چند شغل رایج را نام ببری و بگویی یک نفر چه‌کاره است.", takeaway: "برای یک شغل مفرد معمولاً از a یا an استفاده می‌کنیم: a teacher، an artist.", keyWords: [{word:"teacher",meaning:"معلم"},{word:"doctor",meaning:"پزشک"},{word:"student",meaning:"دانش‌آموز / دانشجو"}], duration: "۱۲ دقیقه", skill: "واژگان و گرامر", explanation: "برای معرفی شغل می‌توانی از الگوی He is a ... یا She is a ... استفاده کنی.", example: "She is a teacher.", translation: "او معلم است.", question: "کدام واژه به معنی پزشک است؟", choices: ["Teacher", "Doctor", "Student"], answerWhy: "Doctor یعنی پزشک؛ teacher یعنی معلم و student یعنی دانش‌آموز یا دانشجو.", correct: 1 },
-  { id: 8, unit: "واحد ۳ · ساخت جمله", title: "حروف تعریف a و an", description: "قبل از اسم‌های مفرد، a و an را درست انتخاب کن.", goal: "در عبارت‌های ساده تشخیص بده چه زمانی از a و چه زمانی از an استفاده می‌شود.", takeaway: "انتخاب a یا an به صدای آغازین واژه بعدی بستگی دارد، نه فقط حرف اول آن.", keyWords: [{word:"a book",meaning:"یک کتاب"},{word:"an apple",meaning:"یک سیب"},{word:"an egg",meaning:"یک تخم‌مرغ"}], duration: "۱۲ دقیقه", skill: "گرامر", explanation: "a پیش از صدای آغازین همخوان و an پیش از صدای آغازین واکه می‌آید؛ مانند a book و an apple.", example: "It is an apple.", translation: "این یک سیب است.", question: "کدام عبارت درست است؟", choices: ["a orange", "an orange", "an book"], answerWhy: "Orange با صدای واکه آغاز می‌شود، پس an orange درست است. پیش از book از a استفاده می‌کنیم.", correct: 1 },
-  { id: 9, unit: "واحد ۳ · ساخت جمله", title: "اشاره به چیزها: this و that", description: "به چیزهای نزدیک و دور اشاره کن.", goal: "تفاوت this برای چیز نزدیک و that برای چیز دور را در جمله ساده به کار ببری.", takeaway: "This is ... برای یک چیز نزدیک و That is ... برای یک چیز دور استفاده می‌شود.", keyWords: [{word:"this",meaning:"این (نزدیک)"},{word:"that",meaning:"آن (دور)"},{word:"this book",meaning:"این کتاب"}], duration: "۱۰ دقیقه", skill: "گرامر و مکالمه", explanation: "وقتی چیزی نزدیک توست از this و وقتی دورتر است از that استفاده کن. هر دو در این درس با اسم مفرد می‌آیند.", example: "This is my book.", translation: "این کتاب من است.", question: "برای اشاره به یک چیز دور کدام واژه مناسب است؟", choices: ["This", "That", "These"], answerWhy: "That برای اشاره به یک چیز دور به کار می‌رود؛ this برای چیز نزدیک است و these شکل جمع this است.", correct: 1 },
-  { id: 10, unit: "واحد ۳ · ساخت جمله", title: "جمع بستن اسم‌ها", description: "درباره بیش از یک چیز صحبت کن.", goal: "جمع ساده اسم‌ها را با افزودن s بسازی و در جمله تشخیص بدهی.", takeaway: "بسیاری از اسم‌ها با افزودن s جمع بسته می‌شوند: book → books. بعضی اسم‌ها شکل بی‌قاعده دارند که باید جداگانه یاد گرفته شوند.", keyWords: [{word:"book",meaning:"کتاب"},{word:"books",meaning:"کتاب‌ها"},{word:"two cats",meaning:"دو گربه"}], duration: "۱۲ دقیقه", skill: "گرامر و واژگان", explanation: "برای جمع بستن بسیاری از اسم‌های انگلیسی، s به پایان اسم اضافه می‌شود. بعد از عدد بیشتر از یک، معمولاً اسم را جمع می‌آوریم.", example: "I have two books.", translation: "من دو کتاب دارم.", question: "جمع ساده book کدام است؟", choices: ["bookes", "books", "book"], answerWhy: "برای جمع ساده book فقط s اضافه می‌کنیم: books.", correct: 1 },
-  { id: 11, unit: "واحد ۴ · جمله‌سازی", title: "فعل be در جمله منفی", description: "یاد بگیر چطور بگویی کسی یا چیزی این‌طور نیست.", goal: "بتوانی با am not، isn't و aren't جمله منفی بسازی.", takeaway: "برای منفی کردن فعل be، not را بعد از am/is/are می‌آوریم: I am not tired. / She isn't late.", keyWords: [{word:"not",meaning:"نه / نیست"},{word:"tired",meaning:"خسته"},{word:"ready",meaning:"آماده"}], example: "I am not tired.", translation: "من خسته نیستم.", question: "کدام جمله درست است؟", choices: ["He isn't busy.", "He not is busy.", "He aren't busy."], correct: 0, answerWhy: "برای he از is استفاده می‌کنیم و not بعد از آن می‌آید: He is not busy یا He isn't busy.", duration:"۱۲ دقیقه", skill:"گرامر و جمله‌سازی" },
-  { id: 12, unit: "واحد ۴ · جمله‌سازی", title: "سؤال ساختن با فعل be", description: "سؤال‌های ساده درباره آدم‌ها و چیزها بپرس.", goal: "بتوانی جای فعل be و فاعل را در سؤال درست کنی و کوتاه جواب بدهی.", takeaway: "برای سؤال، am/is/are را به ابتدای جمله می‌بریم: Are you ready? پاسخ کوتاه: Yes, I am. / No, I'm not.", keyWords: [{word:"Are you…?",meaning:"آیا تو ... هستی؟"},{word:"Yes, I am.",meaning:"بله، هستم."},{word:"No, I'm not.",meaning:"نه، نیستم."}], example: "Are you ready? Yes, I am.", translation: "آماده‌ای؟ بله، هستم.", question: "کدام گزینه سؤال درست است؟", choices: ["Are they students?", "They are students?", "Are students they?"], correct: 0, answerWhy: "در سؤال بله/خیر با فعل be، فعل قبل از فاعل می‌آید: Are + they + students?", duration:"۱۲ دقیقه", skill:"گرامر و مکالمه" },
-  { id: 13, unit: "واحد ۵ · آدم‌ها و وسایل", title: "مالکیت با my و your", description: "بگو هر وسیله یا چیزی مال چه کسی است.", goal: "بتوانی از my، your، his و her برای نشان دادن مالکیت استفاده کنی.", takeaway: "my یعنی مال من، your یعنی مال تو/شما، his برای یک مرد و her برای یک زن است. این کلمات قبل از اسم می‌آیند: my phone.", keyWords: [{word:"my phone",meaning:"گوشی من"},{word:"your bag",meaning:"کیف تو"},{word:"his book",meaning:"کتاب او (مذکر)"}], example: "This is my phone.", translation: "این گوشی من است.", question: "اگر کیف متعلق به سارا باشد، کدام درست است؟", choices: ["Her bag", "His bag", "Your bag"], correct: 0, answerWhy: "برای مالکیت یک زن از her استفاده می‌کنیم؛ پس Her bag یعنی کیف او.", duration:"۱۲ دقیقه", skill:"واژگان و گرامر" },
-  { id: 14, unit: "واحد ۵ · آدم‌ها و وسایل", title: "داشتن با have و has", description: "درباره چیزهایی که داری صحبت کن.", goal: "در جمله مثبت، have و has را با فاعل درست به کار ببری.", takeaway: "با I/you/we/they از have و با he/she/it از has استفاده می‌کنیم: I have a bike. / She has a bike.", keyWords: [{word:"have",meaning:"داشتن (با I و you و ...)"},{word:"has",meaning:"داشتن (با he و she و it)"},{word:"bike",meaning:"دوچرخه"}], example: "She has a new bike.", translation: "او یک دوچرخه جدید دارد.", question: "جای خالی را کامل کن: My brother ___ a ball.", choices: ["have", "has", "am"], correct: 1, answerWhy: "My brother یک نفر است و می‌توانیم آن را he در نظر بگیریم؛ پس has درست است.", duration:"۱۲ دقیقه", skill:"گرامر و واژگان" },
-  { id: 15, unit: "واحد ۶ · زندگی روزمره", title: "حال ساده برای عادت‌ها", description: "درباره کارهایی که هر روز انجام می‌دهی حرف بزن.", goal: "بتوانی با حال ساده درباره عادت‌ها و برنامه روزانه جمله مثبت بسازی.", takeaway: "برای I/you/we/they شکل ساده فعل را می‌آوریم: I play. برای he/she/it معمولاً s اضافه می‌شود: She plays.", keyWords: [{word:"every day",meaning:"هر روز"},{word:"study",meaning:"درس خواندن"},{word:"play",meaning:"بازی کردن"}], example: "I play games after school.", translation: "من بعد از مدرسه بازی می‌کنم.", question: "کدام جمله درست است؟", choices: ["She plays tennis.", "She play tennis.", "She playing tennis."], correct: 0, answerWhy: "فاعل she سوم‌شخص مفرد است؛ در جمله مثبت حال ساده معمولاً به فعل s اضافه می‌کنیم: plays.", duration:"۱۴ دقیقه", skill:"گرامر و مکالمه" },
-  { id: 16, unit: "واحد ۶ · زندگی روزمره", title: "قیدهای تکرار", description: "بگو یک کار را چند وقت یک‌بار انجام می‌دهی.", goal: "بتوانی always، usually، sometimes و never را در جمله به کار ببری.", takeaway: "قیدهای تکرار معمولاً قبل از فعل اصلی می‌آیند: I usually walk. اما با فعل be بعد از آن می‌آیند: I am always happy.", keyWords: [{word:"always",meaning:"همیشه"},{word:"usually",meaning:"معمولاً"},{word:"sometimes",meaning:"گاهی"}], example: "I usually do my homework after school.", translation: "من معمولاً بعد از مدرسه تکالیفم را انجام می‌دهم.", question: "کدام جمله جای قید را درست نشان می‌دهد؟", choices: ["I always drink water.", "I drink always water.", "Always I water drink."], correct: 0, answerWhy: "در جمله ساده با فعل اصلی، قید تکرار معمولاً قبل از فعل می‌آید: always drink.", duration:"۱۲ دقیقه", skill:"گرامر و مکالمه" },
-  { id: 17, unit: "واحد ۷ · توانایی‌ها و سرگرمی‌ها", title: "بیان توانایی با can", description: "درباره کارهایی که می‌توانی انجام بدهی صحبت کن.", goal: "بتوانی با can توانایی را بیان کنی و سؤال ساده بسازی.", takeaway: "بعد از can فعل ساده و بدون to می‌آید: I can swim. برای سؤال، can را اول می‌آوریم: Can you swim?", keyWords: [{word:"can",meaning:"توانستن"},{word:"swim",meaning:"شنا کردن"},{word:"draw",meaning:"نقاشی کشیدن"}], example: "I can play the guitar.", translation: "من می‌توانم گیتار بزنم.", question: "کدام جمله درست است؟", choices: ["She can dance.", "She can to dance.", "She cans dance."], correct: 0, answerWhy: "بعد از can فعل ساده می‌آید؛ نه to می‌گیرد و نه s سوم‌شخص.", duration:"۱۲ دقیقه", skill:"گرامر و مکالمه" },
-  { id: 18, unit: "واحد ۷ · توانایی‌ها و سرگرمی‌ها", title: "علاقه‌ها با like", description: "درباره چیزهایی که دوست داری بگو.", goal: "بتوانی درباره علاقه‌ها با like و likes جمله بسازی.", takeaway: "با I/you/we/they از like و با he/she/it از likes استفاده می‌کنیم. بعد از like می‌توان اسم یا فعل ingدار آورد: I like music. / I like reading.", keyWords: [{word:"like",meaning:"دوست داشتن"},{word:"music",meaning:"موسیقی"},{word:"reading",meaning:"کتاب خواندن"}], example: "I like listening to music.", translation: "من گوش دادن به موسیقی را دوست دارم.", question: "کدام جمله درست است؟", choices: ["He likes football.", "He like football.", "He liking football."], correct: 0, answerWhy: "با he در جمله مثبت حال ساده، likes می‌آید.", duration:"۱۲ دقیقه", skill:"واژگان و مکالمه" },
-  { id: 19, unit: "واحد ۸ · مکان‌ها و زمان", title: "حروف اضافه مکان", description: "جای وسایل را دقیق توضیح بده.", goal: "بتوانی از in، on و under برای توصیف مکان استفاده کنی.", takeaway: "in یعنی داخل، on یعنی روی سطح و under یعنی زیر. معنی را با تصویر ذهنی یاد بگیر: The book is on the desk.", keyWords: [{word:"in",meaning:"داخل"},{word:"on",meaning:"روی"},{word:"under",meaning:"زیر"}], example: "My bag is under the desk.", translation: "کیف من زیر میز است.", question: "اگر کتاب روی میز باشد، کدام حرف اضافه مناسب است؟", choices: ["on", "in", "under"], correct: 0, answerWhy: "وقتی چیزی روی سطح میز قرار دارد از on استفاده می‌کنیم.", duration:"۱۲ دقیقه", skill:"واژگان و کاربرد" },
-  { id: 20, unit: "واحد ۸ · مکان‌ها و زمان", title: "گفتن ساعت و زمان‌های روز", description: "زمان فعالیت‌های روزانه‌ات را بیان کن.", goal: "بتوانی ساعت‌های ساده را بگویی و از in the morning و at night استفاده کنی.", takeaway: "برای ساعت دقیق از الگوی It's + time استفاده کن: It's seven o'clock. برای زمان‌های روز می‌گوییم in the morning و at night.", keyWords: [{word:"o'clock",meaning:"راس ساعت"},{word:"in the morning",meaning:"صبح‌ها"},{word:"at night",meaning:"شب‌ها"}], example: "I get up at seven o'clock.", translation: "من ساعت هفت بیدار می‌شوم.", question: "کدام عبارت به معنی «صبح‌ها» است؟", choices: ["in the morning", "at night", "in the evening"], correct: 0, answerWhy: "in the morning یعنی صبح‌ها؛ at night یعنی شب‌ها و in the evening یعنی عصرها.", duration:"۱۳ دقیقه", skill:"واژگان و مکالمه" },
-  {"id":21,"unit":"واحد ۹ · پایه‌های زبان","title":"الفبا و هجی کردن","description":"حروف انگلیسی را بشناس و نام‌ها و واژه‌های ساده را هجی کن.","goal":"بتوانی حروف A تا Z را تشخیص بدهی، نام حروف را بگویی و املای یک نام را سؤال و جواب کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"نام حروف با صدای آن‌ها در کلمه فرق دارد. برای پرسیدن املا بگو How do you spell ...?","keyWords":[{"word":"alphabet","meaning":"الفبا"},{"word":"letter","meaning":"حرف"},{"word":"spell","meaning":"هجی کردن"},{"word":"How do you spell it?","meaning":"چطور آن را هجی می‌کنی؟"}],"example":"How do you spell your name? — N-I-M-A.","translation":"اسمت را چطور هجی می‌کنی؟ — ن، ی، م، ا.","question":"Which letters spell CAT? ","choices":["C-A-T","K-E-T","C-E-T"],"correct":0,"answerWhy":"املای درست cat برابر C-A-T است."},
-  {"id":22,"unit":"واحد ۹ · پایه‌های زبان","title":"اعداد ۲۰ تا ۱۰۰ و شماره‌ها","description":"عددهای بزرگ‌تر را برای سن، قیمت و شماره تلفن به کار ببر.","goal":"بتوانی دهگان‌ها را بخوانی، عددهای ترکیبی بسازی و شماره تلفن را رقم‌به‌رقم بیان کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در عددهای ترکیبی بین دهگان و یکان خط تیره می‌آید: twenty-one، thirty-five. شماره تلفن را معمولاً رقم‌به‌رقم می‌خوانیم.","keyWords":[{"word":"twenty","meaning":"بیست"},{"word":"thirty","meaning":"سی"},{"word":"fifty","meaning":"پنجاه"},{"word":"phone number","meaning":"شماره تلفن"}],"example":"My phone number is 0912…","translation":"شماره تلفن من ۰۹۱۲… است.","question":"How do you write 40?","choices":["Fourty","Forty","Fourteen"],"correct":1,"answerWhy":"املای درست چهل forty است."},
-  {"id":23,"unit":"واحد ۹ · پایه‌های زبان","title":"روزها، ماه‌ها و تاریخ","description":"روز هفته، ماه و تاریخ‌های ساده را بیان کن.","goal":"بتوانی روزها و ماه‌ها را نام ببری، درباره روز موردنظر سؤال کنی و تاریخ ساده را بخوانی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"نام روزها و ماه‌ها با حرف بزرگ شروع می‌شود. برای ماه از in و برای روز مشخص از on استفاده می‌کنیم.","keyWords":[{"word":"Monday","meaning":"دوشنبه"},{"word":"January","meaning":"ژانویه"},{"word":"today","meaning":"امروز"},{"word":"date","meaning":"تاریخ"}],"example":"My birthday is in May. It is on Friday.","translation":"تولد من در ماه مه است. روز جمعه است.","question":"Which word is a month?","choices":["Tuesday","April","Sunday"],"correct":1,"answerWhy":"April نام یک ماه است."},
-  {"id":24,"unit":"واحد ۹ · پایه‌های زبان","title":"کشورها، ملیت‌ها و زبان‌ها","description":"درباره کشور، ملیت و زبانی که صحبت می‌کنی حرف بزن.","goal":"بتوانی بپرسی اهل کجا هستی و چه زبانی صحبت می‌کنی و پاسخ ساده بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"I'm from Iran درباره کشور مبدأ است؛ I'm Iranian درباره ملیت و I speak Persian درباره زبان است.","keyWords":[{"word":"country","meaning":"کشور"},{"word":"nationality","meaning":"ملیت"},{"word":"language","meaning":"زبان"},{"word":"speak","meaning":"صحبت کردن"}],"example":"I'm Iranian. I speak Persian and a little English.","translation":"من ایرانی هستم. فارسی و کمی انگلیسی صحبت می‌کنم.","question":"I'm from Italy. I'm ___.","choices":["Italian","Italy","Italish"],"correct":0,"answerWhy":"Italian ملیت مربوط به Italy است."},
-  {"id":25,"unit":"واحد ۱۰ · توصیف و اشیا","title":"وسایل کلاس و دستورهای ساده","description":"نام وسایل کلاس را یاد بگیر و دستورهای کوتاه را بفهم.","goal":"بتوانی وسایل رایج کلاس را نام ببری و دستورهای ساده معلم را اجرا کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در دستور مستقیم، فعل در ابتدای جمله می‌آید: Open the door. برای مؤدبانه‌تر شدن please را اضافه کن.","keyWords":[{"word":"pen","meaning":"خودکار"},{"word":"notebook","meaning":"دفتر"},{"word":"board","meaning":"تخته"},{"word":"Open your book","meaning":"کتابت را باز کن"}],"example":"Please open your notebook.","translation":"لطفاً دفترت را باز کن.","question":"Which is a classroom object?","choices":["notebook","cloudy","Monday"],"correct":0,"answerWhy":"notebook یعنی دفتر."},
-  {"id":26,"unit":"واحد ۱۰ · توصیف و اشیا","title":"رنگ‌ها و صفت‌های پایه","description":"رنگ و ویژگی‌های ساده افراد و اشیا را توصیف کن.","goal":"بتوانی با صفت‌های پرکاربرد رنگ، اندازه و کیفیت یک اسم را توصیف کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"صفت در انگلیسی معمولاً پیش از اسم می‌آید: a red car. صفت با جمع یا جنسیت تغییر نمی‌کند.","keyWords":[{"word":"big","meaning":"بزرگ"},{"word":"small","meaning":"کوچک"},{"word":"beautiful","meaning":"زیبا"},{"word":"blue","meaning":"آبی"}],"example":"It is a small blue bag.","translation":"این یک کیف آبی کوچک است.","question":"Choose the correct phrase.","choices":["a red car","a car red","red a car"],"correct":0,"answerWhy":"صفت پیش از اسم می‌آید."},
-  {"id":27,"unit":"واحد ۱۰ · توصیف و اشیا","title":"مالکیت با 's و ضمیرهای ملکی","description":"نشان بده یک وسیله متعلق به چه کسی است.","goal":"بتوانی از 's برای مالکیت و mine، yours، his و hers برای جایگزینی اسم استفاده کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای مالکیت یک شخص از 's استفاده می‌کنیم: Ali's phone. ضمیر ملکی mine به‌تنهایی می‌آید و قبل از اسم قرار نمی‌گیرد.","keyWords":[{"word":"Sara's bag","meaning":"کیف سارا"},{"word":"mine","meaning":"مال من"},{"word":"yours","meaning":"مال تو"},{"word":"hers","meaning":"مال او"}],"example":"This is Sara's book. The blue one is mine.","translation":"این کتاب سارا است. آبیه مال من است.","question":"Choose the correct possessive.","choices":["Sara's bag","Sara bag's","Saras bag"],"correct":0,"answerWhy":"برای مالکیت Sara's نوشته می‌شود."},
-  {"id":28,"unit":"واحد ۱۰ · توصیف و اشیا","title":"these و those و جمع‌های بی‌قاعده","description":"به چند چیز نزدیک یا دور اشاره کن و جمع‌های رایج را بشناس.","goal":"بتوانی these و those را به‌درستی به کار ببری و شکل جمع چند اسم بی‌قاعده را تشخیص بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"These جمع this برای چیزهای نزدیک و those جمع that برای چیزهای دور است. بعضی جمع‌ها بی‌قاعده‌اند: child → children.","keyWords":[{"word":"these","meaning":"این‌ها"},{"word":"those","meaning":"آن‌ها"},{"word":"children","meaning":"کودکان"},{"word":"people","meaning":"مردم / افراد"}],"example":"These are my keys. Those are your bags.","translation":"این‌ها کلیدهای من هستند. آن‌ها کیف‌های تو هستند.","question":"Plural of child is…","choices":["childs","children","childes"],"correct":1,"answerWhy":"جمع بی‌قاعده child برابر children است."},
-  {"id":29,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"There is و There are","description":"وجود داشتن یک یا چند چیز را بیان کن.","goal":"بتوانی درباره وجود اشیاء در یک مکان با there is و there are جمله مثبت و منفی بسازی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای اسم مفرد یا غیرقابل‌شمارش از there is و برای اسم جمع از there are استفاده کن.","keyWords":[{"word":"There is","meaning":"وجود دارد (مفرد)"},{"word":"There are","meaning":"وجود دارند (جمع)"},{"word":"a park","meaning":"یک پارک"},{"word":"any","meaning":"هیچ / مقداری"}],"example":"There are two chairs in the room.","translation":"دو صندلی در اتاق وجود دارد.","question":"There ___ a book on the table.","choices":["is","are","am"],"correct":0,"answerWhy":"book مفرد است؛ there is درست است."},
-  {"id":30,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"کلمات پرسشی پایه","description":"سؤال‌های اطلاعاتی با what، where، who، when و how بپرس.","goal":"بتوانی برای گرفتن اطلاعات ساده، کلمه پرسشی مناسب را انتخاب و سؤال کوتاه بسازی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"What درباره چیز، where درباره مکان، who درباره شخص، when درباره زمان و how درباره چگونگی می‌پرسد.","keyWords":[{"word":"what","meaning":"چه / چه چیزی"},{"word":"where","meaning":"کجا"},{"word":"who","meaning":"چه کسی"},{"word":"when","meaning":"چه زمانی"}],"example":"Where do you live? — I live in Berlin.","translation":"کجا زندگی می‌کنی؟ — در برلین زندگی می‌کنم.","question":"Which word asks about a place?","choices":["where","who","when"],"correct":0,"answerWhy":"where درباره مکان می‌پرسد."},
-  {"id":31,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"منفی کردن حال ساده","description":"بگو چه کاری را انجام نمی‌دهی یا چه چیزی را دوست نداری.","goal":"بتوانی با don't و doesn't جمله منفی حال ساده بسازی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای I، you، we و they از don't و برای he، she و it از doesn't استفاده کن؛ بعد از doesn't فعل ساده می‌آید.","keyWords":[{"word":"don't","meaning":"نمی / انجام نمی‌دهم"},{"word":"doesn't","meaning":"نمی / انجام نمی‌دهد"},{"word":"work","meaning":"کار کردن"},{"word":"like","meaning":"دوست داشتن"}],"example":"She doesn't work on Sundays.","translation":"او یکشنبه‌ها کار نمی‌کند.","question":"He ___ like milk.","choices":["doesn't","don't","isn't"],"correct":0,"answerWhy":"با he از doesn't استفاده می‌کنیم."},
-  {"id":32,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"سؤال بله/خیر با do و does","description":"درباره عادت‌ها و کارهای روزمره سؤال کن.","goal":"بتوانی سؤال حال ساده را با do یا does بسازی و پاسخ کوتاه بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در سؤال حال ساده do/does پیش از فاعل می‌آید و فعل اصلی بعد از فاعل به شکل ساده است.","keyWords":[{"word":"Do you…?","meaning":"آیا تو ...؟"},{"word":"Does he…?","meaning":"آیا او ...؟"},{"word":"Yes, I do.","meaning":"بله."},{"word":"No, she doesn't.","meaning":"نه."}],"example":"Does your brother play football? — Yes, he does.","translation":"آیا برادرت فوتبال بازی می‌کند؟ — بله.","question":"___ you like music?","choices":["Do","Does","Are"],"correct":0,"answerWhy":"با you از do استفاده می‌شود."},
-  {"id":33,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"سؤال‌های اطلاعاتی درباره زندگی روزمره","description":"با what time، how often و where درباره برنامه روزانه سؤال کن.","goal":"بتوانی سؤال‌های ساده اطلاعاتی را با do/does و کلمه پرسشی بسازی و پاسخ مرتبط بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"ساختار رایج: کلمه پرسشی + do/does + فاعل + فعل پایه. پاسخ باید دقیقاً به همان اطلاعاتی جواب دهد که سؤال می‌خواهد.","keyWords":[{"word":"What time","meaning":"چه ساعتی"},{"word":"How often","meaning":"هر چند وقت"},{"word":"Where","meaning":"کجا"},{"word":"usually","meaning":"معمولاً"}],"example":"What time do you start school? — At eight.","translation":"چه ساعتی مدرسه را شروع می‌کنی؟ — ساعت هشت.","question":"___ do you get up? — At seven.","choices":["What time","Where","Who"],"correct":0,"answerWhy":"برای پرسیدن ساعت از what time استفاده می‌کنیم."},
-  {"id":34,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"حال استمراری","description":"درباره کاری که همین حالا در جریان است صحبت کن.","goal":"بتوانی am/is/are را با فعل ingدار ترکیب کنی و عمل در حال انجام را توصیف کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"حال استمراری با am/is/are + فعل ing ساخته می‌شود و برای کاری است که اکنون در جریان است.","keyWords":[{"word":"now","meaning":"اکنون"},{"word":"reading","meaning":"در حال خواندن"},{"word":"cooking","meaning":"در حال آشپزی"},{"word":"What are you doing?","meaning":"داری چه کار می‌کنی؟"}],"example":"She is studying English now.","translation":"او الان در حال مطالعه انگلیسی است.","question":"He ___ watching TV now.","choices":["is","are","am"],"correct":0,"answerWhy":"با he از is استفاده می‌کنیم."},
-  {"id":35,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"ضمیرهای مفعولی","description":"در جمله به شخصی اشاره کن که کاری روی او انجام می‌شود.","goal":"بتوانی me، you، him، her، it، us و them را در جایگاه مفعول به کار ببری.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"ضمیر مفعولی معمولاً بعد از فعل یا حرف اضافه می‌آید: call me، talk to her. جای فاعل از I و جای مفعول از me استفاده کن.","keyWords":[{"word":"me","meaning":"من را / به من"},{"word":"him","meaning":"او را (مذکر)"},{"word":"her","meaning":"او را (مونث)"},{"word":"them","meaning":"آن‌ها را"}],"example":"I know him. She helps us.","translation":"من او را می‌شناسم. او به ما کمک می‌کند.","question":"Please help ___.","choices":["me","I","my"],"correct":0,"answerWhy":"پس از help به ضمیر مفعولی me نیاز داریم."},
-  {"id":36,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"حروف اضافه زمان","description":"زمان رویدادها را با at، on و in دقیق‌تر بیان کن.","goal":"بتوانی at را برای ساعت، on را برای روز و in را برای ماه، سال و بخش‌های روز انتخاب کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"at برای ساعت و عبارت‌های ثابت مثل at night، on برای روز و تاریخ، و in برای ماه، سال و بخش‌های روز به کار می‌رود.","keyWords":[{"word":"at seven","meaning":"ساعت هفت"},{"word":"on Monday","meaning":"روز دوشنبه"},{"word":"in July","meaning":"در ماه ژوئیه"},{"word":"at night","meaning":"شب‌ها"}],"example":"The lesson is on Monday at nine.","translation":"درس روز دوشنبه ساعت نه است.","question":"The train leaves ___ 8:30.","choices":["at","on","in"],"correct":0,"answerWhy":"برای ساعت دقیق از at استفاده می‌کنیم."},
-  {"id":37,"unit":"واحد ۱۳ · خرید و غذا","title":"اسم‌های قابل‌شمارش و غیرقابل‌شمارش","description":"تفاوت اسم‌هایی را که می‌توان شمرد با اسم‌های غیرقابل‌شمارش بفهم.","goal":"بتوانی a/an، some و مقدارهای ساده را با اسم‌های مناسب به کار ببری.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"اسم قابل‌شمارش مفرد می‌تواند a/an بگیرد؛ اسم غیرقابل‌شمارش معمولاً جمع بسته نمی‌شود. برای مقدار از a glass of یا a bottle of استفاده کن.","keyWords":[{"word":"apple","meaning":"سیب (قابل‌شمارش)"},{"word":"water","meaning":"آب (غیرقابل‌شمارش)"},{"word":"some","meaning":"مقداری"},{"word":"a bottle of","meaning":"یک بطری"}],"example":"I'd like a sandwich and some water.","translation":"یک ساندویچ و مقداری آب می‌خواهم.","question":"Which noun is usually uncountable?","choices":["water","apple","egg"],"correct":0,"answerWhy":"water معمولاً غیرقابل‌شمارش است."},
-  {"id":38,"unit":"واحد ۱۳ · خرید و غذا","title":"غذا و سفارش در کافه","description":"غذاها را نام ببر و سفارش ساده و مؤدبانه بده.","goal":"بتوانی غذا و نوشیدنی را نام ببری، درخواست ساده مطرح کنی و درباره منو سؤال کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"I'd like ... برای سفارش مؤدبانه مناسب است. لطفاً از please استفاده کن و برای درخواست از Can I have ...? کمک بگیر.","keyWords":[{"word":"menu","meaning":"منو"},{"word":"I'd like","meaning":"مایلم / می‌خواهم"},{"word":"tea","meaning":"چای"},{"word":"bill","meaning":"صورتحساب"}],"example":"I'd like a tea, please. Can I have the menu?","translation":"لطفاً یک چای می‌خواهم. می‌توانم منو را داشته باشم؟","question":"Which phrase is polite for ordering?","choices":["I'd like a coffee, please.","Give coffee.","Coffee now."],"correct":0,"answerWhy":"I'd like درخواست مؤدبانه است."},
-  {"id":39,"unit":"واحد ۱۳ · خرید و غذا","title":"خرید لباس و پرسیدن قیمت","description":"لباس‌های ساده را نام ببر و قیمت را بپرس.","goal":"بتوانی درباره اندازه و رنگ لباس سؤال کنی و قیمت را با How much is/are بپرسی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای مفرد از How much is ...? و برای جمع از How much are ...? استفاده کن.","keyWords":[{"word":"How much is it?","meaning":"قیمتش چقدر است؟"},{"word":"cheap","meaning":"ارزان"},{"word":"expensive","meaning":"گران"},{"word":"size","meaning":"اندازه"}],"example":"How much are these shoes? — They are twenty euros.","translation":"قیمت این کفش‌ها چقدر است؟ — بیست یورو هستند.","question":"How much ___ this shirt?","choices":["is","are","do"],"correct":0,"answerWhy":"shirt مفرد است؛ is می‌آید."},
-  {"id":40,"unit":"واحد ۱۴ · شهر و رفت‌وآمد","title":"مکان‌های شهر و مسیر پرسیدن","description":"مکان‌های عمومی را بشناس و مسیر ساده بپرس.","goal":"بتوانی مکان‌های شهر را نام ببری و با سؤال‌های کوتاه آدرس بپرسی و مسیر ساده را بفهمی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای پرسیدن مسیر از Excuse me, where is ...? استفاده کن. دستور مسیر با فعل پایه شروع می‌شود: go، turn، cross.","keyWords":[{"word":"bank","meaning":"بانک"},{"word":"station","meaning":"ایستگاه"},{"word":"turn left","meaning":"به چپ بپیچ"},{"word":"go straight","meaning":"مستقیم برو"}],"example":"Excuse me, where is the station? Go straight and turn left.","translation":"ببخشید، ایستگاه کجاست؟ مستقیم برو و به چپ بپیچ.","question":"What does turn left mean?","choices":["به چپ بپیچ","به راست بپیچ","مستقیم برو"],"correct":0,"answerWhy":"turn left یعنی به چپ بپیچ."},
-  {"id":41,"unit":"واحد ۱۴ · شهر و رفت‌وآمد","title":"حمل‌ونقل و سفر ساده","description":"درباره روش رفت‌وآمد و سفرهای کوتاه صحبت کن.","goal":"بتوانی وسایل حمل‌ونقل را نام ببری و بگویی با چه وسیله‌ای به جایی می‌روی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای وسیله نقلیه معمولاً از by + وسیله استفاده می‌کنیم: by bus، by train. اما می‌گوییم on foot.","keyWords":[{"word":"by bus","meaning":"با اتوبوس"},{"word":"train","meaning":"قطار"},{"word":"ticket","meaning":"بلیت"},{"word":"airport","meaning":"فرودگاه"}],"example":"I go to work by bus. I need a ticket.","translation":"با اتوبوس به محل کار می‌روم. به بلیت نیاز دارم.","question":"I travel ___ train.","choices":["by","on","in"],"correct":0,"answerWhy":"برای وسیله نقلیه از by train استفاده می‌شود."},
-  {"id":42,"unit":"واحد ۱۴ · شهر و رفت‌وآمد","title":"آب‌وهوا و فصل‌ها","description":"آب‌وهوا و فصل موردعلاقه‌ات را توصیف کن.","goal":"بتوانی درباره هوا با it is و صفت‌های رایج صحبت کنی و فصل موردعلاقه‌ات را بیان کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای توصیف هوا معمولاً از It is + صفت استفاده می‌کنیم: It's sunny. نام فصل‌ها معمولاً با in می‌آید: in winter.","keyWords":[{"word":"sunny","meaning":"آفتابی"},{"word":"cloudy","meaning":"ابری"},{"word":"cold","meaning":"سرد"},{"word":"season","meaning":"فصل"}],"example":"It's cold and rainy today. I like spring.","translation":"امروز سرد و بارانی است. من بهار را دوست دارم.","question":"What does cloudy mean?","choices":["ابری","آفتابی","بارانی"],"correct":0,"answerWhy":"cloudy یعنی ابری."},
-  {"id":43,"unit":"واحد ۱۵ · کاربرد واقعی و جمع‌بندی","title":"دعوت کردن و پیشنهاد ساده","description":"برای دعوت کردن یا پیشنهاد فعالیتی ساده از عبارت‌های مناسب استفاده کن.","goal":"بتوانی پیشنهاد کوتاه بدهی، دعوت را بپذیری یا مؤدبانه رد کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"Let's + فعل پایه برای پیشنهاد است. Would you like ...? دعوت مؤدبانه‌تری است. برای رد کردن، دلیل کوتاه و محترمانه بیاور.","keyWords":[{"word":"Let's…","meaning":"بیا ..."},{"word":"Would you like…?","meaning":"مایلی ...؟"},{"word":"That sounds great","meaning":"عالی به نظر می‌رسد"},{"word":"Sorry, I can't","meaning":"متأسفم، نمی‌توانم"}],"example":"Would you like to play football? — That sounds great!","translation":"دوست داری فوتبال بازی کنیم؟ — عالیه!","question":"Complete: Let's ___ football.","choices":["play","plays","playing"],"correct":0,"answerWhy":"پس از Let's فعل پایه می‌آید."},
-  {"id":44,"unit":"واحد ۱۵ · کاربرد واقعی و جمع‌بندی","title":"درخواست کمک و عبارت‌های مؤدبانه","description":"در موقعیت‌های روزمره کمک بخواه و پاسخ مناسب بده.","goal":"بتوانی از please، thank you، excuse me و Can you help me? در موقعیت درست استفاده کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای جلب توجه مؤدبانه Excuse me و برای درخواست Can you ...? به کار ببر. پس از کمک، Thank you بگو.","keyWords":[{"word":"Can you help me?","meaning":"می‌توانی کمکم کنی؟"},{"word":"Excuse me","meaning":"ببخشید"},{"word":"please","meaning":"لطفاً"},{"word":"You're welcome","meaning":"خواهش می‌کنم"}],"example":"Excuse me, can you help me, please?","translation":"ببخشید، می‌توانید لطفاً به من کمک کنید؟","question":"Which phrase means «ببخشید»?","choices":["Excuse me","You're welcome","Good night"],"correct":0,"answerWhy":"Excuse me برای جلب توجه مؤدبانه است."},
-  {"id":45,"unit":"واحد ۱۵ · کاربرد واقعی و جمع‌بندی","title":"مرور یکپارچه مهارت‌های A1","description":"آموخته‌های A1 را در یک موقعیت روزمره به هم وصل کن.","goal":"بتوانی خودت را معرفی کنی، درباره خانواده و برنامه روزانه حرف بزنی، سؤال بپرسی و در موقعیت خرید یا کافه پاسخ بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در مکالمه واقعی چند ساختار ساده را به هم وصل کن. جمله‌های کوتاه و درست از جمله‌های طولانی و نامطمئن بهترند.","keyWords":[{"word":"introduce yourself","meaning":"خودت را معرفی کن"},{"word":"daily routine","meaning":"برنامه روزانه"},{"word":"ask for directions","meaning":"مسیر بپرس"},{"word":"order food","meaning":"غذا سفارش بده"}],"example":"Hello, I'm Mina. I live in a small city. I usually study in the morning.","translation":"سلام، من مینا هستم. در شهری کوچک زندگی می‌کنم. معمولاً صبح‌ها درس می‌خوانم.","question":"Choose the correct introduction.","choices":["My name is Ali.","My name Ali.","I name is Ali."],"correct":0,"answerWhy":"ساختار معرفی نام My name is است."},
+  { id: 1, unit: "واحد ۱ · شروع مکالمه", title: "سلام و احوال‌پرسی", description: "یاد بگیر مکالمه را طبیعی شروع کنی.", goal: "بتوانی مکالمه‌ای کوتاه را با سلام و پرسیدن حال طرف مقابل آغاز کنی.", takeaway: "Hi در گفت‌وگوی دوستانه رایج است؛ Hello کمی خنثی‌تر و رسمی‌تر است. برای پاسخ می‌توانی بگویی: I'm fine, thanks.", keyWords: [{"word":"Hello","meaning":"سلام"},{"word":"How are you?","meaning":"حالت چطور است؟"},{"word":"I'm fine","meaning":"من خوبم"}], duration: "۸ دقیقه", skill: "مکالمه", example: "Hi! How are you?", translation: "سلام! حالت چطوره؟", question: "کدام عبارت برای پرسیدن حال یک نفر است؟", choices: ["How are you?", "What is your name?", "Where are you from?"], answerWhy: "How are you? برای پرسیدن حال مخاطب استفاده می‌شود. What is your name? نام را می‌پرسد و Where are you from? درباره محل یا کشور مبدأ است." },
+  { id: 2, unit: "واحد ۱ · شروع مکالمه", title: "معرفی نام", description: "نام خودت و دیگران را معرفی کن.", goal: "بتوانی نام خودت را با دو ساختار رایج معرفی کنی.", takeaway: "بعد از My name is یا I'm، نام شخص می‌آید. فعل is را در ساختار My name is حذف نکن.", keyWords: [{"word":"My name is…","meaning":"اسم من ... است"},{"word":"I'm…","meaning":"من ... هستم"},{"word":"Nice to meet you","meaning":"از آشنایی با تو خوشحالم"}], duration: "۱۰ دقیقه", skill: "واژگان و مکالمه", example: "My name is Sara. / I'm Sara.", translation: "اسم من سارا است. / من سارا هستم.", question: "کدام جمله از نظر گرامری درست است؟", choices: ["My name Sara.", "My name is Sara.", "I name is Sara."], answerWhy: "ساختار درست My name is + name است. در جمله My name Sara فعل is جا افتاده است." },
+  { id: 3, unit: "واحد ۱ · شروع مکالمه", title: "معرفی محل زندگی", description: "بگو اهل کجا هستی.", goal: "بتوانی بگویی اهل کجا هستی یا از کجا آمده‌ای.", takeaway: "ساختار I'm from + نام شهر یا کشور است. بعد از from معمولاً نام مکان می‌آید.", keyWords: [{"word":"from","meaning":"از / اهلِ"},{"word":"country","meaning":"کشور"},{"word":"city","meaning":"شهر"}], duration: "۹ دقیقه", skill: "گرامر", example: "I'm from Iran.", translation: "من اهل ایران هستم.", question: "جای خالی را کامل کن: I'm ___ Germany.", choices: ["from", "at", "is"], answerWhy: "در این جمله برای بیان مبدأ از from استفاده می‌کنیم؛ at و is در این ساختار درست نیستند." },
+  { id: 4, unit: "واحد ۱ · شروع مکالمه", title: "ضمیرهای فاعلی", description: "با I, you, he و she آشنا شو.", goal: "ضمیر مناسب را برای اشاره به خودت، مخاطب یا شخص دیگر انتخاب کنی.", takeaway: "He برای یک مرد و She برای یک زن استفاده می‌شود. They برای بیش از یک نفر یا در بعضی کاربردهای مفرد به کار می‌رود.", keyWords: [{"word":"I","meaning":"من"},{"word":"You","meaning":"تو / شما"},{"word":"He","meaning":"او (مذکر)"},{"word":"She","meaning":"او (مونث)"}], duration: "۱۲ دقیقه", skill: "گرامر", example: "She is a student. He is my friend.", translation: "او دانش‌آموز است. او دوست من است.", question: "کدام ضمیر برای یک مرد به کار می‌رود؟", choices: ["She", "He", "They"], answerWhy: "He ضمیر فاعلی سوم‌شخص مفرد برای مرد است. She برای زن و They برای جمع به کار می‌رود." },
+  { id: 5, unit: "واحد ۲ · واژه‌های روزمره", title: "اعداد ۱ تا ۲۰", description: "عددهای پرکاربرد را بشناس و در موقعیت‌های ساده به کار ببر.", goal: "بتوانی عددهای ۱ تا ۲۰ را بخوانی، بشنوی و بنویسی.", takeaway: "به املای fourteen و fifteen دقت کن؛ در عددهای thirteen تا nineteen معمولاً پسوند teen دیده می‌شود.", keyWords: [{word:"one",meaning:"یک"},{word:"five",meaning:"پنج"},{word:"ten",meaning:"ده"}], duration: "۱۰ دقیقه", skill: "واژگان و شنیدار", example: "I have five books.", translation: "من پنج کتاب دارم.", question: "عدد ۱۲ در انگلیسی کدام است؟", choices: ["Twenty", "Twelve", "Two"], answerWhy: "Twelve یعنی دوازده؛ Two یعنی دو و Twenty یعنی بیست." },
+  { id: 6, unit: "واحد ۲ · واژه‌های روزمره", title: "اعضای خانواده", description: "درباره اعضای خانواده‌ات صحبت کن.", goal: "بتوانی چند عضو خانواده را نام ببری و با جمله ساده معرفی کنی.", takeaway: "برای گفتن «مادر من» می‌گوییم my mother. واژه my مالکیت را نشان می‌دهد.", keyWords: [{word:"mother",meaning:"مادر"},{word:"father",meaning:"پدر"},{word:"sister",meaning:"خواهر"}], duration: "۱۱ دقیقه", skill: "واژگان و مکالمه", example: "This is my mother.", translation: "این مادر من است.", question: "معنی brother چیست؟", choices: ["برادر", "خواهر", "پدر"], answerWhy: "Brother یعنی برادر؛ sister یعنی خواهر و father یعنی پدر." },
+  { id: 7, unit: "واحد ۲ · واژه‌های روزمره", title: "شغل‌ها و معرفی افراد", description: "شغل افراد را با جمله‌های کوتاه بیان کن.", goal: "بتوانی چند شغل رایج را نام ببری و بگویی یک نفر چه‌کاره است.", takeaway: "برای یک شغل مفرد معمولاً از a یا an استفاده می‌کنیم: a teacher، an artist.", keyWords: [{word:"teacher",meaning:"معلم"},{word:"doctor",meaning:"پزشک"},{word:"student",meaning:"دانش‌آموز / دانشجو"}], duration: "۱۲ دقیقه", skill: "واژگان و گرامر", example: "She is a teacher.", translation: "او معلم است.", question: "کدام واژه به معنی پزشک است؟", choices: ["Teacher", "Doctor", "Student"], answerWhy: "Doctor یعنی پزشک؛ teacher یعنی معلم و student یعنی دانش‌آموز یا دانشجو." },
+  { id: 8, unit: "واحد ۳ · ساخت جمله", title: "حروف تعریف a و an", description: "قبل از اسم‌های مفرد، a و an را درست انتخاب کن.", goal: "در عبارت‌های ساده تشخیص بده چه زمانی از a و چه زمانی از an استفاده می‌شود.", takeaway: "انتخاب a یا an به صدای آغازین واژه بعدی بستگی دارد، نه فقط حرف اول آن.", keyWords: [{word:"a book",meaning:"یک کتاب"},{word:"an apple",meaning:"یک سیب"},{word:"an egg",meaning:"یک تخم‌مرغ"}], duration: "۱۲ دقیقه", skill: "گرامر", example: "It is an apple.", translation: "این یک سیب است.", question: "کدام عبارت درست است؟", choices: ["a orange", "an orange", "an book"], answerWhy: "Orange با صدای واکه آغاز می‌شود، پس an orange درست است. پیش از book از a استفاده می‌کنیم." },
+  { id: 9, unit: "واحد ۳ · ساخت جمله", title: "اشاره به چیزها: this و that", description: "به چیزهای نزدیک و دور اشاره کن.", goal: "تفاوت this برای چیز نزدیک و that برای چیز دور را در جمله ساده به کار ببری.", takeaway: "This is ... برای یک چیز نزدیک و That is ... برای یک چیز دور استفاده می‌شود.", keyWords: [{word:"this",meaning:"این (نزدیک)"},{word:"that",meaning:"آن (دور)"},{word:"this book",meaning:"این کتاب"}], duration: "۱۰ دقیقه", skill: "گرامر و مکالمه", example: "This is my book.", translation: "این کتاب من است.", question: "برای اشاره به یک چیز دور کدام واژه مناسب است؟", choices: ["This", "That", "These"], answerWhy: "That برای اشاره به یک چیز دور به کار می‌رود؛ this برای چیز نزدیک است و these شکل جمع this است." },
+  { id: 10, unit: "واحد ۳ · ساخت جمله", title: "جمع بستن اسم‌ها", description: "درباره بیش از یک چیز صحبت کن.", goal: "جمع ساده اسم‌ها را با افزودن s بسازی و در جمله تشخیص بدهی.", takeaway: "بسیاری از اسم‌ها با افزودن s جمع بسته می‌شوند: book → books. بعضی اسم‌ها شکل بی‌قاعده دارند که باید جداگانه یاد گرفته شوند.", keyWords: [{word:"book",meaning:"کتاب"},{word:"books",meaning:"کتاب‌ها"},{word:"two cats",meaning:"دو گربه"}], duration: "۱۲ دقیقه", skill: "گرامر و واژگان", example: "I have two books.", translation: "من دو کتاب دارم.", question: "جمع ساده book کدام است؟", choices: ["bookes", "books", "book"], answerWhy: "برای جمع ساده book فقط s اضافه می‌کنیم: books." },
+  { id: 11, unit: "واحد ۴ · جمله‌سازی", title: "فعل be در جمله منفی", description: "یاد بگیر چطور بگویی کسی یا چیزی این‌طور نیست.", goal: "بتوانی با am not، isn't و aren't جمله منفی بسازی.", takeaway: "برای منفی کردن فعل be، not را بعد از am/is/are می‌آوریم: I am not tired. / She isn't late.", keyWords: [{word:"not",meaning:"نه / نیست"},{word:"tired",meaning:"خسته"},{word:"ready",meaning:"آماده"}], example: "I am not tired.", translation: "من خسته نیستم.", question: "کدام جمله درست است؟", choices: ["He isn't busy.", "He not is busy.", "He aren't busy."], answerWhy: "برای he از is استفاده می‌کنیم و not بعد از آن می‌آید: He is not busy یا He isn't busy.", duration:"۱۲ دقیقه", skill:"گرامر و جمله‌سازی" },
+  { id: 12, unit: "واحد ۴ · جمله‌سازی", title: "سؤال ساختن با فعل be", description: "سؤال‌های ساده درباره آدم‌ها و چیزها بپرس.", goal: "بتوانی جای فعل be و فاعل را در سؤال درست کنی و کوتاه جواب بدهی.", takeaway: "برای سؤال، am/is/are را به ابتدای جمله می‌بریم: Are you ready? پاسخ کوتاه: Yes, I am. / No, I'm not.", keyWords: [{word:"Are you…?",meaning:"آیا تو ... هستی؟"},{word:"Yes, I am.",meaning:"بله، هستم."},{word:"No, I'm not.",meaning:"نه، نیستم."}], example: "Are you ready? Yes, I am.", translation: "آماده‌ای؟ بله، هستم.", question: "کدام گزینه سؤال درست است؟", choices: ["Are they students?", "They are students?", "Are students they?"], answerWhy: "در سؤال بله/خیر با فعل be، فعل قبل از فاعل می‌آید: Are + they + students?", duration:"۱۲ دقیقه", skill:"گرامر و مکالمه" },
+  { id: 13, unit: "واحد ۵ · آدم‌ها و وسایل", title: "مالکیت با my و your", description: "بگو هر وسیله یا چیزی مال چه کسی است.", goal: "بتوانی از my، your، his و her برای نشان دادن مالکیت استفاده کنی.", takeaway: "my یعنی مال من، your یعنی مال تو/شما، his برای یک مرد و her برای یک زن است. این کلمات قبل از اسم می‌آیند: my phone.", keyWords: [{word:"my phone",meaning:"گوشی من"},{word:"your bag",meaning:"کیف تو"},{word:"his book",meaning:"کتاب او (مذکر)"}], example: "This is my phone.", translation: "این گوشی من است.", question: "اگر کیف متعلق به سارا باشد، کدام درست است؟", choices: ["Her bag", "His bag", "Your bag"], answerWhy: "برای مالکیت یک زن از her استفاده می‌کنیم؛ پس Her bag یعنی کیف او.", duration:"۱۲ دقیقه", skill:"واژگان و گرامر" },
+  { id: 14, unit: "واحد ۵ · آدم‌ها و وسایل", title: "داشتن با have و has", description: "درباره چیزهایی که داری صحبت کن.", goal: "در جمله مثبت، have و has را با فاعل درست به کار ببری.", takeaway: "با I/you/we/they از have و با he/she/it از has استفاده می‌کنیم: I have a bike. / She has a bike.", keyWords: [{word:"have",meaning:"داشتن (با I و you و ...)"},{word:"has",meaning:"داشتن (با he و she و it)"},{word:"bike",meaning:"دوچرخه"}], example: "She has a new bike.", translation: "او یک دوچرخه جدید دارد.", question: "جای خالی را کامل کن: My brother ___ a ball.", choices: ["have", "has", "am"], answerWhy: "My brother یک نفر است و می‌توانیم آن را he در نظر بگیریم؛ پس has درست است.", duration:"۱۲ دقیقه", skill:"گرامر و واژگان" },
+  { id: 15, unit: "واحد ۶ · زندگی روزمره", title: "حال ساده برای عادت‌ها", description: "درباره کارهایی که هر روز انجام می‌دهی حرف بزن.", goal: "بتوانی با حال ساده درباره عادت‌ها و برنامه روزانه جمله مثبت بسازی.", takeaway: "برای I/you/we/they شکل ساده فعل را می‌آوریم: I play. برای he/she/it معمولاً s اضافه می‌شود: She plays.", keyWords: [{word:"every day",meaning:"هر روز"},{word:"study",meaning:"درس خواندن"},{word:"play",meaning:"بازی کردن"}], example: "I play games after school.", translation: "من بعد از مدرسه بازی می‌کنم.", question: "کدام جمله درست است؟", choices: ["She plays tennis.", "She play tennis.", "She playing tennis."], answerWhy: "فاعل she سوم‌شخص مفرد است؛ در جمله مثبت حال ساده معمولاً به فعل s اضافه می‌کنیم: plays.", duration:"۱۴ دقیقه", skill:"گرامر و مکالمه" },
+  { id: 16, unit: "واحد ۶ · زندگی روزمره", title: "قیدهای تکرار", description: "بگو یک کار را چند وقت یک‌بار انجام می‌دهی.", goal: "بتوانی always، usually، sometimes و never را در جمله به کار ببری.", takeaway: "قیدهای تکرار معمولاً قبل از فعل اصلی می‌آیند: I usually walk. اما با فعل be بعد از آن می‌آیند: I am always happy.", keyWords: [{word:"always",meaning:"همیشه"},{word:"usually",meaning:"معمولاً"},{word:"sometimes",meaning:"گاهی"}], example: "I usually do my homework after school.", translation: "من معمولاً بعد از مدرسه تکالیفم را انجام می‌دهم.", question: "کدام جمله جای قید را درست نشان می‌دهد؟", choices: ["I always drink water.", "I drink always water.", "Always I water drink."], answerWhy: "در جمله ساده با فعل اصلی، قید تکرار معمولاً قبل از فعل می‌آید: always drink.", duration:"۱۲ دقیقه", skill:"گرامر و مکالمه" },
+  { id: 17, unit: "واحد ۷ · توانایی‌ها و سرگرمی‌ها", title: "بیان توانایی با can", description: "درباره کارهایی که می‌توانی انجام بدهی صحبت کن.", goal: "بتوانی با can توانایی را بیان کنی و سؤال ساده بسازی.", takeaway: "بعد از can فعل ساده و بدون to می‌آید: I can swim. برای سؤال، can را اول می‌آوریم: Can you swim?", keyWords: [{word:"can",meaning:"توانستن"},{word:"swim",meaning:"شنا کردن"},{word:"draw",meaning:"نقاشی کشیدن"}], example: "I can play the guitar.", translation: "من می‌توانم گیتار بزنم.", question: "کدام جمله درست است؟", choices: ["She can dance.", "She can to dance.", "She cans dance."], answerWhy: "بعد از can فعل ساده می‌آید؛ نه to می‌گیرد و نه s سوم‌شخص.", duration:"۱۲ دقیقه", skill:"گرامر و مکالمه" },
+  { id: 18, unit: "واحد ۷ · توانایی‌ها و سرگرمی‌ها", title: "علاقه‌ها با like", description: "درباره چیزهایی که دوست داری بگو.", goal: "بتوانی درباره علاقه‌ها با like و likes جمله بسازی.", takeaway: "با I/you/we/they از like و با he/she/it از likes استفاده می‌کنیم. بعد از like می‌توان اسم یا فعل ingدار آورد: I like music. / I like reading.", keyWords: [{word:"like",meaning:"دوست داشتن"},{word:"music",meaning:"موسیقی"},{word:"reading",meaning:"کتاب خواندن"}], example: "I like listening to music.", translation: "من گوش دادن به موسیقی را دوست دارم.", question: "کدام جمله درست است؟", choices: ["He likes football.", "He like football.", "He liking football."], answerWhy: "با he در جمله مثبت حال ساده، likes می‌آید.", duration:"۱۲ دقیقه", skill:"واژگان و مکالمه" },
+  { id: 19, unit: "واحد ۸ · مکان‌ها و زمان", title: "حروف اضافه مکان", description: "جای وسایل را دقیق توضیح بده.", goal: "بتوانی از in، on و under برای توصیف مکان استفاده کنی.", takeaway: "in یعنی داخل، on یعنی روی سطح و under یعنی زیر. معنی را با تصویر ذهنی یاد بگیر: The book is on the desk.", keyWords: [{word:"in",meaning:"داخل"},{word:"on",meaning:"روی"},{word:"under",meaning:"زیر"}], example: "My bag is under the desk.", translation: "کیف من زیر میز است.", question: "اگر کتاب روی میز باشد، کدام حرف اضافه مناسب است؟", choices: ["on", "in", "under"], answerWhy: "وقتی چیزی روی سطح میز قرار دارد از on استفاده می‌کنیم.", duration:"۱۲ دقیقه", skill:"واژگان و کاربرد" },
+  { id: 20, unit: "واحد ۸ · مکان‌ها و زمان", title: "گفتن ساعت و زمان‌های روز", description: "زمان فعالیت‌های روزانه‌ات را بیان کن.", goal: "بتوانی ساعت‌های ساده را بگویی و از in the morning و at night استفاده کنی.", takeaway: "برای ساعت دقیق از الگوی It's + time استفاده کن: It's seven o'clock. برای زمان‌های روز می‌گوییم in the morning و at night.", keyWords: [{word:"o'clock",meaning:"راس ساعت"},{word:"in the morning",meaning:"صبح‌ها"},{word:"at night",meaning:"شب‌ها"}], example: "I get up at seven o'clock.", translation: "من ساعت هفت بیدار می‌شوم.", question: "کدام عبارت به معنی «صبح‌ها» است؟", choices: ["in the morning", "at night", "in the evening"], answerWhy: "in the morning یعنی صبح‌ها؛ at night یعنی شب‌ها و in the evening یعنی عصرها.", duration:"۱۳ دقیقه", skill:"واژگان و مکالمه" },
+  {"id":21,"unit":"واحد ۹ · پایه‌های زبان","title":"الفبا و هجی کردن","description":"حروف انگلیسی را بشناس و نام‌ها و واژه‌های ساده را هجی کن.","goal":"بتوانی حروف A تا Z را تشخیص بدهی، نام حروف را بگویی و املای یک نام را سؤال و جواب کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"نام حروف با صدای آن‌ها در کلمه فرق دارد. برای پرسیدن املا بگو How do you spell ...?","keyWords":[{"word":"alphabet","meaning":"الفبا"},{"word":"letter","meaning":"حرف"},{"word":"spell","meaning":"هجی کردن"},{"word":"How do you spell it?","meaning":"چطور آن را هجی می‌کنی؟"}],"example":"How do you spell your name? — N-I-M-A.","translation":"اسمت را چطور هجی می‌کنی؟ — ن، ی، م، ا.","question":"Which letters spell CAT? ","choices":["C-A-T","K-E-T","C-E-T"],"answerWhy":"املای درست cat برابر C-A-T است."},
+  {"id":22,"unit":"واحد ۹ · پایه‌های زبان","title":"اعداد ۲۰ تا ۱۰۰ و شماره‌ها","description":"عددهای بزرگ‌تر را برای سن، قیمت و شماره تلفن به کار ببر.","goal":"بتوانی دهگان‌ها را بخوانی، عددهای ترکیبی بسازی و شماره تلفن را رقم‌به‌رقم بیان کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در عددهای ترکیبی بین دهگان و یکان خط تیره می‌آید: twenty-one، thirty-five. شماره تلفن را معمولاً رقم‌به‌رقم می‌خوانیم.","keyWords":[{"word":"twenty","meaning":"بیست"},{"word":"thirty","meaning":"سی"},{"word":"fifty","meaning":"پنجاه"},{"word":"phone number","meaning":"شماره تلفن"}],"example":"My phone number is 0912…","translation":"شماره تلفن من ۰۹۱۲… است.","question":"How do you write 40?","choices":["Fourty","Forty","Fourteen"],"answerWhy":"املای درست چهل forty است."},
+  {"id":23,"unit":"واحد ۹ · پایه‌های زبان","title":"روزها، ماه‌ها و تاریخ","description":"روز هفته، ماه و تاریخ‌های ساده را بیان کن.","goal":"بتوانی روزها و ماه‌ها را نام ببری، درباره روز موردنظر سؤال کنی و تاریخ ساده را بخوانی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"نام روزها و ماه‌ها با حرف بزرگ شروع می‌شود. برای ماه از in و برای روز مشخص از on استفاده می‌کنیم.","keyWords":[{"word":"Monday","meaning":"دوشنبه"},{"word":"January","meaning":"ژانویه"},{"word":"today","meaning":"امروز"},{"word":"date","meaning":"تاریخ"}],"example":"My birthday is in May. It is on Friday.","translation":"تولد من در ماه مه است. روز جمعه است.","question":"Which word is a month?","choices":["Tuesday","April","Sunday"],"answerWhy":"April نام یک ماه است."},
+  {"id":24,"unit":"واحد ۹ · پایه‌های زبان","title":"کشورها، ملیت‌ها و زبان‌ها","description":"درباره کشور، ملیت و زبانی که صحبت می‌کنی حرف بزن.","goal":"بتوانی بپرسی اهل کجا هستی و چه زبانی صحبت می‌کنی و پاسخ ساده بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"I'm from Iran درباره کشور مبدأ است؛ I'm Iranian درباره ملیت و I speak Persian درباره زبان است.","keyWords":[{"word":"country","meaning":"کشور"},{"word":"nationality","meaning":"ملیت"},{"word":"language","meaning":"زبان"},{"word":"speak","meaning":"صحبت کردن"}],"example":"I'm Iranian. I speak Persian and a little English.","translation":"من ایرانی هستم. فارسی و کمی انگلیسی صحبت می‌کنم.","question":"I'm from Italy. I'm ___.","choices":["Italian","Italy","Italish"],"answerWhy":"Italian ملیت مربوط به Italy است."},
+  {"id":25,"unit":"واحد ۱۰ · توصیف و اشیا","title":"وسایل کلاس و دستورهای ساده","description":"نام وسایل کلاس را یاد بگیر و دستورهای کوتاه را بفهم.","goal":"بتوانی وسایل رایج کلاس را نام ببری و دستورهای ساده معلم را اجرا کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در دستور مستقیم، فعل در ابتدای جمله می‌آید: Open the door. برای مؤدبانه‌تر شدن please را اضافه کن.","keyWords":[{"word":"pen","meaning":"خودکار"},{"word":"notebook","meaning":"دفتر"},{"word":"board","meaning":"تخته"},{"word":"Open your book","meaning":"کتابت را باز کن"}],"example":"Please open your notebook.","translation":"لطفاً دفترت را باز کن.","question":"Which is a classroom object?","choices":["notebook","cloudy","Monday"],"answerWhy":"notebook یعنی دفتر."},
+  {"id":26,"unit":"واحد ۱۰ · توصیف و اشیا","title":"رنگ‌ها و صفت‌های پایه","description":"رنگ و ویژگی‌های ساده افراد و اشیا را توصیف کن.","goal":"بتوانی با صفت‌های پرکاربرد رنگ، اندازه و کیفیت یک اسم را توصیف کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"صفت در انگلیسی معمولاً پیش از اسم می‌آید: a red car. صفت با جمع یا جنسیت تغییر نمی‌کند.","keyWords":[{"word":"big","meaning":"بزرگ"},{"word":"small","meaning":"کوچک"},{"word":"beautiful","meaning":"زیبا"},{"word":"blue","meaning":"آبی"}],"example":"It is a small blue bag.","translation":"این یک کیف آبی کوچک است.","question":"Choose the correct phrase.","choices":["a red car","a car red","red a car"],"answerWhy":"صفت پیش از اسم می‌آید."},
+  {"id":27,"unit":"واحد ۱۰ · توصیف و اشیا","title":"مالکیت با 's و ضمیرهای ملکی","description":"نشان بده یک وسیله متعلق به چه کسی است.","goal":"بتوانی از 's برای مالکیت و mine، yours، his و hers برای جایگزینی اسم استفاده کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای مالکیت یک شخص از 's استفاده می‌کنیم: Ali's phone. ضمیر ملکی mine به‌تنهایی می‌آید و قبل از اسم قرار نمی‌گیرد.","keyWords":[{"word":"Sara's bag","meaning":"کیف سارا"},{"word":"mine","meaning":"مال من"},{"word":"yours","meaning":"مال تو"},{"word":"hers","meaning":"مال او"}],"example":"This is Sara's book. The blue one is mine.","translation":"این کتاب سارا است. آبیه مال من است.","question":"Choose the correct possessive.","choices":["Sara's bag","Sara bag's","Saras bag"],"answerWhy":"برای مالکیت Sara's نوشته می‌شود."},
+  {"id":28,"unit":"واحد ۱۰ · توصیف و اشیا","title":"these و those و جمع‌های بی‌قاعده","description":"به چند چیز نزدیک یا دور اشاره کن و جمع‌های رایج را بشناس.","goal":"بتوانی these و those را به‌درستی به کار ببری و شکل جمع چند اسم بی‌قاعده را تشخیص بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"These جمع this برای چیزهای نزدیک و those جمع that برای چیزهای دور است. بعضی جمع‌ها بی‌قاعده‌اند: child → children.","keyWords":[{"word":"these","meaning":"این‌ها"},{"word":"those","meaning":"آن‌ها"},{"word":"children","meaning":"کودکان"},{"word":"people","meaning":"مردم / افراد"}],"example":"These are my keys. Those are your bags.","translation":"این‌ها کلیدهای من هستند. آن‌ها کیف‌های تو هستند.","question":"Plural of child is…","choices":["childs","children","childes"],"answerWhy":"جمع بی‌قاعده child برابر children است."},
+  {"id":29,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"There is و There are","description":"وجود داشتن یک یا چند چیز را بیان کن.","goal":"بتوانی درباره وجود اشیاء در یک مکان با there is و there are جمله مثبت و منفی بسازی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای اسم مفرد یا غیرقابل‌شمارش از there is و برای اسم جمع از there are استفاده کن.","keyWords":[{"word":"There is","meaning":"وجود دارد (مفرد)"},{"word":"There are","meaning":"وجود دارند (جمع)"},{"word":"a park","meaning":"یک پارک"},{"word":"any","meaning":"هیچ / مقداری"}],"example":"There are two chairs in the room.","translation":"دو صندلی در اتاق وجود دارد.","question":"There ___ a book on the table.","choices":["is","are","am"],"answerWhy":"book مفرد است؛ there is درست است."},
+  {"id":30,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"کلمات پرسشی پایه","description":"سؤال‌های اطلاعاتی با what، where، who، when و how بپرس.","goal":"بتوانی برای گرفتن اطلاعات ساده، کلمه پرسشی مناسب را انتخاب و سؤال کوتاه بسازی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"What درباره چیز، where درباره مکان، who درباره شخص، when درباره زمان و how درباره چگونگی می‌پرسد.","keyWords":[{"word":"what","meaning":"چه / چه چیزی"},{"word":"where","meaning":"کجا"},{"word":"who","meaning":"چه کسی"},{"word":"when","meaning":"چه زمانی"}],"example":"Where do you live? — I live in Berlin.","translation":"کجا زندگی می‌کنی؟ — در برلین زندگی می‌کنم.","question":"Which word asks about a place?","choices":["where","who","when"],"answerWhy":"where درباره مکان می‌پرسد."},
+  {"id":31,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"منفی کردن حال ساده","description":"بگو چه کاری را انجام نمی‌دهی یا چه چیزی را دوست نداری.","goal":"بتوانی با don't و doesn't جمله منفی حال ساده بسازی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای I، you، we و they از don't و برای he، she و it از doesn't استفاده کن؛ بعد از doesn't فعل ساده می‌آید.","keyWords":[{"word":"don't","meaning":"نمی / انجام نمی‌دهم"},{"word":"doesn't","meaning":"نمی / انجام نمی‌دهد"},{"word":"work","meaning":"کار کردن"},{"word":"like","meaning":"دوست داشتن"}],"example":"She doesn't work on Sundays.","translation":"او یکشنبه‌ها کار نمی‌کند.","question":"He ___ like milk.","choices":["doesn't","don't","isn't"],"answerWhy":"با he از doesn't استفاده می‌کنیم."},
+  {"id":32,"unit":"واحد ۱۱ · ساختارهای روزمره","title":"سؤال بله/خیر با do و does","description":"درباره عادت‌ها و کارهای روزمره سؤال کن.","goal":"بتوانی سؤال حال ساده را با do یا does بسازی و پاسخ کوتاه بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در سؤال حال ساده do/does پیش از فاعل می‌آید و فعل اصلی بعد از فاعل به شکل ساده است.","keyWords":[{"word":"Do you…?","meaning":"آیا تو ...؟"},{"word":"Does he…?","meaning":"آیا او ...؟"},{"word":"Yes, I do.","meaning":"بله."},{"word":"No, she doesn't.","meaning":"نه."}],"example":"Does your brother play football? — Yes, he does.","translation":"آیا برادرت فوتبال بازی می‌کند؟ — بله.","question":"___ you like music?","choices":["Do","Does","Are"],"answerWhy":"با you از do استفاده می‌شود."},
+  {"id":33,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"سؤال‌های اطلاعاتی درباره زندگی روزمره","description":"با what time، how often و where درباره برنامه روزانه سؤال کن.","goal":"بتوانی سؤال‌های ساده اطلاعاتی را با do/does و کلمه پرسشی بسازی و پاسخ مرتبط بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"ساختار رایج: کلمه پرسشی + do/does + فاعل + فعل پایه. پاسخ باید دقیقاً به همان اطلاعاتی جواب دهد که سؤال می‌خواهد.","keyWords":[{"word":"What time","meaning":"چه ساعتی"},{"word":"How often","meaning":"هر چند وقت"},{"word":"Where","meaning":"کجا"},{"word":"usually","meaning":"معمولاً"}],"example":"What time do you start school? — At eight.","translation":"چه ساعتی مدرسه را شروع می‌کنی؟ — ساعت هشت.","question":"___ do you get up? — At seven.","choices":["What time","Where","Who"],"answerWhy":"برای پرسیدن ساعت از what time استفاده می‌کنیم."},
+  {"id":34,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"حال استمراری","description":"درباره کاری که همین حالا در جریان است صحبت کن.","goal":"بتوانی am/is/are را با فعل ingدار ترکیب کنی و عمل در حال انجام را توصیف کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"حال استمراری با am/is/are + فعل ing ساخته می‌شود و برای کاری است که اکنون در جریان است.","keyWords":[{"word":"now","meaning":"اکنون"},{"word":"reading","meaning":"در حال خواندن"},{"word":"cooking","meaning":"در حال آشپزی"},{"word":"What are you doing?","meaning":"داری چه کار می‌کنی؟"}],"example":"She is studying English now.","translation":"او الان در حال مطالعه انگلیسی است.","question":"He ___ watching TV now.","choices":["is","are","am"],"answerWhy":"با he از is استفاده می‌کنیم."},
+  {"id":35,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"ضمیرهای مفعولی","description":"در جمله به شخصی اشاره کن که کاری روی او انجام می‌شود.","goal":"بتوانی me، you، him، her، it، us و them را در جایگاه مفعول به کار ببری.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"ضمیر مفعولی معمولاً بعد از فعل یا حرف اضافه می‌آید: call me، talk to her. جای فاعل از I و جای مفعول از me استفاده کن.","keyWords":[{"word":"me","meaning":"من را / به من"},{"word":"him","meaning":"او را (مذکر)"},{"word":"her","meaning":"او را (مونث)"},{"word":"them","meaning":"آن‌ها را"}],"example":"I know him. She helps us.","translation":"من او را می‌شناسم. او به ما کمک می‌کند.","question":"Please help ___.","choices":["me","I","my"],"answerWhy":"پس از help به ضمیر مفعولی me نیاز داریم."},
+  {"id":36,"unit":"واحد ۱۲ · زندگی و کارهای در جریان","title":"حروف اضافه زمان","description":"زمان رویدادها را با at، on و in دقیق‌تر بیان کن.","goal":"بتوانی at را برای ساعت، on را برای روز و in را برای ماه، سال و بخش‌های روز انتخاب کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"at برای ساعت و عبارت‌های ثابت مثل at night، on برای روز و تاریخ، و in برای ماه، سال و بخش‌های روز به کار می‌رود.","keyWords":[{"word":"at seven","meaning":"ساعت هفت"},{"word":"on Monday","meaning":"روز دوشنبه"},{"word":"in July","meaning":"در ماه ژوئیه"},{"word":"at night","meaning":"شب‌ها"}],"example":"The lesson is on Monday at nine.","translation":"درس روز دوشنبه ساعت نه است.","question":"The train leaves ___ 8:30.","choices":["at","on","in"],"answerWhy":"برای ساعت دقیق از at استفاده می‌کنیم."},
+  {"id":37,"unit":"واحد ۱۳ · خرید و غذا","title":"اسم‌های قابل‌شمارش و غیرقابل‌شمارش","description":"تفاوت اسم‌هایی را که می‌توان شمرد با اسم‌های غیرقابل‌شمارش بفهم.","goal":"بتوانی a/an، some و مقدارهای ساده را با اسم‌های مناسب به کار ببری.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"اسم قابل‌شمارش مفرد می‌تواند a/an بگیرد؛ اسم غیرقابل‌شمارش معمولاً جمع بسته نمی‌شود. برای مقدار از a glass of یا a bottle of استفاده کن.","keyWords":[{"word":"apple","meaning":"سیب (قابل‌شمارش)"},{"word":"water","meaning":"آب (غیرقابل‌شمارش)"},{"word":"some","meaning":"مقداری"},{"word":"a bottle of","meaning":"یک بطری"}],"example":"I'd like a sandwich and some water.","translation":"یک ساندویچ و مقداری آب می‌خواهم.","question":"Which noun is usually uncountable?","choices":["water","apple","egg"],"answerWhy":"water معمولاً غیرقابل‌شمارش است."},
+  {"id":38,"unit":"واحد ۱۳ · خرید و غذا","title":"غذا و سفارش در کافه","description":"غذاها را نام ببر و سفارش ساده و مؤدبانه بده.","goal":"بتوانی غذا و نوشیدنی را نام ببری، درخواست ساده مطرح کنی و درباره منو سؤال کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"I'd like ... برای سفارش مؤدبانه مناسب است. لطفاً از please استفاده کن و برای درخواست از Can I have ...? کمک بگیر.","keyWords":[{"word":"menu","meaning":"منو"},{"word":"I'd like","meaning":"مایلم / می‌خواهم"},{"word":"tea","meaning":"چای"},{"word":"bill","meaning":"صورتحساب"}],"example":"I'd like a tea, please. Can I have the menu?","translation":"لطفاً یک چای می‌خواهم. می‌توانم منو را داشته باشم؟","question":"Which phrase is polite for ordering?","choices":["I'd like a coffee, please.","Give coffee.","Coffee now."],"answerWhy":"I'd like درخواست مؤدبانه است."},
+  {"id":39,"unit":"واحد ۱۳ · خرید و غذا","title":"خرید لباس و پرسیدن قیمت","description":"لباس‌های ساده را نام ببر و قیمت را بپرس.","goal":"بتوانی درباره اندازه و رنگ لباس سؤال کنی و قیمت را با How much is/are بپرسی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای مفرد از How much is ...? و برای جمع از How much are ...? استفاده کن.","keyWords":[{"word":"How much is it?","meaning":"قیمتش چقدر است؟"},{"word":"cheap","meaning":"ارزان"},{"word":"expensive","meaning":"گران"},{"word":"size","meaning":"اندازه"}],"example":"How much are these shoes? — They are twenty euros.","translation":"قیمت این کفش‌ها چقدر است؟ — بیست یورو هستند.","question":"How much ___ this shirt?","choices":["is","are","do"],"answerWhy":"shirt مفرد است؛ is می‌آید."},
+  {"id":40,"unit":"واحد ۱۴ · شهر و رفت‌وآمد","title":"مکان‌های شهر و مسیر پرسیدن","description":"مکان‌های عمومی را بشناس و مسیر ساده بپرس.","goal":"بتوانی مکان‌های شهر را نام ببری و با سؤال‌های کوتاه آدرس بپرسی و مسیر ساده را بفهمی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای پرسیدن مسیر از Excuse me, where is ...? استفاده کن. دستور مسیر با فعل پایه شروع می‌شود: go، turn، cross.","keyWords":[{"word":"bank","meaning":"بانک"},{"word":"station","meaning":"ایستگاه"},{"word":"turn left","meaning":"به چپ بپیچ"},{"word":"go straight","meaning":"مستقیم برو"}],"example":"Excuse me, where is the station? Go straight and turn left.","translation":"ببخشید، ایستگاه کجاست؟ مستقیم برو و به چپ بپیچ.","question":"What does turn left mean?","choices":["به چپ بپیچ","به راست بپیچ","مستقیم برو"],"answerWhy":"turn left یعنی به چپ بپیچ."},
+  {"id":41,"unit":"واحد ۱۴ · شهر و رفت‌وآمد","title":"حمل‌ونقل و سفر ساده","description":"درباره روش رفت‌وآمد و سفرهای کوتاه صحبت کن.","goal":"بتوانی وسایل حمل‌ونقل را نام ببری و بگویی با چه وسیله‌ای به جایی می‌روی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای وسیله نقلیه معمولاً از by + وسیله استفاده می‌کنیم: by bus، by train. اما می‌گوییم on foot.","keyWords":[{"word":"by bus","meaning":"با اتوبوس"},{"word":"train","meaning":"قطار"},{"word":"ticket","meaning":"بلیت"},{"word":"airport","meaning":"فرودگاه"}],"example":"I go to work by bus. I need a ticket.","translation":"با اتوبوس به محل کار می‌روم. به بلیت نیاز دارم.","question":"I travel ___ train.","choices":["by","on","in"],"answerWhy":"برای وسیله نقلیه از by train استفاده می‌شود."},
+  {"id":42,"unit":"واحد ۱۴ · شهر و رفت‌وآمد","title":"آب‌وهوا و فصل‌ها","description":"آب‌وهوا و فصل موردعلاقه‌ات را توصیف کن.","goal":"بتوانی درباره هوا با it is و صفت‌های رایج صحبت کنی و فصل موردعلاقه‌ات را بیان کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای توصیف هوا معمولاً از It is + صفت استفاده می‌کنیم: It's sunny. نام فصل‌ها معمولاً با in می‌آید: in winter.","keyWords":[{"word":"sunny","meaning":"آفتابی"},{"word":"cloudy","meaning":"ابری"},{"word":"cold","meaning":"سرد"},{"word":"season","meaning":"فصل"}],"example":"It's cold and rainy today. I like spring.","translation":"امروز سرد و بارانی است. من بهار را دوست دارم.","question":"What does cloudy mean?","choices":["ابری","آفتابی","بارانی"],"answerWhy":"cloudy یعنی ابری."},
+  {"id":43,"unit":"واحد ۱۵ · کاربرد واقعی و جمع‌بندی","title":"دعوت کردن و پیشنهاد ساده","description":"برای دعوت کردن یا پیشنهاد فعالیتی ساده از عبارت‌های مناسب استفاده کن.","goal":"بتوانی پیشنهاد کوتاه بدهی، دعوت را بپذیری یا مؤدبانه رد کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"Let's + فعل پایه برای پیشنهاد است. Would you like ...? دعوت مؤدبانه‌تری است. برای رد کردن، دلیل کوتاه و محترمانه بیاور.","keyWords":[{"word":"Let's…","meaning":"بیا ..."},{"word":"Would you like…?","meaning":"مایلی ...؟"},{"word":"That sounds great","meaning":"عالی به نظر می‌رسد"},{"word":"Sorry, I can't","meaning":"متأسفم، نمی‌توانم"}],"example":"Would you like to play football? — That sounds great!","translation":"دوست داری فوتبال بازی کنیم؟ — عالیه!","question":"Complete: Let's ___ football.","choices":["play","plays","playing"],"answerWhy":"پس از Let's فعل پایه می‌آید."},
+  {"id":44,"unit":"واحد ۱۵ · کاربرد واقعی و جمع‌بندی","title":"درخواست کمک و عبارت‌های مؤدبانه","description":"در موقعیت‌های روزمره کمک بخواه و پاسخ مناسب بده.","goal":"بتوانی از please، thank you، excuse me و Can you help me? در موقعیت درست استفاده کنی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"برای جلب توجه مؤدبانه Excuse me و برای درخواست Can you ...? به کار ببر. پس از کمک، Thank you بگو.","keyWords":[{"word":"Can you help me?","meaning":"می‌توانی کمکم کنی؟"},{"word":"Excuse me","meaning":"ببخشید"},{"word":"please","meaning":"لطفاً"},{"word":"You're welcome","meaning":"خواهش می‌کنم"}],"example":"Excuse me, can you help me, please?","translation":"ببخشید، می‌توانید لطفاً به من کمک کنید؟","question":"Which phrase means «ببخشید»?","choices":["Excuse me","You're welcome","Good night"],"answerWhy":"Excuse me برای جلب توجه مؤدبانه است."},
+  {"id":45,"unit":"واحد ۱۵ · کاربرد واقعی و جمع‌بندی","title":"مرور یکپارچه مهارت‌های A1","description":"آموخته‌های A1 را در یک موقعیت روزمره به هم وصل کن.","goal":"بتوانی خودت را معرفی کنی، درباره خانواده و برنامه روزانه حرف بزنی، سؤال بپرسی و در موقعیت خرید یا کافه پاسخ بدهی.","duration":"۱۲ تا ۱۵ دقیقه","skill":"گرامر، واژگان و مکالمه","takeaway":"در مکالمه واقعی چند ساختار ساده را به هم وصل کن. جمله‌های کوتاه و درست از جمله‌های طولانی و نامطمئن بهترند.","keyWords":[{"word":"introduce yourself","meaning":"خودت را معرفی کن"},{"word":"daily routine","meaning":"برنامه روزانه"},{"word":"ask for directions","meaning":"مسیر بپرس"},{"word":"order food","meaning":"غذا سفارش بده"}],"example":"Hello, I'm Mina. I live in a small city. I usually study in the morning.","translation":"سلام، من مینا هستم. در شهری کوچک زندگی می‌کنم. معمولاً صبح‌ها درس می‌خوانم.","question":"Choose the correct introduction.","choices":["My name is Ali.","My name Ali.","I name is Ali."],"answerWhy":"ساختار معرفی نام My name is است."},
 ];
 export type LessonContent = {
   concept: string;
@@ -54,7 +54,7 @@ export type LessonContent = {
   dialogue: { speaker: string; line: string; translation: string }[];
   commonMistake: string;
   practiceTip: string;
-  questions: { prompt: string; options: string[]; correct: number; explanation: string }[];
+  questions: { prompt: string; options: string[]; explanation: string }[];
 };
 export const lessonContent: Record<number, LessonContent> = {
   1: {
@@ -74,10 +74,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "How are you? را با What are you? اشتباه نگیر. اولی درباره حال شخص است؛ دومی در این موقعیت پرسش طبیعی و درستی نیست.",
     practiceTip: "مکالمه را با صدای بلند دو بار بخوان؛ بار دوم جای Sara را با نام یک دوست عوض کن.",
     questions: [
-      { prompt: "برای پرسیدن حال دوستت کدام عبارت درست است؟", options: ["How are you?", "What is your name?", "Where are you from?"], correct: 0, explanation: "How are you? درباره حال مخاطب سؤال می‌کند. دو گزینه دیگر به‌ترتیب نام و محل مبدأ را می‌پرسند." },
-      { prompt: "کدام پاسخ برای «How are you?» طبیعی است؟", options: ["I'm fine, thanks.", "My name is Ali.", "I'm from Iran."], correct: 0, explanation: "I'm fine, thanks یعنی «خوبم، ممنون» و پاسخ مستقیم به پرسش حال است." },
-      { prompt: "کدام گزینه لحن دوستانه‌تری برای سلام دارد؟", options: ["Hi!", "Goodbye!", "Sorry!"], correct: 0, explanation: "Hi! یک سلام کوتاه و دوستانه است؛ Goodbye برای خداحافظی و Sorry برای عذرخواهی است." },
-    {"prompt":"اگر دوستت بگوید How are you? کدام پاسخ مناسب است؟","options":["I'm good, thanks.","I'm from Iran.","My name is Ali."],"correct":0,"explanation":"I'm good, thanks پاسخ طبیعی به پرسش درباره حال است."},{"prompt":"برای خداحافظی کدام عبارت مناسب است؟","options":["Goodbye!","Hello!","Nice to meet you."],"correct":0,"explanation":"Goodbye برای خداحافظی است؛ Hello و Nice to meet you برای شروع یا آشنایی‌اند."}]
+      { prompt: "برای پرسیدن حال دوستت کدام عبارت درست است؟", options: ["How are you?", "What is your name?", "Where are you from?"] },
+      { prompt: "کدام پاسخ برای «How are you?» طبیعی است؟", options: ["I'm fine, thanks.", "My name is Ali.", "I'm from Iran."] },
+      { prompt: "کدام گزینه لحن دوستانه‌تری برای سلام دارد؟", options: ["Hi!", "Goodbye!", "Sorry!"] },
+    {"prompt":"اگر دوستت بگوید How are you? کدام پاسخ مناسب است؟","options":["I'm good, thanks.","I'm from Iran.","My name is Ali."]},{"prompt":"برای خداحافظی کدام عبارت مناسب است؟","options":["Goodbye!","Hello!","Nice to meet you."]}]
   },
   2: {
     concept: "برای معرفی نام، دو الگوی بسیار رایج داریم: My name is + name و I'm + name. هر دو درست‌اند؛ دومی کوتاه‌تر و محاوره‌ای‌تر است.",
@@ -97,10 +97,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "نگو My name Nima؛ در این ساختار فعل is لازم است: My name is Nima. اما در الگوی کوتاه می‌گویی I'm Nima.",
     practiceTip: "نام خودت را در هر دو الگو بگو و سپس یک بار سؤال What's your name? را تمرین کن.",
     questions: [
-      { prompt: "کدام جمله کامل و درست است؟", options: ["My name Ali.", "My name is Ali.", "I name is Ali."], correct: 1, explanation: "ساختار درست My name is + نام است؛ فعل is نباید حذف شود." },
-      { prompt: "شکل کوتاه I am کدام است؟", options: ["I'm", "Is", "My"], correct: 0, explanation: "I'm کوتاه‌شده I am است و برای معرفی خود استفاده می‌شود." },
-      { prompt: "برای گفتن «من هم از آشنایی با تو خوشحالم» چه می‌گویی؟", options: ["Nice to meet you, too.", "How are you?", "Good night."], correct: 0, explanation: "too در پایان این پاسخ معنی «هم» می‌دهد." },
-    {"prompt":"جای خالی را کامل کن: ___ name is Mina.","options":["My","I","Me"],"correct":0,"explanation":"در ساختار My name is از صفت ملکی my پیش از name استفاده می‌کنیم."},{"prompt":"پس از معرفی، کدام عبارت مؤدبانه است؟","options":["Nice to meet you.","Where are you from?","How old are you?"],"correct":0,"explanation":"Nice to meet you برای ابراز خوشحالی از آشنایی استفاده می‌شود."}]
+      { prompt: "کدام جمله کامل و درست است؟", options: ["My name Ali.", "My name is Ali.", "I name is Ali."] },
+      { prompt: "شکل کوتاه I am کدام است؟", options: ["I'm", "Is", "My"] },
+      { prompt: "برای گفتن «من هم از آشنایی با تو خوشحالم» چه می‌گویی؟", options: ["Nice to meet you, too.", "How are you?", "Good night."] },
+    {"prompt":"جای خالی را کامل کن: ___ name is Mina.","options":["My","I","Me"]},{"prompt":"پس از معرفی، کدام عبارت مؤدبانه است؟","options":["Nice to meet you.","Where are you from?","How old are you?"]}]
   },
   3: {
     concept: "برای گفتن اینکه اهل کجا هستی، از ساختار be + from + place استفاده می‌کنیم. در جمله ساده I am به شکل کوتاه I'm نوشته و گفته می‌شود.",
@@ -119,10 +119,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "I'm in Iran و I'm from Iran یک معنی ندارند: اولی می‌گوید الان در ایران هستم؛ دومی می‌گوید اهل ایرانم.",
     practiceTip: "جمله I'm from ... را با نام سه کشور یا شهر مختلف تمرین کن؛ سپس سؤال Where are you from? را با صدای بلند بپرس.",
     questions: [
-      { prompt: "جای خالی را کامل کن: I'm ___ Iran.", options: ["from", "at", "are"], correct: 0, explanation: "برای بیان مبدأ از from استفاده می‌کنیم: I'm from Iran." },
-      { prompt: "معنی Where are you from? چیست؟", options: ["چند سالته؟", "اهل کجا هستی؟", "حالت چطوره؟"], correct: 1, explanation: "Where درباره مکان می‌پرسد و Where are you from? یعنی اهل کجا هستی؟" },
-      { prompt: "کدام جمله می‌گوید «او (مذکر) اهل اسپانیاست»؟", options: ["He is from Spain.", "He are from Spain.", "He from Spain."], correct: 0, explanation: "برای he در زمان حال ساده فعل be به شکل is می‌آید." },
-    {"prompt":"اگر کسی بپرسد Where are you from? درباره چه چیزی می‌پرسد؟","options":["محل مبدأ یا زادگاه","مکان فعلی","سن"],"correct":0,"explanation":"Where are you from? درباره اهل کجا بودن می‌پرسد."},{"prompt":"کدام جمله می‌گوید «من الان در خانه هستم»؟","options":["I'm at home.","I'm from home.","I home am."],"correct":0,"explanation":"at home مکان حضور را نشان می‌دهد؛ from home مبدأ را بیان می‌کند."}]
+      { prompt: "جای خالی را کامل کن: I'm ___ Iran.", options: ["from", "at", "are"] },
+      { prompt: "معنی Where are you from? چیست؟", options: ["چند سالته؟", "اهل کجا هستی؟", "حالت چطوره؟"] },
+      { prompt: "کدام جمله می‌گوید «او (مذکر) اهل اسپانیاست»؟", options: ["He is from Spain.", "He are from Spain.", "He from Spain."] },
+    {"prompt":"اگر کسی بپرسد Where are you from? درباره چه چیزی می‌پرسد؟","options":["محل مبدأ یا زادگاه","مکان فعلی","سن"]},{"prompt":"کدام جمله می‌گوید «من الان در خانه هستم»؟","options":["I'm at home.","I'm from home.","I home am."]}]
   },
   4: {
     concept: "ضمیر فاعلی جای نام شخص یا گروه را می‌گیرد و معمولاً پیش از فعل قرار می‌گیرد. انتخاب ضمیر به شخص و تعداد بستگی دارد.",
@@ -142,10 +142,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "برای he و she از are استفاده نکن. شکل درست He is و She is است؛ اما با you و they از are استفاده می‌کنیم.",
     practiceTip: "به سه نفر یا سه شیء اطرافت اشاره کن و برای هرکدام یک جمله با he، she، it یا they بساز.",
     questions: [
-      { prompt: "برای اشاره به یک مرد از کدام ضمیر استفاده می‌کنیم؟", options: ["She", "He", "They"], correct: 1, explanation: "He ضمیر سوم‌شخص مفرد برای مرد یا پسر است." },
-      { prompt: "جای خالی را کامل کن: They ___ my friends.", options: ["am", "is", "are"], correct: 2, explanation: "They با فعل are می‌آید: They are my friends." },
-      { prompt: "کدام گزینه برای «ما» است؟", options: ["We", "You", "It"], correct: 0, explanation: "We یعنی ما؛ You یعنی تو/شما و It برای یک شیء یا حیوان است." },
-    {"prompt":"جای خالی را کامل کن: My parents ___ at home.","options":["are","is","am"],"correct":0,"explanation":"My parents جمع است و با are می‌آید."},{"prompt":"برای یک گربه در جمله ساده از کدام ضمیر استفاده می‌کنیم؟","options":["It","He","We"],"correct":0,"explanation":"برای یک حیوان وقتی جنسیت را مشخص نمی‌کنیم، معمولاً از it استفاده می‌شود."}]
+      { prompt: "برای اشاره به یک مرد از کدام ضمیر استفاده می‌کنیم؟", options: ["She", "He", "They"] },
+      { prompt: "جای خالی را کامل کن: They ___ my friends.", options: ["am", "is", "are"] },
+      { prompt: "کدام گزینه برای «ما» است؟", options: ["We", "You", "It"] },
+    {"prompt":"جای خالی را کامل کن: My parents ___ at home.","options":["are","is","am"]},{"prompt":"برای یک گربه در جمله ساده از کدام ضمیر استفاده می‌کنیم؟","options":["It","He","We"]}]
   },
   5: {
     concept: "عددها برای بیان تعداد، سن، شماره و قیمت در مکالمه‌های روزمره لازم‌اند. در این درس روی چند عدد پایه و تفاوت شکل نوشتاری آن‌ها تمرکز می‌کنیم.",
@@ -164,10 +164,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "عدد thirteen به معنی سیزده است و thirty به معنی سی؛ این دو را با هم اشتباه نگیر.",
     practiceTip: "از یک تا بیست بشمار و سپس تعداد سه وسیله اطرافت را به انگلیسی بگو.",
     questions: [
-      { prompt: "کدام واژه به معنی دوازده است؟", options: ["Twelve", "Twenty", "Two"], correct: 0, explanation: "Twelve یعنی دوازده؛ twenty بیست و two دو است." },
-      { prompt: "عدد پنج کدام است؟", options: ["Five", "Fifteen", "Four"], correct: 0, explanation: "Five یعنی پنج؛ fifteen پانزده و four چهار است." },
-      { prompt: "جای خالی را کامل کن: I have ___ books. (۱۰)", options: ["ten", "one", "three"], correct: 0, explanation: "عدد ده در انگلیسی ten نوشته می‌شود." },
-    {"prompt":"عدد ۱۳ کدام است؟","options":["Thirteen","Thirty","Three"],"correct":0,"explanation":"Thirteen یعنی سیزده؛ thirty یعنی سی و three یعنی سه."},{"prompt":"جمله «دو مداد دارم» کدام است؟","options":["I have two pencils.","I has two pencil.","I have a pencils."],"correct":0,"explanation":"با I از have استفاده می‌کنیم و بعد از two اسم به شکل جمع می‌آید."}]
+      { prompt: "کدام واژه به معنی دوازده است؟", options: ["Twelve", "Twenty", "Two"] },
+      { prompt: "عدد پنج کدام است؟", options: ["Five", "Fifteen", "Four"] },
+      { prompt: "جای خالی را کامل کن: I have ___ books. (۱۰)", options: ["ten", "one", "three"] },
+    {"prompt":"عدد ۱۳ کدام است؟","options":["Thirteen","Thirty","Three"]},{"prompt":"جمله «دو مداد دارم» کدام است؟","options":["I have two pencils.","I has two pencil.","I have a pencils."]}]
   },
   6: {
     concept: "برای صحبت درباره خانواده، نام اعضا را یاد می‌گیریم و آن‌ها را با ساختارهای ساده معرفی می‌کنیم.",
@@ -187,10 +187,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "mother و father را با هم جابه‌جا نکن؛ mother مادر و father پدر است. برای برادر از brother استفاده می‌کنیم.",
     practiceTip: "سه عضو خانواده را با الگوی This is my ... معرفی کن.",
     questions: [
-      { prompt: "معنی sister چیست؟", options: ["خواهر", "مادر", "برادر"], correct: 0, explanation: "Sister یعنی خواهر؛ brother یعنی برادر." },
-      { prompt: "جای خالی را کامل کن: This is ___ mother.", options: ["my", "I", "me"], correct: 0, explanation: "برای گفتن «مادر من» از my mother استفاده می‌کنیم." },
-      { prompt: "کدام جمله می‌گوید «او پدر من است»؟", options: ["He is my father.", "She is my sister.", "I am a student."], correct: 0, explanation: "He is my father یعنی او پدر من است." },
-    {"prompt":"معنی uncle چیست؟","options":["عمو / دایی","خواهر","پدربزرگ"],"correct":0,"explanation":"Uncle به معنی عمو یا دایی است."},{"prompt":"کدام جمله معرفی درست است؟","options":["This is my brother.","This my brother is.","This are my brother."],"correct":0,"explanation":"برای معرفی یک نفر از This is + my + اسم استفاده می‌کنیم."}]
+      { prompt: "معنی sister چیست؟", options: ["خواهر", "مادر", "برادر"] },
+      { prompt: "جای خالی را کامل کن: This is ___ mother.", options: ["my", "I", "me"] },
+      { prompt: "کدام جمله می‌گوید «او پدر من است»؟", options: ["He is my father.", "She is my sister.", "I am a student."] },
+    {"prompt":"معنی uncle چیست؟","options":["عمو / دایی","خواهر","پدربزرگ"]},{"prompt":"کدام جمله معرفی درست است؟","options":["This is my brother.","This my brother is.","This are my brother."]}]
   },
   7: {
     concept: "برای معرفی شغل افراد از نام شغل همراه فعل be استفاده می‌کنیم. در این درس چند شغل رایج و ساختار جمله را می‌آموزی.",
@@ -209,10 +209,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "در جمله معرفی شغل مفرد، حرف تعریف را فراموش نکن: She is teacher نادرست است؛ She is a teacher درست است.",
     practiceTip: "با سه شغل این درس جمله بساز: I am a ... / He is a ... / She is a ...",
     questions: [
-      { prompt: "معنی doctor چیست؟", options: ["پزشک", "معلم", "دانش‌آموز"], correct: 0, explanation: "Doctor یعنی پزشک." },
-      { prompt: "کدام جمله درست است؟", options: ["She is a teacher.", "She are a teacher.", "She is teacher."], correct: 0, explanation: "با she از is استفاده می‌کنیم و پیش از شغل مفرد a می‌آید." },
-      { prompt: "کدام واژه به معنی دانش‌آموز یا دانشجو است؟", options: ["Student", "Doctor", "Father"], correct: 0, explanation: "Student به معنی دانش‌آموز یا دانشجو است." },
-    {"prompt":"کدام گزینه به معنی «او مهندس است» می‌باشد؟","options":["He is an engineer.","He is a engineer.","He are an engineer."],"correct":0,"explanation":"engineer با صدای واکه آغاز می‌شود، پس an درست است؛ با he نیز is می‌آید."},{"prompt":"برای پرسیدن شغل یک نفر کدام سؤال طبیعی است؟","options":["What do you do?","Where do you do?","How do you job?"],"correct":0,"explanation":"What do you do? پرسش رایج درباره شغل است."}]
+      { prompt: "معنی doctor چیست؟", options: ["پزشک", "معلم", "دانش‌آموز"] },
+      { prompt: "کدام جمله درست است؟", options: ["She is a teacher.", "She are a teacher.", "She is teacher."] },
+      { prompt: "کدام واژه به معنی دانش‌آموز یا دانشجو است؟", options: ["Student", "Doctor", "Father"] },
+    {"prompt":"کدام گزینه به معنی «او مهندس است» می‌باشد؟","options":["He is an engineer.","He is a engineer.","He are an engineer."]},{"prompt":"برای پرسیدن شغل یک نفر کدام سؤال طبیعی است؟","options":["What do you do?","Where do you do?","How do you job?"]}]
   },
   8: {
     concept: "a و an هر دو معنی «یک» می‌دهند و پیش از اسم مفرد قابل‌شمارش می‌آیند. انتخاب میان آن‌ها به صدای آغازین واژه بعدی بستگی دارد.",
@@ -231,10 +231,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "an book نادرست است؛ چون book با صدای همخوان آغاز می‌شود، باید بگویی a book.",
     practiceTip: "پنج اسم انگلیسی اطرافت پیدا کن و قبل از هرکدام a یا an بگذار.",
     questions: [
-      { prompt: "کدام عبارت درست است؟", options: ["an apple", "a apple", "an book"], correct: 0, explanation: "Apple با صدای واکه آغاز می‌شود؛ پس an apple درست است." },
-      { prompt: "پیش از book از چه چیزی استفاده می‌کنیم؟", options: ["a", "an", "are"], correct: 0, explanation: "Book با صدای همخوان آغاز می‌شود؛ عبارت درست a book است." },
-      { prompt: "کدام جمله درست است؟", options: ["It is an egg.", "It is a egg.", "It an egg."], correct: 0, explanation: "Egg با صدای واکه آغاز می‌شود و جمله کامل به فعل is نیاز دارد." },
-    {"prompt":"کدام گزینه بر اساس صدا درست است؟","options":["an hour","a hour","an university"],"correct":0,"explanation":"h در hour تلفظ نمی‌شود و واژه با صدای واکه آغاز می‌شود؛ university با صدای /juː/ آغاز می‌شود و a می‌گیرد."},{"prompt":"کدام مورد اسم مفرد قابل‌شمارش است؟","options":["an egg","water","music"],"correct":0,"explanation":"egg اسم مفرد قابل‌شمارش است و می‌توان گفت an egg؛ water و music معمولاً غیرقابل‌شمارش‌اند."}]
+      { prompt: "کدام عبارت درست است؟", options: ["an apple", "a apple", "an book"] },
+      { prompt: "پیش از book از چه چیزی استفاده می‌کنیم؟", options: ["a", "an", "are"] },
+      { prompt: "کدام جمله درست است؟", options: ["It is an egg.", "It is a egg.", "It an egg."] },
+    {"prompt":"کدام گزینه بر اساس صدا درست است؟","options":["an hour","a hour","an university"]},{"prompt":"کدام مورد اسم مفرد قابل‌شمارش است؟","options":["an egg","water","music"]}]
   },
   9: {
     concept: "this و that برای اشاره به یک شخص یا چیز به کار می‌روند. تفاوت اصلی آن‌ها فاصله است: this نزدیک و that دور.",
@@ -254,10 +254,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "برای یک چیز نزدیک از this و برای یک چیز دور از that استفاده کن؛ these شکل جمع this است و در این درس موضوع اصلی ما نیست.",
     practiceTip: "به یک وسیله نزدیک و یک وسیله دور اشاره کن و برای هرکدام جمله بساز.",
     questions: [
-      { prompt: "برای اشاره به یک چیز نزدیک کدام واژه مناسب است؟", options: ["This", "That", "Those"], correct: 0, explanation: "This برای یک چیز نزدیک استفاده می‌شود." },
-      { prompt: "معنی That is my bag چیست؟", options: ["آن کیف من است.", "این کیف من است.", "کیف من کجاست؟"], correct: 0, explanation: "That یعنی آن؛ پس جمله یعنی «آن کیف من است»." },
-      { prompt: "شکل کوتاه That is کدام است؟", options: ["That's", "This's", "Those"], correct: 0, explanation: "That's شکل کوتاه That is است." },
-    {"prompt":"برای اشاره به چند چیز نزدیک کدام واژه درست است؟","options":["These","This","That"],"correct":0,"explanation":"These شکل جمع this است و برای چند چیز نزدیک به کار می‌رود."},{"prompt":"کدام جمله برای چیزی دور درست است؟","options":["That is a bus.","This are a bus.","Those is a bus."],"correct":0,"explanation":"برای یک چیز دور از That is استفاده می‌کنیم."}]
+      { prompt: "برای اشاره به یک چیز نزدیک کدام واژه مناسب است؟", options: ["This", "That", "Those"] },
+      { prompt: "معنی That is my bag چیست؟", options: ["آن کیف من است.", "این کیف من است.", "کیف من کجاست؟"] },
+      { prompt: "شکل کوتاه That is کدام است؟", options: ["That's", "This's", "Those"] },
+    {"prompt":"برای اشاره به چند چیز نزدیک کدام واژه درست است؟","options":["These","This","That"]},{"prompt":"کدام جمله برای چیزی دور درست است؟","options":["That is a bus.","This are a bus.","Those is a bus."]}]
   },
   10: {
     concept: "در انگلیسی بسیاری از اسم‌های قابل‌شمارش برای نشان دادن بیش از یکی، s می‌گیرند. این شکل را جمع می‌نامیم.",
@@ -276,10 +276,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "برای دو یا چند مورد، اسم ساده مفرد را بدون تغییر نیاور: two book نادرست است؛ two books درست است.",
     practiceTip: "نام سه وسیله را یک بار مفرد و یک بار جمع بنویس؛ مثل pen/pens.",
     questions: [
-      { prompt: "جمع ساده book کدام است؟", options: ["books", "bookes", "book"], correct: 0, explanation: "برای جمع ساده book فقط s اضافه می‌کنیم: books." },
-      { prompt: "کدام عبارت درست است؟", options: ["two cats", "two cat", "two cates"], correct: 0, explanation: "بعد از two اسم به شکل جمع می‌آید: two cats." },
-      { prompt: "جمع بی‌قاعده child کدام است؟", options: ["childs", "children", "childes"], correct: 1, explanation: "Children شکل جمع بی‌قاعده child است." },
-    {"prompt":"جمع کلمه box کدام است؟","options":["boxes","boxs","boxies"],"correct":0,"explanation":"اسم‌هایی که به x ختم می‌شوند معمولاً برای جمع es می‌گیرند."},{"prompt":"جمع بی‌قاعده child کدام است؟","options":["children","childs","childes"],"correct":0,"explanation":"Child جمع بی‌قاعده children دارد."}]
+      { prompt: "جمع ساده book کدام است؟", options: ["books", "bookes", "book"] },
+      { prompt: "کدام عبارت درست است؟", options: ["two cats", "two cat", "two cates"] },
+      { prompt: "جمع بی‌قاعده child کدام است؟", options: ["childs", "children", "childes"] },
+    {"prompt":"جمع کلمه box کدام است؟","options":["boxes","boxs","boxies"]},{"prompt":"جمع بی‌قاعده child کدام است؟","options":["children","childs","childes"]}]
   },
   11: {
     concept: "برای گفتن اینکه چیزی یا کسی این‌طور نیست، not را به فعل be اضافه می‌کنیم. در انگلیسی جای کلمه‌ها مهم است؛ پس به ترتیب فاعل، فعل و not دقت کن.",
@@ -288,7 +288,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Are you tired?",translation:"خسته‌ای؟"},{speaker:"B",line:"No, I'm not. I'm ready!",translation:"نه، خسته نیستم. آماده‌ام!"}],
     commonMistake:"نگو He not is tired. ترتیب درست He is not tired است؛ not بعد از فعل be قرار می‌گیرد.",
     practiceTip:"سه جمله درباره خودت بساز: یک جمله مثبت و یک جمله منفی درباره حالت، و یک جمله درباره دوستت.",
-    questions:[{prompt:"کدام جمله منفی درست است؟",options:["She isn't hungry.","She not is hungry.","She aren't hungry."],correct:0,explanation:"با she از is استفاده می‌کنیم و شکل کوتاه منفی آن isn't است."},{prompt:"معنی I'm not late چیست؟",options:["من دیر نکرده‌ام / دیر نیستم.","من خیلی خوشحالم.","من آماده‌ام."],correct:0,explanation:"I'm not یعنی من نیستم؛ late یعنی دیر. پس جمله می‌گوید من دیر نیستم."},{prompt:"جای خالی را کامل کن: They ___ at home.",options:["aren't","isn't","am not"],correct:0,explanation:"برای they از are استفاده می‌کنیم؛ شکل منفی کوتاه آن aren't است."},{"prompt":"جمله را منفی کن: She is happy.","options":["She isn't happy.","She not is happy.","She don't happy."],"correct":0,"explanation":"برای منفی کردن فعل be، not بعد از is می‌آید: She is not / isn't happy."},{"prompt":"جای خالی را کامل کن: I ___ hungry.","options":["am not","isn't","aren't"],"correct":0,"explanation":"با I از am not استفاده می‌کنیم."}]
+    questions:[{prompt:"کدام جمله منفی درست است؟",options:["She isn't hungry.","She not is hungry.","She aren't hungry."]},{prompt:"معنی I'm not late چیست؟",options:["من دیر نکرده‌ام / دیر نیستم.","من خیلی خوشحالم.","من آماده‌ام."]},{prompt:"جای خالی را کامل کن: They ___ at home.",options:["aren't","isn't","am not"]},{"prompt":"جمله را منفی کن: She is happy.","options":["She isn't happy.","She not is happy.","She don't happy."]},{"prompt":"جای خالی را کامل کن: I ___ hungry.","options":["am not","isn't","aren't"]}]
   },
   12: {
     concept:"در سؤال‌های ساده با am/is/are، فعل را به ابتدای جمله می‌بریم. این تغییر ترتیب کمک می‌کند شنونده بفهمد سؤال می‌پرسیم.",
@@ -297,7 +297,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Are you in class?",translation:"در کلاس هستی؟"},{speaker:"B",line:"Yes, I am. Are you?",translation:"بله، هستم. تو چطور؟"}],
     commonMistake:"در سؤال نگو You are ready? در انگلیسی معیار مبتدی، شکل روشن و درست این است: Are you ready?",
     practiceTip:"از یک دوست سه سؤال بساز: Are you happy? Are you a student? Are you ready?",
-    questions:[{prompt:"کدام سؤال ترتیب درست دارد؟",options:["Is he your friend?","He is your friend?","Is your friend he?"],correct:0,explanation:"فعل is قبل از فاعل he قرار می‌گیرد."},{prompt:"پاسخ کوتاه مثبت به Are they ready? کدام است؟",options:["Yes, they are.","Yes, they is.","Yes, are they."],correct:0,explanation:"در پاسخ کوتاه، فاعل و شکل درست فعل را می‌آوریم: they are."},{prompt:"کدام جمله یک سؤال بله/خیر است؟",options:["Are you okay?","You are okay.","You okay are."],correct:0,explanation:"قرار گرفتن are در ابتدای جمله، آن را به سؤال بله/خیر تبدیل می‌کند."},{"prompt":"کدام پاسخ کوتاه به Is he tired? درست است؟","options":["No, he isn't.","No, he don't.","No, isn't he."],"correct":0,"explanation":"برای پاسخ کوتاه با be، فاعل و شکل درست be را می‌آوریم."},{"prompt":"کدام سؤال درباره مکان درست است؟","options":["Where are they?","Where they are?","Where is they?"],"correct":0,"explanation":"در سؤال با be، فعل پیش از فاعل می‌آید: Where are they?"}]
+    questions:[{prompt:"کدام سؤال ترتیب درست دارد؟",options:["Is he your friend?","He is your friend?","Is your friend he?"]},{prompt:"پاسخ کوتاه مثبت به Are they ready? کدام است؟",options:["Yes, they are.","Yes, they is.","Yes, are they."]},{prompt:"کدام جمله یک سؤال بله/خیر است؟",options:["Are you okay?","You are okay.","You okay are."]},{"prompt":"کدام پاسخ کوتاه به Is he tired? درست است؟","options":["No, he isn't.","No, he don't.","No, isn't he."]},{"prompt":"کدام سؤال درباره مکان درست است؟","options":["Where are they?","Where they are?","Where is they?"]}]
   },
   13: {
     concept:"برای اینکه معلوم شود یک چیز متعلق به چه کسی است، از کلمات مالکیت استفاده می‌کنیم. این کلمات قبل از اسم قرار می‌گیرند و جای اسم را نمی‌گیرند.",
@@ -306,7 +306,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Is this your notebook?",translation:"این دفتر توست؟"},{speaker:"B",line:"No, it's her notebook.",translation:"نه، دفتر اوست."}],
     commonMistake:"my با me فرق دارد. my قبل از اسم می‌آید (my book)، اما me شکل مفعولی ضمیر است.",
     practiceTip:"سه وسیله اطرافت را انتخاب کن و با my، your یا his/her معرفی کن.",
-    questions:[{prompt:"اگر وسیله متعلق به یک دختر باشد، کدام مناسب است؟",options:["her pencil","his pencil","I pencil"],correct:0,explanation:"her برای مالکیت یک دختر/زن استفاده می‌شود."},{prompt:"کدام عبارت یعنی «دفتر تو»؟",options:["your notebook","you notebook","yours notebook"],correct:0,explanation:"your صفت ملکی است و پیش از اسم notebook می‌آید."},{prompt:"جمله را کامل کن: Ali has a bike. It is ___ bike.",options:["his","her","my"],correct:0,explanation:"Ali نام پسرانه در این مثال است؛ برای مالکیت او از his استفاده می‌کنیم."},{"prompt":"جای خالی را کامل کن: We love ___ school.","options":["our","we","us"],"correct":0,"explanation":"our صفت ملکی است و پیش از اسم school می‌آید."},{"prompt":"کدام عبارت یعنی «خانه آن‌ها»؟","options":["their house","they house","them house"],"correct":0,"explanation":"their برای مالکیت آن‌ها استفاده می‌شود."}]
+    questions:[{prompt:"اگر وسیله متعلق به یک دختر باشد، کدام مناسب است؟",options:["her pencil","his pencil","I pencil"]},{prompt:"کدام عبارت یعنی «دفتر تو»؟",options:["your notebook","you notebook","yours notebook"]},{prompt:"جمله را کامل کن: Ali has a bike. It is ___ bike.",options:["his","her","my"]},{"prompt":"جای خالی را کامل کن: We love ___ school.","options":["our","we","us"]},{"prompt":"کدام عبارت یعنی «خانه آن‌ها»؟","options":["their house","they house","them house"]}]
   },
   14: {
     concept:"have و has هر دو معنی «داشتن» می‌دهند. انتخابشان به فاعل جمله بستگی دارد، نه به چیزی که داریم.",
@@ -315,7 +315,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Do you have a pet?",translation:"حیوان خانگی داری؟"},{speaker:"B",line:"Yes, I have a cat.",translation:"بله، یک گربه دارم."}],
     commonMistake:"نگو She have a dog. چون فاعل she است، باید بگویی She has a dog.",
     practiceTip:"درباره خودت، دوستت و یکی از اعضای خانواده سه جمله با have یا has بساز.",
-    questions:[{prompt:"کدام جمله درست است؟",options:["My sister has a tablet.","My sister have a tablet.","My sister haves a tablet."],correct:0,explanation:"My sister برابر she است؛ پس has درست است."},{prompt:"جای خالی: We ___ two English books.",options:["have","has","is"],correct:0,explanation:"برای we از have استفاده می‌کنیم."},{prompt:"معنی He has a new bag چیست؟",options:["او یک کیف جدید دارد.","او یک کیف جدید است.","آن‌ها کیف جدید دارند."],correct:0,explanation:"has در این ساختار معنی داشتن می‌دهد و he یعنی او (مذکر)."},{"prompt":"جمله را کامل کن: Does your brother ___ a car?","options":["have","has","having"],"correct":0,"explanation":"بعد از does فعل اصلی به شکل پایه می‌آید: have."},{"prompt":"کدام جمله درست است؟","options":["They have a dog.","They has a dog.","They haves a dog."],"correct":0,"explanation":"با they از have استفاده می‌کنیم."}]
+    questions:[{prompt:"کدام جمله درست است؟",options:["My sister has a tablet.","My sister have a tablet.","My sister haves a tablet."]},{prompt:"جای خالی: We ___ two English books.",options:["have","has","is"]},{prompt:"معنی He has a new bag چیست؟",options:["او یک کیف جدید دارد.","او یک کیف جدید است.","آن‌ها کیف جدید دارند."]},{"prompt":"جمله را کامل کن: Does your brother ___ a car?","options":["have","has","having"]},{"prompt":"کدام جمله درست است؟","options":["They have a dog.","They has a dog.","They haves a dog."]}]
   },
   15: {
     concept:"حال ساده برای کارهایی است که معمولاً، مرتب یا به‌عنوان عادت انجام می‌دهیم؛ نه لزوماً همین لحظه.",
@@ -324,7 +324,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What do you do after school?",translation:"بعد از مدرسه چه کار می‌کنی؟"},{speaker:"B",line:"I play basketball and study English.",translation:"بسکتبال بازی می‌کنم و انگلیسی می‌خوانم."}],
     commonMistake:"برای he یا she در جمله مثبت، s فعل را فراموش نکن: He plays، نه He play.",
     practiceTip:"برنامه یک روز معمولی خودت را با سه جمله انگلیسی توصیف کن.",
-    questions:[{prompt:"کدام جمله درباره عادت درست است؟",options:["I watch videos after school.","I watches videos after school.","I watching videos after school."],correct:0,explanation:"با I، فعل در شکل ساده watch می‌آید."},{prompt:"جای خالی: Sara ___ English every day.",options:["studies","study","studying"],correct:0,explanation:"Sara برابر she است. study به studies تبدیل می‌شود."},{prompt:"کدام عبارت بیشتر به عادت اشاره می‌کند؟",options:["every day","right now","at this second"],correct:0,explanation:"every day یعنی هر روز و نشانه‌ای از تکرار و عادت است."},{"prompt":"کدام شکل سوم‌شخص فعل study درست است؟","options":["studies","studys","studyies"],"correct":0,"explanation":"وقتی فعل به consonant + y ختم شود، y به ies تبدیل می‌شود."},{"prompt":"جای خالی را کامل کن: He ___ TV every night.","options":["watches","watch","watching"],"correct":0,"explanation":"watch به ch ختم می‌شود و برای he شکل watches می‌گیرد."}]
+    questions:[{prompt:"کدام جمله درباره عادت درست است؟",options:["I watch videos after school.","I watches videos after school.","I watching videos after school."]},{prompt:"جای خالی: Sara ___ English every day.",options:["studies","study","studying"]},{prompt:"کدام عبارت بیشتر به عادت اشاره می‌کند؟",options:["every day","right now","at this second"]},{"prompt":"کدام شکل سوم‌شخص فعل study درست است؟","options":["studies","studys","studyies"]},{"prompt":"جای خالی را کامل کن: He ___ TV every night.","options":["watches","watch","watching"]}]
   },
   16: {
     concept:"گاهی مهم نیست فقط چه کاری انجام می‌دهیم؛ مهم است چند بار آن را انجام می‌دهیم. قیدهای تکرار این مقدار را نشان می‌دهند.",
@@ -333,7 +333,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Do you always play games?",translation:"همیشه بازی می‌کنی؟"},{speaker:"B",line:"No, I sometimes read books.",translation:"نه، گاهی کتاب می‌خوانم."}],
     commonMistake:"نگو I play always football. جای طبیعی قید تکرار در این جمله I always play football است.",
     practiceTip:"چهار فعالیت روزانه انتخاب کن و با always، usually، sometimes یا never درباره‌شان جمله بساز.",
-    questions:[{prompt:"کدام جمله ترتیب درست دارد؟",options:["I sometimes read.","I read sometimes books.","Sometimes I am read."],correct:0,explanation:"قید sometimes پیش از فعل اصلی read آمده است."},{prompt:"معنی usually چیست؟",options:["معمولاً","هرگز","به‌ندرت"],correct:0,explanation:"usually یعنی معمولاً؛ یعنی کاری در بیشتر مواقع انجام می‌شود."},{prompt:"جای درست قید را انتخاب کن: He is ___ late.",options:["never","late never","is neverly"],correct:0,explanation:"با فعل be، قید تکرار بعد از آن می‌آید: is never late."},{"prompt":"جای درست قید usually کجاست؟","options":["I usually drink tea.","I drink usually tea.","I drink tea usually always."],"correct":0,"explanation":"قید تکرار معمولاً پیش از فعل اصلی قرار می‌گیرد."},{"prompt":"برای پرسیدن «هر چند وقت ورزش می‌کنی؟» کدام سؤال درست است؟","options":["How often do you exercise?","How many often you exercise?","How often are you exercise?"],"correct":0,"explanation":"How often درباره دفعات تکرار می‌پرسد و با do you + فعل پایه ساخته می‌شود."}]
+    questions:[{prompt:"کدام جمله ترتیب درست دارد؟",options:["I sometimes read.","I read sometimes books.","Sometimes I am read."]},{prompt:"معنی usually چیست؟",options:["معمولاً","هرگز","به‌ندرت"]},{prompt:"جای درست قید را انتخاب کن: He is ___ late.",options:["never","late never","is neverly"]},{"prompt":"جای درست قید usually کجاست؟","options":["I usually drink tea.","I drink usually tea.","I drink tea usually always."]},{"prompt":"برای پرسیدن «هر چند وقت ورزش می‌کنی؟» کدام سؤال درست است؟","options":["How often do you exercise?","How many often you exercise?","How often are you exercise?"]}]
   },
   17: {
     concept:"can برای بیان توانایی یا اجازه به کار می‌رود. در این درس از آن برای گفتن کارهایی استفاده می‌کنیم که بلدیم انجام بدهیم.",
@@ -342,7 +342,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Can you play chess?",translation:"می‌توانی شطرنج بازی کنی؟"},{speaker:"B",line:"Yes, I can, but I can't play the guitar.",translation:"بله، می‌توانم؛ اما نمی‌توانم گیتار بزنم."}],
     commonMistake:"بعد از can، فعل ساده می‌آید. can to swim و can swims نادرست‌اند.",
     practiceTip:"سه توانایی واقعی خودت را با I can و یک کاری را که هنوز بلد نیستی با I can't بنویس.",
-    questions:[{prompt:"کدام جمله درست است؟",options:["I can draw.","I can to draw.","I cans draw."],correct:0,explanation:"بعد از can فعل ساده draw می‌آید."},{prompt:"پاسخ کوتاه به Can she sing? کدام است؟",options:["Yes, she can.","Yes, she cans.","Yes, can she."],correct:0,explanation:"در پاسخ کوتاه، فاعل و can را می‌آوریم."},{prompt:"معنی I can't skate چیست؟",options:["من نمی‌توانم اسکیت کنم.","من اسکیت دوست دارم.","من همیشه اسکیت می‌کنم."],correct:0,explanation:"can't شکل منفی cannot است و ناتوانی را نشان می‌دهد."},{"prompt":"کدام جمله منفی درست است؟","options":["She can't drive.","She doesn't can drive.","She can't to drive."],"correct":0,"explanation":"منفی can با can't ساخته می‌شود و پس از آن فعل ساده می‌آید."},{"prompt":"جای خالی را کامل کن: ___ they swim?","options":["Can","Do can","Are can"],"correct":0,"explanation":"برای سؤال درباره توانایی، can به ابتدای جمله می‌آید."}]
+    questions:[{prompt:"کدام جمله درست است؟",options:["I can draw.","I can to draw.","I cans draw."]},{prompt:"پاسخ کوتاه به Can she sing? کدام است؟",options:["Yes, she can.","Yes, she cans.","Yes, can she."]},{prompt:"معنی I can't skate چیست؟",options:["من نمی‌توانم اسکیت کنم.","من اسکیت دوست دارم.","من همیشه اسکیت می‌کنم."]},{"prompt":"کدام جمله منفی درست است؟","options":["She can't drive.","She doesn't can drive.","She can't to drive."]},{"prompt":"جای خالی را کامل کن: ___ they swim?","options":["Can","Do can","Are can"]}]
   },
   18: {
     concept:"برای حرف زدن درباره علاقه‌ها از like استفاده می‌کنیم. می‌توانیم بگوییم چه چیزی را دوست داریم یا از انجام چه کاری لذت می‌بریم.",
@@ -351,7 +351,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What kind of music do you like?",translation:"چه نوع موسیقی‌ای دوست داری؟"},{speaker:"B",line:"I like pop music. I also like reading.",translation:"موسیقی پاپ دوست دارم. کتاب خواندن را هم دوست دارم."}],
     commonMistake:"در جمله مثبت با he یا she، likes را به کار ببر؛ اما بعد از can همچنان فعل ساده می‌آید.",
     practiceTip:"سه علاقه‌ات را با I like بنویس و از یک دوست بپرس What do you like?",
-    questions:[{prompt:"کدام جمله درست است؟",options:["He likes football.","He like football.","He likes play football."],correct:0,explanation:"با he از likes استفاده می‌کنیم؛ برای جمله ساده همین ساختار کافی است."},{prompt:"کدام عبارت یعنی «من نقاشی کردن را دوست دارم»؟",options:["I like drawing.","I like draw.","I likes drawing."],correct:0,explanation:"بعد از like برای فعالیت می‌توان از فعل ingدار drawing استفاده کرد."},{prompt:"جای خالی: They ___ video games.",options:["like","likes","liking"],correct:0,explanation:"برای they از شکل ساده like استفاده می‌کنیم."},{"prompt":"کدام جمله درباره علاقه درست است؟","options":["I like cooking.","I likes cooking.","I like cookings."],"correct":0,"explanation":"با I از like استفاده می‌کنیم؛ برای فعالیت می‌توان از فعل ingدار استفاده کرد."},{"prompt":"جمله «او قهوه دوست ندارد» کدام است؟","options":["She doesn't like coffee.","She don't likes coffee.","She not like coffee."],"correct":0,"explanation":"برای منفی کردن حال ساده با she از doesn't + فعل پایه استفاده می‌کنیم."}]
+    questions:[{prompt:"کدام جمله درست است؟",options:["He likes football.","He like football.","He likes play football."]},{prompt:"کدام عبارت یعنی «من نقاشی کردن را دوست دارم»؟",options:["I like drawing.","I like draw.","I likes drawing."]},{prompt:"جای خالی: They ___ video games.",options:["like","likes","liking"]},{"prompt":"کدام جمله درباره علاقه درست است؟","options":["I like cooking.","I likes cooking.","I like cookings."]},{"prompt":"جمله «او قهوه دوست ندارد» کدام است؟","options":["She doesn't like coffee.","She don't likes coffee.","She not like coffee."]}]
   },
   19: {
     concept:"حروف اضافه مکان مثل یک نقشه کوچک‌اند؛ به شنونده می‌گویند چیزی دقیقاً کجاست.",
@@ -360,7 +360,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Where is my phone?",translation:"گوشی من کجاست؟"},{speaker:"B",line:"It's on your desk.",translation:"روی میزت است."}],
     commonMistake:"in و on را جابه‌جا نکن: داخل کیف in the bag است؛ روی میز on the desk.",
     practiceTip:"به اتاقت نگاه کن و جای سه وسیله را با in، on یا under توصیف کن.",
-    questions:[{prompt:"اگر مداد داخل جامدادی باشد، کدام درست است؟",options:["in the pencil case","on the pencil case","under the pencil case"],correct:0,explanation:"in یعنی داخل؛ پس in the pencil case درست است."},{prompt:"معنی under the table چیست؟",options:["زیر میز","روی میز","داخل میز"],correct:0,explanation:"under به معنی زیر است."},{prompt:"کدام جمله درست است؟",options:["The book is on the desk.","The book is in the desk (برای روی میز).","The book under is desk."],correct:0,explanation:"برای قرار داشتن روی سطح میز از on the desk استفاده می‌کنیم."},{"prompt":"اگر کیف کنار صندلی باشد، کدام عبارت درست است؟","options":["next to the chair","in the chair","under of chair"],"correct":0,"explanation":"next to یعنی کنار."},{"prompt":"معنی behind the door چیست؟","options":["پشت در","جلوی در","داخل در"],"correct":0,"explanation":"behind به معنی پشت است."}]
+    questions:[{prompt:"اگر مداد داخل جامدادی باشد، کدام درست است؟",options:["in the pencil case","on the pencil case","under the pencil case"]},{prompt:"معنی under the table چیست؟",options:["زیر میز","روی میز","داخل میز"]},{prompt:"کدام جمله درست است؟",options:["The book is on the desk.","The book is in the desk (برای روی میز).","The book under is desk."]},{"prompt":"اگر کیف کنار صندلی باشد، کدام عبارت درست است؟","options":["next to the chair","in the chair","under of chair"]},{"prompt":"معنی behind the door چیست؟","options":["پشت در","جلوی در","داخل در"]}]
   },
   20: {
     concept:"برای برنامه‌ریزی و صحبت درباره روز، باید بتوانیم ساعت و بخش‌های مختلف روز را بیان کنیم.",
@@ -369,7 +369,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What time do you get up?",translation:"چه ساعتی بیدار می‌شوی؟"},{speaker:"B",line:"I get up at seven o'clock.",translation:"ساعت هفت بیدار می‌شوم."}],
     commonMistake:"برای گفتن «شب‌ها» معمولاً at night می‌گوییم، نه in the night در جمله‌های ساده روزمره.",
     practiceTip:"برنامه صبح تا شب خودت را با سه ساعت ساده و عبارت‌های morning و night تعریف کن.",
-    questions:[{prompt:"کدام عبارت یعنی «ساعت هشت»؟",options:["eight o'clock","eight clock","o'clock eight"],correct:0,explanation:"الگوی رایج برای ساعت دقیق عدد + o'clock است."},{prompt:"کدام عبارت یعنی «شب‌ها»؟",options:["at night","in the morning","in the afternoon"],correct:0,explanation:"at night برای اشاره به شب به کار می‌رود."},{prompt:"جمله را کامل کن: I go to school ___ the morning.",options:["in","on","under"],correct:0,explanation:"ترکیب درست in the morning است."},{"prompt":"جای خالی را کامل کن: The class starts ___ 9 o'clock.","options":["at","in","on"],"correct":0,"explanation":"برای ساعت دقیق از at استفاده می‌کنیم."},{"prompt":"کدام عبارت درست است؟","options":["on Friday","at Friday","in Friday"],"correct":0,"explanation":"برای روزهای هفته از on استفاده می‌کنیم."}]
+    questions:[{prompt:"کدام عبارت یعنی «ساعت هشت»؟",options:["eight o'clock","eight clock","o'clock eight"]},{prompt:"کدام عبارت یعنی «شب‌ها»؟",options:["at night","in the morning","in the afternoon"]},{prompt:"جمله را کامل کن: I go to school ___ the morning.",options:["in","on","under"]},{"prompt":"جای خالی را کامل کن: The class starts ___ 9 o'clock.","options":["at","in","on"]},{"prompt":"کدام عبارت درست است؟","options":["on Friday","at Friday","in Friday"]}]
   },
   21: {
     "concept": "الفبای انگلیسی ۲۶ حرف دارد. نام حروف را یاد بگیر؛ هنگام هجی کردن، نام هر حرف را جداگانه می‌گویی.",
@@ -424,9 +424,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "C-A-T",
           "K-E-T",
           "C-E-T"
-        ],
-        "correct": 0,
-        "explanation": "املای درست cat برابر C-A-T است."
+        ]
       },
       {
         "prompt": "How many letters are in the English alphabet?",
@@ -434,9 +432,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Twenty-four",
           "Twenty-six",
           "Thirty"
-        ],
-        "correct": 1,
-        "explanation": "الفبای انگلیسی ۲۶ حرف دارد."
+        ]
       },
       {
         "prompt": "Which group contains the main vowel letters?",
@@ -444,9 +440,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "A, E, I, O, U",
           "B, C, D, F, G",
           "J, K, L, M, N"
-        ],
-        "correct": 0,
-        "explanation": "حروف صدادار اصلی A، E، I، O و U هستند."
+        ]
       },
       {
         "prompt": "Choose the correct question.",
@@ -454,9 +448,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "How spell you name?",
           "How do you spell your name?",
           "How you do spell name?"
-        ],
-        "correct": 1,
-        "explanation": "ساختار درست پرسش How do you spell ...? است."
+        ]
       },
       {
         "prompt": "What does spell mean?",
@@ -464,9 +456,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "هجی کردن",
           "ترجمه کردن",
           "گوش دادن"
-        ],
-        "correct": 0,
-        "explanation": "spell یعنی حروف یک واژه را به ترتیب گفتن."
+        ]
       }
     ]
   },
@@ -523,9 +513,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Fourty",
           "Forty",
           "Fourteen"
-        ],
-        "correct": 1,
-        "explanation": "املای درست چهل forty است."
+        ]
       },
       {
         "prompt": "What number is seventy-five?",
@@ -533,9 +521,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "57",
           "75",
           "70"
-        ],
-        "correct": 1,
-        "explanation": "seventy-five یعنی ۷۵."
+        ]
       },
       {
         "prompt": "Choose the correct spelling.",
@@ -543,9 +529,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "twenty-one",
           "twenty one (در عدد مرکب نوشتاری)",
           "twenty-onee"
-        ],
-        "correct": 0,
-        "explanation": "عدد مرکب ۲۱ با خط تیره نوشته می‌شود."
+        ]
       },
       {
         "prompt": "How do you usually say a phone number?",
@@ -553,9 +537,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Digit by digit",
           "As one long word",
           "Only the last digit"
-        ],
-        "correct": 0,
-        "explanation": "شماره تلفن را معمولاً رقم‌به‌رقم می‌خوانیم."
+        ]
       },
       {
         "prompt": "What is 100?",
@@ -563,9 +545,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "One hundred",
           "Ten hundred",
           "One thousand"
-        ],
-        "correct": 0,
-        "explanation": "one hundred یعنی صد."
+        ]
       }
     ]
   },
@@ -622,9 +602,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Tuesday",
           "April",
           "Sunday"
-        ],
-        "correct": 1,
-        "explanation": "April نام یک ماه است."
+        ]
       },
       {
         "prompt": "Choose the correct phrase.",
@@ -632,9 +610,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "in Monday",
           "on Monday",
           "at Monday"
-        ],
-        "correct": 1,
-        "explanation": "برای روزهای هفته از on استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "Choose the correct phrase.",
@@ -642,9 +618,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "in August",
           "on August",
           "at August"
-        ],
-        "correct": 0,
-        "explanation": "برای ماه‌ها از in استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "Which spelling is correct?",
@@ -652,9 +626,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Wensday",
           "Wednesday",
           "Wednsday"
-        ],
-        "correct": 1,
-        "explanation": "املای درست Wednesday است."
+        ]
       },
       {
         "prompt": "Which question asks about the day?",
@@ -662,9 +634,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "What day is it?",
           "How old are you?",
           "Where are you?"
-        ],
-        "correct": 0,
-        "explanation": "What day is it? درباره روز هفته می‌پرسد."
+        ]
       }
     ]
   },
@@ -721,9 +691,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Italian",
           "Italy",
           "Italish"
-        ],
-        "correct": 0,
-        "explanation": "Italian ملیت مربوط به Italy است."
+        ]
       },
       {
         "prompt": "Which question asks about language?",
@@ -731,9 +699,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Where are you from?",
           "What languages do you speak?",
           "How old are you?"
-        ],
-        "correct": 1,
-        "explanation": "What languages do you speak? درباره زبان‌هایی است که صحبت می‌کنی."
+        ]
       },
       {
         "prompt": "Choose the correct sentence.",
@@ -741,9 +707,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "I speak Persian.",
           "I am speak Persian.",
           "I speaking Persian."
-        ],
-        "correct": 0,
-        "explanation": "پس از I از فعل پایه speak استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "What is Japan?",
@@ -751,9 +715,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "A language",
           "A country",
           "A nationality"
-        ],
-        "correct": 1,
-        "explanation": "Japan نام کشور است."
+        ]
       },
       {
         "prompt": "Nationality adjectives usually begin with…",
@@ -761,9 +723,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "a capital letter",
           "a number",
           "a comma"
-        ],
-        "correct": 0,
-        "explanation": "نام ملیت‌ها و زبان‌ها با حرف بزرگ شروع می‌شوند."
+        ]
       }
     ]
   },
@@ -820,9 +780,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "notebook",
           "cloudy",
           "Monday"
-        ],
-        "correct": 0,
-        "explanation": "notebook یعنی دفتر."
+        ]
       },
       {
         "prompt": "Choose the polite instruction.",
@@ -830,9 +788,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Please open your book.",
           "You opening book.",
           "Open you book please?"
-        ],
-        "correct": 0,
-        "explanation": "برای دستور مؤدبانه، Please را می‌توان در ابتدا آورد."
+        ]
       },
       {
         "prompt": "What does board mean?",
@@ -840,9 +796,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "تخته",
           "مداد",
           "کیف"
-        ],
-        "correct": 0,
-        "explanation": "board یعنی تخته."
+        ]
       },
       {
         "prompt": "Complete: ___ your pencil.",
@@ -850,9 +804,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Open",
           "Opens",
           "Opening"
-        ],
-        "correct": 0,
-        "explanation": "در دستور مستقیم از شکل پایه فعل استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "Where is the pen? — It is ___ the desk.",
@@ -860,9 +812,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "on",
           "at",
           "by"
-        ],
-        "correct": 0,
-        "explanation": "on the desk یعنی روی میز."
+        ]
       }
     ]
   },
@@ -919,9 +869,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "a red car",
           "a car red",
           "red a car"
-        ],
-        "correct": 0,
-        "explanation": "صفت پیش از اسم می‌آید."
+        ]
       },
       {
         "prompt": "What is the opposite of big?",
@@ -929,9 +877,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "small",
           "long",
           "new"
-        ],
-        "correct": 0,
-        "explanation": "small متضاد big است."
+        ]
       },
       {
         "prompt": "Choose the correct sentence.",
@@ -939,9 +885,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "The bags are blue.",
           "The bags is blue.",
           "The bags blue are."
-        ],
-        "correct": 0,
-        "explanation": "فاعل جمع bags با are می‌آید."
+        ]
       },
       {
         "prompt": "Which word is a color?",
@@ -949,9 +893,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "green",
           "friendly",
           "tall"
-        ],
-        "correct": 0,
-        "explanation": "green یعنی سبز."
+        ]
       },
       {
         "prompt": "Complete: It is ___ old house.",
@@ -959,9 +901,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "an",
           "a",
           "are"
-        ],
-        "correct": 0,
-        "explanation": "old با صدای واکه شروع می‌شود، پس an می‌آید."
+        ]
       }
     ]
   },
@@ -1018,9 +958,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Sara's bag",
           "Sara bag's",
           "Saras bag"
-        ],
-        "correct": 0,
-        "explanation": "برای مالکیت Sara's نوشته می‌شود."
+        ]
       },
       {
         "prompt": "This book is ___.",
@@ -1028,9 +966,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "mine",
           "my",
           "I"
-        ],
-        "correct": 0,
-        "explanation": "mine ضمیر ملکی مستقل است."
+        ]
       },
       {
         "prompt": "That is ___ phone.",
@@ -1038,9 +974,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "his",
           "he",
           "him"
-        ],
-        "correct": 0,
-        "explanation": "his پیش از اسم phone می‌آید."
+        ]
       },
       {
         "prompt": "Which phrase means «مال تو»?",
@@ -1048,9 +982,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "yours",
           "your",
           "you"
-        ],
-        "correct": 0,
-        "explanation": "yours یعنی مال تو/شما."
+        ]
       },
       {
         "prompt": "Choose the correct sentence.",
@@ -1058,9 +990,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "The red car is hers.",
           "The red car is her.",
           "The red car hers is."
-        ],
-        "correct": 0,
-        "explanation": "hers ضمیر ملکی مستقل است."
+        ]
       }
     ]
   },
@@ -1117,9 +1047,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "childs",
           "children",
           "childes"
-        ],
-        "correct": 1,
-        "explanation": "جمع بی‌قاعده child برابر children است."
+        ]
       },
       {
         "prompt": "For things near us, use…",
@@ -1127,9 +1055,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "these",
           "those",
           "that"
-        ],
-        "correct": 0,
-        "explanation": "these برای چند چیز نزدیک است."
+        ]
       },
       {
         "prompt": "Which is correct?",
@@ -1137,9 +1063,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Those are my shoes.",
           "Those is my shoes.",
           "That are my shoes."
-        ],
-        "correct": 0,
-        "explanation": "those با فعل جمع are می‌آید."
+        ]
       },
       {
         "prompt": "Plural of person is often…",
@@ -1147,9 +1071,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "people",
           "personses",
           "peoples"
-        ],
-        "correct": 0,
-        "explanation": "people جمع رایج person است."
+        ]
       },
       {
         "prompt": "Choose the correct phrase.",
@@ -1157,9 +1079,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "these books",
           "this books",
           "these book"
-        ],
-        "correct": 0,
-        "explanation": "these با اسم جمع می‌آید."
+        ]
       }
     ]
   },
@@ -1216,9 +1136,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "is",
           "are",
           "am"
-        ],
-        "correct": 0,
-        "explanation": "book مفرد است؛ there is درست است."
+        ]
       },
       {
         "prompt": "There ___ three windows.",
@@ -1226,9 +1144,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "is",
           "are",
           "be"
-        ],
-        "correct": 1,
-        "explanation": "windows جمع است؛ there are درست است."
+        ]
       },
       {
         "prompt": "Choose the correct question.",
@@ -1236,9 +1152,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Is there a bank?",
           "There is a bank?",
           "Are there a bank?"
-        ],
-        "correct": 0,
-        "explanation": "برای سؤال مفرد، Is ابتدای جمله می‌آید."
+        ]
       },
       {
         "prompt": "Which phrase is correct?",
@@ -1246,9 +1160,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "There aren't any chairs.",
           "There isn't any chairs.",
           "There not are chairs."
-        ],
-        "correct": 0,
-        "explanation": "برای جمع از aren't استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "What does there are mean?",
@@ -1256,9 +1168,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "وجود دارند",
           "وجود دارد (مفرد)",
           "هستند؟"
-        ],
-        "correct": 0,
-        "explanation": "there are برای وجود چند چیز به کار می‌رود."
+        ]
       }
     ]
   },
@@ -1315,9 +1225,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "where",
           "who",
           "when"
-        ],
-        "correct": 0,
-        "explanation": "where درباره مکان می‌پرسد."
+        ]
       },
       {
         "prompt": "Which word asks about a person?",
@@ -1325,9 +1233,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "who",
           "what",
           "how"
-        ],
-        "correct": 0,
-        "explanation": "who درباره شخص می‌پرسد."
+        ]
       },
       {
         "prompt": "Complete: ___ is your birthday?",
@@ -1335,9 +1241,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "When",
           "Where",
           "Who"
-        ],
-        "correct": 0,
-        "explanation": "when برای زمان است."
+        ]
       },
       {
         "prompt": "How are you? asks about…",
@@ -1345,9 +1249,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "condition",
           "place",
           "name"
-        ],
-        "correct": 0,
-        "explanation": "How are you? حال و وضعیت را می‌پرسد."
+        ]
       },
       {
         "prompt": "Choose the correct question.",
@@ -1355,9 +1257,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "What is your name?",
           "What your name is?",
           "What are name you?"
-        ],
-        "correct": 0,
-        "explanation": "در سؤال با be، فعل is پیش از فاعل می‌آید."
+        ]
       }
     ]
   },
@@ -1414,9 +1314,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "doesn't",
           "don't",
           "isn't"
-        ],
-        "correct": 0,
-        "explanation": "با he از doesn't استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "I ___ work on Sunday.",
@@ -1424,9 +1322,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "don't",
           "doesn't",
           "am not"
-        ],
-        "correct": 0,
-        "explanation": "با I از don't استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "After doesn't, use…",
@@ -1434,9 +1330,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "base verb",
           "verb + s",
           "verb + ing"
-        ],
-        "correct": 0,
-        "explanation": "پس از doesn't فعل پایه می‌آید."
+        ]
       },
       {
         "prompt": "Choose the correct sentence.",
@@ -1444,9 +1338,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "She doesn't drive.",
           "She don't drive.",
           "She doesn't drives."
-        ],
-        "correct": 0,
-        "explanation": "doesn't با فعل پایه drive می‌آید."
+        ]
       },
       {
         "prompt": "They ___ live here.",
@@ -1454,9 +1346,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "don't",
           "doesn't",
           "isn't"
-        ],
-        "correct": 0,
-        "explanation": "با they از don't استفاده می‌شود."
+        ]
       }
     ]
   },
@@ -1513,9 +1403,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Do",
           "Does",
           "Are"
-        ],
-        "correct": 0,
-        "explanation": "با you از do استفاده می‌شود."
+        ]
       },
       {
         "prompt": "___ he work here?",
@@ -1523,9 +1411,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Do",
           "Does",
           "Is"
-        ],
-        "correct": 1,
-        "explanation": "با he از does استفاده می‌شود."
+        ]
       },
       {
         "prompt": "Choose the correct question.",
@@ -1533,9 +1419,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Does she play tennis?",
           "Does she plays tennis?",
           "Do she play tennis?"
-        ],
-        "correct": 0,
-        "explanation": "پس از does، فعل ساده play می‌آید."
+        ]
       },
       {
         "prompt": "Short answer: Do they study? — Yes, ___.",
@@ -1543,9 +1427,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "they do",
           "they does",
           "they are"
-        ],
-        "correct": 0,
-        "explanation": "پاسخ کوتاه do با فاعل they به صورت they do است."
+        ]
       },
       {
         "prompt": "Which auxiliary is used with we?",
@@ -1553,9 +1435,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "do",
           "does",
           "is"
-        ],
-        "correct": 0,
-        "explanation": "we با do می‌آید."
+        ]
       }
     ]
   },
@@ -1612,9 +1492,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "What time",
           "Where",
           "Who"
-        ],
-        "correct": 0,
-        "explanation": "برای پرسیدن ساعت از what time استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "How often asks about…",
@@ -1622,9 +1500,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "frequency",
           "location",
           "person"
-        ],
-        "correct": 0,
-        "explanation": "How often درباره دفعات تکرار است."
+        ]
       },
       {
         "prompt": "Choose the correct question.",
@@ -1632,9 +1508,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Where does she live?",
           "Where do she live?",
           "Where she does live?"
-        ],
-        "correct": 0,
-        "explanation": "با she از does استفاده می‌شود."
+        ]
       },
       {
         "prompt": "What is a suitable answer to Where do you work?",
@@ -1642,9 +1516,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "In a shop.",
           "At seven.",
           "Twice a week."
-        ],
-        "correct": 0,
-        "explanation": "Where درباره مکان است؛ In a shop پاسخ مکانی است."
+        ]
       },
       {
         "prompt": "Complete: How often ___ they play?",
@@ -1652,9 +1524,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "do",
           "does",
           "are"
-        ],
-        "correct": 0,
-        "explanation": "با they از do استفاده می‌شود."
+        ]
       }
     ]
   },
@@ -1711,9 +1581,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "is",
           "are",
           "am"
-        ],
-        "correct": 0,
-        "explanation": "با he از is استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "They are ___ football.",
@@ -1721,9 +1589,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "playing",
           "play",
           "plays"
-        ],
-        "correct": 0,
-        "explanation": "پس از are در حال استمراری فعل ingدار می‌آید."
+        ]
       },
       {
         "prompt": "Choose the correct question.",
@@ -1731,9 +1597,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Are you working?",
           "Do you working?",
           "Are you work?"
-        ],
-        "correct": 0,
-        "explanation": "در سؤال حال استمراری، are پیش از فاعل می‌آید."
+        ]
       },
       {
         "prompt": "Which time word often signals present continuous?",
@@ -1741,9 +1605,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "now",
           "every day",
           "usually"
-        ],
-        "correct": 0,
-        "explanation": "now یعنی اکنون و می‌تواند نشانه حال استمراری باشد."
+        ]
       },
       {
         "prompt": "I ___ not listening.",
@@ -1751,9 +1613,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "am",
           "is",
           "are"
-        ],
-        "correct": 0,
-        "explanation": "با I از am استفاده می‌کنیم."
+        ]
       }
     ]
   },
@@ -1810,9 +1670,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "me",
           "I",
           "my"
-        ],
-        "correct": 0,
-        "explanation": "پس از help به ضمیر مفعولی me نیاز داریم."
+        ]
       },
       {
         "prompt": "I can see Ali. I can see ___.",
@@ -1820,9 +1678,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "him",
           "he",
           "his"
-        ],
-        "correct": 0,
-        "explanation": "برای مفعول مذکر از him استفاده می‌شود."
+        ]
       },
       {
         "prompt": "This is Sara. I know ___.",
@@ -1830,9 +1686,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "her",
           "she",
           "hers"
-        ],
-        "correct": 0,
-        "explanation": "برای مفعول مؤنث از her استفاده می‌شود."
+        ]
       },
       {
         "prompt": "Which is an object pronoun?",
@@ -1840,9 +1694,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "them",
           "they",
           "their"
-        ],
-        "correct": 0,
-        "explanation": "them ضمیر مفعولی است."
+        ]
       },
       {
         "prompt": "Talk to ___.",
@@ -1850,9 +1702,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "us",
           "we",
           "our"
-        ],
-        "correct": 0,
-        "explanation": "پس از حرف اضافه to ضمیر مفعولی us می‌آید."
+        ]
       }
     ]
   },
@@ -1909,9 +1759,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "at",
           "on",
           "in"
-        ],
-        "correct": 0,
-        "explanation": "برای ساعت دقیق از at استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "We have English ___ Monday.",
@@ -1919,9 +1767,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "on",
           "at",
           "in"
-        ],
-        "correct": 0,
-        "explanation": "برای روز هفته از on استفاده می‌شود."
+        ]
       },
       {
         "prompt": "My birthday is ___ December.",
@@ -1929,9 +1775,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "in",
           "on",
           "at"
-        ],
-        "correct": 0,
-        "explanation": "برای ماه از in استفاده می‌شود."
+        ]
       },
       {
         "prompt": "Which phrase is correct?",
@@ -1939,9 +1783,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "at night",
           "in night",
           "on night"
-        ],
-        "correct": 0,
-        "explanation": "at night ترکیب رایج و درست است."
+        ]
       },
       {
         "prompt": "The date is ___ 12 May.",
@@ -1949,9 +1791,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "on",
           "in",
           "at"
-        ],
-        "correct": 0,
-        "explanation": "برای تاریخ مشخص از on استفاده می‌کنیم."
+        ]
       }
     ]
   },
@@ -2008,9 +1848,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "water",
           "apple",
           "egg"
-        ],
-        "correct": 0,
-        "explanation": "water معمولاً غیرقابل‌شمارش است."
+        ]
       },
       {
         "prompt": "Choose the correct phrase.",
@@ -2018,9 +1856,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "an apple",
           "a apple",
           "some apple (برای یک عدد)"
-        ],
-        "correct": 0,
-        "explanation": "apple با صدای واکه شروع می‌شود و مفرد قابل‌شمارش است؛ an apple."
+        ]
       },
       {
         "prompt": "Which is correct?",
@@ -2028,9 +1864,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "some rice",
           "a rice",
           "two rices"
-        ],
-        "correct": 0,
-        "explanation": "rice معمولاً غیرقابل‌شمارش است و با some می‌آید."
+        ]
       },
       {
         "prompt": "A ___ of water.",
@@ -2038,9 +1872,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "glass",
           "bread",
           "rice"
-        ],
-        "correct": 0,
-        "explanation": "برای اندازه آب می‌گوییم a glass of water."
+        ]
       },
       {
         "prompt": "Choose the plural countable noun.",
@@ -2048,9 +1880,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "three bananas",
           "three milk",
           "three bread"
-        ],
-        "correct": 0,
-        "explanation": "banana قابل‌شمارش است و جمع می‌شود."
+        ]
       }
     ]
   },
@@ -2107,9 +1937,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "I'd like a coffee, please.",
           "Give coffee.",
           "Coffee now."
-        ],
-        "correct": 0,
-        "explanation": "I'd like درخواست مؤدبانه است."
+        ]
       },
       {
         "prompt": "What does menu mean?",
@@ -2117,9 +1945,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "منو",
           "صورتحساب",
           "پیشخدمت"
-        ],
-        "correct": 0,
-        "explanation": "menu یعنی فهرست غذا و نوشیدنی."
+        ]
       },
       {
         "prompt": "How do you ask for the bill?",
@@ -2127,9 +1953,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Can I have the bill, please?",
           "Where is my food?",
           "How old is the bill?"
-        ],
-        "correct": 0,
-        "explanation": "برای درخواست صورتحساب از Can I have the bill? استفاده می‌شود."
+        ]
       },
       {
         "prompt": "Complete: I'd ___ a sandwich.",
@@ -2137,9 +1961,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "like",
           "likes",
           "liking"
-        ],
-        "correct": 0,
-        "explanation": "ساختار ثابت I'd like است."
+        ]
       },
       {
         "prompt": "What does please mean?",
@@ -2147,9 +1969,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "لطفاً",
           "متأسفم",
           "خداحافظ"
-        ],
-        "correct": 0,
-        "explanation": "please برای مؤدبانه کردن درخواست است."
+        ]
       }
     ]
   },
@@ -2206,9 +2026,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "is",
           "are",
           "do"
-        ],
-        "correct": 0,
-        "explanation": "shirt مفرد است؛ is می‌آید."
+        ]
       },
       {
         "prompt": "How much ___ these shoes?",
@@ -2216,9 +2034,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "are",
           "is",
           "does"
-        ],
-        "correct": 0,
-        "explanation": "shoes جمع است؛ are می‌آید."
+        ]
       },
       {
         "prompt": "What does expensive mean?",
@@ -2226,9 +2042,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "گران",
           "ارزان",
           "رایگان"
-        ],
-        "correct": 0,
-        "explanation": "expensive یعنی گران."
+        ]
       },
       {
         "prompt": "Which question asks to try clothes?",
@@ -2236,9 +2050,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Can I try it on?",
           "Where do you live?",
           "What time is it?"
-        ],
-        "correct": 0,
-        "explanation": "Can I try it on? یعنی می‌توانم آن را پرو کنم؟"
+        ]
       },
       {
         "prompt": "What is a size?",
@@ -2246,9 +2058,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "اندازه",
           "رنگ",
           "قیمت"
-        ],
-        "correct": 0,
-        "explanation": "size یعنی اندازه."
+        ]
       }
     ]
   },
@@ -2305,9 +2115,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "به چپ بپیچ",
           "به راست بپیچ",
           "مستقیم برو"
-        ],
-        "correct": 0,
-        "explanation": "turn left یعنی به چپ بپیچ."
+        ]
       },
       {
         "prompt": "Where can you catch a train?",
@@ -2315,9 +2123,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "station",
           "bank",
           "cafe"
-        ],
-        "correct": 0,
-        "explanation": "قطار را در station یا ایستگاه می‌گیریم."
+        ]
       },
       {
         "prompt": "Choose the correct direction.",
@@ -2325,9 +2131,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Go straight",
           "Goes straight",
           "Going straight"
-        ],
-        "correct": 0,
-        "explanation": "در دستور مستقیم فعل پایه می‌آید."
+        ]
       },
       {
         "prompt": "What does next to mean?",
@@ -2335,9 +2139,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "کنار",
           "داخل",
           "پشت"
-        ],
-        "correct": 0,
-        "explanation": "next to یعنی کنار."
+        ]
       },
       {
         "prompt": "Which phrase is polite to start asking directions?",
@@ -2345,9 +2147,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Excuse me",
           "Good night",
           "I'm hungry"
-        ],
-        "correct": 0,
-        "explanation": "Excuse me برای جلب توجه مؤدبانه است."
+        ]
       }
     ]
   },
@@ -2404,9 +2204,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "by",
           "on",
           "in"
-        ],
-        "correct": 0,
-        "explanation": "برای وسیله نقلیه از by train استفاده می‌شود."
+        ]
       },
       {
         "prompt": "What is a ticket?",
@@ -2414,9 +2212,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "بلیت",
           "چمدان",
           "نقشه"
-        ],
-        "correct": 0,
-        "explanation": "ticket یعنی بلیت."
+        ]
       },
       {
         "prompt": "Where do planes arrive?",
@@ -2424,9 +2220,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "airport",
           "station",
           "library"
-        ],
-        "correct": 0,
-        "explanation": "هواپیما در airport یا فرودگاه می‌آید."
+        ]
       },
       {
         "prompt": "Which phrase is correct?",
@@ -2434,9 +2228,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "on foot",
           "by foot",
           "in foot"
-        ],
-        "correct": 0,
-        "explanation": "عبارت درست on foot است."
+        ]
       },
       {
         "prompt": "Choose the transport.",
@@ -2444,9 +2236,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "bus",
           "cloudy",
           "hungry"
-        ],
-        "correct": 0,
-        "explanation": "bus وسیله حمل‌ونقل است."
+        ]
       }
     ]
   },
@@ -2503,9 +2293,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "ابری",
           "آفتابی",
           "بارانی"
-        ],
-        "correct": 0,
-        "explanation": "cloudy یعنی ابری."
+        ]
       },
       {
         "prompt": "Complete: It ___ hot today.",
@@ -2513,9 +2301,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "is",
           "are",
           "am"
-        ],
-        "correct": 0,
-        "explanation": "فاعل it با is می‌آید."
+        ]
       },
       {
         "prompt": "Which is a season?",
@@ -2523,9 +2309,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "spring",
           "Tuesday",
           "blue"
-        ],
-        "correct": 0,
-        "explanation": "spring بهار و یکی از فصل‌هاست."
+        ]
       },
       {
         "prompt": "Choose the correct phrase.",
@@ -2533,9 +2317,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "in winter",
           "on winter",
           "at winter"
-        ],
-        "correct": 0,
-        "explanation": "برای فصل‌ها از in استفاده می‌کنیم."
+        ]
       },
       {
         "prompt": "Which question asks about weather?",
@@ -2543,9 +2325,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "What's the weather like?",
           "Where are you from?",
           "How old are you?"
-        ],
-        "correct": 0,
-        "explanation": "این سؤال درباره وضعیت آب‌وهواست."
+        ]
       }
     ]
   },
@@ -2602,9 +2382,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "play",
           "plays",
           "playing"
-        ],
-        "correct": 0,
-        "explanation": "پس از Let's فعل پایه می‌آید."
+        ]
       },
       {
         "prompt": "Choose a polite invitation.",
@@ -2612,9 +2390,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Would you like to join us?",
           "Join us now!",
           "You joining?"
-        ],
-        "correct": 0,
-        "explanation": "Would you like ...? دعوت مؤدبانه است."
+        ]
       },
       {
         "prompt": "What is a positive response?",
@@ -2622,9 +2398,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "That sounds great!",
           "No, never.",
           "I don't know you."
-        ],
-        "correct": 0,
-        "explanation": "That sounds great پذیرش مثبت دعوت است."
+        ]
       },
       {
         "prompt": "Complete: Would you like ___ come?",
@@ -2632,9 +2406,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "to",
           "for",
           "at"
-        ],
-        "correct": 0,
-        "explanation": "ساختار would like to + فعل است."
+        ]
       },
       {
         "prompt": "Which phrase politely refuses?",
@@ -2642,9 +2414,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Sorry, I can't.",
           "Yes, of course.",
           "Thank you very much."
-        ],
-        "correct": 0,
-        "explanation": "Sorry, I can't رد مؤدبانه است."
+        ]
       }
     ]
   },
@@ -2701,9 +2471,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Excuse me",
           "You're welcome",
           "Good night"
-        ],
-        "correct": 0,
-        "explanation": "Excuse me برای جلب توجه مؤدبانه است."
+        ]
       },
       {
         "prompt": "Complete: Can you help ___?",
@@ -2711,9 +2479,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "me",
           "I",
           "my"
-        ],
-        "correct": 0,
-        "explanation": "بعد از help ضمیر مفعولی me می‌آید."
+        ]
       },
       {
         "prompt": "What do you say after someone helps you?",
@@ -2721,9 +2487,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Thank you",
           "Excuse me",
           "Good morning"
-        ],
-        "correct": 0,
-        "explanation": "برای قدردانی می‌گوییم Thank you."
+        ]
       },
       {
         "prompt": "What does You're welcome mean?",
@@ -2731,9 +2495,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "خواهش می‌کنم",
           "ببخشید",
           "خداحافظ"
-        ],
-        "correct": 0,
-        "explanation": "You're welcome پاسخ رایج به تشکر است."
+        ]
       },
       {
         "prompt": "Choose the polite request.",
@@ -2741,9 +2503,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Could you repeat that, please?",
           "Repeat it!",
           "You repeat."
-        ],
-        "correct": 0,
-        "explanation": "Could you ... please? درخواست مؤدبانه است."
+        ]
       }
     ]
   },
@@ -2800,9 +2560,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "My name is Ali.",
           "My name Ali.",
           "I name is Ali."
-        ],
-        "correct": 0,
-        "explanation": "ساختار معرفی نام My name is است."
+        ]
       },
       {
         "prompt": "She ___ to school every day.",
@@ -2810,9 +2568,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "goes",
           "go",
           "going"
-        ],
-        "correct": 0,
-        "explanation": "در حال ساده با she به فعل s اضافه می‌شود."
+        ]
       },
       {
         "prompt": "There ___ two books.",
@@ -2820,9 +2576,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "are",
           "is",
           "am"
-        ],
-        "correct": 0,
-        "explanation": "برای اسم جمع از there are استفاده می‌شود."
+        ]
       },
       {
         "prompt": "How do you order politely?",
@@ -2830,9 +2584,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "I'd like a sandwich, please.",
           "Give sandwich.",
           "I sandwich."
-        ],
-        "correct": 0,
-        "explanation": "I'd like درخواست مؤدبانه برای سفارش است."
+        ]
       },
       {
         "prompt": "Which phrase asks for a place?",
@@ -2840,9 +2592,7 @@ export const lessonContent: Record<number, LessonContent> = {
           "Where is the station?",
           "How old are you?",
           "What is your name?"
-        ],
-        "correct": 0,
-        "explanation": "where درباره مکان سؤال می‌کند."
+        ]
       }
     ]
   }
