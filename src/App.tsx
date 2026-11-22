@@ -400,16 +400,38 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
 
 
 type LirtoMessage = { role: "assistant" | "user"; text: string };
+type LirtoQuota = { is_vip: boolean; used: number; limit: number | null; remaining: number | null; allowed: boolean };
 
-function LirtoAssistant() {
+function LirtoAssistant({ onUpgrade }: { onUpgrade: () => void }) {
   const [messages, setMessages] = useState<LirtoMessage[]>([
     { role: "assistant", text: "سلام! من LIRTO هستم؛ همراه هوشمندت برای یادگیری زبان انگلیسی. ✨" }
   ]);
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [quota, setQuota] = useState<LirtoQuota | null>(null);
+  const [quotaModalOpen, setQuotaModalOpen] = useState(false);
+  const quotaExhausted = Boolean(quota && !quota.is_vip && (quota.remaining ?? 0) <= 0);
+
+  useEffect(() => {
+    let active = true;
+    if (!supabase) return;
+    void (async () => {
+      const { data, error } = await supabase.rpc("get_lirto_daily_usage");
+      if (!active) return;
+      if (error) {
+        console.error("Could not load LIRTO daily quota:", error);
+        return;
+      }
+      const currentQuota = data as LirtoQuota;
+      setQuota(currentQuota);
+      if (!currentQuota.is_vip && currentQuota.used >= 3) setQuotaModalOpen(true);
+    })();
+    return () => { active = false; };
+  }, []);
+
   const sendMessage = async () => {
     const value = draft.trim();
-    if (!value || isSending) return;
+    if (!value || isSending || quotaExhausted) return;
     if (!supabase) {
       setMessages(current => [...current, { role: "user", text: value }, { role: "assistant", text: "اتصال حساب کاربری برقرار نیست. لطفاً صفحه را تازه‌سازی کن و دوباره وارد شو." }]);
       setDraft("");
@@ -429,10 +451,20 @@ function LirtoAssistant() {
         }
       });
       if (error) throw error;
+
+      if (data?.usage) setQuota(data.usage as LirtoQuota);
+      if (data?.limit_reached) {
+        setQuotaModalOpen(true);
+        return;
+      }
       if (typeof data?.reply !== "string" || !data.reply.trim()) {
         throw new Error(data?.error || "پاسخ معتبری دریافت نشد.");
       }
       setMessages(current => [...current, { role: "assistant", text: data.reply }]);
+      const updatedQuota = data?.usage as LirtoQuota | undefined;
+      if (updatedQuota && !updatedQuota.is_vip && updatedQuota.used >= 3) {
+        setQuotaModalOpen(true);
+      }
     } catch (error) {
       console.error("LIRTO request failed:", error);
       const message = error instanceof Error ? error.message : "";
@@ -446,6 +478,7 @@ function LirtoAssistant() {
       setIsSending(false);
     }
   };
+
   return <section className="lirto-shell" aria-label="دستیار LIRTO">
     <header className="lirto-header">
       <div className="lirto-brand">
@@ -463,13 +496,34 @@ function LirtoAssistant() {
       {isSending && <div className="lirto-message assistant"><span className="lirto-message-avatar"><Bot size={15}/></span><p>دارم فکر می‌کنم... ✨</p></div>}
     </div>
     <div className="lirto-suggestions"><span>شروع سریع:</span>
-      {["چطور انگلیسی سلام کنم؟","گرامر حال ساده رو توضیح بده","با من انگلیسی مکالمه کن"].map(item => <button key={item} type="button" disabled={isSending} onClick={() => setDraft(item)}>{item}</button>)}
+      {["چطور انگلیسی سلام کنم؟","گرامر حال ساده رو توضیح بده","با من انگلیسی مکالمه کن"].map(item => <button key={item} type="button" disabled={isSending || quotaExhausted} onClick={() => setDraft(item)}>{item}</button>)}
+    </div>
+    <div className="lirto-quota-status" aria-live="polite">
+      {quota?.is_vip
+        ? <><Crown size={14}/> دسترسی VIP · بدون محدودیت پیام</>
+        : quota
+          ? <><ShieldCheck size={14}/> سهمیه امروز: {quota.used} از ۳ پیام</>
+          : <><ShieldCheck size={14}/> در حال بررسی سهمیه روزانه…</>}
     </div>
     <form className="lirto-composer" onSubmit={event => { event.preventDefault(); void sendMessage(); }}>
-      <input value={draft} onChange={event => setDraft(event.target.value)} placeholder="پیامت رو برای LIRTO بنویس..." aria-label="پیام به LIRTO" maxLength={1200} disabled={isSending}/>
-      <button type="submit" disabled={!draft.trim() || isSending} aria-label="ارسال پیام"><Send size={17}/></button>
+      <input value={draft} onChange={event => setDraft(event.target.value)} placeholder={quotaExhausted ? "سهمیه امروزت تمام شده است." : "پیامت رو برای LIRTO بنویس..."} aria-label="پیام به LIRTO" maxLength={1200} disabled={isSending || quotaExhausted}/>
+      <button type="submit" disabled={!draft.trim() || isSending || quotaExhausted} aria-label="ارسال پیام"><Send size={17}/></button>
     </form>
+    {quotaExhausted && <button className="lirto-quota-upgrade-inline" type="button" onClick={onUpgrade}><Crown size={16}/> مشاهده پلن VIP و ارتقاء حساب</button>}
     <div className="lirto-footnote"><ShieldCheck size={13}/> اتصال امن به موتور هوش مصنوعی Groq</div>
+
+    {quotaModalOpen && quotaExhausted && <div className="lirto-quota-overlay" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setQuotaModalOpen(false); }}>
+      <section className="lirto-quota-dialog" role="dialog" aria-modal="true" aria-labelledby="lirto-quota-title">
+        <button className="lirto-quota-close" type="button" onClick={() => setQuotaModalOpen(false)} aria-label="بستن پیام"><X size={19}/></button>
+        <span className="lirto-quota-crown"><Crown size={27}/></span>
+        <span className="lirto-quota-eyebrow">LIR9 · VIP</span>
+        <h3 id="lirto-quota-title">شما سهمیه‌ی خود را مصرف کرده‌اید!</h3>
+        <p>سهمیه رایگان امروز شما به پایان رسیده است. برای استفاده نامحدود از دستیار، پلن خود را ارتقاء دهید.</p>
+        <button className="lirto-quota-upgrade" type="button" onClick={onUpgrade}>مشاهده پلن VIP <Crown size={17}/></button>
+        <button className="lirto-quota-later" type="button" onClick={() => setQuotaModalOpen(false)}>فعلاً نه</button>
+        <small>سهمیه رایگان با شروع روز جدید دوباره فعال می‌شود.</small>
+      </section>
+    </div>}
   </section>;
 }
 
@@ -956,7 +1010,7 @@ function App() {
           <A1FinalAssessment unlocked={completed.length === lessons.length} result={a1FinalResult} onResultChange={result => { setA1FinalResult(result); try { localStorage.setItem("lir9-a1-final-result", JSON.stringify(result)); } catch { /* local storage may be unavailable */ } }}/>
         </>}{tab === "library" && <ContentLibrary listeningCompleted={listeningCompleted} listeningScores={listeningScores} onListeningProgressChange={(nextCompleted, nextScores) => { setListeningCompleted(nextCompleted); setListeningScores(nextScores); writeStore("lir9-listening-completed", nextCompleted); try { localStorage.setItem("lir9-listening-scores", JSON.stringify(nextScores)); } catch { /* local storage may be unavailable */ } }}/>}
         {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
-        {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant/></>}
+        {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant onUpgrade={() => go("vip")}/></>}
         {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><button className="vip-activate-button" onClick={()=>setNotice("درگاه پرداخت هنوز به LIR9 متصل نشده است؛ فعلاً امکان خرید واقعی وجود ندارد.")}>فعال‌سازی اشتراک VIP <Crown size={17}/></button><span className="vip-secure-note"><ShieldCheck size={14}/> پرداخت آنلاین پس از راه‌اندازی درگاه فعال می‌شود.</span></article></section>}
         {tab === "about" && <section className="about-page"><div className="page-intro"><span className="section-kicker">درباره ما</span><h1>یادگیری، قدم‌به‌قدم</h1><p>به LIR9 خوش آمدی؛ فضایی برای یادگیری اصولی زبان انگلیسی، از پایه تا سطح پیشرفته.</p></div><article className="about-card"><div className="about-mark">L</div><h2><bdi dir="ltr">LIR9</bdi>؛ همراه مسیر یادگیری تو</h2><p>LIR9 با هدف ساده‌تر، منظم‌تر و کاربردی‌تر کردن یادگیری زبان انگلیسی ساخته شده است. در این مسیر، آموزش مرحله‌به‌مرحله، تمرین، مرور و سنجش پیشرفت کنار هم قرار می‌گیرند تا بتوانی با برنامه و آگاهی جلو بروی.</p><div className="about-values"><div><BookOpen size={19}/><b>آموزش ساختارمند</b><span>یادگیری مفاهیم در مسیر مشخص و سطح‌بندی‌شده</span></div><div><Target size={19}/><b>تمرین و پیشرفت</b><span>تمرین آموخته‌ها و پیگیری مسیر آموزشی</span></div><div><Sparkles size={19}/><b>یادگیری پیوسته</b><span>هر روز یک قدم نزدیک‌تر به تسلط بیشتر</span></div></div><button className="primary-button" onClick={() => go("learn")}>ادامه یادگیری <ArrowRight size={16}/></button></article></section>}
         {tab === "account" && <section className="account-page">
