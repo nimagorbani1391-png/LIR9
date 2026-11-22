@@ -1700,7 +1700,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 
 
 /* VIP access gate for the content library */
-.library-vip-overlay{z-index:120}
+.library-vip-overlay{z-index:99999;position:fixed;inset:0;display:grid;place-items:center;visibility:visible;opacity:1;pointer-events:auto}
 .library-vip-dialog{max-width:440px}
 .library-mode-switch button svg{flex-shrink:0}
 .library-card:not(:disabled){position:relative}
