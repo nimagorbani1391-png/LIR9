@@ -74,10 +74,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "How are you? را با What are you? اشتباه نگیر. اولی درباره حال شخص است؛ دومی در این موقعیت پرسش طبیعی و درستی نیست.",
     practiceTip: "مکالمه را با صدای بلند دو بار بخوان؛ بار دوم جای Sara را با نام یک دوست عوض کن.",
     questions: [
-      { prompt: "برای پرسیدن حال دوستت کدام عبارت درست است؟", options: ["How are you?", "What is your name?", "Where are you from?"] },
-      { prompt: "کدام پاسخ برای «How are you?» طبیعی است؟", options: ["I'm fine, thanks.", "My name is Ali.", "I'm from Iran."] },
-      { prompt: "کدام گزینه لحن دوستانه‌تری برای سلام دارد؟", options: ["Hi!", "Goodbye!", "Sorry!"] },
-    {"prompt":"اگر دوستت بگوید How are you? کدام پاسخ مناسب است؟","options":["I'm good, thanks.","I'm from Iran.","My name is Ali."]},{"prompt":"برای خداحافظی کدام عبارت مناسب است؟","options":["Goodbye!","Hello!","Nice to meet you."]}]
+      { prompt: "برای پرسیدن حال دوستت کدام عبارت درست است؟", options: ["What is your name?","Where are you from?","How are you?"] },
+      { prompt: "کدام پاسخ برای «How are you?» طبیعی است؟", options: ["I'm from Iran.","I'm fine, thanks.","My name is Ali."] },
+      { prompt: "کدام گزینه لحن دوستانه‌تری برای سلام دارد؟", options: ["Hi!","Goodbye!","Sorry!"] },
+    {"prompt":"اگر دوستت بگوید How are you? کدام پاسخ مناسب است؟",options: ["I'm from Iran.","My name is Ali.","I'm good, thanks."]},{"prompt":"برای خداحافظی کدام عبارت مناسب است؟",options: ["Nice to meet you.","Goodbye!","Hello!"]}]
   },
   2: {
     concept: "برای معرفی نام، دو الگوی بسیار رایج داریم: My name is + name و I'm + name. هر دو درست‌اند؛ دومی کوتاه‌تر و محاوره‌ای‌تر است.",
@@ -97,10 +97,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "نگو My name Nima؛ در این ساختار فعل is لازم است: My name is Nima. اما در الگوی کوتاه می‌گویی I'm Nima.",
     practiceTip: "نام خودت را در هر دو الگو بگو و سپس یک بار سؤال What's your name? را تمرین کن.",
     questions: [
-      { prompt: "کدام جمله کامل و درست است؟", options: ["My name Ali.", "My name is Ali.", "I name is Ali."] },
-      { prompt: "شکل کوتاه I am کدام است؟", options: ["I'm", "Is", "My"] },
-      { prompt: "برای گفتن «من هم از آشنایی با تو خوشحالم» چه می‌گویی؟", options: ["Nice to meet you, too.", "How are you?", "Good night."] },
-    {"prompt":"جای خالی را کامل کن: ___ name is Mina.","options":["My","I","Me"]},{"prompt":"پس از معرفی، کدام عبارت مؤدبانه است؟","options":["Nice to meet you.","Where are you from?","How old are you?"]}]
+      { prompt: "کدام جمله کامل و درست است؟", options: ["I name is Ali.","My name Ali.","My name is Ali."] },
+      { prompt: "شکل کوتاه I am کدام است؟", options: ["I'm","Is","My"] },
+      { prompt: "برای گفتن «من هم از آشنایی با تو خوشحالم» چه می‌گویی؟", options: ["How are you?","Good night.","Nice to meet you, too."] },
+    {"prompt":"جای خالی را کامل کن: ___ name is Mina.",options: ["Me","My","I"]},{"prompt":"پس از معرفی، کدام عبارت مؤدبانه است؟",options: ["Nice to meet you.","Where are you from?","How old are you?"]}]
   },
   3: {
     concept: "برای گفتن اینکه اهل کجا هستی، از ساختار be + from + place استفاده می‌کنیم. در جمله ساده I am به شکل کوتاه I'm نوشته و گفته می‌شود.",
@@ -119,10 +119,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "I'm in Iran و I'm from Iran یک معنی ندارند: اولی می‌گوید الان در ایران هستم؛ دومی می‌گوید اهل ایرانم.",
     practiceTip: "جمله I'm from ... را با نام سه کشور یا شهر مختلف تمرین کن؛ سپس سؤال Where are you from? را با صدای بلند بپرس.",
     questions: [
-      { prompt: "جای خالی را کامل کن: I'm ___ Iran.", options: ["from", "at", "are"] },
-      { prompt: "معنی Where are you from? چیست؟", options: ["چند سالته؟", "اهل کجا هستی؟", "حالت چطوره؟"] },
-      { prompt: "کدام جمله می‌گوید «او (مذکر) اهل اسپانیاست»؟", options: ["He is from Spain.", "He are from Spain.", "He from Spain."] },
-    {"prompt":"اگر کسی بپرسد Where are you from? درباره چه چیزی می‌پرسد؟","options":["محل مبدأ یا زادگاه","مکان فعلی","سن"]},{"prompt":"کدام جمله می‌گوید «من الان در خانه هستم»؟","options":["I'm at home.","I'm from home.","I home am."]}]
+      { prompt: "جای خالی را کامل کن: I'm ___ Iran.", options: ["from","at","are"] },
+      { prompt: "معنی Where are you from? چیست؟", options: ["اهل کجا هستی؟","حالت چطوره؟","چند سالته؟"] },
+      { prompt: "کدام جمله می‌گوید «او (مذکر) اهل اسپانیاست»؟", options: ["He from Spain.","He is from Spain.","He are from Spain."] },
+    {"prompt":"اگر کسی بپرسد Where are you from? درباره چه چیزی می‌پرسد؟",options: ["محل مبدأ یا زادگاه","مکان فعلی","سن"]},{"prompt":"کدام جمله می‌گوید «من الان در خانه هستم»؟",options: ["I'm from home.","I home am.","I'm at home."]}]
   },
   4: {
     concept: "ضمیر فاعلی جای نام شخص یا گروه را می‌گیرد و معمولاً پیش از فعل قرار می‌گیرد. انتخاب ضمیر به شخص و تعداد بستگی دارد.",
@@ -142,10 +142,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "برای he و she از are استفاده نکن. شکل درست He is و She is است؛ اما با you و they از are استفاده می‌کنیم.",
     practiceTip: "به سه نفر یا سه شیء اطرافت اشاره کن و برای هرکدام یک جمله با he، she، it یا they بساز.",
     questions: [
-      { prompt: "برای اشاره به یک مرد از کدام ضمیر استفاده می‌کنیم؟", options: ["She", "He", "They"] },
-      { prompt: "جای خالی را کامل کن: They ___ my friends.", options: ["am", "is", "are"] },
-      { prompt: "کدام گزینه برای «ما» است؟", options: ["We", "You", "It"] },
-    {"prompt":"جای خالی را کامل کن: My parents ___ at home.","options":["are","is","am"]},{"prompt":"برای یک گربه در جمله ساده از کدام ضمیر استفاده می‌کنیم؟","options":["It","He","We"]}]
+      { prompt: "برای اشاره به یک مرد از کدام ضمیر استفاده می‌کنیم؟", options: ["He","They","She"] },
+      { prompt: "جای خالی را کامل کن: They ___ my friends.", options: ["are","am","is"] },
+      { prompt: "کدام گزینه برای «ما» است؟", options: ["We","You","It"] },
+    {"prompt":"جای خالی را کامل کن: My parents ___ at home.",options: ["is","am","are"]},{"prompt":"برای یک گربه در جمله ساده از کدام ضمیر استفاده می‌کنیم؟",options: ["We","It","He"]}]
   },
   5: {
     concept: "عددها برای بیان تعداد، سن، شماره و قیمت در مکالمه‌های روزمره لازم‌اند. در این درس روی چند عدد پایه و تفاوت شکل نوشتاری آن‌ها تمرکز می‌کنیم.",
@@ -164,10 +164,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "عدد thirteen به معنی سیزده است و thirty به معنی سی؛ این دو را با هم اشتباه نگیر.",
     practiceTip: "از یک تا بیست بشمار و سپس تعداد سه وسیله اطرافت را به انگلیسی بگو.",
     questions: [
-      { prompt: "کدام واژه به معنی دوازده است؟", options: ["Twelve", "Twenty", "Two"] },
-      { prompt: "عدد پنج کدام است؟", options: ["Five", "Fifteen", "Four"] },
-      { prompt: "جای خالی را کامل کن: I have ___ books. (۱۰)", options: ["ten", "one", "three"] },
-    {"prompt":"عدد ۱۳ کدام است؟","options":["Thirteen","Thirty","Three"]},{"prompt":"جمله «دو مداد دارم» کدام است؟","options":["I have two pencils.","I has two pencil.","I have a pencils."]}]
+      { prompt: "کدام واژه به معنی دوازده است؟", options: ["Two","Twelve","Twenty"] },
+      { prompt: "عدد پنج کدام است؟", options: ["Five","Fifteen","Four"] },
+      { prompt: "جای خالی را کامل کن: I have ___ books. (۱۰)", options: ["one","three","ten"] },
+    {"prompt":"عدد ۱۳ کدام است؟",options: ["Three","Thirteen","Thirty"]},{"prompt":"جمله «دو مداد دارم» کدام است؟",options: ["I have two pencils.","I has two pencil.","I have a pencils."]}]
   },
   6: {
     concept: "برای صحبت درباره خانواده، نام اعضا را یاد می‌گیریم و آن‌ها را با ساختارهای ساده معرفی می‌کنیم.",
@@ -187,10 +187,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "mother و father را با هم جابه‌جا نکن؛ mother مادر و father پدر است. برای برادر از brother استفاده می‌کنیم.",
     practiceTip: "سه عضو خانواده را با الگوی This is my ... معرفی کن.",
     questions: [
-      { prompt: "معنی sister چیست؟", options: ["خواهر", "مادر", "برادر"] },
-      { prompt: "جای خالی را کامل کن: This is ___ mother.", options: ["my", "I", "me"] },
-      { prompt: "کدام جمله می‌گوید «او پدر من است»؟", options: ["He is my father.", "She is my sister.", "I am a student."] },
-    {"prompt":"معنی uncle چیست؟","options":["عمو / دایی","خواهر","پدربزرگ"]},{"prompt":"کدام جمله معرفی درست است؟","options":["This is my brother.","This my brother is.","This are my brother."]}]
+      { prompt: "معنی sister چیست؟", options: ["خواهر","مادر","برادر"] },
+      { prompt: "جای خالی را کامل کن: This is ___ mother.", options: ["I","me","my"] },
+      { prompt: "کدام جمله می‌گوید «او پدر من است»؟", options: ["I am a student.","He is my father.","She is my sister."] },
+    {"prompt":"معنی uncle چیست؟",options: ["عمو / دایی","خواهر","پدربزرگ"]},{"prompt":"کدام جمله معرفی درست است؟",options: ["This my brother is.","This are my brother.","This is my brother."]}]
   },
   7: {
     concept: "برای معرفی شغل افراد از نام شغل همراه فعل be استفاده می‌کنیم. در این درس چند شغل رایج و ساختار جمله را می‌آموزی.",
@@ -209,10 +209,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "در جمله معرفی شغل مفرد، حرف تعریف را فراموش نکن: She is teacher نادرست است؛ She is a teacher درست است.",
     practiceTip: "با سه شغل این درس جمله بساز: I am a ... / He is a ... / She is a ...",
     questions: [
-      { prompt: "معنی doctor چیست؟", options: ["پزشک", "معلم", "دانش‌آموز"] },
-      { prompt: "کدام جمله درست است؟", options: ["She is a teacher.", "She are a teacher.", "She is teacher."] },
-      { prompt: "کدام واژه به معنی دانش‌آموز یا دانشجو است؟", options: ["Student", "Doctor", "Father"] },
-    {"prompt":"کدام گزینه به معنی «او مهندس است» می‌باشد؟","options":["He is an engineer.","He is a engineer.","He are an engineer."]},{"prompt":"برای پرسیدن شغل یک نفر کدام سؤال طبیعی است؟","options":["What do you do?","Where do you do?","How do you job?"]}]
+      { prompt: "معنی doctor چیست؟", options: ["معلم","دانش‌آموز","پزشک"] },
+      { prompt: "کدام جمله درست است؟", options: ["She is teacher.","She is a teacher.","She are a teacher."] },
+      { prompt: "کدام واژه به معنی دانش‌آموز یا دانشجو است؟", options: ["Student","Doctor","Father"] },
+    {"prompt":"کدام گزینه به معنی «او مهندس است» می‌باشد؟",options: ["He is a engineer.","He are an engineer.","He is an engineer."]},{"prompt":"برای پرسیدن شغل یک نفر کدام سؤال طبیعی است؟",options: ["How do you job?","What do you do?","Where do you do?"]}]
   },
   8: {
     concept: "a و an هر دو معنی «یک» می‌دهند و پیش از اسم مفرد قابل‌شمارش می‌آیند. انتخاب میان آن‌ها به صدای آغازین واژه بعدی بستگی دارد.",
@@ -231,10 +231,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "an book نادرست است؛ چون book با صدای همخوان آغاز می‌شود، باید بگویی a book.",
     practiceTip: "پنج اسم انگلیسی اطرافت پیدا کن و قبل از هرکدام a یا an بگذار.",
     questions: [
-      { prompt: "کدام عبارت درست است؟", options: ["an apple", "a apple", "an book"] },
-      { prompt: "پیش از book از چه چیزی استفاده می‌کنیم؟", options: ["a", "an", "are"] },
-      { prompt: "کدام جمله درست است؟", options: ["It is an egg.", "It is a egg.", "It an egg."] },
-    {"prompt":"کدام گزینه بر اساس صدا درست است؟","options":["an hour","a hour","an university"]},{"prompt":"کدام مورد اسم مفرد قابل‌شمارش است؟","options":["an egg","water","music"]}]
+      { prompt: "کدام عبارت درست است؟", options: ["an book","an apple","a apple"] },
+      { prompt: "پیش از book از چه چیزی استفاده می‌کنیم؟", options: ["a","an","are"] },
+      { prompt: "کدام جمله درست است؟", options: ["It is a egg.","It an egg.","It is an egg."] },
+    {"prompt":"کدام گزینه بر اساس صدا درست است؟",options: ["an university","an hour","a hour"]},{"prompt":"کدام مورد اسم مفرد قابل‌شمارش است؟",options: ["an egg","water","music"]}]
   },
   9: {
     concept: "this و that برای اشاره به یک شخص یا چیز به کار می‌روند. تفاوت اصلی آن‌ها فاصله است: this نزدیک و that دور.",
@@ -254,10 +254,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "برای یک چیز نزدیک از this و برای یک چیز دور از that استفاده کن؛ these شکل جمع this است و در این درس موضوع اصلی ما نیست.",
     practiceTip: "به یک وسیله نزدیک و یک وسیله دور اشاره کن و برای هرکدام جمله بساز.",
     questions: [
-      { prompt: "برای اشاره به یک چیز نزدیک کدام واژه مناسب است؟", options: ["This", "That", "Those"] },
-      { prompt: "معنی That is my bag چیست؟", options: ["آن کیف من است.", "این کیف من است.", "کیف من کجاست؟"] },
-      { prompt: "شکل کوتاه That is کدام است؟", options: ["That's", "This's", "Those"] },
-    {"prompt":"برای اشاره به چند چیز نزدیک کدام واژه درست است؟","options":["These","This","That"]},{"prompt":"کدام جمله برای چیزی دور درست است؟","options":["That is a bus.","This are a bus.","Those is a bus."]}]
+      { prompt: "برای اشاره به یک چیز نزدیک کدام واژه مناسب است؟", options: ["This","That","Those"] },
+      { prompt: "معنی That is my bag چیست؟", options: ["این کیف من است.","کیف من کجاست؟","آن کیف من است."] },
+      { prompt: "شکل کوتاه That is کدام است؟", options: ["Those","That's","This's"] },
+    {"prompt":"برای اشاره به چند چیز نزدیک کدام واژه درست است؟",options: ["These","This","That"]},{"prompt":"کدام جمله برای چیزی دور درست است؟",options: ["This are a bus.","Those is a bus.","That is a bus."]}]
   },
   10: {
     concept: "در انگلیسی بسیاری از اسم‌های قابل‌شمارش برای نشان دادن بیش از یکی، s می‌گیرند. این شکل را جمع می‌نامیم.",
@@ -276,10 +276,10 @@ export const lessonContent: Record<number, LessonContent> = {
     commonMistake: "برای دو یا چند مورد، اسم ساده مفرد را بدون تغییر نیاور: two book نادرست است؛ two books درست است.",
     practiceTip: "نام سه وسیله را یک بار مفرد و یک بار جمع بنویس؛ مثل pen/pens.",
     questions: [
-      { prompt: "جمع ساده book کدام است؟", options: ["books", "bookes", "book"] },
-      { prompt: "کدام عبارت درست است؟", options: ["two cats", "two cat", "two cates"] },
-      { prompt: "جمع بی‌قاعده child کدام است؟", options: ["childs", "children", "childes"] },
-    {"prompt":"جمع کلمه box کدام است؟","options":["boxes","boxs","boxies"]},{"prompt":"جمع بی‌قاعده child کدام است؟","options":["children","childs","childes"]}]
+      { prompt: "جمع ساده book کدام است؟", options: ["bookes","book","books"] },
+      { prompt: "کدام عبارت درست است؟", options: ["two cates","two cats","two cat"] },
+      { prompt: "جمع بی‌قاعده child کدام است؟", options: ["childs","children","childes"] },
+    {"prompt":"جمع کلمه box کدام است؟",options: ["boxs","boxies","boxes"]},{"prompt":"جمع بی‌قاعده child کدام است؟",options: ["childes","children","childs"]}]
   },
   11: {
     concept: "برای گفتن اینکه چیزی یا کسی این‌طور نیست، not را به فعل be اضافه می‌کنیم. در انگلیسی جای کلمه‌ها مهم است؛ پس به ترتیب فاعل، فعل و not دقت کن.",
@@ -288,7 +288,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Are you tired?",translation:"خسته‌ای؟"},{speaker:"B",line:"No, I'm not. I'm ready!",translation:"نه، خسته نیستم. آماده‌ام!"}],
     commonMistake:"نگو He not is tired. ترتیب درست He is not tired است؛ not بعد از فعل be قرار می‌گیرد.",
     practiceTip:"سه جمله درباره خودت بساز: یک جمله مثبت و یک جمله منفی درباره حالت، و یک جمله درباره دوستت.",
-    questions:[{prompt:"کدام جمله منفی درست است؟",options:["She isn't hungry.","She not is hungry.","She aren't hungry."]},{prompt:"معنی I'm not late چیست؟",options:["من دیر نکرده‌ام / دیر نیستم.","من خیلی خوشحالم.","من آماده‌ام."]},{prompt:"جای خالی را کامل کن: They ___ at home.",options:["aren't","isn't","am not"]},{"prompt":"جمله را منفی کن: She is happy.","options":["She isn't happy.","She not is happy.","She don't happy."]},{"prompt":"جای خالی را کامل کن: I ___ hungry.","options":["am not","isn't","aren't"]}]
+    questions:[{prompt:"کدام جمله منفی درست است؟",options: ["She aren't hungry.","She isn't hungry.","She not is hungry."]},{prompt:"معنی I'm not late چیست؟",options: ["من دیر نکرده‌ام / دیر نیستم.","من خیلی خوشحالم.","من آماده‌ام."]},{prompt:"جای خالی را کامل کن: They ___ at home.",options: ["isn't","am not","aren't"]},{"prompt":"جمله را منفی کن: She is happy.",options: ["She don't happy.","She isn't happy.","She not is happy."]},{"prompt":"جای خالی را کامل کن: I ___ hungry.",options: ["am not","isn't","aren't"]}]
   },
   12: {
     concept:"در سؤال‌های ساده با am/is/are، فعل را به ابتدای جمله می‌بریم. این تغییر ترتیب کمک می‌کند شنونده بفهمد سؤال می‌پرسیم.",
@@ -297,7 +297,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Are you in class?",translation:"در کلاس هستی؟"},{speaker:"B",line:"Yes, I am. Are you?",translation:"بله، هستم. تو چطور؟"}],
     commonMistake:"در سؤال نگو You are ready? در انگلیسی معیار مبتدی، شکل روشن و درست این است: Are you ready?",
     practiceTip:"از یک دوست سه سؤال بساز: Are you happy? Are you a student? Are you ready?",
-    questions:[{prompt:"کدام سؤال ترتیب درست دارد؟",options:["Is he your friend?","He is your friend?","Is your friend he?"]},{prompt:"پاسخ کوتاه مثبت به Are they ready? کدام است؟",options:["Yes, they are.","Yes, they is.","Yes, are they."]},{prompt:"کدام جمله یک سؤال بله/خیر است؟",options:["Are you okay?","You are okay.","You okay are."]},{"prompt":"کدام پاسخ کوتاه به Is he tired? درست است؟","options":["No, he isn't.","No, he don't.","No, isn't he."]},{"prompt":"کدام سؤال درباره مکان درست است؟","options":["Where are they?","Where they are?","Where is they?"]}]
+    questions:[{prompt:"کدام سؤال ترتیب درست دارد؟",options: ["Is he your friend?","He is your friend?","Is your friend he?"]},{prompt:"پاسخ کوتاه مثبت به Are they ready? کدام است؟",options: ["Yes, they is.","Yes, are they.","Yes, they are."]},{prompt:"کدام جمله یک سؤال بله/خیر است؟",options: ["You okay are.","Are you okay?","You are okay."]},{"prompt":"کدام پاسخ کوتاه به Is he tired? درست است؟",options: ["No, he isn't.","No, he don't.","No, isn't he."]},{"prompt":"کدام سؤال درباره مکان درست است؟",options: ["Where they are?","Where is they?","Where are they?"]}]
   },
   13: {
     concept:"برای اینکه معلوم شود یک چیز متعلق به چه کسی است، از کلمات مالکیت استفاده می‌کنیم. این کلمات قبل از اسم قرار می‌گیرند و جای اسم را نمی‌گیرند.",
@@ -306,7 +306,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Is this your notebook?",translation:"این دفتر توست؟"},{speaker:"B",line:"No, it's her notebook.",translation:"نه، دفتر اوست."}],
     commonMistake:"my با me فرق دارد. my قبل از اسم می‌آید (my book)، اما me شکل مفعولی ضمیر است.",
     practiceTip:"سه وسیله اطرافت را انتخاب کن و با my، your یا his/her معرفی کن.",
-    questions:[{prompt:"اگر وسیله متعلق به یک دختر باشد، کدام مناسب است؟",options:["her pencil","his pencil","I pencil"]},{prompt:"کدام عبارت یعنی «دفتر تو»؟",options:["your notebook","you notebook","yours notebook"]},{prompt:"جمله را کامل کن: Ali has a bike. It is ___ bike.",options:["his","her","my"]},{"prompt":"جای خالی را کامل کن: We love ___ school.","options":["our","we","us"]},{"prompt":"کدام عبارت یعنی «خانه آن‌ها»؟","options":["their house","they house","them house"]}]
+    questions:[{prompt:"اگر وسیله متعلق به یک دختر باشد، کدام مناسب است؟",options: ["his pencil","I pencil","her pencil"]},{prompt:"کدام عبارت یعنی «دفتر تو»؟",options: ["yours notebook","your notebook","you notebook"]},{prompt:"جمله را کامل کن: Ali has a bike. It is ___ bike.",options: ["his","her","my"]},{"prompt":"جای خالی را کامل کن: We love ___ school.",options: ["we","us","our"]},{"prompt":"کدام عبارت یعنی «خانه آن‌ها»؟",options: ["them house","their house","they house"]}]
   },
   14: {
     concept:"have و has هر دو معنی «داشتن» می‌دهند. انتخابشان به فاعل جمله بستگی دارد، نه به چیزی که داریم.",
@@ -315,7 +315,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Do you have a pet?",translation:"حیوان خانگی داری؟"},{speaker:"B",line:"Yes, I have a cat.",translation:"بله، یک گربه دارم."}],
     commonMistake:"نگو She have a dog. چون فاعل she است، باید بگویی She has a dog.",
     practiceTip:"درباره خودت، دوستت و یکی از اعضای خانواده سه جمله با have یا has بساز.",
-    questions:[{prompt:"کدام جمله درست است؟",options:["My sister has a tablet.","My sister have a tablet.","My sister haves a tablet."]},{prompt:"جای خالی: We ___ two English books.",options:["have","has","is"]},{prompt:"معنی He has a new bag چیست؟",options:["او یک کیف جدید دارد.","او یک کیف جدید است.","آن‌ها کیف جدید دارند."]},{"prompt":"جمله را کامل کن: Does your brother ___ a car?","options":["have","has","having"]},{"prompt":"کدام جمله درست است؟","options":["They have a dog.","They has a dog.","They haves a dog."]}]
+    questions:[{prompt:"کدام جمله درست است؟",options: ["My sister haves a tablet.","My sister has a tablet.","My sister have a tablet."]},{prompt:"جای خالی: We ___ two English books.",options: ["have","has","is"]},{prompt:"معنی He has a new bag چیست؟",options: ["او یک کیف جدید است.","آن‌ها کیف جدید دارند.","او یک کیف جدید دارد."]},{"prompt":"جمله را کامل کن: Does your brother ___ a car?",options: ["having","have","has"]},{"prompt":"کدام جمله درست است؟",options: ["They have a dog.","They has a dog.","They haves a dog."]}]
   },
   15: {
     concept:"حال ساده برای کارهایی است که معمولاً، مرتب یا به‌عنوان عادت انجام می‌دهیم؛ نه لزوماً همین لحظه.",
@@ -324,7 +324,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What do you do after school?",translation:"بعد از مدرسه چه کار می‌کنی؟"},{speaker:"B",line:"I play basketball and study English.",translation:"بسکتبال بازی می‌کنم و انگلیسی می‌خوانم."}],
     commonMistake:"برای he یا she در جمله مثبت، s فعل را فراموش نکن: He plays، نه He play.",
     practiceTip:"برنامه یک روز معمولی خودت را با سه جمله انگلیسی توصیف کن.",
-    questions:[{prompt:"کدام جمله درباره عادت درست است؟",options:["I watch videos after school.","I watches videos after school.","I watching videos after school."]},{prompt:"جای خالی: Sara ___ English every day.",options:["studies","study","studying"]},{prompt:"کدام عبارت بیشتر به عادت اشاره می‌کند؟",options:["every day","right now","at this second"]},{"prompt":"کدام شکل سوم‌شخص فعل study درست است؟","options":["studies","studys","studyies"]},{"prompt":"جای خالی را کامل کن: He ___ TV every night.","options":["watches","watch","watching"]}]
+    questions:[{prompt:"کدام جمله درباره عادت درست است؟",options: ["I watch videos after school.","I watches videos after school.","I watching videos after school."]},{prompt:"جای خالی: Sara ___ English every day.",options: ["study","studying","studies"]},{prompt:"کدام عبارت بیشتر به عادت اشاره می‌کند؟",options: ["at this second","every day","right now"]},{"prompt":"کدام شکل سوم‌شخص فعل study درست است؟",options: ["studies","studys","studyies"]},{"prompt":"جای خالی را کامل کن: He ___ TV every night.",options: ["watch","watching","watches"]}]
   },
   16: {
     concept:"گاهی مهم نیست فقط چه کاری انجام می‌دهیم؛ مهم است چند بار آن را انجام می‌دهیم. قیدهای تکرار این مقدار را نشان می‌دهند.",
@@ -333,7 +333,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Do you always play games?",translation:"همیشه بازی می‌کنی؟"},{speaker:"B",line:"No, I sometimes read books.",translation:"نه، گاهی کتاب می‌خوانم."}],
     commonMistake:"نگو I play always football. جای طبیعی قید تکرار در این جمله I always play football است.",
     practiceTip:"چهار فعالیت روزانه انتخاب کن و با always، usually، sometimes یا never درباره‌شان جمله بساز.",
-    questions:[{prompt:"کدام جمله ترتیب درست دارد؟",options:["I sometimes read.","I read sometimes books.","Sometimes I am read."]},{prompt:"معنی usually چیست؟",options:["معمولاً","هرگز","به‌ندرت"]},{prompt:"جای درست قید را انتخاب کن: He is ___ late.",options:["never","late never","is neverly"]},{"prompt":"جای درست قید usually کجاست؟","options":["I usually drink tea.","I drink usually tea.","I drink tea usually always."]},{"prompt":"برای پرسیدن «هر چند وقت ورزش می‌کنی؟» کدام سؤال درست است؟","options":["How often do you exercise?","How many often you exercise?","How often are you exercise?"]}]
+    questions:[{prompt:"کدام جمله ترتیب درست دارد؟",options: ["I read sometimes books.","Sometimes I am read.","I sometimes read."]},{prompt:"معنی usually چیست؟",options: ["به‌ندرت","معمولاً","هرگز"]},{prompt:"جای درست قید را انتخاب کن: He is ___ late.",options: ["never","late never","is neverly"]},{"prompt":"جای درست قید usually کجاست؟",options: ["I drink usually tea.","I drink tea usually always.","I usually drink tea."]},{"prompt":"برای پرسیدن «هر چند وقت ورزش می‌کنی؟» کدام سؤال درست است؟",options: ["How often are you exercise?","How often do you exercise?","How many often you exercise?"]}]
   },
   17: {
     concept:"can برای بیان توانایی یا اجازه به کار می‌رود. در این درس از آن برای گفتن کارهایی استفاده می‌کنیم که بلدیم انجام بدهیم.",
@@ -342,7 +342,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Can you play chess?",translation:"می‌توانی شطرنج بازی کنی؟"},{speaker:"B",line:"Yes, I can, but I can't play the guitar.",translation:"بله، می‌توانم؛ اما نمی‌توانم گیتار بزنم."}],
     commonMistake:"بعد از can، فعل ساده می‌آید. can to swim و can swims نادرست‌اند.",
     practiceTip:"سه توانایی واقعی خودت را با I can و یک کاری را که هنوز بلد نیستی با I can't بنویس.",
-    questions:[{prompt:"کدام جمله درست است؟",options:["I can draw.","I can to draw.","I cans draw."]},{prompt:"پاسخ کوتاه به Can she sing? کدام است؟",options:["Yes, she can.","Yes, she cans.","Yes, can she."]},{prompt:"معنی I can't skate چیست؟",options:["من نمی‌توانم اسکیت کنم.","من اسکیت دوست دارم.","من همیشه اسکیت می‌کنم."]},{"prompt":"کدام جمله منفی درست است؟","options":["She can't drive.","She doesn't can drive.","She can't to drive."]},{"prompt":"جای خالی را کامل کن: ___ they swim?","options":["Can","Do can","Are can"]}]
+    questions:[{prompt:"کدام جمله درست است؟",options: ["I cans draw.","I can draw.","I can to draw."]},{prompt:"پاسخ کوتاه به Can she sing? کدام است؟",options: ["Yes, she can.","Yes, she cans.","Yes, can she."]},{prompt:"معنی I can't skate چیست؟",options: ["من اسکیت دوست دارم.","من همیشه اسکیت می‌کنم.","من نمی‌توانم اسکیت کنم."]},{"prompt":"کدام جمله منفی درست است؟",options: ["She can't to drive.","She can't drive.","She doesn't can drive."]},{"prompt":"جای خالی را کامل کن: ___ they swim?",options: ["Can","Do can","Are can"]}]
   },
   18: {
     concept:"برای حرف زدن درباره علاقه‌ها از like استفاده می‌کنیم. می‌توانیم بگوییم چه چیزی را دوست داریم یا از انجام چه کاری لذت می‌بریم.",
@@ -351,7 +351,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What kind of music do you like?",translation:"چه نوع موسیقی‌ای دوست داری؟"},{speaker:"B",line:"I like pop music. I also like reading.",translation:"موسیقی پاپ دوست دارم. کتاب خواندن را هم دوست دارم."}],
     commonMistake:"در جمله مثبت با he یا she، likes را به کار ببر؛ اما بعد از can همچنان فعل ساده می‌آید.",
     practiceTip:"سه علاقه‌ات را با I like بنویس و از یک دوست بپرس What do you like?",
-    questions:[{prompt:"کدام جمله درست است؟",options:["He likes football.","He like football.","He likes play football."]},{prompt:"کدام عبارت یعنی «من نقاشی کردن را دوست دارم»؟",options:["I like drawing.","I like draw.","I likes drawing."]},{prompt:"جای خالی: They ___ video games.",options:["like","likes","liking"]},{"prompt":"کدام جمله درباره علاقه درست است؟","options":["I like cooking.","I likes cooking.","I like cookings."]},{"prompt":"جمله «او قهوه دوست ندارد» کدام است؟","options":["She doesn't like coffee.","She don't likes coffee.","She not like coffee."]}]
+    questions:[{prompt:"کدام جمله درست است؟",options: ["He likes football.","He like football.","He likes play football."]},{prompt:"کدام عبارت یعنی «من نقاشی کردن را دوست دارم»؟",options: ["I like draw.","I likes drawing.","I like drawing."]},{prompt:"جای خالی: They ___ video games.",options: ["liking","like","likes"]},{"prompt":"کدام جمله درباره علاقه درست است؟",options: ["I like cooking.","I likes cooking.","I like cookings."]},{"prompt":"جمله «او قهوه دوست ندارد» کدام است؟",options: ["She don't likes coffee.","She not like coffee.","She doesn't like coffee."]}]
   },
   19: {
     concept:"حروف اضافه مکان مثل یک نقشه کوچک‌اند؛ به شنونده می‌گویند چیزی دقیقاً کجاست.",
@@ -360,7 +360,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"Where is my phone?",translation:"گوشی من کجاست؟"},{speaker:"B",line:"It's on your desk.",translation:"روی میزت است."}],
     commonMistake:"in و on را جابه‌جا نکن: داخل کیف in the bag است؛ روی میز on the desk.",
     practiceTip:"به اتاقت نگاه کن و جای سه وسیله را با in، on یا under توصیف کن.",
-    questions:[{prompt:"اگر مداد داخل جامدادی باشد، کدام درست است؟",options:["in the pencil case","on the pencil case","under the pencil case"]},{prompt:"معنی under the table چیست؟",options:["زیر میز","روی میز","داخل میز"]},{prompt:"کدام جمله درست است؟",options:["The book is on the desk.","The book is in the desk (برای روی میز).","The book under is desk."]},{"prompt":"اگر کیف کنار صندلی باشد، کدام عبارت درست است؟","options":["next to the chair","in the chair","under of chair"]},{"prompt":"معنی behind the door چیست؟","options":["پشت در","جلوی در","داخل در"]}]
+    questions:[{prompt:"اگر مداد داخل جامدادی باشد، کدام درست است؟",options: ["on the pencil case","under the pencil case","in the pencil case"]},{prompt:"معنی under the table چیست؟",options: ["داخل میز","زیر میز","روی میز"]},{prompt:"کدام جمله درست است؟",options: ["The book is on the desk.","The book is in the desk (برای روی میز).","The book under is desk."]},{"prompt":"اگر کیف کنار صندلی باشد، کدام عبارت درست است؟",options: ["in the chair","under of chair","next to the chair"]},{"prompt":"معنی behind the door چیست؟",options: ["داخل در","پشت در","جلوی در"]}]
   },
   20: {
     concept:"برای برنامه‌ریزی و صحبت درباره روز، باید بتوانیم ساعت و بخش‌های مختلف روز را بیان کنیم.",
@@ -369,7 +369,7 @@ export const lessonContent: Record<number, LessonContent> = {
     dialogue:[{speaker:"A",line:"What time do you get up?",translation:"چه ساعتی بیدار می‌شوی؟"},{speaker:"B",line:"I get up at seven o'clock.",translation:"ساعت هفت بیدار می‌شوم."}],
     commonMistake:"برای گفتن «شب‌ها» معمولاً at night می‌گوییم، نه in the night در جمله‌های ساده روزمره.",
     practiceTip:"برنامه صبح تا شب خودت را با سه ساعت ساده و عبارت‌های morning و night تعریف کن.",
-    questions:[{prompt:"کدام عبارت یعنی «ساعت هشت»؟",options:["eight o'clock","eight clock","o'clock eight"]},{prompt:"کدام عبارت یعنی «شب‌ها»؟",options:["at night","in the morning","in the afternoon"]},{prompt:"جمله را کامل کن: I go to school ___ the morning.",options:["in","on","under"]},{"prompt":"جای خالی را کامل کن: The class starts ___ 9 o'clock.","options":["at","in","on"]},{"prompt":"کدام عبارت درست است؟","options":["on Friday","at Friday","in Friday"]}]
+    questions:[{prompt:"کدام عبارت یعنی «ساعت هشت»؟",options: ["o'clock eight","eight o'clock","eight clock"]},{prompt:"کدام عبارت یعنی «شب‌ها»؟",options: ["at night","in the morning","in the afternoon"]},{prompt:"جمله را کامل کن: I go to school ___ the morning.",options: ["on","under","in"]},{"prompt":"جای خالی را کامل کن: The class starts ___ 9 o'clock.",options: ["on","at","in"]},{"prompt":"کدام عبارت درست است؟",options: ["on Friday","at Friday","in Friday"]}]
   },
   21: {
     "concept": "الفبای انگلیسی ۲۶ حرف دارد. نام حروف را یاد بگیر؛ هنگام هجی کردن، نام هر حرف را جداگانه می‌گویی.",
@@ -420,43 +420,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Which letters spell CAT? ",
-        "options": [
-          "C-A-T",
-          "K-E-T",
-          "C-E-T"
-        ]
+        options: ["C-A-T","K-E-T","C-E-T"]
       },
       {
         "prompt": "How many letters are in the English alphabet?",
-        "options": [
-          "Twenty-four",
-          "Twenty-six",
-          "Thirty"
-        ]
+        options: ["Twenty-six","Thirty","Twenty-four"]
       },
       {
         "prompt": "Which group contains the main vowel letters?",
-        "options": [
-          "A, E, I, O, U",
-          "B, C, D, F, G",
-          "J, K, L, M, N"
-        ]
+        options: ["J, K, L, M, N","A, E, I, O, U","B, C, D, F, G"]
       },
       {
         "prompt": "Choose the correct question.",
-        "options": [
-          "How spell you name?",
-          "How do you spell your name?",
-          "How you do spell name?"
-        ]
+        options: ["How spell you name?","How do you spell your name?","How you do spell name?"]
       },
       {
         "prompt": "What does spell mean?",
-        "options": [
-          "هجی کردن",
-          "ترجمه کردن",
-          "گوش دادن"
-        ]
+        options: ["ترجمه کردن","گوش دادن","هجی کردن"]
       }
     ]
   },
@@ -509,43 +489,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "How do you write 40?",
-        "options": [
-          "Fourty",
-          "Forty",
-          "Fourteen"
-        ]
+        options: ["Forty","Fourteen","Fourty"]
       },
       {
         "prompt": "What number is seventy-five?",
-        "options": [
-          "57",
-          "75",
-          "70"
-        ]
+        options: ["70","57","75"]
       },
       {
         "prompt": "Choose the correct spelling.",
-        "options": [
-          "twenty-one",
-          "twenty one (در عدد مرکب نوشتاری)",
-          "twenty-onee"
-        ]
+        options: ["twenty-one","twenty one (در عدد مرکب نوشتاری)","twenty-onee"]
       },
       {
         "prompt": "How do you usually say a phone number?",
-        "options": [
-          "Digit by digit",
-          "As one long word",
-          "Only the last digit"
-        ]
+        options: ["As one long word","Only the last digit","Digit by digit"]
       },
       {
         "prompt": "What is 100?",
-        "options": [
-          "One hundred",
-          "Ten hundred",
-          "One thousand"
-        ]
+        options: ["One thousand","One hundred","Ten hundred"]
       }
     ]
   },
@@ -598,43 +558,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Which word is a month?",
-        "options": [
-          "Tuesday",
-          "April",
-          "Sunday"
-        ]
+        options: ["Sunday","Tuesday","April"]
       },
       {
         "prompt": "Choose the correct phrase.",
-        "options": [
-          "in Monday",
-          "on Monday",
-          "at Monday"
-        ]
+        options: ["in Monday","on Monday","at Monday"]
       },
       {
         "prompt": "Choose the correct phrase.",
-        "options": [
-          "in August",
-          "on August",
-          "at August"
-        ]
+        options: ["on August","at August","in August"]
       },
       {
         "prompt": "Which spelling is correct?",
-        "options": [
-          "Wensday",
-          "Wednesday",
-          "Wednsday"
-        ]
+        options: ["Wednsday","Wensday","Wednesday"]
       },
       {
         "prompt": "Which question asks about the day?",
-        "options": [
-          "What day is it?",
-          "How old are you?",
-          "Where are you?"
-        ]
+        options: ["What day is it?","How old are you?","Where are you?"]
       }
     ]
   },
@@ -687,43 +627,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "I'm from Italy. I'm ___.",
-        "options": [
-          "Italian",
-          "Italy",
-          "Italish"
-        ]
+        options: ["Italian","Italy","Italish"]
       },
       {
         "prompt": "Which question asks about language?",
-        "options": [
-          "Where are you from?",
-          "What languages do you speak?",
-          "How old are you?"
-        ]
+        options: ["What languages do you speak?","How old are you?","Where are you from?"]
       },
       {
         "prompt": "Choose the correct sentence.",
-        "options": [
-          "I speak Persian.",
-          "I am speak Persian.",
-          "I speaking Persian."
-        ]
+        options: ["I speaking Persian.","I speak Persian.","I am speak Persian."]
       },
       {
         "prompt": "What is Japan?",
-        "options": [
-          "A language",
-          "A country",
-          "A nationality"
-        ]
+        options: ["A language","A country","A nationality"]
       },
       {
         "prompt": "Nationality adjectives usually begin with…",
-        "options": [
-          "a capital letter",
-          "a number",
-          "a comma"
-        ]
+        options: ["a number","a comma","a capital letter"]
       }
     ]
   },
@@ -776,43 +696,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Which is a classroom object?",
-        "options": [
-          "notebook",
-          "cloudy",
-          "Monday"
-        ]
+        options: ["cloudy","Monday","notebook"]
       },
       {
         "prompt": "Choose the polite instruction.",
-        "options": [
-          "Please open your book.",
-          "You opening book.",
-          "Open you book please?"
-        ]
+        options: ["Open you book please?","Please open your book.","You opening book."]
       },
       {
         "prompt": "What does board mean?",
-        "options": [
-          "تخته",
-          "مداد",
-          "کیف"
-        ]
+        options: ["تخته","مداد","کیف"]
       },
       {
         "prompt": "Complete: ___ your pencil.",
-        "options": [
-          "Open",
-          "Opens",
-          "Opening"
-        ]
+        options: ["Opens","Opening","Open"]
       },
       {
         "prompt": "Where is the pen? — It is ___ the desk.",
-        "options": [
-          "on",
-          "at",
-          "by"
-        ]
+        options: ["by","on","at"]
       }
     ]
   },
@@ -865,43 +765,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Choose the correct phrase.",
-        "options": [
-          "a red car",
-          "a car red",
-          "red a car"
-        ]
+        options: ["red a car","a red car","a car red"]
       },
       {
         "prompt": "What is the opposite of big?",
-        "options": [
-          "small",
-          "long",
-          "new"
-        ]
+        options: ["small","long","new"]
       },
       {
         "prompt": "Choose the correct sentence.",
-        "options": [
-          "The bags are blue.",
-          "The bags is blue.",
-          "The bags blue are."
-        ]
+        options: ["The bags is blue.","The bags blue are.","The bags are blue."]
       },
       {
         "prompt": "Which word is a color?",
-        "options": [
-          "green",
-          "friendly",
-          "tall"
-        ]
+        options: ["tall","green","friendly"]
       },
       {
         "prompt": "Complete: It is ___ old house.",
-        "options": [
-          "an",
-          "a",
-          "are"
-        ]
+        options: ["an","a","are"]
       }
     ]
   },
@@ -954,43 +834,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Choose the correct possessive.",
-        "options": [
-          "Sara's bag",
-          "Sara bag's",
-          "Saras bag"
-        ]
+        options: ["Sara's bag","Sara bag's","Saras bag"]
       },
       {
         "prompt": "This book is ___.",
-        "options": [
-          "mine",
-          "my",
-          "I"
-        ]
+        options: ["my","I","mine"]
       },
       {
         "prompt": "That is ___ phone.",
-        "options": [
-          "his",
-          "he",
-          "him"
-        ]
+        options: ["him","his","he"]
       },
       {
         "prompt": "Which phrase means «مال تو»?",
-        "options": [
-          "yours",
-          "your",
-          "you"
-        ]
+        options: ["yours","your","you"]
       },
       {
         "prompt": "Choose the correct sentence.",
-        "options": [
-          "The red car is hers.",
-          "The red car is her.",
-          "The red car hers is."
-        ]
+        options: ["The red car is her.","The red car hers is.","The red car is hers."]
       }
     ]
   },
@@ -1043,43 +903,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Plural of child is…",
-        "options": [
-          "childs",
-          "children",
-          "childes"
-        ]
+        options: ["children","childes","childs"]
       },
       {
         "prompt": "For things near us, use…",
-        "options": [
-          "these",
-          "those",
-          "that"
-        ]
+        options: ["that","these","those"]
       },
       {
         "prompt": "Which is correct?",
-        "options": [
-          "Those are my shoes.",
-          "Those is my shoes.",
-          "That are my shoes."
-        ]
+        options: ["Those are my shoes.","Those is my shoes.","That are my shoes."]
       },
       {
         "prompt": "Plural of person is often…",
-        "options": [
-          "people",
-          "personses",
-          "peoples"
-        ]
+        options: ["personses","peoples","people"]
       },
       {
         "prompt": "Choose the correct phrase.",
-        "options": [
-          "these books",
-          "this books",
-          "these book"
-        ]
+        options: ["these book","these books","this books"]
       }
     ]
   },
@@ -1132,43 +972,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "There ___ a book on the table.",
-        "options": [
-          "is",
-          "are",
-          "am"
-        ]
+        options: ["am","is","are"]
       },
       {
         "prompt": "There ___ three windows.",
-        "options": [
-          "is",
-          "are",
-          "be"
-        ]
+        options: ["is","are","be"]
       },
       {
         "prompt": "Choose the correct question.",
-        "options": [
-          "Is there a bank?",
-          "There is a bank?",
-          "Are there a bank?"
-        ]
+        options: ["There is a bank?","Are there a bank?","Is there a bank?"]
       },
       {
         "prompt": "Which phrase is correct?",
-        "options": [
-          "There aren't any chairs.",
-          "There isn't any chairs.",
-          "There not are chairs."
-        ]
+        options: ["There not are chairs.","There aren't any chairs.","There isn't any chairs."]
       },
       {
         "prompt": "What does there are mean?",
-        "options": [
-          "وجود دارند",
-          "وجود دارد (مفرد)",
-          "هستند؟"
-        ]
+        options: ["وجود دارند","وجود دارد (مفرد)","هستند؟"]
       }
     ]
   },
@@ -1221,43 +1041,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Which word asks about a place?",
-        "options": [
-          "where",
-          "who",
-          "when"
-        ]
+        options: ["where","who","when"]
       },
       {
         "prompt": "Which word asks about a person?",
-        "options": [
-          "who",
-          "what",
-          "how"
-        ]
+        options: ["what","how","who"]
       },
       {
         "prompt": "Complete: ___ is your birthday?",
-        "options": [
-          "When",
-          "Where",
-          "Who"
-        ]
+        options: ["Who","When","Where"]
       },
       {
         "prompt": "How are you? asks about…",
-        "options": [
-          "condition",
-          "place",
-          "name"
-        ]
+        options: ["condition","place","name"]
       },
       {
         "prompt": "Choose the correct question.",
-        "options": [
-          "What is your name?",
-          "What your name is?",
-          "What are name you?"
-        ]
+        options: ["What your name is?","What are name you?","What is your name?"]
       }
     ]
   },
@@ -1310,43 +1110,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "He ___ like milk.",
-        "options": [
-          "doesn't",
-          "don't",
-          "isn't"
-        ]
+        options: ["don't","isn't","doesn't"]
       },
       {
         "prompt": "I ___ work on Sunday.",
-        "options": [
-          "don't",
-          "doesn't",
-          "am not"
-        ]
+        options: ["am not","don't","doesn't"]
       },
       {
         "prompt": "After doesn't, use…",
-        "options": [
-          "base verb",
-          "verb + s",
-          "verb + ing"
-        ]
+        options: ["base verb","verb + s","verb + ing"]
       },
       {
         "prompt": "Choose the correct sentence.",
-        "options": [
-          "She doesn't drive.",
-          "She don't drive.",
-          "She doesn't drives."
-        ]
+        options: ["She don't drive.","She doesn't drives.","She doesn't drive."]
       },
       {
         "prompt": "They ___ live here.",
-        "options": [
-          "don't",
-          "doesn't",
-          "isn't"
-        ]
+        options: ["isn't","don't","doesn't"]
       }
     ]
   },
@@ -1399,43 +1179,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "___ you like music?",
-        "options": [
-          "Do",
-          "Does",
-          "Are"
-        ]
+        options: ["Are","Do","Does"]
       },
       {
         "prompt": "___ he work here?",
-        "options": [
-          "Do",
-          "Does",
-          "Is"
-        ]
+        options: ["Do","Does","Is"]
       },
       {
         "prompt": "Choose the correct question.",
-        "options": [
-          "Does she play tennis?",
-          "Does she plays tennis?",
-          "Do she play tennis?"
-        ]
+        options: ["Does she plays tennis?","Do she play tennis?","Does she play tennis?"]
       },
       {
         "prompt": "Short answer: Do they study? — Yes, ___.",
-        "options": [
-          "they do",
-          "they does",
-          "they are"
-        ]
+        options: ["they are","they do","they does"]
       },
       {
         "prompt": "Which auxiliary is used with we?",
-        "options": [
-          "do",
-          "does",
-          "is"
-        ]
+        options: ["do","does","is"]
       }
     ]
   },
@@ -1488,43 +1248,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "___ do you get up? — At seven.",
-        "options": [
-          "What time",
-          "Where",
-          "Who"
-        ]
+        options: ["What time","Where","Who"]
       },
       {
         "prompt": "How often asks about…",
-        "options": [
-          "frequency",
-          "location",
-          "person"
-        ]
+        options: ["location","person","frequency"]
       },
       {
         "prompt": "Choose the correct question.",
-        "options": [
-          "Where does she live?",
-          "Where do she live?",
-          "Where she does live?"
-        ]
+        options: ["Where she does live?","Where does she live?","Where do she live?"]
       },
       {
         "prompt": "What is a suitable answer to Where do you work?",
-        "options": [
-          "In a shop.",
-          "At seven.",
-          "Twice a week."
-        ]
+        options: ["In a shop.","At seven.","Twice a week."]
       },
       {
         "prompt": "Complete: How often ___ they play?",
-        "options": [
-          "do",
-          "does",
-          "are"
-        ]
+        options: ["does","are","do"]
       }
     ]
   },
@@ -1577,43 +1317,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "He ___ watching TV now.",
-        "options": [
-          "is",
-          "are",
-          "am"
-        ]
+        options: ["are","am","is"]
       },
       {
         "prompt": "They are ___ football.",
-        "options": [
-          "playing",
-          "play",
-          "plays"
-        ]
+        options: ["plays","playing","play"]
       },
       {
         "prompt": "Choose the correct question.",
-        "options": [
-          "Are you working?",
-          "Do you working?",
-          "Are you work?"
-        ]
+        options: ["Are you working?","Do you working?","Are you work?"]
       },
       {
         "prompt": "Which time word often signals present continuous?",
-        "options": [
-          "now",
-          "every day",
-          "usually"
-        ]
+        options: ["every day","usually","now"]
       },
       {
         "prompt": "I ___ not listening.",
-        "options": [
-          "am",
-          "is",
-          "are"
-        ]
+        options: ["are","am","is"]
       }
     ]
   },
@@ -1666,43 +1386,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Please help ___.",
-        "options": [
-          "me",
-          "I",
-          "my"
-        ]
+        options: ["my","me","I"]
       },
       {
         "prompt": "I can see Ali. I can see ___.",
-        "options": [
-          "him",
-          "he",
-          "his"
-        ]
+        options: ["him","he","his"]
       },
       {
         "prompt": "This is Sara. I know ___.",
-        "options": [
-          "her",
-          "she",
-          "hers"
-        ]
+        options: ["she","hers","her"]
       },
       {
         "prompt": "Which is an object pronoun?",
-        "options": [
-          "them",
-          "they",
-          "their"
-        ]
+        options: ["their","them","they"]
       },
       {
         "prompt": "Talk to ___.",
-        "options": [
-          "us",
-          "we",
-          "our"
-        ]
+        options: ["us","we","our"]
       }
     ]
   },
@@ -1755,43 +1455,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "The train leaves ___ 8:30.",
-        "options": [
-          "at",
-          "on",
-          "in"
-        ]
+        options: ["at","on","in"]
       },
       {
         "prompt": "We have English ___ Monday.",
-        "options": [
-          "on",
-          "at",
-          "in"
-        ]
+        options: ["at","in","on"]
       },
       {
         "prompt": "My birthday is ___ December.",
-        "options": [
-          "in",
-          "on",
-          "at"
-        ]
+        options: ["at","in","on"]
       },
       {
         "prompt": "Which phrase is correct?",
-        "options": [
-          "at night",
-          "in night",
-          "on night"
-        ]
+        options: ["at night","in night","on night"]
       },
       {
         "prompt": "The date is ___ 12 May.",
-        "options": [
-          "on",
-          "in",
-          "at"
-        ]
+        options: ["in","at","on"]
       }
     ]
   },
@@ -1844,43 +1524,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Which noun is usually uncountable?",
-        "options": [
-          "water",
-          "apple",
-          "egg"
-        ]
+        options: ["apple","egg","water"]
       },
       {
         "prompt": "Choose the correct phrase.",
-        "options": [
-          "an apple",
-          "a apple",
-          "some apple (برای یک عدد)"
-        ]
+        options: ["some apple (برای یک عدد)","an apple","a apple"]
       },
       {
         "prompt": "Which is correct?",
-        "options": [
-          "some rice",
-          "a rice",
-          "two rices"
-        ]
+        options: ["some rice","a rice","two rices"]
       },
       {
         "prompt": "A ___ of water.",
-        "options": [
-          "glass",
-          "bread",
-          "rice"
-        ]
+        options: ["bread","rice","glass"]
       },
       {
         "prompt": "Choose the plural countable noun.",
-        "options": [
-          "three bananas",
-          "three milk",
-          "three bread"
-        ]
+        options: ["three bread","three bananas","three milk"]
       }
     ]
   },
@@ -1933,43 +1593,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Which phrase is polite for ordering?",
-        "options": [
-          "I'd like a coffee, please.",
-          "Give coffee.",
-          "Coffee now."
-        ]
+        options: ["Coffee now.","I'd like a coffee, please.","Give coffee."]
       },
       {
         "prompt": "What does menu mean?",
-        "options": [
-          "منو",
-          "صورتحساب",
-          "پیشخدمت"
-        ]
+        options: ["منو","صورتحساب","پیشخدمت"]
       },
       {
         "prompt": "How do you ask for the bill?",
-        "options": [
-          "Can I have the bill, please?",
-          "Where is my food?",
-          "How old is the bill?"
-        ]
+        options: ["Where is my food?","How old is the bill?","Can I have the bill, please?"]
       },
       {
         "prompt": "Complete: I'd ___ a sandwich.",
-        "options": [
-          "like",
-          "likes",
-          "liking"
-        ]
+        options: ["liking","like","likes"]
       },
       {
         "prompt": "What does please mean?",
-        "options": [
-          "لطفاً",
-          "متأسفم",
-          "خداحافظ"
-        ]
+        options: ["لطفاً","متأسفم","خداحافظ"]
       }
     ]
   },
@@ -2022,43 +1662,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "How much ___ this shirt?",
-        "options": [
-          "is",
-          "are",
-          "do"
-        ]
+        options: ["is","are","do"]
       },
       {
         "prompt": "How much ___ these shoes?",
-        "options": [
-          "are",
-          "is",
-          "does"
-        ]
+        options: ["is","does","are"]
       },
       {
         "prompt": "What does expensive mean?",
-        "options": [
-          "گران",
-          "ارزان",
-          "رایگان"
-        ]
+        options: ["رایگان","گران","ارزان"]
       },
       {
         "prompt": "Which question asks to try clothes?",
-        "options": [
-          "Can I try it on?",
-          "Where do you live?",
-          "What time is it?"
-        ]
+        options: ["Can I try it on?","Where do you live?","What time is it?"]
       },
       {
         "prompt": "What is a size?",
-        "options": [
-          "اندازه",
-          "رنگ",
-          "قیمت"
-        ]
+        options: ["رنگ","قیمت","اندازه"]
       }
     ]
   },
@@ -2111,43 +1731,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "What does turn left mean?",
-        "options": [
-          "به چپ بپیچ",
-          "به راست بپیچ",
-          "مستقیم برو"
-        ]
+        options: ["به راست بپیچ","مستقیم برو","به چپ بپیچ"]
       },
       {
         "prompt": "Where can you catch a train?",
-        "options": [
-          "station",
-          "bank",
-          "cafe"
-        ]
+        options: ["cafe","station","bank"]
       },
       {
         "prompt": "Choose the correct direction.",
-        "options": [
-          "Go straight",
-          "Goes straight",
-          "Going straight"
-        ]
+        options: ["Go straight","Goes straight","Going straight"]
       },
       {
         "prompt": "What does next to mean?",
-        "options": [
-          "کنار",
-          "داخل",
-          "پشت"
-        ]
+        options: ["داخل","پشت","کنار"]
       },
       {
         "prompt": "Which phrase is polite to start asking directions?",
-        "options": [
-          "Excuse me",
-          "Good night",
-          "I'm hungry"
-        ]
+        options: ["I'm hungry","Excuse me","Good night"]
       }
     ]
   },
@@ -2200,43 +1800,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "I travel ___ train.",
-        "options": [
-          "by",
-          "on",
-          "in"
-        ]
+        options: ["in","by","on"]
       },
       {
         "prompt": "What is a ticket?",
-        "options": [
-          "بلیت",
-          "چمدان",
-          "نقشه"
-        ]
+        options: ["بلیت","چمدان","نقشه"]
       },
       {
         "prompt": "Where do planes arrive?",
-        "options": [
-          "airport",
-          "station",
-          "library"
-        ]
+        options: ["station","library","airport"]
       },
       {
         "prompt": "Which phrase is correct?",
-        "options": [
-          "on foot",
-          "by foot",
-          "in foot"
-        ]
+        options: ["in foot","on foot","by foot"]
       },
       {
         "prompt": "Choose the transport.",
-        "options": [
-          "bus",
-          "cloudy",
-          "hungry"
-        ]
+        options: ["bus","cloudy","hungry"]
       }
     ]
   },
@@ -2289,43 +1869,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "What does cloudy mean?",
-        "options": [
-          "ابری",
-          "آفتابی",
-          "بارانی"
-        ]
+        options: ["ابری","آفتابی","بارانی"]
       },
       {
         "prompt": "Complete: It ___ hot today.",
-        "options": [
-          "is",
-          "are",
-          "am"
-        ]
+        options: ["are","am","is"]
       },
       {
         "prompt": "Which is a season?",
-        "options": [
-          "spring",
-          "Tuesday",
-          "blue"
-        ]
+        options: ["blue","spring","Tuesday"]
       },
       {
         "prompt": "Choose the correct phrase.",
-        "options": [
-          "in winter",
-          "on winter",
-          "at winter"
-        ]
+        options: ["in winter","on winter","at winter"]
       },
       {
         "prompt": "Which question asks about weather?",
-        "options": [
-          "What's the weather like?",
-          "Where are you from?",
-          "How old are you?"
-        ]
+        options: ["Where are you from?","How old are you?","What's the weather like?"]
       }
     ]
   },
@@ -2378,43 +1938,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Complete: Let's ___ football.",
-        "options": [
-          "play",
-          "plays",
-          "playing"
-        ]
+        options: ["plays","playing","play"]
       },
       {
         "prompt": "Choose a polite invitation.",
-        "options": [
-          "Would you like to join us?",
-          "Join us now!",
-          "You joining?"
-        ]
+        options: ["You joining?","Would you like to join us?","Join us now!"]
       },
       {
         "prompt": "What is a positive response?",
-        "options": [
-          "That sounds great!",
-          "No, never.",
-          "I don't know you."
-        ]
+        options: ["That sounds great!","No, never.","I don't know you."]
       },
       {
         "prompt": "Complete: Would you like ___ come?",
-        "options": [
-          "to",
-          "for",
-          "at"
-        ]
+        options: ["for","at","to"]
       },
       {
         "prompt": "Which phrase politely refuses?",
-        "options": [
-          "Sorry, I can't.",
-          "Yes, of course.",
-          "Thank you very much."
-        ]
+        options: ["Thank you very much.","Sorry, I can't.","Yes, of course."]
       }
     ]
   },
@@ -2467,43 +2007,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Which phrase means «ببخشید»?",
-        "options": [
-          "Excuse me",
-          "You're welcome",
-          "Good night"
-        ]
+        options: ["Good night","Excuse me","You're welcome"]
       },
       {
         "prompt": "Complete: Can you help ___?",
-        "options": [
-          "me",
-          "I",
-          "my"
-        ]
+        options: ["me","I","my"]
       },
       {
         "prompt": "What do you say after someone helps you?",
-        "options": [
-          "Thank you",
-          "Excuse me",
-          "Good morning"
-        ]
+        options: ["Excuse me","Good morning","Thank you"]
       },
       {
         "prompt": "What does You're welcome mean?",
-        "options": [
-          "خواهش می‌کنم",
-          "ببخشید",
-          "خداحافظ"
-        ]
+        options: ["خداحافظ","خواهش می‌کنم","ببخشید"]
       },
       {
         "prompt": "Choose the polite request.",
-        "options": [
-          "Could you repeat that, please?",
-          "Repeat it!",
-          "You repeat."
-        ]
+        options: ["Could you repeat that, please?","Repeat it!","You repeat."]
       }
     ]
   },
@@ -2556,43 +2076,23 @@ export const lessonContent: Record<number, LessonContent> = {
     "questions": [
       {
         "prompt": "Choose the correct introduction.",
-        "options": [
-          "My name is Ali.",
-          "My name Ali.",
-          "I name is Ali."
-        ]
+        options: ["My name is Ali.","My name Ali.","I name is Ali."]
       },
       {
         "prompt": "She ___ to school every day.",
-        "options": [
-          "goes",
-          "go",
-          "going"
-        ]
+        options: ["go","going","goes"]
       },
       {
         "prompt": "There ___ two books.",
-        "options": [
-          "are",
-          "is",
-          "am"
-        ]
+        options: ["am","are","is"]
       },
       {
         "prompt": "How do you order politely?",
-        "options": [
-          "I'd like a sandwich, please.",
-          "Give sandwich.",
-          "I sandwich."
-        ]
+        options: ["I'd like a sandwich, please.","Give sandwich.","I sandwich."]
       },
       {
         "prompt": "Which phrase asks for a place?",
-        "options": [
-          "Where is the station?",
-          "How old are you?",
-          "What is your name?"
-        ]
+        options: ["How old are you?","What is your name?","Where is the station?"]
       }
     ]
   }
