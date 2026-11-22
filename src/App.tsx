@@ -308,7 +308,7 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
   useEffect(() => {
     if (libraryCache.has("index")) return;
     let active = true;
-    fetch(`${import.meta.env.BASE_URL}content/library/index.json`, { cache: "force-cache" })
+    fetch(`${import.meta.env.BASE_URL}content/library/index.json?v=20261122-19`, { cache: "no-store" })
       .then(response => { if (!response.ok) throw new Error("فهرست محتوا دریافت نشد."); return response.json(); })
       .then((data: LibraryItem[]) => {
         if (!Array.isArray(data)) throw new Error("ساختار فهرست محتوا معتبر نیست.");
