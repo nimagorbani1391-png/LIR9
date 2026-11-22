@@ -54,7 +54,7 @@ export type LessonContent = {
   dialogue: { speaker: string; line: string; translation: string }[];
   commonMistake: string;
   practiceTip: string;
-  questions: { prompt: string; options: string[]; explanation: string }[];
+  questions: { prompt: string; options: string[] }[];
 };
 export const lessonContent: Record<number, LessonContent> = {
   1: {
