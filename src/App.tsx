@@ -391,7 +391,7 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
     {!loading && !error && <div className="library-grid">
       {filtered.map((item, index) => <button className={item.featured?"library-card is-featured":"library-card"} key={item.id} onClick={() => { if (!isVip) { setVipModalOpen(true); return; } setSelected(item); setError(""); }} style={{animationDelay:`${index*45}ms`}}
         <div className={`library-card-art art-${item.category === "داستان" ? "story" : item.category === "مقاله" ? "article" : "dialogue"}`}><span>{item.category}</span><BookOpen size={25}/>{item.featured&&<em>پیشنهاد LIR9</em>}</div>
-        <div className="library-card-copy"><div className="library-card-meta"><span>{item.level}</span><span><Clock3 size={12}/>{item.minutes} دقیقه</span></div><h3>{item.title}</h3><p>{item.summary}</p><span className="library-card-link">مطالعه مطلب <ArrowRight size={15}/></span></div>
+        <div className="library-card-copy"><div className="library-card-meta"><span>{item.level}</span><span><Clock3 size={12}/>{item.minutes} دقیقه</span></div><h3>{item.title}</h3><p>{item.summary}</p><span className="library-card-link">{isVip ? "مطالعه مطلب" : "محتوای ویژه VIP"} {isVip ? <ArrowRight size={15}/> : <LockKeyhole size={14}/>}</span></div>
       </button>)}
       {!filtered.length && <div className="library-empty"><Search size={24}/><b>مطلبی پیدا نشد</b><span>عبارت جست‌وجو یا دسته‌بندی را تغییر بده.</span></div>}
     </div>}
