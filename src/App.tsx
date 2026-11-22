@@ -567,11 +567,18 @@ function App() {
     let active = true;
     setCertificateLoading(true);
     setCertificateError("");
-    supabase.rpc("get_my_a1_certificate").then(({ data, error }) => {
-      if (!active) return;
-      if (error) { setCertificateError("دریافت وضعیت مدرک انجام نشد. دوباره تلاش کن."); return; }
-      setIssuedCertificate(data as CertificateRecord | null);
-    }).finally(() => { if (active) setCertificateLoading(false); });
+    void (async () => {
+      try {
+        const { data, error } = await supabase.rpc("get_my_a1_certificate");
+        if (!active) return;
+        if (error) { setCertificateError("دریافت وضعیت مدرک انجام نشد. دوباره تلاش کن."); return; }
+        setIssuedCertificate(data as CertificateRecord | null);
+      } catch {
+        if (active) setCertificateError("دریافت وضعیت مدرک انجام نشد. دوباره تلاش کن.");
+      } finally {
+        if (active) setCertificateLoading(false);
+      }
+    })();
     return () => { active = false; };
   }, [tab, authSession?.user.id]);
   const handleIssueCertificate = async () => {
