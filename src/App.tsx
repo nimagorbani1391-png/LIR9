@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { supabase } from "./lib/supabase";
 import { areLearningStatesEqual, loadLearningState, saveLearningState, type LearningState } from "./lib/learningState";
 import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/curriculum";
@@ -396,17 +397,20 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
       {!filtered.length && <div className="library-empty"><Search size={24}/><b>مطلبی پیدا نشد</b><span>عبارت جست‌وجو یا دسته‌بندی را تغییر بده.</span></div>}
     </div>}
     </>}
-    {vipModalOpen && !isVip && <div className="lirto-quota-overlay library-vip-overlay" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setVipModalOpen(false); }}>
-      <section className="lirto-quota-dialog library-vip-dialog" role="dialog" aria-modal="true" aria-labelledby="library-vip-title">
-        <button className="lirto-quota-close" type="button" onClick={() => setVipModalOpen(false)} aria-label="بستن پیام"><X size={19}/></button>
-        <span className="lirto-quota-crown"><Crown size={27}/></span>
-        <span className="lirto-quota-eyebrow">LIR9 · VIP CONTENT</span>
-        <h3 id="library-vip-title">این محتوا ویژه اعضای VIP است!</h3>
-        <p>کتابخانه برای همه قابل مشاهده است؛ اما مطالعه داستان‌ها و مقاله‌ها و دسترسی به آزمایشگاه شنیداری، با اشتراک VIP فعال می‌شود. برای باز کردن تمام محتوای آموزشی، پلن خود را ارتقاء بده.</p>
-        <button className="lirto-quota-upgrade" type="button" onClick={onUpgrade}>مشاهده پلن VIP <Crown size={17}/></button>
-        <button className="lirto-quota-later" type="button" onClick={() => setVipModalOpen(false)}>فعلاً نه</button>
-      </section>
-    </div>}
+    {vipModalOpen && !isVip && createPortal(
+      <div className="lirto-quota-overlay library-vip-overlay" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setVipModalOpen(false); }}>
+        <section className="lirto-quota-dialog library-vip-dialog" role="dialog" aria-modal="true" aria-labelledby="library-vip-title">
+          <button className="lirto-quota-close" type="button" onClick={() => setVipModalOpen(false)} aria-label="بستن پیام"><X size={19}/></button>
+          <span className="lirto-quota-crown"><Crown size={27}/></span>
+          <span className="lirto-quota-eyebrow">LIR9 · VIP CONTENT</span>
+          <h3 id="library-vip-title">این محتوا ویژه اعضای VIP است!</h3>
+          <p>کتابخانه برای همه قابل مشاهده است؛ اما مطالعه داستان‌ها و مقاله‌ها و دسترسی به آزمایشگاه شنیداری، با اشتراک VIP فعال می‌شود. برای باز کردن تمام محتوای آموزشی، پلن خود را ارتقاء بده.</p>
+          <button className="lirto-quota-upgrade" type="button" onClick={onUpgrade}>مشاهده پلن VIP <Crown size={17}/></button>
+          <button className="lirto-quota-later" type="button" onClick={() => setVipModalOpen(false)}>فعلاً نه</button>
+        </section>
+      </div>,
+      document.body
+    )}
   </section>;
 }
 
