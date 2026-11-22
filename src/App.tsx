@@ -256,7 +256,10 @@ function A1FinalAssessment({ unlocked, result, onResultChange }: { unlocked: boo
       onResultChange(next);
       setStarted(false);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "ثبت آزمون انجام نشد؛ دوباره تلاش کن.");
+      const message = error instanceof Error ? error.message : "";
+      setSubmitError(/maximum five final assessment attempts/i.test(message)
+        ? "برای جلوگیری از حدس‌زدن پاسخ‌ها، حداکثر ۵ بار در ۲۴ ساعت می‌توانی آزمون پایانی را ثبت کنی."
+        : "ثبت آزمون انجام نشد؛ اتصال را بررسی کن و دوباره تلاش کن.");
     } finally {
       setSubmitting(false);
     }
