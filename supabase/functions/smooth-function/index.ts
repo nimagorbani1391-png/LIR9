@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
       perPage: requestedPerPage,
     });
     if (usersError) throw usersError;
-    const totalUsers = userPage.total ?? userPage.users.length;
+    const loadedUsers = userPage.users.length;
     const users = userPage.users.map((user) => ({
       id: user.id, email: user.email ?? null, created_at: user.created_at,
       last_sign_in_at: user.last_sign_in_at ?? null,
@@ -119,10 +119,10 @@ Deno.serve(async (req) => {
     });
 
     return json({
-      totalUsers,
+      loadedUsers,
       users: enrichedUsers.sort((a, b) => b.created_at.localeCompare(a.created_at)),
       page: requestedPage,
-      hasMore: requestedPage * requestedPerPage < totalUsers,
+      hasMore: userPage.users.length === requestedPerPage,
       paidSubscribers: null,
       subscriptionTrackingAvailable: false,
     });
