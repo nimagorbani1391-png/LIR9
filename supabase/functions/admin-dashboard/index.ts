@@ -110,7 +110,7 @@ Deno.serve(async (req) => {
       .from("lir9_user_plans").select("user_id, plan, expires_at");
     if (plansError) throw plansError;
     const now = Date.now();
-    const planByUser = new Map((plans ?? []).map((plan) => [plan.user_id, plan]));
+    const planByUser = new Map((plans ?? []).map((plan) => [plan.user_id, plan] as const));
     const enrichedUsers = users.map((user) => {
       const plan = planByUser.get(user.id);
       const isVip = plan?.plan === "vip" && (!plan.expires_at || new Date(plan.expires_at).getTime() > now);
