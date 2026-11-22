@@ -28,7 +28,13 @@ export default function AdminApp() {
     if (invokeError) { setError("ارتباط با سرور برقرار نشد. نشست مدیر را بررسی کن."); return false; }
     if (result?.error) { setError(result.error); return false; }
     if (operation) setNotice(result?.message ?? "عملیات با موفقیت انجام شد.");
-    const nextData = operation ? await reloadDashboard() : result as DashboardData;
+    let nextData: DashboardData | null;
+    try {
+      nextData = operation ? await reloadDashboard() : result as DashboardData;
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "دریافت دوباره فهرست کاربران انجام نشد.");
+      return false;
+    }
     if (!nextData) return false;
     setData(previous => append && previous && !operation
       ? { ...nextData, users: [...previous.users, ...nextData.users], loadedUsers: previous.users.length + nextData.users.length }
