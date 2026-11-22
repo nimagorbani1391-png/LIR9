@@ -71,10 +71,10 @@ begin
     raise exception 'The passing score is 24 out of 30';
   end if;
 
-  select nullif(btrim(coalesce(
-    raw_user_meta_data->>'display_name',
-    raw_user_meta_data->>'full_name'
-  )), '')
+  select coalesce(
+    nullif(btrim(raw_user_meta_data->>'display_name'), ''),
+    nullif(btrim(raw_user_meta_data->>'full_name'), '')
+  )
   into student_display_name
   from auth.users
   where id = current_user_id;
