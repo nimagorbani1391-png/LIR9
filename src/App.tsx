@@ -404,7 +404,7 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
           <span className="lirto-quota-crown"><Crown size={27}/></span>
           <span className="lirto-quota-eyebrow">LIR9 · VIP CONTENT</span>
           <h3 id="library-vip-title">این محتوا ویژه اعضای VIP است!</h3>
-          <p>کتابخانه برای همه قابل مشاهده است؛ اما مطالعه داستان‌ها و مقاله‌ها و دسترسی به آزمایشگاه شنیداری، با اشتراک VIP فعال می‌شود. برای باز کردن تمام محتوای آموزشی، پلن خود را ارتقاء بده.</p>
+          <p>برای مطالعه این داستان یا مقاله و استفاده از تمرین‌های آزمایشگاه شنیداری، به اشتراک VIP نیاز داری. با فعال‌سازی VIP می‌توانی به این محتوای آموزشی دسترسی پیدا کنی.</p>
           <button className="lirto-quota-upgrade" type="button" onClick={onUpgrade}>مشاهده پلن VIP <Crown size={17}/></button>
           <button className="lirto-quota-later" type="button" onClick={() => setVipModalOpen(false)}>فعلاً نه</button>
         </section>
