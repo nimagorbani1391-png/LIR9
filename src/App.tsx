@@ -204,46 +204,46 @@ function PlacementAssessment({ result, onResultChange }: { result: { score: numb
 }
 
 
-type A1FinalQuestion = { prompt: string; options: string[]; answer: number; skill: string; explanation: string };
+type A1FinalQuestion = { prompt: string; options: string[]; skill: string };
 const a1FinalQuestions: A1FinalQuestion[] = [
-  {prompt:"Choose the correct greeting.",options:["Good morning!","I am from Spain.","It is a pencil."],answer:0,skill:"مکالمه",explanation:"Good morning برای سلام کردن در صبح استفاده می‌شود."},
-  {prompt:"My name ___ Daniel.",options:["is","am","are"],answer:0,skill:"فعل be",explanation:"با My name از is استفاده می‌کنیم."},
-  {prompt:"How do you spell CAT?",options:["C-A-T","K-E-T","C-E-T"],answer:0,skill:"الفبا",explanation:"املای cat برابر C-A-T است."},
-  {prompt:"I'm from Brazil. I'm ___.",options:["Brazilian","Brazil","Brazilish"],answer:0,skill:"کشورها و ملیت‌ها",explanation:"Brazil کشور و Brazilian ملیت است."},
-  {prompt:"I have ___ orange.",options:["an","a","are"],answer:0,skill:"حروف تعریف",explanation:"orange با صدای واکه آغاز می‌شود؛ an orange."},
-  {prompt:"The plural of child is ___.",options:["children","childs","childes"],answer:0,skill:"اسم جمع",explanation:"children جمع بی‌قاعده child است."},
-  {prompt:"___ are my keys here in my hand.",options:["These","Those","That"],answer:0,skill:"اشاره",explanation:"these برای چند چیز نزدیک به کار می‌رود."},
-  {prompt:"They ___ students.",options:["are","is","am"],answer:0,skill:"فعل be",explanation:"فاعل جمع they با are می‌آید."},
-  {prompt:"This is Sara's bag. It is ___.",options:["hers","her","she"],answer:0,skill:"مالکیت",explanation:"hers ضمیر ملکی مستقل است."},
-  {prompt:"My brother ___ a new bike.",options:["has","have","is"],answer:0,skill:"have و has",explanation:"با he و فاعل مفرد سوم‌شخص از has استفاده می‌کنیم."},
-  {prompt:"She ___ to school every day.",options:["goes","go","going"],answer:0,skill:"حال ساده",explanation:"در جمله مثبت حال ساده با she معمولاً به فعل s اضافه می‌شود."},
-  {prompt:"I ___ drink coffee. I don't like it.",options:["never","am never","never am"],answer:0,skill:"قید تکرار",explanation:"قید تکرار معمولاً پیش از فعل اصلی می‌آید."},
-  {prompt:"He can ___ very well.",options:["swim","swims","to swim"],answer:0,skill:"توانایی",explanation:"پس از can فعل پایه می‌آید."},
-  {prompt:"I like ___ books.",options:["reading","read","reads"],answer:0,skill:"علاقه‌ها",explanation:"برای بیان فعالیت موردعلاقه می‌توان از فعل ingدار استفاده کرد."},
-  {prompt:"The cat is ___ the table.",options:["under","at","between of"],answer:0,skill:"حروف اضافه مکان",explanation:"under یعنی زیر."},
-  {prompt:"The class starts ___ 9 o'clock.",options:["at","on","in"],answer:0,skill:"زمان",explanation:"برای ساعت دقیق از at استفاده می‌کنیم."},
-  {prompt:"There ___ two windows in the room.",options:["are","is","am"],answer:0,skill:"There is / are",explanation:"برای اسم جمع از there are استفاده می‌شود."},
-  {prompt:"___ is your English teacher?",options:["Who","Where","When"],answer:0,skill:"کلمات پرسشی",explanation:"who درباره شخص می‌پرسد."},
-  {prompt:"___ you play tennis?",options:["Do","Does","Are"],answer:0,skill:"سؤال حال ساده",explanation:"با you در سؤال حال ساده از do استفاده می‌کنیم."},
-  {prompt:"She ___ like tea.",options:["doesn't","don't","isn't"],answer:0,skill:"منفی حال ساده",explanation:"با she از doesn't استفاده می‌شود."},
-  {prompt:"They are ___ football now.",options:["playing","play","plays"],answer:0,skill:"حال استمراری",explanation:"حال استمراری با be + فعل ingدار ساخته می‌شود."},
-  {prompt:"I know Ali. I know ___.",options:["him","he","his"],answer:0,skill:"ضمیر مفعولی",explanation:"پس از فعل know به ضمیر مفعولی him نیاز داریم."},
-  {prompt:"Can I have ___ water, please?",options:["some","a","an"],answer:0,skill:"قابل‌شمارش و غیرقابل‌شمارش",explanation:"water غیرقابل‌شمارش است و some water درست است."},
-  {prompt:"Which is a polite order?",options:["I'd like a sandwich, please.","Give me sandwich!","I sandwich."],answer:0,skill:"سفارش غذا",explanation:"I'd like ... please یک درخواست مؤدبانه است."},
-  {prompt:"How much ___ these shoes?",options:["are","is","do"],answer:0,skill:"خرید",explanation:"shoes جمع است؛ پس are می‌آید."},
-  {prompt:"To go left, you say…",options:["Turn left.","Go right.","Go straight."],answer:0,skill:"مسیرپرسیدن",explanation:"Turn left یعنی به چپ بپیچ."},
-  {prompt:"I go to work ___ bus.",options:["by","on","in"],answer:0,skill:"حمل‌ونقل",explanation:"برای وسیله نقلیه از by bus استفاده می‌کنیم."},
-  {prompt:"It's ___ today. Take an umbrella.",options:["rainy","sunny","dry"],answer:0,skill:"آب‌وهوا",explanation:"rainy یعنی بارانی؛ بردن چتر در این هوا منطقی است."},
-  {prompt:"Would you like ___ join us?",options:["to","at","for"],answer:0,skill:"دعوت کردن",explanation:"ساختار درست would like to + فعل است."},
-  {prompt:"Someone helps you. You say…",options:["Thank you.","Excuse me.","Good night."],answer:0,skill:"عبارت‌های مؤدبانه",explanation:"برای قدردانی از کمک می‌گوییم Thank you."}
+  {prompt:"Choose the correct greeting.",options:["Good morning!","I am from Spain.","It is a pencil."],skill:"مکالمه"},
+  {prompt:"My name ___ Daniel.",options:["is","am","are"],skill:"فعل be"},
+  {prompt:"How do you spell CAT?",options:["C-A-T","K-E-T","C-E-T"],skill:"الفبا"},
+  {prompt:"I'm from Brazil. I'm ___.",options:["Brazilian","Brazil","Brazilish"],skill:"کشورها و ملیت‌ها"},
+  {prompt:"I have ___ orange.",options:["an","a","are"],skill:"حروف تعریف"},
+  {prompt:"The plural of child is ___.",options:["children","childs","childes"],skill:"اسم جمع"},
+  {prompt:"___ are my keys here in my hand.",options:["These","Those","That"],skill:"اشاره"},
+  {prompt:"They ___ students.",options:["are","is","am"],skill:"فعل be"},
+  {prompt:"This is Sara's bag. It is ___.",options:["hers","her","she"],skill:"مالکیت"},
+  {prompt:"My brother ___ a new bike.",options:["has","have","is"],skill:"have و has"},
+  {prompt:"She ___ to school every day.",options:["goes","go","going"],skill:"حال ساده"},
+  {prompt:"I ___ drink coffee. I don't like it.",options:["never","am never","never am"],skill:"قید تکرار"},
+  {prompt:"He can ___ very well.",options:["swim","swims","to swim"],skill:"توانایی"},
+  {prompt:"I like ___ books.",options:["reading","read","reads"],skill:"علاقه‌ها"},
+  {prompt:"The cat is ___ the table.",options:["under","at","between of"],skill:"حروف اضافه مکان"},
+  {prompt:"The class starts ___ 9 o'clock.",options:["at","on","in"],skill:"زمان"},
+  {prompt:"There ___ two windows in the room.",options:["are","is","am"],skill:"There is / are"},
+  {prompt:"___ is your English teacher?",options:["Who","Where","When"],skill:"کلمات پرسشی"},
+  {prompt:"___ you play tennis?",options:["Do","Does","Are"],skill:"سؤال حال ساده"},
+  {prompt:"She ___ like tea.",options:["doesn't","don't","isn't"],skill:"منفی حال ساده"},
+  {prompt:"They are ___ football now.",options:["playing","play","plays"],skill:"حال استمراری"},
+  {prompt:"I know Ali. I know ___.",options:["him","he","his"],skill:"ضمیر مفعولی"},
+  {prompt:"Can I have ___ water, please?",options:["some","a","an"],skill:"قابل‌شمارش و غیرقابل‌شمارش"},
+  {prompt:"Which is a polite order?",options:["I'd like a sandwich, please.","Give me sandwich!","I sandwich."],skill:"سفارش غذا"},
+  {prompt:"How much ___ these shoes?",options:["are","is","do"],skill:"خرید"},
+  {prompt:"To go left, you say…",options:["Turn left.","Go right.","Go straight."],skill:"مسیرپرسیدن"},
+  {prompt:"I go to work ___ bus.",options:["by","on","in"],skill:"حمل‌ونقل"},
+  {prompt:"It's ___ today. Take an umbrella.",options:["rainy","sunny","dry"],skill:"آب‌وهوا"},
+  {prompt:"Would you like ___ join us?",options:["to","at","for"],skill:"دعوت کردن"},
+  {prompt:"Someone helps you. You say…",options:["Thank you.","Excuse me.","Good night."],skill:"عبارت‌های مؤدبانه"}
 ];
 function A1FinalAssessment({ unlocked, result, onResultChange }: { unlocked: boolean; result: { score: number; date: string } | null; onResultChange: (result: { score: number; date: string }) => void }) {
   const [started, setStarted] = useState(false);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [optionOrders, setOptionOrders] = useState<number[][]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const score = a1FinalQuestions.reduce((total, question, i) => total + (answers[i] === question.answer ? 1 : 0), 0);
   const finish = async () => {
     if (!supabase || submitting) return;
     setSubmitting(true);
@@ -261,15 +261,29 @@ function A1FinalAssessment({ unlocked, result, onResultChange }: { unlocked: boo
       setSubmitting(false);
     }
   };
-  const reset = () => { setAnswers({}); setIndex(0); setStarted(true); };
+  const reset = () => {
+    setAnswers({});
+    setIndex(0);
+    setOptionOrders(a1FinalQuestions.map(question => {
+      const order = question.options.map((_, optionIndex) => optionIndex);
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      return order;
+    }));
+    setSubmitError("");
+    setStarted(true);
+  };
   const current = a1FinalQuestions[index];
+  const currentOrder = optionOrders[index] ?? current.options.map((_, optionIndex) => optionIndex);
   return <section className="a1-final-card">
     <div className="a1-final-head"><div><span className="section-kicker">ارزیابی پایانی</span><h2>آزمون جامع پایان A1</h2><p>۳۰ سؤال از گرامر، واژگان و کاربرد زبان؛ برای قبولی باید دست‌کم ۲۴ پاسخ درست داشته باشی.</p></div><div className="a1-final-mark"><Award size={24}/><b>۳۰</b><small>سؤال</small></div></div>
     {!unlocked ? <div className="a1-final-locked"><LockKeyhole size={18}/><span>پس از تکمیل همه {lessons.length} درس، آزمون جامع برایت باز می‌شود.</span></div> : started ? <div className="a1-final-quiz" dir="ltr">
       <div className="a1-final-progress"><span>Question {index+1} of {a1FinalQuestions.length}</span><b>{Math.round((index+1)/a1FinalQuestions.length*100)}%</b></div>
       <div className="a1-final-track"><i style={{width:((index+1)/a1FinalQuestions.length*100)+"%"}}/></div>
       <small className="a1-final-skill">{current.skill}</small><h3>{current.prompt}</h3>
-      <div className="a1-final-options">{current.options.map((option,i)=><button type="button" key={option} className={answers[index]===i?"selected":""} onClick={()=>setAnswers(prev=>({...prev,[index]:i}))}>{option}</button>)}</div>
+      <div className="a1-final-options">{currentOrder.map(originalIndex=><button type="button" key={originalIndex} className={answers[index]===originalIndex?"selected":""} onClick={()=>setAnswers(prev=>({...prev,[index]:originalIndex}))}>{current.options[originalIndex]}</button>)}</div>
       {submitError && <p className="certificate-error" role="alert">{submitError}</p>}
       <div className="a1-final-actions"><button type="button" className="secondary-button" disabled={index===0||submitting} onClick={()=>setIndex(v=>v-1)}>Previous</button><button type="button" className="small-primary" disabled={answers[index]===undefined||submitting} onClick={()=>index===a1FinalQuestions.length-1?void finish():setIndex(v=>v+1)}>{submitting?"در حال ثبت…":index===a1FinalQuestions.length-1?"Submit test":"Next"}</button></div>
     </div> : result ? <div className="a1-final-result"><strong>{result.score} / 30</strong><span>{result.score>=24?"آزمون را با موفقیت گذراندی. عالیه!":"هنوز به حدنصاب نرسیدی؛ بخش‌های نیازمند تمرین را مرور کن."}</span><small>{result.score>=24?"حدنصاب قبولی: ۲۴ از ۳۰":"حدنصاب قبولی: ۲۴ از ۳۰"} · {new Date(result.date).toLocaleDateString("fa-IR")}</small><button type="button" className="small-primary" onClick={reset}>شرکت دوباره در آزمون</button></div> : <button type="button" className="small-primary a1-final-start" onClick={reset}>شروع آزمون جامع <ArrowRight size={16}/></button>}
@@ -646,8 +660,6 @@ function App() {
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [notice, setNotice] = useState("");
   const active = lessons.find(l => l.id === activeLesson);
-  const quizQuestions = active ? lessonContent[active.id]?.questions ?? [] : [];
-  const quizScore = useMemo(() => quizQuestions.reduce((score, question, index) => score + (quizAnswers[index] === question.correct ? 1 : 0), 0), [quizAnswers, activeLesson]);
   const progress = Math.round(completed.length / lessons.length * 100);
   const nextLesson = lessons.find(l => !completed.includes(String(l.id))) ?? lessons[0];
   const filteredWords = useMemo(() => vocabulary.filter(w => (!showSavedOnly || saved.includes(w.word)) && (w.word + w.phonetic + w.meaning + w.example + w.lesson).toLowerCase().includes(search.trim().toLowerCase())), [search, showSavedOnly, saved]);
@@ -1171,7 +1183,7 @@ function App() {
     <span>متنی که سیستم از صدایت تشخیص داد</span>
     <strong dir="ltr" lang="en">{voiceTranscript || (voiceStatus==="listening"?"در انتظار تشخیص صدا…":"هنوز گفتاری ثبت نشده است.")}</strong>
   </div>
-  {voiceStatus==="matched"?<div className="voice-auto-next"><CheckCircle2 size={16}/> پاسخ درست بود؛ خودکار ادامه می‌دهیم.</div>:voiceStatus==="unsupported"||voiceStatus==="error"?<button className="primary-button voice-next" onClick={advanceVoicePractice}>عبارت را با صدای بلند تمرین کردم <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
+  {voiceStatus==="matched"?<div className="voice-auto-next"><CheckCircle2 size={16}/> پاسخ درست بود؛ خودکار ادامه می‌دهیم.</div>:voiceStatus==="unsupported"||voiceStatus==="error"?<button className="primary-button voice-next" onClick={()=>void advanceVoicePractice()} disabled={lessonSubmitting}>{lessonSubmitting?"در حال ثبت نتیجه…":"عبارت را با صدای بلند تمرین کردم"} <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
   {voiceStatus==="retry"&&<button className="text-button voice-retry" onClick={startVoiceAttempt}>تلاش دوباره</button>}
   <p className="voice-privacy">برای این تمرین، تشخیص گفتار از قابلیت مرورگر استفاده می‌کند. در بعضی مرورگرها صدا برای پردازش به سرویس آنلاین ارسال می‌شود.</p>
 </div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button></div></>}</>{step==="typing"&&<><div className="lesson-body voice-practice">
@@ -1182,7 +1194,7 @@ function App() {
 {typingStatus!=="idle"&&<div className={"voice-status "+typingStatus}>{typingStatus==="matched"?<CheckCircle2 size={22}/>:<RotateCcw size={21}/>}<div><b>{typingStatus==="matched"?"جمله‌ات ساخته شد!":"یک بار دیگر امتحان کن."}</b><span>{typingStatus==="matched"?"عبارت هدف و ساختار جمله شناسایی شد؛ درستی کامل گرامر هنوز با این بررسی خودکار سنجیده نمی‌شود.":"عبارت هدف را در یک جمله حداقل سه‌کلمه‌ای به کار ببر."}</span></div></div>}
 {typingStatus==="matched"?<button className="primary-button voice-next" onClick={advanceTypingPractice}>{"رفتن به تمرین گفتاری"} <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={checkTypedAnswer} disabled={!typedAnswer.trim()}>بررسی پاسخ <CheckCircle2 size={16}/></button>}
 <p className="voice-privacy">پاسخ تایپی در همین صفحه بررسی می‌شود و به سرویس بیرونی ارسال نمی‌شود.</p>
-</div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button></div></>}{step==="quiz"&&<><div className="lesson-body"><div className="quiz-progress-head"><span>سؤال {quizIndex+1} از {lessonContent[active.id].questions.length}</span><span>پاسخ درست: {quizScore}</span></div><div className="quiz-progress-track"><i style={{width:((quizIndex+1)/lessonContent[active.id].questions.length*100)+"%"}}/></div><span className="question-count">آزمون سنجش یادگیری · حداقل ۴ پاسخ درست از ۵ سؤال</span><h3>{lessonContent[active.id].questions[quizIndex].prompt}</h3><div className="answer-options">{(quizOptionOrders[quizIndex] ?? lessonContent[active.id].questions[quizIndex].options.map((_,index)=>index)).map((originalIndex,displayIndex)=>{const item=lessonContent[active.id].questions[quizIndex].options[originalIndex];return <button key={originalIndex} className={choice===displayIndex?"chosen":""} aria-pressed={choice===displayIndex} onClick={()=>setChoice(displayIndex)}><span>{String.fromCharCode(65+displayIndex)}</span>{item}</button>;})}</div></div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button><button className="primary-button" disabled={choice===null} onClick={()=>{const originalIndex=(quizOptionOrders[quizIndex] ?? lessonContent[active.id].questions[quizIndex].options.map((_,index)=>index))[choice!];setQuizAnswers(previous=>({...previous,[quizIndex]:originalIndex}));setStep("result");}}>بررسی پاسخ <ArrowRight size={16}/></button></div></>}{step==="complete"&&<div className="lesson-complete"><div className="completion-confetti" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/></div><div className="completion-medal"><Award size={42}/></div><span className="completion-kicker">LIR9 · LEVEL UP</span><h3>آفرین! این درس تموم شد!</h3><p>یک قدم مهم دیگه به انگلیسی بهتر نزدیک شدی.</p>{lastLessonRewarded?<div className="completion-reward"><CheckCircle2 size={19}/><b>۲ LIR</b><span>پاداش تکمیل درس</span></div>:<div className="completion-reward"><CheckCircle2 size={19}/><b>آفرین!</b><span>مرور دوباره درس</span></div>}<button className="primary-button" onClick={closeLesson}>ادامه مسیر یادگیری <ArrowRight size={17}/></button></div>}{step==="result"&&<><div className="lesson-body result-body"><div className={quizAnswers[quizIndex]===lessonContent[active.id].questions[quizIndex].correct?"result-check":"result-retry"}>{quizAnswers[quizIndex]===lessonContent[active.id].questions[quizIndex].correct?<CheckCircle2 size={30}/>:<BookOpen size={30}/>}</div><h3>{quizAnswers[quizIndex]===lessonContent[active.id].questions[quizIndex].correct?"آفرین! پاسخ درست است.":"این پاسخ درست نیست؛ از توضیح یاد بگیر."}</h3><p>پاسخ درست: <strong dir="ltr">{lessonContent[active.id].questions[quizIndex].options[lessonContent[active.id].questions[quizIndex].correct]}</strong></p><div className="answer-explanation"><b>چرا؟</b><span>{lessonContent[active.id].questions[quizIndex].explanation}</span></div></div><div className="dialog-actions">{quizIndex<lessonContent[active.id].questions.length-1?<><button className="text-button" onClick={()=>{setStep("quiz");setChoice(null);}}>تلاش دوباره</button><button className="primary-button" onClick={()=>{setQuizIndex(index=>index+1);setChoice(null);setStep("quiz");}}>سؤال بعدی <ArrowRight size={16}/></button></>:quizScore>=4?<button className="primary-button" onClick={beginTypingPractice}>ادامه به آزمون نوشتاری <ArrowRight size={16}/></button>:<button className="primary-button" onClick={beginQuiz}>تکرار آزمون انتخابی · {quizScore}/5 <RotateCcw size={16}/></button>}</div></>}</section></div>}
+</div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button></div></>}{step==="quiz"&&<><div className="lesson-body"><div className="quiz-progress-head"><span>سؤال {quizIndex+1} از {lessonContent[active.id].questions.length}</span><span>پاسخ درست: {quizScore}</span></div><div className="quiz-progress-track"><i style={{width:((quizIndex+1)/lessonContent[active.id].questions.length*100)+"%"}}/></div><span className="question-count">آزمون سنجش یادگیری · حداقل ۴ پاسخ درست از ۵ سؤال</span><h3>{lessonContent[active.id].questions[quizIndex].prompt}</h3><div className="answer-options">{(quizOptionOrders[quizIndex] ?? lessonContent[active.id].questions[quizIndex].options.map((_,index)=>index)).map((originalIndex,displayIndex)=>{const item=lessonContent[active.id].questions[quizIndex].options[originalIndex];return <button key={originalIndex} className={choice===displayIndex?"chosen":""} aria-pressed={choice===displayIndex} onClick={()=>setChoice(displayIndex)}><span>{String.fromCharCode(65+displayIndex)}</span>{item}</button>;})}</div></div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button><button className="primary-button" disabled={choice===null} onClick={()=>{const originalIndex=(quizOptionOrders[quizIndex] ?? lessonContent[active.id].questions[quizIndex].options.map((_,index)=>index))[choice!];setQuizAnswers(previous=>({...previous,[quizIndex]:originalIndex}));setStep("result");}}>بررسی پاسخ <ArrowRight size={16}/></button></div></>}{step==="complete"&&<div className="lesson-complete"><div className="completion-confetti" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/></div><div className="completion-medal"><Award size={42}/></div><span className="completion-kicker">LIR9 · LEVEL UP</span><h3>آفرین! این درس تموم شد!</h3><p>یک قدم مهم دیگه به انگلیسی بهتر نزدیک شدی.</p>{lastLessonRewarded?<div className="completion-reward"><CheckCircle2 size={19}/><b>۲ LIR</b><span>پاداش تکمیل درس</span></div>:<div className="completion-reward"><CheckCircle2 size={19}/><b>آفرین!</b><span>مرور دوباره درس</span></div>}<button className="primary-button" onClick={closeLesson}>ادامه مسیر یادگیری <ArrowRight size={17}/></button></div>}{step==="result"&&<><div className="lesson-body result-body"><div className="result-check"><CheckCircle2 size={30}/></div><h3>پاسخت ثبت شد.</h3><p>نتیجه آزمون پس از پاسخ به هر پنج سؤال، در سرور محاسبه و تأیید می‌شود.</p></div><div className="dialog-actions">{quizIndex<lessonContent[active.id].questions.length-1?<><button className="text-button" onClick={()=>{setStep("quiz");setChoice(null);}}>تغییر پاسخ</button><button className="primary-button" onClick={()=>{setQuizIndex(index=>index+1);setChoice(null);setStep("quiz");}}>سؤال بعدی <ArrowRight size={16}/></button></>:<button className="primary-button" onClick={beginTypingPractice}>ادامه به آزمون نوشتاری <ArrowRight size={16}/></button>}</div></>}</section></div>}
   </div>;
 }
 export default App;
