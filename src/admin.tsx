@@ -28,8 +28,9 @@ export default function AdminApp() {
     if (invokeError) { setError("ارتباط با سرور برقرار نشد. نشست مدیر را بررسی کن."); return false; }
     if (result?.error) { setError(result.error); return false; }
     if (operation) setNotice(result?.message ?? "عملیات با موفقیت انجام شد.");
-    const nextData = result as DashboardData;
-    setData(previous => append && previous
+    const nextData = operation ? await reloadDashboard() : result as DashboardData;
+    if (!nextData) return false;
+    setData(previous => append && previous && !operation
       ? { ...nextData, users: [...previous.users, ...nextData.users] }
       : nextData);
     setAuthorized(true);
