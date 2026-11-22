@@ -8,7 +8,6 @@ type DashboardData = { totalUsers: number; users: AdminUser[]; hasMore: boolean;
 const formatDate = (value: string) => new Intl.DateTimeFormat("fa-IR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 
 export default function AdminApp() {
-  const [password, setPassword] = useState("");
   const [authorized, setAuthorized] = useState(false);
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -17,37 +16,36 @@ export default function AdminApp() {
   const [search, setSearch] = useState("");
   const [durationDays, setDurationDays] = useState("30");
 
-  async function requestDashboard(secret: string, operation?: { action: "grant_vip" | "revoke_vip"; user_id: string; duration_days?: number | null }) {
+  async function requestDashboard(operation?: { action: "grant_vip" | "revoke_vip"; user_id: string; duration_days?: number | null }) {
     if (!supabase) { setError("تنظیمات اتصال Supabase در دسترس نیست."); return false; }
     const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
-      body: { password: secret, ...(operation ?? {}) },
+      body: { ...(operation ?? {}) },
     });
     if (invokeError) { setError("ارتباط با سرور برقرار نشد. نشست مدیر را بررسی کن."); return false; }
     if (result?.error) { setError(result.error); return false; }
     if (operation) setNotice(result?.message ?? "عملیات با موفقیت انجام شد.");
-    setData(operation ? await reloadDashboard(secret) : result as DashboardData);
+    setData(operation ? await reloadDashboard() : result as DashboardData);
     setAuthorized(true);
     setError("");
     return true;
   }
 
-  async function reloadDashboard(secret: string): Promise<DashboardData | null> {
+  async function reloadDashboard(): Promise<DashboardData | null> {
     if (!supabase) return null;
-    const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", { body: { password: secret } });
+    const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", { body: {} });
     if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
     return result as DashboardData;
   }
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setLoading(true); setError(""); setNotice("");
-    const ok = await requestDashboard(password);
-    if (!ok) setPassword("");
+    await requestDashboard();
     setLoading(false);
   }
 
   async function refresh() {
     setLoading(true); setError(""); setNotice("");
-    try { await requestDashboard(password); } finally { setLoading(false); }
+    try { await requestDashboard(); } finally { setLoading(false); }
   }
 
   async function manageVip(user: AdminUser) {
@@ -61,12 +59,12 @@ export default function AdminApp() {
       const operation = action === "grant_vip"
         ? { action, user_id: user.id, duration_days: durationDays === "forever" ? null : Number(durationDays) } as const
         : { action, user_id: user.id } as const;
-      await requestDashboard(password, operation);
+      await requestDashboard(operation);
     } finally { setLoading(false); }
   }
 
   function signOut() {
-    setAuthorized(false); setPassword(""); setData(null); setError(""); setNotice("");
+    setAuthorized(false); setData(null); setError(""); setNotice("");
   }
 
   function exportCsv() {
@@ -85,12 +83,11 @@ export default function AdminApp() {
   if (!authorized) return (
     <main className="login-shell"><section className="login-card">
       <div className="brand-mark">L9</div><span className="eyebrow">LIR9 / PRIVATE CONSOLE</span>
-      <h1>ورود به مدیریت</h1><p>برای ورود، رمز اختصاصی پنل را وارد کن.</p>
-      <form onSubmit={signIn}><label htmlFor="admin-password">رمز ورود</label>
-        <input id="admin-password" type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)} required />
+      <h1>ورود به مدیریت</h1><p>برای ورود، ابتدا با حساب مدیر در LIR9 وارد شده باش؛ سپس دسترسی را بررسی کن.</p>
+      <form onSubmit={signIn}>
         {error && <div className="error-box">{error}</div>}
-        <button className="primary-button" disabled={loading || !password}>{loading ? "در حال بررسی..." : "ورود به پنل"}</button>
-      </form><div className="security-note"><ShieldCheck size={17}/> دسترسی مدیریتی در سمت سرور اعتبارسنجی می‌شود.</div>
+        <button className="primary-button" disabled={loading}>{loading ? "در حال بررسی..." : "بررسی دسترسی و ورود"}</button>
+      </form><div className="security-note"><ShieldCheck size={17}/> هویت مدیر در سمت سرور بررسی می‌شود؛ رمز جداگانه‌ای در این صفحه دریافت نمی‌شود.</div>
     </section></main>
   );
 
