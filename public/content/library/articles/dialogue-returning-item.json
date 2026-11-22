@@ -1,0 +1,32 @@
+{
+  "title": "Returning an Item",
+  "introduction": "این مکالمه را بخوان و عبارت‌های توضیح مشکل و درخواست تعویض را یاد بگیر.",
+  "paragraphs": [
+    "Customer: Hello. I bought these headphones here yesterday, but they do not work.",
+    "Assistant: I'm sorry to hear that. Do you have the receipt?",
+    "Customer: Yes, here it is. I would like to exchange them, if possible.",
+    "Assistant: Certainly. Would you prefer a new pair or a refund?",
+    "Customer: A new pair, please. The same model is fine.",
+    "Assistant: No problem. Let me check our stock.",
+    "Customer: Thank you for your help.",
+    "Assistant: You're welcome. I hope these work better."
+  ],
+  "vocabulary": [
+    {
+      "word": "receipt",
+      "meaning": "رسید خرید"
+    },
+    {
+      "word": "exchange",
+      "meaning": "تعویض کردن"
+    },
+    {
+      "word": "refund",
+      "meaning": "بازپرداخت وجه"
+    },
+    {
+      "word": "stock",
+      "meaning": "موجودی کالا"
+    }
+  ]
+}
