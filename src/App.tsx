@@ -1050,6 +1050,7 @@ function App() {
       completeLesson();
     } catch (error) {
       console.error("Server verification for lesson failed:", error);
+      setVoiceStatus("idle");
       setNotice("ثبت امن نتیجه درس انجام نشد. اتصال را بررسی کن و دوباره تلاش کن.");
     } finally {
       setLessonSubmitting(false);
