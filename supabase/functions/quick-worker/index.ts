@@ -73,7 +73,7 @@ Deno.serve(async (req: Request) => {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-  const token = authorization.replace(/^Bearer\\s+/i, "");
+  const token = authorization.replace(/^Bearer\s+/i, "");
   const { data: authData, error: authError } = await userClient.auth.getUser(token);
   if (authError || !authData.user) {
     return json({ error: "نشست کاربری معتبر نیست؛ دوباره وارد حساب شو." }, 401);
