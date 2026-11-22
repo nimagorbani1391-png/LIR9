@@ -22,7 +22,7 @@ const NON_ENGLISH_WRITING_PATTERNS = [
 ];
 
 const ENGLISH_LEARNING_CONTEXT =
-  /\\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english|meaning of|what does .{1,40} mean|how do you say|correct my|check my english|is this sentence)\\b|انگلیسی|زبان انگلیسی|گرامر|واژگان|لغت انگلیسی|کلمه انگلیسی|تلفظ|ترجمه|به انگلیسی|جمله انگلیسی|متن انگلیسی|مکالمه انگلیسی|رایتینگ|ریدینگ|لیسنینگ|اسپیکینگ|معنی [a-z]+/i;
+  /\\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english|meaning of|what does .{1,40} mean|how do you say|correct my|check my english|is this sentence)\\b|انگلیسی|زبان انگلیسی|گرامر|حال ساده|حال استمراری|گذشته ساده|زمان فعل|فعل انگلیسی|جمله انگلیسی|واژگان|لغت انگلیسی|کلمه انگلیسی|تلفظ|ترجمه|به انگلیسی|متن انگلیسی|مکالمه انگلیسی|رایتینگ|ریدینگ|لیسنینگ|اسپیکینگ|معنی [a-z]+/i;
 
 const SIMPLE_GREETING =
   /^(hi|hello|hey|good morning|good afternoon|good evening|سلام|سلاممم)[!؟.\\s]*$/i;
@@ -48,7 +48,7 @@ Deno.serve(async (req: Request) => {
     return json({ error: "درخواست نامعتبر است." }, 400);
   }
 
-  if (!Array.isArray(body.messages) || body.messages.length < 1 || body.messages.length > 8) {
+  if (!body || typeof body !== "object" || !Array.isArray(body.messages) || body.messages.length < 1 || body.messages.length > 8) {
     return json({ error: "تعداد پیام‌ها نامعتبر است." }, 400);
   }
 
