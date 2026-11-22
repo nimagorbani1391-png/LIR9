@@ -1602,3 +1602,29 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
  .lesson-complete{padding:35px 17px}.lesson-complete h3{font-size:19px}
 }
 @media(max-width:390px){.learning-hero{padding:19px 15px}.learning-progress-orb{width:77px;height:77px}.learning-progress-orb>div{width:60px;height:60px}.learning-progress-orb strong{font-size:18px}.learning-lesson-action{min-width:65px;font-size:7px}.learning-lesson-meta{gap:6px}}
+
+/* Issued LIR9 certificates */
+.certificate-eligibility{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.certificate-eligibility>div{display:grid;gap:6px;padding:16px;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
+.certificate-eligibility span,.certificate-eligibility small{font-size:10px;color:var(--muted)}
+.certificate-eligibility strong{font-size:21px;color:var(--gold-light)}
+.certificate-issue-panel{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px;border:1px solid #4d4229;border-radius:12px;background:#1b1d17}
+.certificate-issue-panel b{font-size:13px;color:#f0d99c}
+.certificate-issue-panel p{font-size:10px;line-height:1.9;color:var(--muted);margin:7px 0 0}
+.certificate-issue-panel .primary-button{flex:0 0 auto}
+.certificate-empty-state{padding:24px;text-align:center;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:11px}
+.certificate-error{padding:12px 14px;border:1px solid #75423b;border-radius:9px;background:#321f1d;color:#f0aaa0;font-size:10px;line-height:1.9}
+.certificate-issued{max-width:980px}
+.certificate-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.certificate-verify-link{min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 15px;border:1px solid #66552f;border-radius:8px;background:#242319;color:var(--gold-light);font-size:11px;text-decoration:none}
+.certificate-verify-link:hover{background:#302a1d}
+@media(max-width:600px){.certificate-eligibility{grid-template-columns:1fr}.certificate-issue-panel{align-items:stretch;flex-direction:column}.certificate-issue-panel .primary-button{width:100%}}
+@page{size:A4 landscape;margin:8mm}
+@media print{
+  html,body{width:100%;min-height:0!important;background:#fff!important}
+  body *{visibility:hidden!important}
+  #lir9-certificate-print,#lir9-certificate-print *{visibility:visible!important}
+  #lir9-certificate-print{position:fixed!important;inset:0 auto auto 0!important;width:100%!important;max-width:none!important;height:auto!important;aspect-ratio:1.414/1!important;margin:0!important;padding:5mm!important;box-shadow:none!important;border-radius:0!important;overflow:hidden!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  #lir9-certificate-print .certificate-frame{padding:3% 5.5%!important}
+  .certificate-actions{display:none!important}
+}
