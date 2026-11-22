@@ -342,6 +342,8 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
     (category === "همه" || item.category === category) &&
     `${item.title} ${item.summary} ${item.level} ${item.category}`.toLocaleLowerCase("fa").includes(query.trim().toLocaleLowerCase("fa"))
   ), [items, category, query]);
+  const categoryCounts = useMemo(() => ({ "همه": items.length, "داستان": items.filter(item => item.category === "داستان").length, "مقاله": items.filter(item => item.category === "مقاله").length, "مکالمه": items.filter(item => item.category === "مکالمه").length }), [items]);
+  const readingMinutes = useMemo(() => items.reduce((total, item) => total + item.minutes, 0), [items]);
 
   if (selected) return <section className="library-page">
     <button className="library-back" onClick={() => { setSelected(null); setError(""); }}><ChevronLeft size={17}/> بازگشت به کتابخانه</button>
@@ -375,18 +377,19 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
     {libraryMode === "listening" ? <ListeningLab completed={listeningCompleted} scores={listeningScores} onProgressChange={onListeningProgressChange}/> : <>
     <div className="library-feature">
       <div className="library-feature-icon"><BookOpen size={27}/></div>
-      <div><span>فضای مطالعه LIR9</span><h2>هر روز، یک مطلب تازه</h2><p>محتوای کوتاه و سطح‌بندی‌شده برای تقویت زبان انگلیسی.</p></div>
+      <div className="library-feature-copy"><span>فضای مطالعه LIR9</span><h2>دانش بیشتر، قدم‌های کوچک‌تر</h2><p>داستان، مقاله و مکالمه‌های کاربردی؛ متناسب با سطح زبانت.</p></div>
+      <div className="library-feature-stats" aria-label="آمار کتابخانه"><div><b>{items.length}</b><span>مطلب آموزشی</span></div><div><b>{categoryCounts["مکالمه"]}</b><span>مکالمه کاربردی</span></div><div><b>{readingMinutes}</b><span>دقیقه مطالعه</span></div></div>
       <span className="library-feature-mark">LIR9</span>
     </div>
     <label className="library-search"><Search size={18}/><input value={query} onChange={event => setQuery(event.target.value)} placeholder="جست‌وجو در داستان‌ها، مقاله‌ها و مکالمه‌ها…" aria-label="جست‌وجو در کتابخانه محتوا"/></label>
     <div className="library-filters" aria-label="دسته‌بندی محتوا">
-      {["همه", "داستان", "مقاله", "مکالمه"].map(item => <button key={item} className={category===item?"active":""} onClick={() => setCategory(item)} aria-pressed={category===item}>{item}</button>)}
+      {["همه", "داستان", "مقاله", "مکالمه"].map(item => <button key={item} className={category===item?"active":""} onClick={() => setCategory(item)} aria-pressed={category===item}><span>{item}</span><small>{categoryCounts[item as keyof typeof categoryCounts]}</small></button>)}
     </div>
     {loading && <div className="library-state"><span className="library-spinner"/> در حال دریافت فهرست کتابخانه…</div>}
     {error && <div className="library-error" role="alert">{error}<button onClick={() => { setError(""); setLoading(true); window.location.reload(); }}>تلاش دوباره</button></div>}
     {!loading && !error && <div className="library-grid">
-      {filtered.map((item, index) => <button className="library-card" key={item.id} onClick={() => { setSelected(item); setError(""); }} style={{animationDelay:`${index*45}ms`}}>
-        <div className={`library-card-art art-${item.category === "داستان" ? "story" : item.category === "مقاله" ? "article" : "dialogue"}`}><span>{item.category}</span><BookOpen size={25}/></div>
+      {filtered.map((item, index) => <button className={item.featured?"library-card is-featured":"library-card"} key={item.id} onClick={() => { setSelected(item); setError(""); }} style={{animationDelay:`${index*45}ms`}}>
+        <div className={`library-card-art art-${item.category === "داستان" ? "story" : item.category === "مقاله" ? "article" : "dialogue"}`}><span>{item.category}</span><BookOpen size={25}/>{item.featured&&<em>پیشنهاد LIR9</em>}</div>
         <div className="library-card-copy"><div className="library-card-meta"><span>{item.level}</span><span><Clock3 size={12}/>{item.minutes} دقیقه</span></div><h3>{item.title}</h3><p>{item.summary}</p><span className="library-card-link">مطالعه مطلب <ArrowRight size={15}/></span></div>
       </button>)}
       {!filtered.length && <div className="library-empty"><Search size={24}/><b>مطلبی پیدا نشد</b><span>عبارت جست‌وجو یا دسته‌بندی را تغییر بده.</span></div>}
