@@ -4,7 +4,7 @@ import { Activity, ArrowDownToLine, CalendarDays, CircleDollarSign, Crown, LogOu
 import { supabase } from "./lib/supabase";
 
 type AdminUser = { id: string; email: string | null; created_at: string; last_sign_in_at: string | null; is_vip: boolean; expires_at: string | null };
-type DashboardData = { totalUsers: number; users: AdminUser[]; hasMore: boolean; paidSubscribers: number | null; subscriptionTrackingAvailable: boolean };
+type DashboardData = { totalUsers: number; users: AdminUser[]; hasMore: boolean; page: number; paidSubscribers: number | null; subscriptionTrackingAvailable: boolean };
 const formatDate = (value: string) => new Intl.DateTimeFormat("fa-IR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 
 export default function AdminApp() {
@@ -16,15 +16,22 @@ export default function AdminApp() {
   const [search, setSearch] = useState("");
   const [durationDays, setDurationDays] = useState("30");
 
-  async function requestDashboard(operation?: { action: "grant_vip" | "revoke_vip"; user_id: string; duration_days?: number | null }) {
+  async function requestDashboard(
+    operation?: { action: "grant_vip" | "revoke_vip"; user_id: string; duration_days?: number | null },
+    page = 1,
+    append = false
+  ) {
     if (!supabase) { setError("تنظیمات اتصال Supabase در دسترس نیست."); return false; }
     const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
-      body: { ...(operation ?? {}) },
+      body: { ...(operation ?? {}), page, per_page: 50 },
     });
     if (invokeError) { setError("ارتباط با سرور برقرار نشد. نشست مدیر را بررسی کن."); return false; }
     if (result?.error) { setError(result.error); return false; }
     if (operation) setNotice(result?.message ?? "عملیات با موفقیت انجام شد.");
-    setData(operation ? await reloadDashboard() : result as DashboardData);
+    const nextData = result as DashboardData;
+    setData(previous => append && previous
+      ? { ...nextData, users: [...previous.users, ...nextData.users] }
+      : nextData);
     setAuthorized(true);
     setError("");
     return true;
@@ -32,7 +39,7 @@ export default function AdminApp() {
 
   async function reloadDashboard(): Promise<DashboardData | null> {
     if (!supabase) return null;
-    const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", { body: {} });
+    const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", { body: { page: 1, per_page: 50 } });
     if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
     return result as DashboardData;
   }
@@ -63,8 +70,21 @@ export default function AdminApp() {
     } finally { setLoading(false); }
   }
 
-  function signOut() {
-    setAuthorized(false); setData(null); setError(""); setNotice("");
+  async function signOut() {
+    if (!supabase || loading) return;
+    setLoading(true);
+    setError("");
+    try {
+      const { error: signOutError } = await supabase.auth.signOut({ scope: "local" });
+      if (signOutError) throw signOutError;
+      setAuthorized(false);
+      setData(null);
+      setNotice("");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "خروج از حساب انجام نشد؛ دوباره تلاش کن.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function exportCsv() {
@@ -125,7 +145,7 @@ export default function AdminApp() {
             {filteredUsers.length === 0 && <tr><td colSpan={4} className="no-results">کاربری با این ایمیل پیدا نشد.</td></tr>}
           </tbody></table></div>
         )}
-        {data?.hasMore && <p className="table-footnote">برای سبک ماندن درخواست‌ها، فعلاً بخشی از فهرست نمایش داده شده است.</p>}
+        {data?.hasMore && <div className="table-footnote"><p>برای مشاهده کاربران بیشتر، صفحه بعد را بارگذاری کن.</p><button className="ghost-button" onClick={() => void requestDashboard(undefined, (data.page ?? 1) + 1, true)} disabled={loading}><RefreshCw size={15}/> بارگذاری کاربران بیشتر</button></div>}
       </section>
       <footer className="admin-footer"><span>LIR9 ADMIN • PRIVATE ACCESS</span><span>تغییر اشتراک فقط از طریق سرور مجاز است.</span></footer>
     </main>
