@@ -374,7 +374,7 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
     <div className="page-intro library-intro"><span className="section-kicker">یادگیری فراتر از درس‌ها</span><h1>کتابخانه محتوا</h1><p>مطالب آموزشی و تمرین‌های شنیداری را در یک فضای منظم دنبال کن.</p></div>
     <div className="library-mode-switch" role="tablist" aria-label="بخش‌های کتابخانه">
       <button type="button" role="tab" aria-selected={libraryMode === "reading"} className={libraryMode === "reading" ? "active" : ""} onClick={() => setLibraryMode("reading")}><BookOpen size={16}/> مطالب کتابخانه</button>
-      <button type="button" role="tab" aria-selected={libraryMode === "listening"} className={libraryMode === "listening" ? "active" : ""} onClick={() => { if (!isVip) { setVipModalOpen(true); return; } setLibraryMode("listening"); }}><Volume2 size={16}/><LockKeyhole size={13}/> آزمایشگاه شنیداری</button>
+      <button type="button" role="tab" aria-selected={libraryMode === "listening"} className={libraryMode === "listening" ? "active" : ""} onClick={() => { if (!isVip) { setVipModalOpen(true); return; } setLibraryMode("listening"); }}><Volume2 size={16}/>{!isVip && <LockKeyhole size={13}/>} آزمایشگاه شنیداری</button>
     </div>
     {libraryMode === "listening" ? <ListeningLab completed={listeningCompleted} scores={listeningScores} onProgressChange={onListeningProgressChange}/> : <>
     <div className="library-feature">
