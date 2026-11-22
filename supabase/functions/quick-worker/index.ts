@@ -22,7 +22,7 @@ const NON_ENGLISH_WRITING_PATTERNS = [
 ];
 
 const ENGLISH_LEARNING_CONTEXT =
-  /\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english|meaning of|what does .{1,40} mean|how do you say|correct my|check my english|is this sentence|present simple|past simple|future simple|present continuous|past continuous|present perfect|past perfect|tense|verb|noun|adjective|adverb|preposition|pronoun|article|plural|singular|phrasal verb|irregular verb|modal verb)\b|\b(correct|check|explain|teach me|translate|pronounce|spell)\b.{0,60}\b(sentence|word|phrase|grammar|tense|verb|pronunciation)\b|\bwhat is the difference between\b.{0,60}\b(do|does|did|am|is|are|was|were|have|has|had)\b|انگلیسی|زبان انگلیسی|گرامر|حال ساده|حال استمراری|گذشته ساده|زمان فعل|زمان حال|زمان گذشته|زمان آینده|فعل کمکی|فعل انگلیسی|جمله انگلیسی|واژگان|لغت انگلیسی|کلمه انگلیسی|تلفظ|ترجمه|به انگلیسی|متن انگلیسی|مکالمه انگلیسی|رایتینگ|ریدینگ|لیسنینگ|اسپیکینگ|معنی [a-z]+|ضمیر|حرف اضافه|اسم جمع|اسم مفرد|صفت|قید|افعال|فعل be|do و does/i;
+  /\b(english|grammar|vocabulary|pronunciation|translation|translate|speaking|listening|reading|writing|essay in english|meaning of|what does .{1,40} mean|how do you say|correct my|check my english|is this sentence|present simple|past simple|future simple|present continuous|past continuous|present perfect|past perfect|tense|verb|noun|adjective|adverb|preposition|pronoun|article|plural|singular|phrasal verb|irregular verb|modal verb)\b|\b(correct|check|explain|teach me|translate|pronounce|spell)\b.{0,60}\b(sentence|word|phrase|grammar|tense|verb|pronunciation)\b|\bwhat is the difference between\b.{0,60}\b(do|does|did|am|is|are|was|were|have|has|had)\b|انگلیسی|زبان انگلیسی|گرامر|حال ساده|حال استمراری|گذشته ساده|زمان فعل|زمان حال|زمان گذشته|زمان آینده|فعل کمکی|فعل انگلیسی|جمله انگلیسی|واژگان|لغت انگلیسی|کلمه انگلیسی|تلفظ|ترجمه|به انگلیسی|متن انگلیسی|مکالمه انگلیسی|رایتینگ|ریدینگ|لیسنینگ|اسپیکینگ|معنی [a-z]+|ضمیر|حرف اضافه|اسم جمع|اسم مفرد|صفت|قید|افعال|فعل be|do و does|\\b(do|does|did|am|is|are|was|were|have|has|had)\\b.{0,35}(یعنی چی|چه معنی|چه کاربرد|چرا)/i;
 
 const SIMPLE_GREETING =
   /^(hi|hello|hey|good morning|good afternoon|good evening|سلام|سلاممم)[!؟.\s]*$/i;
@@ -146,7 +146,7 @@ Deno.serve(async (req: Request) => {
 
   if (isOutOfScope) {
     return json({
-      reply: "من LIRTO، دستیار یادگیری زبان انگلیسی LIR9 هستم. 😊\\nفقط در زمینه یادگیری انگلیسی می‌تونم کمکت کنم. بیا با هم انگلیسی تمرین کنیم!",
+      reply: "من LIRTO، دستیار یادگیری زبان انگلیسی LIR9 هستم. 😊\nفقط در زمینه یادگیری انگلیسی می‌تونم کمکت کنم. بیا با هم انگلیسی تمرین کنیم!",
       usage,
     });
   }
