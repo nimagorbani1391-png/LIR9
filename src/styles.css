@@ -1705,3 +1705,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .library-mode-switch button svg{flex-shrink:0}
 .library-card:not(:disabled){position:relative}
 .library-card:not(:disabled):focus-visible{outline:2px solid #d5b66d;outline-offset:3px}
+
+
+.vip-benefits{position:relative;margin:20px 0 18px;padding:17px 18px;border:1px solid rgba(222,188,111,.22);border-radius:16px;background:rgba(255,255,255,.035);text-align:right}
+.vip-benefits h3{margin:0 0 14px;color:#fff0cc;font-size:15px;font-weight:850}
+.vip-benefits ul{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.vip-benefits li{display:flex;align-items:flex-start;gap:9px;color:#eee9dc;font-size:13px;line-height:1.9}
+.vip-benefits li svg{flex:0 0 17px;margin-top:4px;color:#d9b66f}
+@media(max-width:720px){.vip-benefits{margin:18px 0 16px;padding:15px 13px}.vip-benefits h3{font-size:14px}.vip-benefits li{font-size:12px;gap:8px}}
