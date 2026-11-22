@@ -682,7 +682,18 @@ function App() {
         setLearningStateReady(true);
       } catch (error) {
         console.error("Learning state sync failed:", error);
-        if (active) setLearningStateError("همگام‌سازی پیشرفت آموزشی انجام نشد. اتصال اینترنت و تنظیمات دیتابیس را بررسی کن.");
+        const diagnostic = error && typeof error === "object"
+          ? error as { message?: unknown; code?: unknown; details?: unknown; hint?: unknown }
+          : null;
+        const diagnosticMessage = [
+          diagnostic?.message,
+          diagnostic?.code ? "کد: " + String(diagnostic.code) : "",
+          diagnostic?.details,
+          diagnostic?.hint,
+        ].filter(value => typeof value === "string" && value.trim()).join(" | ");
+        if (active) setLearningStateError(
+          "همگام‌سازی پیشرفت آموزشی انجام نشد. جزئیات خطا: " + (diagnosticMessage || "خطای نامشخص")
+        );
       }
     };
     void sync();
