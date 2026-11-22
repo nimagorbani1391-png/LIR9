@@ -267,7 +267,7 @@ type LibraryItem = {
 };
 type LibraryArticle = { title: string; introduction: string; paragraphs: string[]; vocabulary?: { word: string; meaning: string }[]; };
 const libraryCache = new Map<string, LibraryItem[] | LibraryArticle>();
-function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgressChange }: { listeningCompleted: string[]; listeningScores: Record<string, boolean>; onListeningProgressChange: (completed: string[], scores: Record<string, boolean>) => void }) {
+function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgressChange, isVip, onUpgrade }: { listeningCompleted: string[]; listeningScores: Record<string, boolean>; onListeningProgressChange: (completed: string[], scores: Record<string, boolean>) => void; isVip: boolean; onUpgrade: () => void }) {
   const [items, setItems] = useState<LibraryItem[]>(() => (libraryCache.get("index") as LibraryItem[] | undefined) ?? []);
   const [loading, setLoading] = useState(() => !libraryCache.has("index"));
   const [error, setError] = useState("");
@@ -279,6 +279,7 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
   const [articleLoading, setArticleLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [audioError, setAudioError] = useState("");
+  const [vipModalOpen, setVipModalOpen] = useState(false);
 
   const articleContainsPersian = article?.paragraphs?.some(paragraph => /[\u0600-\u06FF]/.test(paragraph)) ?? false;
 
@@ -345,7 +346,7 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
   const categoryCounts = useMemo(() => ({ "همه": items.length, "داستان": items.filter(item => item.category === "داستان").length, "مقاله": items.filter(item => item.category === "مقاله").length, "مکالمه": items.filter(item => item.category === "مکالمه").length }), [items]);
   const readingMinutes = useMemo(() => items.reduce((total, item) => total + item.minutes, 0), [items]);
 
-  if (selected) return <section className="library-page">
+  if (selected && isVip) return <section className="library-page">
     <button className="library-back" onClick={() => { setSelected(null); setError(""); }}><ChevronLeft size={17}/> بازگشت به کتابخانه</button>
     {articleLoading && <div className="library-state"><span className="library-spinner"/> در حال آماده‌سازی مطلب…</div>}
     {error && <div className="library-error" role="alert">{error}<button onClick={() => { setSelected(null); setError(""); }}>بازگشت</button></div>}
@@ -372,7 +373,7 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
     <div className="page-intro library-intro"><span className="section-kicker">یادگیری فراتر از درس‌ها</span><h1>کتابخانه محتوا</h1><p>مطالب آموزشی و تمرین‌های شنیداری را در یک فضای منظم دنبال کن.</p></div>
     <div className="library-mode-switch" role="tablist" aria-label="بخش‌های کتابخانه">
       <button type="button" role="tab" aria-selected={libraryMode === "reading"} className={libraryMode === "reading" ? "active" : ""} onClick={() => setLibraryMode("reading")}><BookOpen size={16}/> مطالب کتابخانه</button>
-      <button type="button" role="tab" aria-selected={libraryMode === "listening"} className={libraryMode === "listening" ? "active" : ""} onClick={() => setLibraryMode("listening")}><Volume2 size={16}/> آزمایشگاه شنیداری</button>
+      <button type="button" role="tab" aria-selected={libraryMode === "listening"} className={libraryMode === "listening" ? "active" : ""} onClick={() => { if (!isVip) { setVipModalOpen(true); return; } setLibraryMode("listening"); }}><Volume2 size={16}/><LockKeyhole size={13}/> آزمایشگاه شنیداری</button>
     </div>
     {libraryMode === "listening" ? <ListeningLab completed={listeningCompleted} scores={listeningScores} onProgressChange={onListeningProgressChange}/> : <>
     <div className="library-feature">
@@ -388,13 +389,24 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
     {loading && <div className="library-state"><span className="library-spinner"/> در حال دریافت فهرست کتابخانه…</div>}
     {error && <div className="library-error" role="alert">{error}<button onClick={() => { setError(""); setLoading(true); window.location.reload(); }}>تلاش دوباره</button></div>}
     {!loading && !error && <div className="library-grid">
-      {filtered.map((item, index) => <button className={item.featured?"library-card is-featured":"library-card"} key={item.id} onClick={() => { setSelected(item); setError(""); }} style={{animationDelay:`${index*45}ms`}}>
+      {filtered.map((item, index) => <button className={item.featured?"library-card is-featured":"library-card"} key={item.id} onClick={() => { if (!isVip) { setVipModalOpen(true); return; } setSelected(item); setError(""); }} style={{animationDelay:`${index*45}ms`}}
         <div className={`library-card-art art-${item.category === "داستان" ? "story" : item.category === "مقاله" ? "article" : "dialogue"}`}><span>{item.category}</span><BookOpen size={25}/>{item.featured&&<em>پیشنهاد LIR9</em>}</div>
         <div className="library-card-copy"><div className="library-card-meta"><span>{item.level}</span><span><Clock3 size={12}/>{item.minutes} دقیقه</span></div><h3>{item.title}</h3><p>{item.summary}</p><span className="library-card-link">مطالعه مطلب <ArrowRight size={15}/></span></div>
       </button>)}
       {!filtered.length && <div className="library-empty"><Search size={24}/><b>مطلبی پیدا نشد</b><span>عبارت جست‌وجو یا دسته‌بندی را تغییر بده.</span></div>}
     </div>}
     </>}
+    {vipModalOpen && !isVip && <div className="lirto-quota-overlay library-vip-overlay" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setVipModalOpen(false); }}>
+      <section className="lirto-quota-dialog library-vip-dialog" role="dialog" aria-modal="true" aria-labelledby="library-vip-title">
+        <button className="lirto-quota-close" type="button" onClick={() => setVipModalOpen(false)} aria-label="بستن پیام"><X size={19}/></button>
+        <span className="lirto-quota-crown"><Crown size={27}/></span>
+        <span className="lirto-quota-eyebrow">LIR9 · VIP CONTENT</span>
+        <h3 id="library-vip-title">این محتوا ویژه اعضای VIP است!</h3>
+        <p>کتابخانه برای همه قابل مشاهده است؛ اما مطالعه داستان‌ها و مقاله‌ها و دسترسی به آزمایشگاه شنیداری، با اشتراک VIP فعال می‌شود. برای باز کردن تمام محتوای آموزشی، پلن خود را ارتقاء بده.</p>
+        <button className="lirto-quota-upgrade" type="button" onClick={onUpgrade}>مشاهده پلن VIP <Crown size={17}/></button>
+        <button className="lirto-quota-later" type="button" onClick={() => setVipModalOpen(false)}>فعلاً نه</button>
+      </section>
+    </div>}
   </section>;
 }
 
@@ -574,6 +586,7 @@ function ListeningLab({ completed, scores, onProgressChange }: { completed: stri
 
 function App() {
   const [authSession, setAuthSession] = useState<import("@supabase/supabase-js").Session | null>(null);
+  const [libraryIsVip, setLibraryIsVip] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [signOutBusy, setSignOutBusy] = useState(false);
   const [learningStateReady, setLearningStateReady] = useState(false);
@@ -701,6 +714,21 @@ function App() {
     });
     return () => { active = false; subscription.unsubscribe(); };
   }, []);
+
+  useEffect(() => {
+    if (!authSession || !supabase) { setLibraryIsVip(false); return; }
+    let active = true;
+    void supabase.rpc("get_lirto_daily_usage").then(({ data, error }) => {
+      if (!active) return;
+      if (error) {
+        console.error("Could not verify VIP access for content library:", error);
+        setLibraryIsVip(false);
+        return;
+      }
+      setLibraryIsVip(Boolean((data as LirtoQuota | null)?.is_vip));
+    });
+    return () => { active = false; };
+  }, [authSession?.user.id]);
 
   useEffect(() => {
     const userId = authSession?.user.id;
@@ -1008,7 +1036,7 @@ function App() {
           </div>
           <PlacementAssessment result={placementResult} onResultChange={result => { setPlacementResult(result); try { localStorage.setItem("lir9-placement-result", JSON.stringify(result)); } catch { /* local storage may be unavailable */ } }}/>
           <A1FinalAssessment unlocked={completed.length === lessons.length} result={a1FinalResult} onResultChange={result => { setA1FinalResult(result); try { localStorage.setItem("lir9-a1-final-result", JSON.stringify(result)); } catch { /* local storage may be unavailable */ } }}/>
-        </>}{tab === "library" && <ContentLibrary listeningCompleted={listeningCompleted} listeningScores={listeningScores} onListeningProgressChange={(nextCompleted, nextScores) => { setListeningCompleted(nextCompleted); setListeningScores(nextScores); writeStore("lir9-listening-completed", nextCompleted); try { localStorage.setItem("lir9-listening-scores", JSON.stringify(nextScores)); } catch { /* local storage may be unavailable */ } }}/>}
+        </>}{tab === "library" && <ContentLibrary isVip={libraryIsVip} onUpgrade={() => go("vip")} listeningCompleted={listeningCompleted} listeningScores={listeningScores} onListeningProgressChange={(nextCompleted, nextScores) => { setListeningCompleted(nextCompleted); setListeningScores(nextScores); writeStore("lir9-listening-completed", nextCompleted); try { localStorage.setItem("lir9-listening-scores", JSON.stringify(nextScores)); } catch { /* local storage may be unavailable */ } }}/>}
         {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
         {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant onUpgrade={() => go("vip")}/></>}
         {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><button className="vip-activate-button" onClick={()=>setNotice("درگاه پرداخت هنوز به LIR9 متصل نشده است؛ فعلاً امکان خرید واقعی وجود ندارد.")}>فعال‌سازی اشتراک VIP <Crown size={17}/></button><span className="vip-secure-note"><ShieldCheck size={14}/> پرداخت آنلاین پس از راه‌اندازی درگاه فعال می‌شود.</span></article></section>}
