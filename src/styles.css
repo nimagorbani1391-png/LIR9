@@ -1736,3 +1736,18 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .account-delete-confirm{border:1px solid #b94343;background:#b94343;color:#fff}
 .account-delete-actions button:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:620px){.account-privacy-card,.account-delete-card{align-items:stretch;flex-direction:column;padding:17px}.account-privacy-link{align-self:flex-start}.account-delete-button{width:100%}.account-delete-dialog{padding:25px 19px 19px}}
+
+
+/* Native Android: respect the system status-bar inset and keep the menu control compact. */
+@media(max-width:720px){
+  .capacitor-native .top-header{
+    padding-top:calc(9px + env(safe-area-inset-top, 0px));
+    min-height:calc(76px + env(safe-area-inset-top, 0px));
+  }
+  .capacitor-native .top-header .menu-button{
+    width:42px;height:42px;min-width:42px;min-height:42px;padding:0;
+    border-radius:13px;display:grid;place-items:center;align-self:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.18);
+  }
+  .capacitor-native .top-header .menu-button svg{width:21px;height:21px}
+}
