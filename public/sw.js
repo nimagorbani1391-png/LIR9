@@ -1,11 +1,11 @@
-/* LIR9 offline app shell — scoped to the GitHub Pages project path. */
-const CACHE_NAME = "lir9-shell-v2";
-const APP_BASE = "/LIR9/";
+/* LIR9 PWA service worker — Cloudflare Pages root deployment. */
+const CACHE_NAME = "lir9-shell-v3";
+const APP_BASE = "/";
 const APP_SHELL = [
-  APP_BASE,
-  APP_BASE + "index.html",
-  APP_BASE + "manifest.webmanifest",
-  APP_BASE + "lir9-icon.svg"
+  "/",
+  "/index.html",
+  "/manifest.webmanifest",
+  "/lir9-icon.svg"
 ];
 
 self.addEventListener("install", (event) => {
@@ -35,25 +35,23 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
   if (!url.pathname.startsWith(APP_BASE)) return;
 
-  // Keep navigations online-first so users receive the latest deployed app.
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request).then((response) => {
         if (response.ok) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          void caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
         }
         return response;
       }).catch(async () => {
         const cached = await caches.match(request);
         if (cached) return cached;
-        return (await caches.match(APP_BASE + "index.html")) || Response.error();
+        return (await caches.match("/index.html")) || Response.error();
       })
     );
     return;
   }
 
-  // Cache-first for same-origin static build assets.
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
