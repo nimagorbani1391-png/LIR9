@@ -1,8 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#0b0b0a"/>
-  <rect x="28" y="28" width="456" height="456" rx="92" fill="none" stroke="#c9a45c" stroke-width="8"/>
-  <path d="M155 112h64v224h145v64H155z" fill="#f7f2e8"/>
-  <path d="M292 112h65v224h-65z" fill="#c9a45c" opacity=".0"/>
-  <text x="325" y="390" font-family="Arial,sans-serif" font-size="110" font-weight="700" fill="#c9a45c" text-anchor="middle">9</text>
-  <circle cx="384" cy="128" r="13" fill="#c9a45c"/>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe18a"/>
+      <stop offset=".48" stop-color="#f6b934"/>
+      <stop offset="1" stop-color="#a96b12"/>
+    </linearGradient>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#dedbd3"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#b77b22" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#0a0a09" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="#080807"/>
+  <circle cx="256" cy="236" r="220" fill="url(#glow)"/>
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="none" stroke="url(#gold)" stroke-width="5" opacity=".8"/>
+  <path d="M92 264 Q172 223 256 282 Q340 223 420 264 L420 298 Q340 260 256 320 Q172 260 92 298Z" fill="url(#gold)"/>
+  <path d="M112 244 Q183 210 250 270 L250 302 Q183 249 112 277Z" fill="url(#page)"/>
+  <path d="M400 244 Q329 210 262 270 L262 302 Q329 249 400 277Z" fill="url(#page)"/>
+  <path d="M256 104 L390 153 L256 202 L122 153Z" fill="url(#gold)"/>
+  <path d="M164 170 V205 Q256 251 348 205 V170 L256 204Z" fill="#d58d1c"/>
+  <path d="M386 154 V211" stroke="#f7c75a" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="386" cy="220" r="10" fill="url(#gold)"/>
+  <path d="M94 350 C74 395 118 420 178 405 C260 384 346 349 412 312" fill="none" stroke="url(#gold)" stroke-width="7" stroke-linecap="round"/>
+  <text x="256" y="393" text-anchor="middle" font-family="Arial,sans-serif" font-size="94" font-weight="800" letter-spacing="-5">
+    <tspan fill="#f7f5ef">LIR</tspan><tspan fill="url(#gold)">9</tspan>
+  </text>
 </svg>
