@@ -1,4 +1,4 @@
-name: Build LIR9 for Cloudflare Pages
+name: Build and Deploy LIR9 to Cloudflare Pages
 
 on:
   push:
@@ -10,11 +10,11 @@ permissions:
   contents: read
 
 concurrency:
-  group: lir9-cloudflare-artifact
+  group: lir9-cloudflare-deploy
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -34,10 +34,8 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
 
-      - name: Upload website files
-        uses: actions/upload-artifact@v4
-        with:
-          name: lir9-dist
-          path: dist/
-          if-no-files-found: error
-          retention-days: 7
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler@latest pages deploy dist --project-name=lir9-platform --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: b4c81ea817a345466a4ae05c1488d7ad
