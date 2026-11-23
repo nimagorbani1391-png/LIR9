@@ -1,0 +1,32 @@
+{
+  "id": "/LIR9/",
+  "name": "LIR9 | یادگیری زبان انگلیسی",
+  "short_name": "LIR9",
+  "description": "مسیر هوشمند و اصولی یادگیری زبان انگلیسی از سطح A1 تا C1.",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "/LIR9/",
+  "scope": "/LIR9/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0b0b0a",
+  "theme_color": "#0b0b0a",
+  "categories": [
+    "education",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/LIR9/lir9-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/LIR9/lir9-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
