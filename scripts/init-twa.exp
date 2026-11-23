@@ -5,7 +5,7 @@ spawn npx --yes @bubblewrap/cli@1.27.0 init --manifest=$manifest --directory=./a
 expect {
   -re {Domain:} { send "\r"; exp_continue }
   -re {URL path:} { send "\r"; exp_continue }
-  -re {Application name:} { send "\r"; exp_continue }
+  -re {Application name:} { send "LIR9\r"; exp_continue }
   -re {Short name:} { send "\r"; exp_continue }
   -re {Application ID:} { send "ir.lir9.app\r"; exp_continue }
   -re {Starting version code for the new app version:} { send "\r"; exp_continue }
