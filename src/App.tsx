@@ -5,7 +5,7 @@ import { areLearningStatesEqual, loadLearningState, saveLearningState, type Lear
 import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/curriculum";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
-  CheckCircle2, Clock3, Target, Languages, Menu, X, Bookmark, Volume2,
+  CheckCircle2, Clock3, Target, Languages, AlignJustify, X, Bookmark, Volume2,
   LockKeyhole, ArrowRight, Search, SearchCheck, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info
 } from "lucide-react";
 
