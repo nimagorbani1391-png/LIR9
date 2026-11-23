@@ -680,6 +680,13 @@ function App() {
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
   useEffect(() => {
+    if (!authLoading && authSession && new URLSearchParams(window.location.search).get("action") === "delete-account") {
+      setTab("account");
+      setDeleteConfirmOpen(true);
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, [authLoading, authSession]);
+  useEffect(() => {
     if (!authSession || !supabase || !learningStateReady) { setServerProgressReady(false); return; }
     let active = true;
     setServerProgressReady(false);
