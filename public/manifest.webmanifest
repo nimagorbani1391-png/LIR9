@@ -9,24 +9,15 @@
   "scope": "/LIR9/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0b0b0a",
-  "theme_color": "#0b0b0a",
-  "categories": [
-    "education",
-    "productivity"
-  ],
+  "background_color": "#080807",
+  "theme_color": "#080807",
+  "categories": ["education", "productivity"],
   "icons": [
     {
       "src": "/LIR9/lir9-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
-    },
-    {
-      "src": "/LIR9/lir9-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
     }
   ]
 }
