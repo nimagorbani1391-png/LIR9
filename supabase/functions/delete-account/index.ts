@@ -35,25 +35,17 @@ Deno.serve(async (req: Request) => {
     const { data: { user }, error: authError } = await admin.auth.getUser(token);
     if (authError || !user) return json({ error: "Invalid or expired session" }, 401);
 
-    // Remove all known user-owned records before deleting the Auth identity.
-    // The operation is safe to retry if a prior attempt stopped partway through.
-    const ownedTables = [
-      "lir9_certificates",
-      "lir9_user_plans",
-      "lirto_daily_usage",
-      "lir9_verified_lesson_progress",
-      "lir9_a1_final_assessments",
-      "user_learning_state",
-    ];
-
-    for (const table of ownedTables) {
-      const { error } = await admin.from(table).delete().eq("user_id", user.id);
-      if (error) {
-        console.error("Could not remove user data from table:", table, error.message);
-        return json({ error: "Could not delete all account data. Please retry." }, 500);
-      }
+    // Delete all user-owned records atomically, including the private assessment
+    // attempt-limit table, through a service-role-only SECURITY DEFINER RPC.
+    const { error: dataError } = await admin.rpc("delete_lir9_user_data", {
+      p_user_id: user.id,
+    });
+    if (dataError) {
+      console.error("Could not remove user-owned data:", dataError.message);
+      return json({ error: "Could not delete all account data. Please retry." }, 500);
     }
 
+    // Only remove the Auth identity after the data-deletion transaction succeeds.
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
     if (deleteError) {
       console.error("Auth user deletion failed:", deleteError.message);
