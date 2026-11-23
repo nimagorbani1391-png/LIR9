@@ -951,9 +951,11 @@ function App() {
       const { error } = await supabase.functions.invoke("delete-account", { method: "POST" });
       if (error) throw error;
       await supabase.auth.signOut({ scope: "local" });
-      for (const key of ["lir9-completed", "lir9-rewarded", "lir9-balance", "lir9-saved"]) {
-        try { localStorage.removeItem(key); } catch { /* local storage may be unavailable */ }
-      }
+      try {
+        Object.keys(localStorage)
+          .filter(key => key.startsWith("lir9-"))
+          .forEach(key => localStorage.removeItem(key));
+      } catch { /* local storage may be unavailable */ }
       setDeleteConfirmOpen(false);
       setAuthSession(null);
       setLearningStateReady(false);
