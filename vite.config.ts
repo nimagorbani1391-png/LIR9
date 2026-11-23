@@ -3,7 +3,8 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/LIR9/",
+  // LIR9 is deployed at the root of its Cloudflare Pages hostname.
+  base: "/",
   build: {
     rollupOptions: {
       input: {
