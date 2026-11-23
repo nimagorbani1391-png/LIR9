@@ -54,6 +54,16 @@ Deno.serve(async (req: Request) => {
       }
     }
 
+    const { error: attemptLimitError } = await admin
+      .schema("private")
+      .from("lir9_a1_attempt_limits")
+      .delete()
+      .eq("user_id", user.id);
+    if (attemptLimitError) {
+      console.error("Could not remove user assessment limits:", attemptLimitError.message);
+      return json({ error: "Could not delete all account data. Please retry." }, 500);
+    }
+
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
     if (deleteError) {
       console.error("Auth user deletion failed:", deleteError.message);
