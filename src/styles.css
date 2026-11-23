@@ -1713,3 +1713,26 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .vip-benefits li{display:flex;align-items:flex-start;gap:9px;color:#eee9dc;font-size:13px;line-height:1.9}
 .vip-benefits li svg{flex:0 0 17px;margin-top:4px;color:#d9b66f}
 @media(max-width:720px){.vip-benefits{margin:18px 0 16px;padding:15px 13px}.vip-benefits h3{font-size:14px}.vip-benefits li{font-size:12px;gap:8px}}
+
+
+/* Privacy and account lifecycle controls */
+.auth-privacy-link{margin:12px 0 0;text-align:center;font-size:12px}
+.auth-privacy-link a,.account-privacy-link{color:var(--gold,#c5a45b);text-decoration:underline;text-underline-offset:4px;font-weight:800}
+.account-privacy-card,.account-delete-card{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-top:18px;padding:22px;border:1px solid var(--border,#dedbd2);border-radius:18px;background:var(--surface,#fff)}
+.account-privacy-card h2,.account-delete-card h2{margin:6px 0 5px;font-size:17px}
+.account-privacy-card p,.account-delete-card p{max-width:560px;margin:0;color:var(--muted,#777);font-size:12px;line-height:2}
+.account-privacy-link{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.account-delete-card{border-color:rgba(190,70,70,.25);background:rgba(190,70,70,.035)}
+.account-delete-button{flex:0 0 auto;padding:11px 16px;border:1px solid rgba(190,70,70,.42);border-radius:12px;background:rgba(190,70,70,.08);color:#c84e4e;font:inherit;font-size:12px;font-weight:850;cursor:pointer}
+.account-delete-button:disabled{opacity:.55;cursor:not-allowed}
+.account-delete-overlay{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;padding:20px;background:rgba(8,9,8,.72);backdrop-filter:blur(8px)}
+.account-delete-dialog{width:min(100%,430px);padding:28px 24px 22px;border:1px solid rgba(197,164,91,.28);border-radius:22px;background:var(--surface,#fff);color:var(--text,#222);box-shadow:0 28px 90px rgba(0,0,0,.32);text-align:center}
+.account-delete-dialog-icon{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 13px;border-radius:17px;background:rgba(190,70,70,.09);color:#c84e4e}
+.account-delete-dialog h2{margin:0 0 9px;font-size:19px}
+.account-delete-dialog p{margin:0 auto 22px;color:var(--muted,#777);font-size:13px;line-height:2}
+.account-delete-actions{display:flex;gap:10px}
+.account-delete-actions button{flex:1;min-height:44px;border-radius:12px;font:inherit;font-weight:850;cursor:pointer}
+.account-delete-cancel{border:1px solid var(--border,#ddd);background:transparent;color:inherit}
+.account-delete-confirm{border:1px solid #b94343;background:#b94343;color:#fff}
+.account-delete-actions button:disabled{opacity:.55;cursor:not-allowed}
+@media(max-width:620px){.account-privacy-card,.account-delete-card{align-items:stretch;flex-direction:column;padding:17px}.account-privacy-link{align-self:flex-start}.account-delete-button{width:100%}.account-delete-dialog{padding:25px 19px 19px}}
