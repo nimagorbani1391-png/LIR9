@@ -5,6 +5,10 @@ const source = "public/lir9-icon.png";
 const output = "public/icons";
 
 await mkdir(output, { recursive: true });
+await mkdir("assets", { recursive: true });
+
+// Capacitor launcher icon source (1024px, generated from the uploaded official logo).
+await sharp(source).resize(1024, 1024).png({ compressionLevel: 9 }).toFile("assets/icon.png");
 
 await sharp(source).resize(192, 192).png({ compressionLevel: 9 }).toFile(`${output}/icon-192.png`);
 await sharp(source).resize(512, 512).png({ compressionLevel: 9 }).toFile(`${output}/icon-512.png`);
