@@ -38,5 +38,5 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: b4c81ea817a345466a4ae05c1488d7ad
           command: pages deploy dist --project-name=lir9-platform --branch=main
