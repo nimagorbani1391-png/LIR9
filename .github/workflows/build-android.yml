@@ -81,10 +81,10 @@ jobs:
           import re
           path = Path("android/app/build.gradle")
           source = path.read_text()
-          source, count = re.subn(r"minSdkVersion\\s+\\d+", "minSdkVersion 24", source, count=1)
+          source, count = re.subn(r"minSdkVersion\s+\d+", "minSdkVersion 24", source, count=1)
           if count != 1:
               raise SystemExit("Could not locate minSdkVersion in generated Android project")
-          source = re.sub(r'versionName "\\d+(?:\\.\\d+)*"', 'versionName "1.0.0"', source, count=1)
+          source = re.sub(r'versionName "\d+(?:\.\d+)*"', 'versionName "1.0.0"', source, count=1)
           if "compileSdkVersion 36" not in source or "targetSdkVersion 36" not in source:
               raise SystemExit("Generated project does not target Android API 36")
           path.write_text(source)
