@@ -153,6 +153,7 @@ function AuthScreen() {
         <button className="auth-submit" type="submit" disabled={busy}>{busy ? "لطفاً صبر کن…" : mode === "signup" ? "ساخت حساب کاربری" : "ورود به حساب"} <span>←</span></button>
       </form>
       <p className="auth-footnote"><span>◆</span> اطلاعات حساب با امنیت Supabase مدیریت می‌شود.</p>
+      <p className="auth-privacy-link"><a href={`${import.meta.env.BASE_URL}privacy.html`}>سیاست حریم خصوصی</a></p>
     </section>
     <div className="auth-background-glow" aria-hidden="true"/>
   </main>;
@@ -630,6 +631,8 @@ function App() {
   const [certificateIssuing, setCertificateIssuing] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [signOutBusy, setSignOutBusy] = useState(false);
+  const [deleteBusy, setDeleteBusy] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [learningStateReady, setLearningStateReady] = useState(false);
   const [learningStateError, setLearningStateError] = useState("");
   const [tab, setTab] = useState<Tab>("home");
@@ -676,6 +679,13 @@ function App() {
     { id: "vip" as Tab, label: "اشتراک VIP", icon: Crown },
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  useEffect(() => {
+    if (!authLoading && authSession && new URLSearchParams(window.location.search).get("action") === "delete-account") {
+      setTab("account");
+      setDeleteConfirmOpen(true);
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, [authLoading, authSession]);
   useEffect(() => {
     if (!authSession || !supabase || !learningStateReady) { setServerProgressReady(false); return; }
     let active = true;
@@ -934,6 +944,31 @@ function App() {
       setSignOutBusy(false);
     }
   };
+  const handleDeleteAccount = async () => {
+    if (!supabase || !authSession || deleteBusy) return;
+    setDeleteBusy(true);
+    try {
+      const { error } = await supabase.functions.invoke("delete-account", { method: "POST" });
+      if (error) throw error;
+      await supabase.auth.signOut({ scope: "local" });
+      for (const key of ["lir9-completed", "lir9-rewarded", "lir9-balance", "lir9-saved"]) {
+        try { localStorage.removeItem(key); } catch { /* local storage may be unavailable */ }
+      }
+      setDeleteConfirmOpen(false);
+      setAuthSession(null);
+      setLearningStateReady(false);
+      setCompleted([]);
+      setRewarded([]);
+      setSaved([]);
+      setLirBalance(0);
+    } catch (error) {
+      console.error("Account deletion failed:", error);
+      setNotice("حذف حساب انجام نشد. اتصال اینترنت را بررسی کنید و دوباره تلاش کنید.");
+      setDeleteConfirmOpen(false);
+    } finally {
+      setDeleteBusy(false);
+    }
+  };
   const completeLesson = () => {
     if (!active) return;
     const id = String(active.id);
@@ -1153,6 +1188,25 @@ function App() {
               <LogOut size={17}/><span>{signOutBusy ? "در حال خروج…" : "خروج از حساب کاربری"}</span>
             </button>
           </section>
+          <section className="account-privacy-card">
+            <div><span className="section-kicker">شفافیت و امنیت</span><h2>سیاست حریم خصوصی</h2><p>اطلاعات مربوط به گردآوری، استفاده، نگهداری و حذف داده‌های کاربران در این صفحه توضیح داده شده است.</p></div>
+            <a className="account-privacy-link" href={`${import.meta.env.BASE_URL}privacy.html`}>سیاست حریم خصوصی <ChevronLeft size={16}/></a>
+          </section>
+          <section className="account-delete-card">
+            <div><span className="section-kicker">مدیریت داده‌ها</span><h2>حذف حساب کاربری</h2><p>با تأیید این درخواست، حساب و اطلاعات مرتبط با آن از سامانه حذف می‌شود. این عملیات قابل بازگشت نیست.</p></div>
+            <button className="account-delete-button" type="button" onClick={() => setDeleteConfirmOpen(true)} disabled={deleteBusy}>حذف حساب کاربری</button>
+          </section>
+          {deleteConfirmOpen && <div className="account-delete-overlay" role="presentation">
+            <section className="account-delete-dialog" role="alertdialog" aria-modal="true" aria-labelledby="account-delete-title" aria-describedby="account-delete-description">
+              <div className="account-delete-dialog-icon"><ShieldCheck size={24}/></div>
+              <h2 id="account-delete-title">از حذف حساب اطمینان دارید؟</h2>
+              <p id="account-delete-description">با انتخاب «تأیید حذف»، حساب کاربری و اطلاعات یادگیری مرتبط با آن حذف می‌شود. این عملیات قابل بازگشت نیست.</p>
+              <div className="account-delete-actions">
+                <button type="button" className="account-delete-cancel" onClick={() => setDeleteConfirmOpen(false)} disabled={deleteBusy}>لغو</button>
+                <button type="button" className="account-delete-confirm" onClick={() => void handleDeleteAccount()} disabled={deleteBusy}>{deleteBusy ? "در حال حذف…" : "تأیید حذف"}</button>
+              </div>
+            </section>
+          </div>}
         </section>}
         {tab === "certificates" && <><div className="page-intro"><span className="section-kicker">افتخارات و دستاوردهای LIR9</span><h1>مدارک من</h1><p>گواهی پایان دوره A1 پس از تکمیل همه درس‌ها و قبولی در آزمون پایانی صادر می‌شود.</p></div><section className="certificate-studio"><div className="certificate-status"><span className="certificate-status-icon"><ShieldCheck size={19}/></span><div><b>گواهی داخلی پایان دوره LIR9</b><p>این گواهی توسط LIR9 صادر و از طریق شناسه یکتا قابل استعلام است.</p></div></div><div className="certificate-eligibility"><div><span>درس‌های تکمیل‌شده</span><strong>{serverCompletedCount} / {lessons.length}</strong><small>{serverCompletedCount === lessons.length ? "تمام درس‌ها در سرور تأیید شده‌اند" : "برای صدور، همه درس‌ها را با آزمون معتبر تکمیل کن"}</small></div><div><span>آزمون پایانی A1</span><strong>{verifiedFinalResult ? `${verifiedFinalResult.score} / 30` : "—"}</strong><small>{(verifiedFinalResult?.score ?? 0) >= 24 ? "نمره در سرور تأیید شده" : "حداقل نمره قبولی ۲۴ است"}</small></div></div>{certificateLoading ? <div className="certificate-empty-state">در حال بررسی وضعیت مدرک…</div> : issuedCertificate ? <><div id="lir9-certificate-print" className="lir9-certificate certificate-specimen certificate-issued"><div className="certificate-frame"><div className="certificate-ornament certificate-ornament-top">✦　✧　✦</div><div className="certificate-topline">LIR9 · ENGLISH LEARNING PROGRAM</div><div className="certificate-brand">LIR<span>9</span></div><div className="certificate-brand-sub">LEARN · PRACTICE · PROGRESS</div><div className="certificate-emblem"><Award size={25}/></div><div className="certificate-eyebrow">CERTIFICATE OF COMPLETION</div><h2>گواهی پایان دوره</h2><p className="certificate-intro">بدین‌وسیله گواهی می‌شود که</p><div className="certificate-recipient">{issuedCertificate.student_name}</div><p className="certificate-body">با موفقیت محتوای آموزشی سطح زیر را تکمیل کرده و حدنصاب آزمون پایانی برنامه آموزشی LIR9 را کسب نموده است.</p><div className="certificate-level"><i className="certificate-level-rule"/><b>{issuedCertificate.level}</b><i className="certificate-level-rule"/></div><div className="certificate-level-caption">ENGLISH PROFICIENCY · COURSE LEVEL</div><div className="certificate-date-row"><span>DATE OF ISSUE</span><strong>{new Date(issuedCertificate.issued_at).toLocaleDateString("fa-IR", {year:"numeric",month:"long",day:"numeric"})}</strong></div><div className="certificate-bottom"><div><small>VERIFICATION CODE</small><b dir="ltr">{issuedCertificate.verification_code}</b></div><div className="certificate-seal"><Award size={17}/><b>LIR9</b><small>VERIFIED</small></div><div><small>FINAL ASSESSMENT</small><b>{issuedCertificate.score} / 30</b></div></div><div className="certificate-number">VERIFY ONLINE · LIR9</div><div className="certificate-ornament certificate-ornament-bottom">✦　✧　✦</div></div></div><div className="certificate-actions"><button className="primary-button" onClick={() => window.print()}><Award size={16}/> چاپ / ذخیره PDF</button><a className="certificate-verify-link" href={`${import.meta.env.BASE_URL}verify.html?code=${encodeURIComponent(issuedCertificate.verification_code)}`} target="_blank" rel="noreferrer"><ShieldCheck size={16}/> استعلام اصالت مدرک</a></div></> : <div className="certificate-issue-panel"><div><b>{serverCompletedCount === lessons.length && (verifiedFinalResult?.score ?? 0) >= 24 ? "شرایط صدور گواهی تکمیل شده است" : "شرایط صدور گواهی هنوز تکمیل نشده"}</b><p>{serverCompletedCount === lessons.length && (verifiedFinalResult?.score ?? 0) >= 24 ? "پیشرفت ۴۵ درس و نمره آزمون پایانی در سرور تأیید شده‌اند. می‌توانی گواهی خود را صادر کنی." : "برای صدور، باید هر ۴۵ درس را با حداقل ۴ پاسخ درست از ۵ سؤال تکمیل کنی و در آزمون پایانی حداقل ۲۴ از ۳۰ بگیری. بررسی فقط بر اساس سوابق تأییدشده سرور انجام می‌شود."}</p></div><button className="primary-button" onClick={handleIssueCertificate} disabled={certificateIssuing || serverCompletedCount !== lessons.length || (verifiedFinalResult?.score ?? 0) < 24}>{certificateIssuing ? "در حال صدور…" : "صدور گواهی پایان دوره"} <ShieldCheck size={16}/></button></div>}{certificateError && <p className="certificate-error" role="alert">{certificateError}</p>}</section></>}
         {notice && <div className="notice" role="status" aria-live="polite">{notice}<button onClick={()=>setNotice("")} aria-label="بستن پیام">×</button></div>}
