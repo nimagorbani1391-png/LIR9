@@ -1,5 +1,5 @@
 /* LIR9 offline app shell — scoped to the GitHub Pages project path. */
-const CACHE_NAME = "lir9-shell-v1";
+const CACHE_NAME = "lir9-shell-v2";
 const APP_BASE = "/LIR9/";
 const APP_SHELL = [
   APP_BASE,
@@ -53,8 +53,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Cache-first for same-origin static build assets; refresh cache in background
-  // only when the resource is successfully fetched.
+  // Cache-first for same-origin static build assets.
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
