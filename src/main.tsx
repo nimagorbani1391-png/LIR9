@@ -4,6 +4,9 @@ import { Capacitor } from "@capacitor/core";
 import App from "./App";
 import "./styles.css";
 
+// Keep native Android content clear of the system status bar.
+document.documentElement.classList.toggle("capacitor-native", Capacitor.isNativePlatform());
+
 // Keep the PWA service worker on the web, but let Capacitor manage its
 // native WebView runtime without a competing service worker.
 if (
