@@ -6,7 +6,7 @@ import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, AlignJustify, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search, SearchCheck, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info
+  LockKeyhole, ArrowRight, Search, SearchCheck, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info, Headset
 } from "lucide-react";
 
 type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account" | "about";
@@ -1104,7 +1104,7 @@ function App() {
     <aside className={menuOpen ? "sidebar open" : "sidebar"}>
       <div className="brand"><div><b>LIR9</b><small>یادگیری، قدم‌به‌قدم</small></div><button className="icon-button mobile-close" onClick={() => setMenuOpen(false)} aria-label="بستن منو"><X/></button></div>
       <button className={tab === "about" ? "sidebar-about active" : "sidebar-about"} onClick={() => go("about")}><span className="sidebar-about-icon"><Info size={17}/></span><span><b>درباره LIR9</b><small>با مسیر و هدف ما آشنا شو</small></span><ChevronLeft size={15}/></button><div className="side-caption">منوی اصلی</div>
-      <nav className="side-nav">{nav.map(item => <button key={item.id} className={tab === item.id ? "nav-link active" : "nav-link"} onClick={() => go(item.id)}><item.icon size={19}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}<button className={tab === "account" ? "nav-link active" : "nav-link"} onClick={() => go("account")}><UserRound size={19}/><span>حساب کاربری</span>{tab === "account" && <i/>}</button><a className="nav-link" href={`${import.meta.env.BASE_URL}verify.html`}><SearchCheck size={19}/><span>استعلام مدرک</span></a></nav>
+      <nav className="side-nav">{nav.map(item => <button key={item.id} className={tab === item.id ? "nav-link active" : "nav-link"} onClick={() => go(item.id)}><item.icon size={19}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}<button className={tab === "account" ? "nav-link active" : "nav-link"} onClick={() => go("account")}><UserRound size={19}/><span>حساب کاربری</span>{tab === "account" && <i/>}</button><a className="nav-link" href={`${import.meta.env.BASE_URL}verify.html`}><SearchCheck size={19}/><span>استعلام مدرک</span></a><a className="nav-link" href="https://rubika.ir/IM_NIMA_GORBANI" target="_blank" rel="noopener noreferrer"><Headset size={19}/><span>پشتیبانی</span></a></nav>
       <div className="sidebar-progress"><div className="side-progress-icon"><Target size={18}/></div><div><b>مسیر فعلی تو</b><small>سطح A1 · مقدماتی</small></div><strong>{progress}٪</strong><div className="side-track"><i style={{width: progress + "%"}}/></div><button onClick={() => go("learn")}>ادامه مسیر <ChevronLeft size={14}/></button></div>
       <div className="sidebar-bottom"><span className="brand-mini">LIR9</span><span className="sidebar-user-email" title={authSession.user.email || ""}>{authSession.user.email}</span></div>
     </aside>
