@@ -1110,7 +1110,7 @@ function App() {
     </aside>
     {menuOpen && <button className="mobile-scrim" onClick={() => setMenuOpen(false)} aria-label="بستن منو"/>}
     <main className="main-area">
-      <header className="top-header"><button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="باز کردن منو"><Menu/></button><div className="breadcrumbs"><span>فضای یادگیری</span><ChevronLeft size={14}/><b>{tab === "account" ? "حساب کاربری" : nav.find(n => n.id === tab)?.label}</b></div><div className="header-level"><span>امتیاز من</span><b className="header-lir-balance"><Star size={13} fill="currentColor" strokeWidth={1.8}/>{lirBalance} LIR</b><span>سطح</span><b>A1</b></div></header>
+      <header className="top-header"><button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="باز کردن منو"><AlignJustify size={21} strokeWidth={1.8}/></button><div className="breadcrumbs"><span>فضای یادگیری</span><ChevronLeft size={14}/><b>{tab === "account" ? "حساب کاربری" : nav.find(n => n.id === tab)?.label}</b></div><div className="header-level"><span>امتیاز من</span><b className="header-lir-balance"><Star size={13} fill="currentColor" strokeWidth={1.8}/>{lirBalance} LIR</b><span>سطح</span><b>A1</b></div></header>
       <div className="page-wrap">
         {tab === "home" && <>
           <section className="welcome-block"><div><span className="eyebrow"><i/> فضای شخصی یادگیری</span><h1>از همین‌جا شروع کن.</h1><p>درس‌ها را به‌ترتیب کامل کن و میزان پیشرفتت را همین‌جا دنبال کن.</p></div></section>
