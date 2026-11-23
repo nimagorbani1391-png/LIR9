@@ -1,7 +1,7 @@
 import sharp from "sharp";
 import { mkdir } from "node:fs/promises";
 
-const source = "public/lir9-icon.png";
+const source = "public/lir9-icon.svg";
 const output = "public/icons";
 
 await mkdir(output, { recursive: true });
