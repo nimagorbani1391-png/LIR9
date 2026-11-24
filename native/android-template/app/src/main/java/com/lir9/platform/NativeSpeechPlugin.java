@@ -18,7 +18,6 @@ import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 @CapacitorPlugin(
     name = "NativeSpeech",
