@@ -13,10 +13,10 @@ const queries = [
 ].join("\n");
 
 if (!manifest.includes("android.permission.RECORD_AUDIO")) {
-  manifest = manifest.replace(/<application\\b/, `${permission}\n    <application`);
+  manifest = manifest.replace(/<application\b/, `${permission}\n    <application`);
 }
 if (!manifest.includes("android.speech.RecognitionService")) {
-  manifest = manifest.replace(/<application\\b/, `${queries}\n    <application`);
+  manifest = manifest.replace(/<application\b/, `${queries}\n    <application`);
 }
 
 if (!manifest.includes("android.permission.RECORD_AUDIO") || !manifest.includes("android.speech.RecognitionService")) {
