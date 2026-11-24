@@ -72,6 +72,13 @@ jobs:
       - name: Add Capacitor Android platform
         run: npx cap add android
 
+      - name: Install LIR9 native Android TextToSpeech bridge
+        run: |
+          TARGET="android/app/src/main/java/com/lir9/platform"
+          mkdir -p "$TARGET"
+          cp native/android-template/app/src/main/java/com/lir9/platform/NativeTtsPlugin.java "$TARGET/NativeTtsPlugin.java"
+          cp native/android-template/app/src/main/java/com/lir9/platform/MainActivity.java "$TARGET/MainActivity.java"
+
       - name: Generate native Android launcher icons
         run: npx --yes @capacitor/assets generate --android --iconBackgroundColor "#080807" --iconBackgroundColorDark "#080807"
 
