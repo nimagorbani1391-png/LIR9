@@ -42,7 +42,7 @@ public class NativeTtsPlugin extends Plugin {
 
                     @Override
                     public void onStop(String utteranceId, boolean interrupted) {
-                        completeUtterance(utteranceId, interrupted ? "پخش صدا متوقف شد." : null);
+                        completeUtterance(utteranceId, null);
                     }
                 });
                 List<PluginCall> queued = new ArrayList<>(pendingInitializationCalls);
