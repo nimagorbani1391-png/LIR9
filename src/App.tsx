@@ -87,8 +87,14 @@ function AuthScreen() {
       setError("اتصال به سرویس ورود کامل تنظیم نشده است. کمی بعد دوباره تلاش کن.");
       return;
     }
-    if (password.length < 8) {
-      setError("رمز عبور باید حداقل ۸ کاراکتر باشد.");
+    if (mode === "signup" && (
+      password.length < 10 ||
+      !/[a-z]/.test(password) ||
+      !/[A-Z]/.test(password) ||
+      !/[0-9]/.test(password) ||
+      !/[^A-Za-z0-9]/.test(password)
+    )) {
+      setError("رمز عبور باید حداقل ۱۰ کاراکتر و شامل حروف کوچک و بزرگ انگلیسی، عدد و نماد باشد.");
       return;
     }
     if (mode === "signup" && password !== confirmPassword) {
