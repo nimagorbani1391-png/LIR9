@@ -63,7 +63,7 @@ export default function A2Course({ onBack }: { onBack:()=>void }) {
     const close=(event:KeyboardEvent)=>{if(event.key==="Escape")closeLesson();};
     document.body.style.overflow="hidden";
     window.addEventListener("keydown",close);
-    return()=>{recognitionRef.current?.abort();recognitionRef.current=null;setRecording(false);document.body.style.overflow="";window.removeEventListener("keydown",close);};
+    return()=>{recognitionRef.current?.abort();recognitionRef.current=null;if("speechSynthesis" in window)window.speechSynthesis.cancel();setRecording(false);document.body.style.overflow="";window.removeEventListener("keydown",close);};
   },[activeId]);
 
   const speak=(text:string)=>{
@@ -80,7 +80,7 @@ export default function A2Course({ onBack }: { onBack:()=>void }) {
     setActiveId(id);setStep("learn");setWriting("");setTranscript("");setQuestionIndex(0);setSelected(null);setAnswers({});setShowTranslation(false);
     setOrders(lesson.questions.map((question)=>question[1].map((_,i)=>i).sort(()=>Math.random()-.5)));
   };
-  const closeLesson=()=>{recognitionRef.current?.abort();recognitionRef.current=null;setActiveId(null);setStep("learn");setRecording(false);};
+  const closeLesson=()=>{recognitionRef.current?.abort();recognitionRef.current=null;if("speechSynthesis" in window)window.speechSynthesis.cancel();setActiveId(null);setStep("learn");setRecording(false);};
   const startRecording=()=>{
     const api=window as RecognitionWindow;const Constructor=api.SpeechRecognition??api.webkitSpeechRecognition;
     if(!Constructor){setNotice("تشخیص گفتار در این مرورگر پشتیبانی نمی‌شود؛ تمرین را با صدای بلند انجام بده و ادامه بده.");return;}
