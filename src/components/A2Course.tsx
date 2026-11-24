@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, BookOpen, CheckCircle2, ChevronLeft, Clock3, Headphones, LockKeyhole, Mic, MicOff, RotateCcw, Volume2, X } from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle2, ChevronLeft, Headphones, LockKeyhole, Mic, MicOff, Volume2, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { a2Lessons, a2Units } from "../data/a2Curriculum";
 import "./A2Course.css";
@@ -33,12 +33,21 @@ export default function A2Course({ onBack }: { onBack:()=>void }) {
   useEffect(()=>{
     let alive=true;
     if(!supabase){setError("اتصال Supabase تنظیم نشده است.");setReady(true);return;}
-    void supabase.rpc("get_my_a2_progress").then(({data,error})=>{
-      if(!alive)return;
-      if(error){setError("برای فعال‌شدن مسیر A2، migration اختصاصی آن باید در Supabase اجرا شود.");setReady(true);return;}
-      const ids=Array.isArray(data?.completed_lessons)?data.completed_lessons.map((id:string)=>Number(id)).filter((id:number)=>Number.isInteger(id)&&id>=1&&id<=24):[];
-      setCompleted([...new Set(ids)].sort((a,b)=>a-b));setReady(true);
-    }).catch(()=>{if(alive){setError("دریافت پیشرفت A2 انجام نشد. اتصال را بررسی کن.");setReady(true);}});
+    void (async()=>{
+      try {
+        const {data,error}=await supabase.rpc("get_my_a2_progress");
+        if(!alive)return;
+        if(error)throw error;
+        const rawIds:unknown[]=Array.isArray(data?.completed_lessons)?data.completed_lessons:[];
+        const ids:number[]=rawIds.map(id=>Number(id)).filter((id):id is number=>Number.isInteger(id)&&id>=1&&id<=24);
+        setCompleted([...new Set<number>(ids)].sort((a,b)=>a-b));
+        setReady(true);
+      } catch {
+        if(!alive)return;
+        setError("برای فعال‌شدن مسیر A2، migration اختصاصی آن باید در Supabase اجرا شود.");
+        setReady(true);
+      }
+    })();
     return()=>{alive=false;};
   },[]);
 
