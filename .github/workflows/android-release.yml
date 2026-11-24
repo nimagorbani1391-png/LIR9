@@ -66,7 +66,6 @@ jobs:
           printf '%s' "$LIR9_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/lir9-upload-key.jks"
           test -s "$RUNNER_TEMP/lir9-upload-key.jks"
           chmod 600 "$RUNNER_TEMP/lir9-upload-key.jks"
-          echo "LIR9_KEYSTORE_PATH=$RUNNER_TEMP/lir9-upload-key.jks" >> "$GITHUB_ENV"
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
@@ -98,7 +97,7 @@ jobs:
       - name: Configure release signing
         run: node scripts/patch-android-release-signing.mjs
         env:
-          LIR9_KEYSTORE_PATH: ${{ env.LIR9_KEYSTORE_PATH }}
+          LIR9_KEYSTORE_PATH: ${{ runner.temp }}/lir9-upload-key.jks
           LIR9_KEYSTORE_PASSWORD: ${{ secrets.LIR9_KEYSTORE_PASSWORD }}
           LIR9_KEY_ALIAS: ${{ secrets.LIR9_KEY_ALIAS }}
           LIR9_KEY_PASSWORD: ${{ secrets.LIR9_KEY_PASSWORD }}
