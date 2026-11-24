@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, ChevronLeft, Headphones, LockKeyhole, Mic, MicOff, Volume2, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { a2Lessons, a2Units } from "../data/a2Curriculum";
@@ -24,6 +24,7 @@ export default function A2Course({ onBack }: { onBack:()=>void }) {
   const [notice,setNotice]=useState("");
   const [showTranslation,setShowTranslation]=useState(false);
   const [orders,setOrders]=useState<number[][]>([]);
+  const recognitionRef=useRef<Recognition|null>(null);
   const active=a2Lessons.find(item=>item.id===activeId)??null;
   const nextLesson=a2Lessons.find(item=>!completed.includes(item.id))??a2Lessons[a2Lessons.length-1];
   const progress=Math.round(completed.length/a2Lessons.length*100);
@@ -62,7 +63,7 @@ export default function A2Course({ onBack }: { onBack:()=>void }) {
     const close=(event:KeyboardEvent)=>{if(event.key==="Escape")closeLesson();};
     document.body.style.overflow="hidden";
     window.addEventListener("keydown",close);
-    return()=>{document.body.style.overflow="";window.removeEventListener("keydown",close);};
+    return()=>{recognitionRef.current?.abort();recognitionRef.current=null;setRecording(false);document.body.style.overflow="";window.removeEventListener("keydown",close);};
   },[activeId]);
 
   const speak=(text:string)=>{
@@ -79,15 +80,27 @@ export default function A2Course({ onBack }: { onBack:()=>void }) {
     setActiveId(id);setStep("learn");setWriting("");setTranscript("");setQuestionIndex(0);setSelected(null);setAnswers({});setShowTranslation(false);
     setOrders(lesson.questions.map((question)=>question[1].map((_,i)=>i).sort(()=>Math.random()-.5)));
   };
-  const closeLesson=()=>{setActiveId(null);setStep("learn");setRecording(false);};
+  const closeLesson=()=>{recognitionRef.current?.abort();recognitionRef.current=null;setActiveId(null);setStep("learn");setRecording(false);};
   const startRecording=()=>{
     const api=window as RecognitionWindow;const Constructor=api.SpeechRecognition??api.webkitSpeechRecognition;
     if(!Constructor){setNotice("تشخیص گفتار در این مرورگر پشتیبانی نمی‌شود؛ تمرین را با صدای بلند انجام بده و ادامه بده.");return;}
-    const recognition=new Constructor();recognition.lang="en-US";recognition.interimResults=false;recognition.maxAlternatives=1;
-    recognition.onresult=event=>{setTranscript(event.results[0]?.[0]?.transcript??"");setRecording(false);};
-    recognition.onerror=()=>{setRecording(false);setNotice("دسترسی میکروفون یا تشخیص گفتار با مشکل روبه‌رو شد.");};
-    recognition.onend=()=>setRecording(false);
-    try{setTranscript("");setRecording(true);recognition.start();}catch{setRecording(false);setNotice("شروع میکروفون ممکن نشد.");}
+    recognitionRef.current?.abort();
+    const recognition=new Constructor();recognitionRef.current=recognition;
+    recognition.lang="en-US";recognition.interimResults=false;recognition.maxAlternatives=1;
+    recognition.onresult=event=>{
+      if(recognitionRef.current!==recognition)return;
+      setTranscript(event.results[0]?.[0]?.transcript??"");setRecording(false);
+    };
+    recognition.onerror=()=>{
+      if(recognitionRef.current!==recognition)return;
+      recognitionRef.current=null;setRecording(false);setNotice("دسترسی میکروفون یا تشخیص گفتار با مشکل روبه‌رو شد.");
+    };
+    recognition.onend=()=>{
+      if(recognitionRef.current===recognition)recognitionRef.current=null;
+      setRecording(false);
+    };
+    try{setTranscript("");setRecording(true);recognition.start();}
+    catch{recognitionRef.current=null;setRecording(false);setNotice("شروع میکروفون ممکن نشد.");}
   };
   const submitQuiz=async(finalAnswers:Record<number,number>=answers)=>{
     if(!active||!supabase)return;
