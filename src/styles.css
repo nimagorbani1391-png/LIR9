@@ -1762,6 +1762,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
 .vip-payment-details p,.vip-payment-details small{margin:0;color:#b9b5a7;font-size:11px;line-height:2}
 .vip-card-number{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:1px solid #55482e;border-radius:12px;background:#11130f}
 .vip-card-number bdi{font:800 clamp(15px,3vw,19px)/1.5 Arial,sans-serif;letter-spacing:1px;color:#f1d18b;white-space:nowrap}
+.vip-card-owner{display:block!important;width:100%;margin:0!important;padding:11px 14px;border:1px solid #c9a85b;border-radius:10px;background:linear-gradient(135deg,#3a301b,#272216);color:#ffe3a0!important;font-size:16px!important;font-weight:900!important;line-height:1.9!important;text-align:center;letter-spacing:0;box-shadow:0 4px 16px rgba(201,168,91,.14)}
+@media(max-width:520px){.vip-card-owner{font-size:17px!important;padding:12px 10px}}
 .vip-card-number button{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 11px;border:1px solid #766139;border-radius:9px;background:#302819;color:#f2d58e;font-size:11px;font-weight:800}
 .vip-payment-continue{display:flex;align-items:center;justify-content:center;gap:8px;min-height:45px;padding:10px 14px;border:0;border-radius:11px;background:linear-gradient(135deg,#e1c47c,#bb954b);color:#211a0d;font:inherit;font-size:12px;font-weight:900}
 .payment-confirmation-page{max-width:760px;margin:0 auto}
