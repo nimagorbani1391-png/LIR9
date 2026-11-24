@@ -5,7 +5,7 @@ const APP_SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/file_00000000a8d481f4b0fd7bb26c886845.png",
+  "/lir9-icon.svg",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
   "/icons/icon-maskable-512.png"
