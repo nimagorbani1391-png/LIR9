@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import { Activity, ArrowDownToLine, CalendarDays, CircleDollarSign, Crown, LogOut, RefreshCw, Search, ShieldCheck, Users } from "lucide-react";
+import { Activity, ArrowDownToLine, CalendarDays, Crown, LogOut, RefreshCw, Search, ShieldCheck, Users } from "lucide-react";
 import { supabase } from "./lib/supabase";
 
 type AdminUser = { id: string; email: string | null; created_at: string; last_sign_in_at: string | null; is_vip: boolean; expires_at: string | null };
@@ -17,7 +17,6 @@ export default function AdminApp() {
   const [search, setSearch] = useState("");
   const [durationDays, setDurationDays] = useState("30");
   const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
-  const [paymentRequestTotal, setPaymentRequestTotal] = useState(0);
   const [paymentRequestsLoading, setPaymentRequestsLoading] = useState(false);
   const [paymentBusyId, setPaymentBusyId] = useState<string | null>(null);
   const [vipUsers, setVipUsers] = useState<{ id: string; email: string | null; expires_at: string | null; updated_at: string }[]>([]);
@@ -90,7 +89,6 @@ export default function AdminApp() {
       });
       if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
       setPaymentRequests(Array.isArray(result?.requests) ? result.requests as PaymentRequest[] : []);
-      setPaymentRequestTotal(Number(result?.total) || 0);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "دریافت درخواست‌های پرداخت انجام نشد.");
     } finally {
