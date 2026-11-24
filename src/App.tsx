@@ -706,7 +706,6 @@ function App() {
         body: { receipt_path: receiptPath },
       });
       if (invokeError || data?.error) {
-        if (data?.error) await supabase.storage.from("vip-payment-receipts").remove([receiptPath]);
         throw invokeError ?? new Error(data.error);
       }
       setPaymentSubmitted(true);
