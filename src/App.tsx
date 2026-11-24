@@ -7,10 +7,10 @@ import A2Course from "./components/A2Course";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, AlignJustify, X, Bookmark, Volume2,
-  LockKeyhole, ArrowRight, Search, SearchCheck, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info, Headset
+  LockKeyhole, ArrowRight, Search, SearchCheck, Mic, MicOff, RotateCcw, Award, GraduationCap, UserRound, Mail, CalendarDays, ShieldCheck, LogOut, Crown, Star, Bot, Send, Sparkles, Info, Headset, Copy, UploadCloud
 } from "lucide-react";
 
-type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "account" | "about";
+type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "payment-confirmation" | "account" | "about";
 type CertificateRecord = { student_name: string; level: string; score: number; verification_code: string; issued_at: string };
 type SpeechResultLike = { transcript: string; confidence?: number };
 type SpeechRecognitionLike = {
@@ -667,6 +667,11 @@ function App() {
   const [search, setSearch] = useState("");
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [notice, setNotice] = useState("");
+  const [paymentDetailsOpen, setPaymentDetailsOpen] = useState(false);
+  const [paymentReceipt, setPaymentReceipt] = useState<File | null>(null);
+  const [paymentSubmitting, setPaymentSubmitting] = useState(false);
+  const [paymentSubmitted, setPaymentSubmitted] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
   const active = lessons.find(l => l.id === activeLesson);
   const progress = Math.round(completed.length / lessons.length * 100);
   const nextLesson = lessons.find(l => !completed.includes(String(l.id))) ?? lessons[0];
@@ -681,6 +686,37 @@ function App() {
     { id: "vip" as Tab, label: "اشتراک VIP", icon: Crown },
   ];
   const go = (next: Tab) => { setTab(next); setMenuOpen(false); setNotice(""); window.scrollTo({ top: 0, behavior: "smooth" }); };
+
+  const submitVipPayment = async (event: import("react").FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!supabase || !authSession?.user?.id || !authSession.user.email || !paymentReceipt || paymentSubmitting) return;
+    const file = paymentReceipt;
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+    if (!allowedTypes.includes(file.type)) { setPaymentError("فقط تصویر JPG، PNG، WEBP یا فایل PDF قابل قبول است."); return; }
+    if (file.size < 1 || file.size > 5 * 1024 * 1024) { setPaymentError("حجم فایل رسید باید کمتر از ۵ مگابایت باشد."); return; }
+    setPaymentSubmitting(true); setPaymentError("");
+    const extension = file.type === "image/jpeg" ? "jpg" : file.type === "application/pdf" ? "pdf" : file.type.split("/")[1];
+    const receiptPath = `${authSession.user.id}/${crypto.randomUUID()}.${extension}`;
+    try {
+      const { error: uploadError } = await supabase.storage.from("vip-payment-receipts").upload(receiptPath, file, {
+        cacheControl: "3600", contentType: file.type, upsert: false,
+      });
+      if (uploadError) throw uploadError;
+      const { data, error: invokeError } = await supabase.functions.invoke("submit-vip-payment", {
+        body: { receipt_path: receiptPath },
+      });
+      if (invokeError || data?.error) {
+        if (data?.error) await supabase.storage.from("vip-payment-receipts").remove([receiptPath]);
+        throw invokeError ?? new Error(data.error);
+      }
+      setPaymentSubmitted(true);
+      setPaymentReceipt(null);
+    } catch (caught) {
+      setPaymentError(caught instanceof Error ? caught.message : "ثبت درخواست انجام نشد. دوباره تلاش کن.");
+    } finally {
+      setPaymentSubmitting(false);
+    }
+  };
   useEffect(() => {
     if (!authLoading && authSession && new URLSearchParams(window.location.search).get("action") === "delete-account") {
       setTab("account");
@@ -1112,7 +1148,7 @@ function App() {
     </aside>
     {menuOpen && <button className="mobile-scrim" onClick={() => setMenuOpen(false)} aria-label="بستن منو"/>}
     <main className="main-area">
-      <header className="top-header"><button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="باز کردن منو"><AlignJustify size={21} strokeWidth={1.8}/></button><div className="breadcrumbs"><span>فضای یادگیری</span><ChevronLeft size={14}/><b>{tab === "account" ? "حساب کاربری" : nav.find(n => n.id === tab)?.label}</b></div><div className="header-level"><span>امتیاز من</span><b className="header-lir-balance"><Star size={13} fill="currentColor" strokeWidth={1.8}/>{lirBalance} LIR</b><span>سطح</span><b>A1</b></div></header>
+      <header className="top-header"><button className="icon-button menu-button" onClick={() => setMenuOpen(true)} aria-label="باز کردن منو"><AlignJustify size={21} strokeWidth={1.8}/></button><div className="breadcrumbs"><span>فضای یادگیری</span><ChevronLeft size={14}/><b>{tab === "account" ? "حساب کاربری" : tab === "payment-confirmation" ? "تأیید خرید اشتراک" : nav.find(n => n.id === tab)?.label}</b></div><div className="header-level"><span>امتیاز من</span><b className="header-lir-balance"><Star size={13} fill="currentColor" strokeWidth={1.8}/>{lirBalance} LIR</b><span>سطح</span><b>A1</b></div></header>
       <div className="page-wrap">
         {tab === "home" && <>
           <section className="welcome-block"><div><span className="eyebrow"><i/> فضای شخصی یادگیری</span><h1>از همین‌جا شروع کن.</h1><p>درس‌ها را به‌ترتیب کامل کن و میزان پیشرفتت را همین‌جا دنبال کن.</p></div></section>
@@ -1178,7 +1214,35 @@ function App() {
         </>}{tab === "library" && <ContentLibrary isVip={libraryIsVip} onUpgrade={() => go("vip")} listeningCompleted={listeningCompleted} listeningScores={listeningScores} onListeningProgressChange={(nextCompleted, nextScores) => { setListeningCompleted(nextCompleted); setListeningScores(nextScores); writeStore("lir9-listening-completed", nextCompleted); try { localStorage.setItem("lir9-listening-scores", JSON.stringify(nextScores)); } catch { /* local storage may be unavailable */ } }}/>}
         {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
         {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant onUpgrade={() => go("vip")}/></>}
-        {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><div className="vip-benefits"><h3>با اشتراک VIP چه چیزهایی به دست می‌آوری؟</h3><ul><li><CheckCircle2 size={17}/> دسترسی کامل به تمام مقاله‌های آموزشی</li><li><CheckCircle2 size={17}/> مطالعه همه داستان‌های کتابخانه</li><li><CheckCircle2 size={17}/> دسترسی به مکالمه‌های کاربردی انگلیسی</li><li><CheckCircle2 size={17}/> استفاده از آزمایشگاه شنیداری و تمرین‌های آن</li><li><CheckCircle2 size={17}/> گفت‌وگوی نامحدود با دستیار هوش مصنوعی LIRTO</li></ul></div><button className="vip-activate-button" onClick={()=>setNotice("درگاه پرداخت هنوز به LIR9 متصل نشده است؛ فعلاً امکان خرید واقعی وجود ندارد.")}>فعال‌سازی اشتراک VIP <Crown size={17}/></button><span className="vip-secure-note"><ShieldCheck size={14}/> پرداخت آنلاین پس از راه‌اندازی درگاه فعال می‌شود.</span></article></section>}
+        {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><div className="vip-benefits"><h3>با اشتراک VIP چه چیزهایی به دست می‌آوری؟</h3><ul><li><CheckCircle2 size={17}/> دسترسی کامل به تمام مقاله‌های آموزشی</li><li><CheckCircle2 size={17}/> مطالعه همه داستان‌های کتابخانه</li><li><CheckCircle2 size={17}/> دسترسی به مکالمه‌های کاربردی انگلیسی</li><li><CheckCircle2 size={17}/> استفاده از آزمایشگاه شنیداری و تمرین‌های آن</li><li><CheckCircle2 size={17}/> گفت‌وگوی نامحدود با دستیار هوش مصنوعی LIRTO</li></ul></div><button className="vip-activate-button" onClick={()=>setPaymentDetailsOpen(value=>!value)} aria-expanded={paymentDetailsOpen}>فعال‌سازی اشتراک VIP <Crown size={17}/></button>
+          {paymentDetailsOpen && <section className="vip-payment-details" aria-label="اطلاعات پرداخت">
+            <span className="vip-payment-kicker">پرداخت کارت‌به‌کارت</span>
+            <h3>واریز هزینه اشتراک</h3>
+            <p>مبلغ اشتراک را به شماره کارت زیر واریز کن. پس از پرداخت، دکمه ثبت درخواست را بزن و تصویر رسید را در صفحه بعد بارگذاری کن.</p>
+            <div className="vip-card-number"><bdi dir="ltr">6219 8614 3561 1040</bdi><button type="button" onClick={() => { void navigator.clipboard.writeText("6219861435611040").then(() => setNotice("شماره کارت کپی شد."), () => setNotice("کپی خودکار در دسترس نیست؛ شماره کارت را دستی کپی کن.")); }} aria-label="کپی شماره کارت"><Copy size={17}/> کپی</button></div>
+            <button className="vip-payment-continue" type="button" onClick={() => { setPaymentSubmitted(false); setPaymentError(""); go("payment-confirmation"); }}>پرداخت کردم؛ ثبت درخواست تأیید <ArrowRight size={17}/></button>
+            <small>فعال‌سازی VIP فقط پس از بررسی و تأیید واریز توسط مدیریت انجام می‌شود.</small>
+          </section>}
+          <span className="vip-secure-note"><ShieldCheck size={14}/> ثبت رسید به‌معنی تأیید پرداخت نیست؛ درخواست شما توسط مدیریت بررسی می‌شود.</span></article></section>}
+        {tab === "payment-confirmation" && <section className="payment-confirmation-page">
+          <div className="page-intro"><span className="section-kicker">LIR9 · VIP PAYMENT</span><h1>تأیید خرید اشتراک</h1><p>اطلاعات پرداخت را ثبت کن تا درخواستت برای بررسی به مدیریت ارسال شود.</p></div>
+          {paymentSubmitted ? <article className="payment-confirmation-card payment-success">
+            <span className="payment-success-icon"><CheckCircle2 size={28}/></span><h2>درخواستت ثبت شد</h2>
+            <p>رسید و ایمیل حساب LIR9 برای مدیریت ارسال شد. پس از بررسی و تأیید واریز، اشتراک VIP روی همین حساب فعال می‌شود.</p>
+            <button className="primary-button" type="button" onClick={() => go("vip")}>بازگشت به اشتراک VIP <ArrowRight size={16}/></button>
+          </article> : <form className="payment-confirmation-card" onSubmit={submitVipPayment}>
+            <div className="payment-account-email"><span>ایمیل حساب LIR9</span><strong dir="ltr">{authSession?.user.email ?? "ایمیل حساب در دسترس نیست"}</strong><small>این ایمیل از حساب واردشده دریافت شده و قابل تغییر نیست.</small></div>
+            <label className="payment-upload-label">تصویر یا فایل رسید واریز
+              <input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required onChange={event => setPaymentReceipt(event.target.files?.[0] ?? null)} />
+              <small>{paymentReceipt ? paymentReceipt.name : "JPG، PNG، WEBP یا PDF · حداکثر ۵ مگابایت"}</small>
+            </label>
+            {paymentError && <div className="payment-form-error" role="alert">{paymentError}</div>}
+            <p className="payment-review-note">پس از ارسال، درخواست در پنل مدیریت ثبت می‌شود. لطفاً فقط رسید واقعی واریز را بارگذاری کن؛ ارسال رسید به‌تنهایی باعث فعال‌شدن VIP نمی‌شود.</p>
+            <button className="vip-activate-button payment-submit-button" type="submit" disabled={paymentSubmitting || !paymentReceipt || !authSession?.user.email}>
+              {paymentSubmitting ? "در حال ثبت درخواست…" : "ارسال رسید و ثبت درخواست"} <UploadCloud size={17}/>
+            </button>
+          </form>}
+        </section>}
         {tab === "about" && <section className="about-page"><div className="page-intro"><span className="section-kicker">درباره ما</span><h1>یادگیری، قدم‌به‌قدم</h1><p>به LIR9 خوش آمدی؛ فضایی برای یادگیری اصولی زبان انگلیسی، از پایه تا سطح پیشرفته.</p></div><article className="about-card"><div className="about-mark">L</div><h2><bdi dir="ltr">LIR9</bdi>؛ همراه مسیر یادگیری تو</h2><p>LIR9 با هدف ساده‌تر، منظم‌تر و کاربردی‌تر کردن یادگیری زبان انگلیسی ساخته شده است. در این مسیر، آموزش مرحله‌به‌مرحله، تمرین، مرور و سنجش پیشرفت کنار هم قرار می‌گیرند تا بتوانی با برنامه و آگاهی جلو بروی.</p><div className="about-values"><div><BookOpen size={19}/><b>آموزش ساختارمند</b><span>یادگیری مفاهیم در مسیر مشخص و سطح‌بندی‌شده</span></div><div><Target size={19}/><b>تمرین و پیشرفت</b><span>تمرین آموخته‌ها و پیگیری مسیر آموزشی</span></div><div><Sparkles size={19}/><b>یادگیری پیوسته</b><span>هر روز یک قدم نزدیک‌تر به تسلط بیشتر</span></div></div><button className="primary-button" onClick={() => go("learn")}>ادامه یادگیری <ArrowRight size={16}/></button></article></section>}
         {tab === "account" && <section className="account-page">
           <div className="account-hero"><div className="account-avatar"><UserRound size={32}/></div><div><span className="section-kicker">حساب شخصی در LIR9</span><h1>حساب کاربری</h1><p>اطلاعات حسابی که با آن وارد LIR9 شده‌ای.</p></div><span className="account-status"><i/> فعال</span></div>
