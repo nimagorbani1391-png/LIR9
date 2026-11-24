@@ -597,7 +597,7 @@ function ListeningLab({ completed, scores, onProgressChange }: { completed: stri
  const available=listeningExercises.filter(x=>level==="all"||x.level===level),exercise=listeningExercises.find(x=>x.id===selected)??listeningExercises[0],score=Object.values(scores).filter(Boolean).length;
  const stop=()=>{void stopSpeaking();setPlaying(false)};
  useEffect(()=>()=>{void stopSpeaking()},[]);
- const play=async()=>{if(playing){stop();return}stop();setAudioError("");setPlaying(true);await speakText(exercise.script,message=>{setPlaying(false);setAudioError(message)},{language:"en-US",rate:speed});setPlaying(false)};
+ const play=async()=>{if(playing){await stopSpeaking();setPlaying(false);return}await stopSpeaking();setAudioError("");setPlaying(true);await speakText(exercise.script,message=>{setPlaying(false);setAudioError(message)},{language:"en-US",rate:speed});setPlaying(false)};
  const selectExercise=(id:string)=>{stop();setSelected(id);setChoice(null);setChecked(false);setRevealed(false);setAudioError("")};
  const check=()=>{if(choice===null)return;const nextScores={...scores,[exercise.id]:choice===exercise.answer};const nextCompleted=choice===exercise.answer&&!completed.includes(exercise.id)?[...completed,exercise.id]:completed;onProgressChange(nextCompleted,nextScores);setChecked(true)};
  return <section className="listening-lab" dir="rtl">
