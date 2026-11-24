@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "./lib/supabase";
+import { speakText } from "./lib/speech";
 import { areLearningStatesEqual, loadLearningState, saveLearningState, type LearningState } from "./lib/learningState";
 import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/curriculum";
 import A2Course from "./components/A2Course";
@@ -1050,9 +1051,7 @@ function App() {
     setSaved(updated); if (!writeStore("lir9-saved", updated)) setNotice("ذخیره‌سازی در این مرورگر در دسترس نیست؛ لغت‌ها ممکن است پس از بستن صفحه باقی نمانند.");
   };
   const speak = (text: string) => {
-    if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") { setNotice("این مرورگر از تبدیل متن به گفتار پشتیبانی نمی‌کند."); return; }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text); utterance.lang = "en-US"; utterance.onerror = () => setNotice("پخش تلفظ انجام نشد؛ تنظیمات صدای مرورگر را بررسی کن."); window.speechSynthesis.speak(utterance);
+    void speakText(text, message => setNotice(message));
   };
   const startVoiceAttempt = () => {
     if (!active) return;
