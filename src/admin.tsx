@@ -113,6 +113,22 @@ export default function AdminApp() {
     } finally { setPaymentBusyId(null); }
   }
 
+  async function archivePaymentRequest(request: PaymentRequest) {
+    if (!supabase || paymentBusyId) return;
+    if (!window.confirm(`درخواست ${request.email} از فهرست اصلی پنهان شود؟ سوابق پرداخت و وضعیت VIP تغییر نمی‌کند.`)) return;
+    setPaymentBusyId(request.id); setError(""); setNotice("");
+    try {
+      const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
+        body: { action: "archive_payment_request", request_id: request.id },
+      });
+      if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
+      setNotice(result?.message ?? "درخواست از فهرست اصلی پنهان شد.");
+      await loadPaymentRequests();
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "پنهان‌سازی درخواست انجام نشد.");
+    } finally { setPaymentBusyId(null); }
+  }
+
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setLoading(true); setError(""); setNotice("");
     const ok = await requestDashboard();
@@ -244,7 +260,10 @@ export default function AdminApp() {
               <td>{request.status === "pending" ? <div className="payment-review-actions">
                 <button className="grant-vip-button" disabled={!!paymentBusyId} onClick={() => void reviewPayment(request, "approved")}>{paymentBusyId === request.id ? "..." : "تأیید و فعال‌سازی"}</button>
                 <button className="revoke-vip-button" disabled={!!paymentBusyId} onClick={() => void reviewPayment(request, "rejected")}>رد درخواست</button>
-              </div> : <span className="free-status">{request.reviewed_at ? formatDate(request.reviewed_at) : "—"}</span>}</td>
+              </div> : <div className="payment-review-actions">
+                <span className="free-status">{request.reviewed_at ? formatDate(request.reviewed_at) : "—"}</span>
+                <button className="ghost-button receipt-open-button" disabled={!!paymentBusyId} onClick={() => void archivePaymentRequest(request)}>{paymentBusyId === request.id ? "..." : "حذف از فهرست"}</button>
+              </div>}</td>
             </tr>)}
           </tbody></table></div>
         }
