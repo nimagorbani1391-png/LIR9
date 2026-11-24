@@ -45,7 +45,35 @@ Deno.serve(async (req: Request) => {
       return json({ error: "Could not delete all account data. Please retry." }, 500);
     }
 
-    // Only remove the Auth identity after the data-deletion transaction succeeds.
+    // Remove every private receipt owned by this account before deleting its Auth identity.
+    // Receipts are stored directly under the user's UUID folder.
+    const receiptBucket = admin.storage.from("vip-payment-receipts");
+    const receiptPaths: string[] = [];
+    const pageSize = 1000;
+    for (let offset = 0; ; offset += pageSize) {
+      const { data: files, error: listError } = await receiptBucket.list(user.id, {
+        limit: pageSize,
+        offset,
+        sortBy: { column: "name", order: "asc" },
+      });
+      if (listError) {
+        console.error("Could not list account receipt files:", listError.message);
+        return json({ error: "Could not securely remove account receipts. Please retry." }, 500);
+      }
+      const pageFiles = (files ?? []).filter(file => file.id && file.name);
+      receiptPaths.push(...pageFiles.map(file => `${user.id}/${file.name}`));
+      if (!files || files.length < pageSize) break;
+    }
+
+    for (let index = 0; index < receiptPaths.length; index += 100) {
+      const { error: removeError } = await receiptBucket.remove(receiptPaths.slice(index, index + 100));
+      if (removeError) {
+        console.error("Could not remove account receipt files:", removeError.message);
+        return json({ error: "Could not securely remove account receipts. Please retry." }, 500);
+      }
+    }
+
+    // Only remove the Auth identity after database and private-file deletion succeed.
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
     if (deleteError) {
       console.error("Auth user deletion failed:", deleteError.message);
