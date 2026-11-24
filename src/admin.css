@@ -15,3 +15,17 @@
 .success-box{margin:14px 0;padding:12px 14px;border:1px solid #245e4b;border-radius:10px;background:#102b24;color:#8ce0bb;font-size:12px}
 .no-results{padding:28px;text-align:center;color:#8e9bb2}
 @media(max-width:600px){.vip-toolbar{align-items:stretch;flex-direction:column}.admin-search{max-width:none;min-height:44px}.duration-select select{width:100%}.duration-select{width:100%}.vip-status{white-space:normal;max-width:160px}.grant-vip-button,.revoke-vip-button{font-size:10px;padding:0 8px}}
+
+
+.payment-requests-card{margin-top:18px}
+.payment-duration-note{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0 6px;color:#91a1b9;font-size:11px}
+.payment-duration-note svg{color:#e8c879}
+.payment-duration-note select{min-height:34px;padding:0 9px;border:1px solid #34445f;border-radius:9px;background:#111a2a;color:#e8edf8;font:inherit;font-size:11px}
+.payment-status{display:inline-flex;align-items:center;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:800}
+.payment-status.pending{background:#3c311c;color:#f1cb78}
+.payment-status.approved{background:#173b32;color:#8de0bd}
+.payment-status.rejected{background:#3a2028;color:#ffb4c0}
+.payment-review-actions{display:flex;align-items:center;gap:7px}
+.payment-review-actions button{white-space:nowrap}
+.receipt-open-button{min-height:32px;padding:0 9px;font-size:10px}
+@media(max-width:650px){.payment-review-actions{align-items:stretch;flex-direction:column}.payment-review-actions button{min-height:32px}.payment-duration-note{align-items:flex-start}.payment-duration-note select{margin-right:auto}}
