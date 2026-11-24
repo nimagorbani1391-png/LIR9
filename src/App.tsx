@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "./lib/supabase";
-import { speakText } from "./lib/speech";
+import { speakText, stopSpeaking, recognizeSpeech, stopRecognition } from "./lib/speech";
 import { areLearningStatesEqual, loadLearningState, saveLearningState, type LearningState } from "./lib/learningState";
 import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/curriculum";
 import A2Course from "./components/A2Course";
@@ -13,15 +13,6 @@ import {
 
 type Tab = "home" | "learn" | "vocabulary" | "library" | "assistant" | "certificates" | "vip" | "payment-confirmation" | "account" | "about";
 type CertificateRecord = { student_name: string; level: string; score: number; verification_code: string; issued_at: string };
-type SpeechResultLike = { transcript: string; confidence?: number };
-type SpeechRecognitionLike = {
-  lang: string; interimResults: boolean; maxAlternatives: number;
-  onresult: ((event: { resultIndex: number; results: ArrayLike<ArrayLike<SpeechResultLike>> }) => void) | null;
-  onerror: ((event: { error: string }) => void) | null;
-  onend: (() => void) | null;
-  start: () => void; stop: () => void; abort: () => void;
-};
-type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
 const normalizeSpeech = (value: string) => value.toLowerCase().replace(/[’']/g, "").replace(/…/g, "").replace(/\bi am\b/g, "im").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
 const speechCanonical = (value: string) => {
   const normalized = normalizeSpeech(value);
@@ -319,27 +310,27 @@ function ContentLibrary({ listeningCompleted, listeningScores, onListeningProgre
 
   const articleContainsPersian = article?.paragraphs?.some(paragraph => /[\u0600-\u06FF]/.test(paragraph)) ?? false;
 
-  const toggleArticleAudio = () => {
+  const toggleArticleAudio = async () => {
     if (articleContainsPersian) return;
-    if (!("speechSynthesis" in window)) { setAudioError("پخش صوت در این مرورگر پشتیبانی نمی‌شود."); return; }
-    if (isSpeaking) { window.speechSynthesis.cancel(); setIsSpeaking(false); return; }
+    if (isSpeaking) {
+      await stopSpeaking();
+      setIsSpeaking(false);
+      return;
+    }
     if (!article?.paragraphs?.length) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(article.paragraphs.join(". "));
-    utterance.lang = "en-US";
-    utterance.rate = 0.88;
-    utterance.pitch = 1;
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => { setIsSpeaking(false); setAudioError("پخش صوت متوقف شد. دوباره تلاش کن."); };
     setAudioError("");
     setIsSpeaking(true);
-    window.speechSynthesis.speak(utterance);
+    await speakText(article.paragraphs.join(". "), message => {
+      setIsSpeaking(false);
+      setAudioError(message);
+    }, { language: "en-US", rate: 0.88 });
+    setIsSpeaking(false);
   };
 
   useEffect(() => {
     setIsSpeaking(false);
     setAudioError("");
-    return () => { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); };
+    return () => { void stopSpeaking(); };
   }, [selected]);
 
   useEffect(() => {
@@ -604,9 +595,9 @@ const listeningExercises:ListeningExercise[]=[
 function ListeningLab({ completed, scores, onProgressChange }: { completed: string[]; scores: Record<string, boolean>; onProgressChange: (completed: string[], scores: Record<string, boolean>) => void }){
  const [level,setLevel]=useState<"all"|"A1"|"A2">("all"),[selected,setSelected]=useState("cafe-order"),[choice,setChoice]=useState<number|null>(null),[checked,setChecked]=useState(false),[revealed,setRevealed]=useState(false),[speed,setSpeed]=useState(1),[playing,setPlaying]=useState(false),[audioError,setAudioError]=useState("");
  const available=listeningExercises.filter(x=>level==="all"||x.level===level),exercise=listeningExercises.find(x=>x.id===selected)??listeningExercises[0],score=Object.values(scores).filter(Boolean).length;
- const stop=()=>{if("speechSynthesis"in window)window.speechSynthesis.cancel();setPlaying(false)};
- useEffect(()=>()=>{if("speechSynthesis"in window)window.speechSynthesis.cancel()},[]);
- const play=()=>{if(!("speechSynthesis"in window)||typeof SpeechSynthesisUtterance==="undefined"){setAudioError("پخش گفتار در این مرورگر پشتیبانی نمی‌شود.");return}stop();setAudioError("");const u=new SpeechSynthesisUtterance(exercise.script);u.lang="en-US";u.rate=speed;u.pitch=1;u.onstart=()=>setPlaying(true);u.onend=()=>setPlaying(false);u.onerror=()=>{setPlaying(false);setAudioError("پخش صدا کامل نشد؛ دوباره تلاش کن.")};window.speechSynthesis.speak(u)};
+ const stop=()=>{void stopSpeaking();setPlaying(false)};
+ useEffect(()=>()=>{void stopSpeaking()},[]);
+ const play=async()=>{if(playing){stop();return}stop();setAudioError("");setPlaying(true);await speakText(exercise.script,message=>{setPlaying(false);setAudioError(message)},{language:"en-US",rate:speed});setPlaying(false)};
  const selectExercise=(id:string)=>{stop();setSelected(id);setChoice(null);setChecked(false);setRevealed(false);setAudioError("")};
  const check=()=>{if(choice===null)return;const nextScores={...scores,[exercise.id]:choice===exercise.answer};const nextCompleted=choice===exercise.answer&&!completed.includes(exercise.id)?[...completed,exercise.id]:completed;onProgressChange(nextCompleted,nextScores);setChecked(true)};
  return <section className="listening-lab" dir="rtl">
@@ -618,7 +609,7 @@ function ListeningLab({ completed, scores, onProgressChange }: { completed: stri
  <div className="listening-player"><div className="listening-player-top"><span><Volume2 size={16}/> پخش مکالمه</span><span className={playing?"listening-live is-playing":"listening-live"}>{playing?"در حال پخش":"آماده پخش"}</span></div><div className="listening-player-main"><button className="listening-play-button" onClick={playing?stop:play} aria-label={playing?"توقف پخش":"پخش مکالمه"}>{playing?<span className="listening-pause-icon">Ⅱ</span>:<Volume2 size={23}/>}</button><div className="listening-player-description"><b>{playing?"با دقت گوش کن…":"برای شنیدن مکالمه آماده‌ای؟"}</b><span>می‌توانی چند بار به مکالمه گوش بدهی.</span></div><div className="listening-speed"><label htmlFor="listening-speed">سرعت</label><select id="listening-speed" value={speed} onChange={e=>{setSpeed(Number(e.target.value));if(playing)stop()}}><option value={0.8}>۰٫۸×</option><option value={1}>۱×</option><option value={1.2}>۱٫۲×</option></select></div></div><div className={playing?"listening-equalizer playing":"listening-equalizer"} aria-hidden="true">{Array.from({length:31},(_,i)=><i key={i} style={{"--bar":String(12+(i*17%28))} as React.CSSProperties}/>)}</div><div className="listening-player-actions"><button onClick={play}><RotateCcw size={14}/> پخش دوباره</button><button onClick={()=>setRevealed(v=>!v)}><BookOpen size={14}/> {revealed?"پنهان کردن متن":"نمایش متن مکالمه"}</button></div>{audioError&&<p className="listening-audio-error" role="status">{audioError}</p>}{revealed&&<div className="listening-transcript"><span>متن مکالمه</span><p dir="ltr" lang="en">{exercise.script}</p></div>}</div>
  <div className="listening-question"><div className="listening-question-label"><Target size={16}/> سنجش درک مطلب</div><h3 dir="ltr" lang="en">{exercise.question}</h3><div className="listening-options">{exercise.options.map((o,i)=><button key={o} disabled={checked} className={checked&&i===exercise.answer?"correct":checked&&i===choice?"incorrect":choice===i?"selected":""} onClick={()=>setChoice(i)}><span>{String.fromCharCode(65+i)}</span>{o}{checked&&i===exercise.answer&&<CheckCircle2 size={17}/>}</button>)}</div>{checked&&<div className={choice===exercise.answer?"listening-feedback correct":"listening-feedback incorrect"}><b>{choice===exercise.answer?"آفرین! درست شنیدی.":"این بار درست نبود؛ دوباره گوش کن."}</b><p>{exercise.explanation}</p></div>}<div className="listening-question-actions">{checked?<button className="listening-next" onClick={()=>{const i=available.findIndex(x=>x.id===exercise.id);selectExercise(available[(i+1)%available.length].id)}}>{available.length>1?"تمرین بعدی":"بازگشت به تمرین"} <ChevronLeft size={16}/></button>:<button className="listening-check" disabled={choice===null} onClick={check}>بررسی پاسخ <CheckCircle2 size={16}/></button>}</div></div>
  <div className="listening-vocabulary"><span className="section-kicker">واژه‌های کلیدی</span><div>{exercise.vocabulary.map(x=><div key={x.word}><b dir="ltr">{x.word}</b><span>{x.meaning}</span></div>)}</div></div></div></div>
- <p className="listening-note"><ShieldCheck size={14}/> صدا با قابلیت گفتار مرورگر ساخته می‌شود؛ نوع صدا و کیفیت آن به دستگاه و مرورگر بستگی دارد. نتیجه تمرین فعلاً در همین مرورگر ذخیره می‌شود.</p>
+ <p className="listening-note"><ShieldCheck size={14}/> صدا با موتور گفتار دستگاه ساخته می‌شود؛ نوع صدا و کیفیت آن به تنظیمات دستگاه بستگی دارد. نتیجه تمرین فعلاً روی همین دستگاه ذخیره می‌شود.</p>
  </section>
 }
 
@@ -652,7 +643,7 @@ function App() {
   const [voiceError, setVoiceError] = useState("");
   const [typedAnswer, setTypedAnswer] = useState("");
   const [typingStatus, setTypingStatus] = useState<"idle" | "matched" | "retry">("idle");
-  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const recognitionRef = useRef<{ abort: () => void } | null>(null);
   const [completed, setCompleted] = useState<string[]>(() => [...new Set(readStore("lir9-completed", []).filter(id => lessons.some(lesson => String(lesson.id) === id)))]);
   const [rewarded, setRewarded] = useState<string[]>(() => readStore("lir9-rewarded", []));
   const [lirBalance, setLirBalance] = useState<number>(() => { try { const value = Number(localStorage.getItem("lir9-balance") || 0); return Number.isFinite(value) && value >= 0 ? value : 0; } catch { return 0; } });
@@ -1025,9 +1016,9 @@ function App() {
       const rewardSaved = writeStore("lir9-rewarded", nextRewarded);
       let balanceSaved = true;
       try { localStorage.setItem("lir9-balance", String(nextBalance)); } catch { balanceSaved = false; }
-      setNotice(progressSaved && rewardSaved && balanceSaved ? "آفرین! درس کامل شد و ۲ LIR به موجودی‌ات اضافه شد." : "درس کامل شد؛ اما ذخیره بخشی از اطلاعات در این مرورگر ممکن نشد.");
+      setNotice(progressSaved && rewardSaved && balanceSaved ? "آفرین! درس کامل شد و ۲ LIR به موجودی‌ات اضافه شد." : "درس کامل شد؛ اما ذخیره بخشی از اطلاعات روی این دستگاه ممکن نشد.");
     } else {
-      setNotice(progressSaved ? "این درس قبلاً تکمیل شده است؛ برای مرور دوباره امتیاز جدیدی دریافت نمی‌کنی." : "ذخیره پیشرفت در این مرورگر ممکن نشد.");
+      setNotice(progressSaved ? "این درس قبلاً تکمیل شده است؛ برای مرور دوباره امتیاز جدیدی دریافت نمی‌کنی." : "ذخیره پیشرفت روی این دستگاه ممکن نشد.");
     }
     setStep("complete");
   };
@@ -1048,7 +1039,7 @@ function App() {
   };
   const toggleWord = (word: string) => {
     const updated = saved.includes(word) ? saved.filter(w => w !== word) : [...saved, word];
-    setSaved(updated); if (!writeStore("lir9-saved", updated)) setNotice("ذخیره‌سازی در این مرورگر در دسترس نیست؛ لغت‌ها ممکن است پس از بستن صفحه باقی نمانند.");
+    setSaved(updated); if (!writeStore("lir9-saved", updated)) setNotice("ذخیره‌سازی روی این دستگاه در دسترس نیست؛ لغت‌ها ممکن است پس از بستن برنامه باقی نمانند.");
   };
   const speak = (text: string) => {
     void speakText(text, message => setNotice(message));
@@ -1056,41 +1047,46 @@ function App() {
   const startVoiceAttempt = () => {
     if (!active) return;
     recognitionRef.current?.abort();
-    const speechWindow = window as Window & { SpeechRecognition?: SpeechRecognitionConstructor; webkitSpeechRecognition?: SpeechRecognitionConstructor };
-    const Recognition = speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
-    if (!Recognition) { setVoiceStatus("unsupported"); setVoiceTranscript(""); return; }
-    try {
-      const recognition = new Recognition();
-      recognition.lang = "en-US";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 3;
-      recognition.onresult = event => {
-        const result = event.results[event.resultIndex] || event.results[0];
-        const alternatives = Array.from(result || []).map(item => item.transcript);
-        const transcript = alternatives[0] || "";
-        const expected = normalizeSpeech(active.keyWords[0]?.word || "");
-        const target = speechCanonical(expected);
-        const matched = alternatives.some(value => { const spoken = speechCanonical(value); return target.length > 0 && (" " + spoken + " ").includes(" " + target + " "); });
-        setVoiceTranscript(transcript);
-        setVoiceError("");
-        setVoiceStatus(matched ? "matched" : "retry");
-      };
-      recognition.onerror = event => {
-        setVoiceStatus("error");
-        setVoiceTranscript("");
-        setVoiceError(event.error === "not-allowed" ? "دسترسی میکروفون داده نشده است؛ مجوز میکروفون مرورگر را فعال کن." : event.error === "no-speech" ? "صدایی تشخیص داده نشد؛ دوباره واضح‌تر صحبت کن." : "تشخیص صدا با مشکل روبه‌رو شد؛ اتصال و مجوز میکروفون را بررسی کن.");
-      };
-      recognition.onend = () => setVoiceStatus(current => current === "listening" ? "idle" : current);
-      recognitionRef.current = recognition;
-      setVoiceTranscript("");
+    let cancelled = false;
+    recognitionRef.current = {
+      abort: () => {
+        cancelled = true;
+        void stopRecognition();
+      }
+    };
+    setVoiceTranscript("");
+    setVoiceError("");
+    setVoiceStatus("listening");
+
+    void recognizeSpeech("en-US").then(alternatives => {
+      if (cancelled) return;
+      recognitionRef.current = null;
+      const transcript = alternatives[0] || "";
+      const expected = normalizeSpeech(active.keyWords[0]?.word || "");
+      const target = speechCanonical(expected);
+      const matched = alternatives.some(value => {
+        const spoken = speechCanonical(value);
+        return target.length > 0 && (" " + spoken + " ").includes(" " + target + " ");
+      });
+      setVoiceTranscript(transcript);
       setVoiceError("");
-      setVoiceStatus("listening");
-      recognition.start();
-    } catch {
+      setVoiceStatus(matched ? "matched" : "retry");
+    }).catch(error => {
+      if (cancelled) return;
+      recognitionRef.current = null;
+      const code = error instanceof Error ? error.message : "recognition-failed";
       setVoiceStatus("error");
       setVoiceTranscript("");
-      setVoiceError("شروع میکروفون ممکن نشد؛ دوباره امتحان کن.");
-    }
+      setVoiceError(
+        code === "permission-denied" ? "برای تمرین گفتار، اجازه استفاده از میکروفون را در تنظیمات دستگاه فعال کن." :
+        code === "no-speech" ? "صدایی تشخیص داده نشد؛ نزدیک‌تر و واضح‌تر صحبت کن." :
+        code === "network" ? "ارتباط سرویس تشخیص گفتار برقرار نشد؛ اتصال اینترنت را بررسی کن." :
+        code === "service-unavailable" ? "سرویس تشخیص گفتار روی دستگاه فعال نیست؛ سرویس گفتار دستگاه را نصب یا به‌روزرسانی کن." :
+        code === "language-unavailable" ? "بسته زبان انگلیسی برای تشخیص گفتار در دسترس نیست." :
+        code === "unsupported" ? "قابلیت تشخیص گفتار در این نسخه در دسترس نیست." :
+        "تشخیص صدا با مشکل روبه‌رو شد؛ مجوز میکروفون و سرویس گفتار دستگاه را بررسی کن."
+      );
+    });
   };
   const beginTypingPractice = () => { setTypedAnswer(""); setTypingStatus("idle"); setStep("typing"); };
   const beginQuiz = () => { if (!active) return; setQuizIndex(0); setQuizAnswers({}); setQuizOptionOrders(createOptionOrders(lessonContent, active.id)); setChoice(null); setStep("quiz"); };
@@ -1210,14 +1206,14 @@ function App() {
           <PlacementAssessment result={placementResult} onResultChange={result => { setPlacementResult(result); try { localStorage.setItem("lir9-placement-result", JSON.stringify(result)); } catch { /* local storage may be unavailable */ } }}/>
           <A1FinalAssessment unlocked={serverProgressReady && serverCompletedCount === lessons.length} result={verifiedFinalResult} onResultChange={result => { setVerifiedFinalResult(result); setA1FinalResult(result); try { localStorage.setItem("lir9-a1-final-result", JSON.stringify(result)); } catch { /* local storage may be unavailable */ } }}/>
         </>}{tab === "library" && <ContentLibrary isVip={libraryIsVip} onUpgrade={() => go("vip")} listeningCompleted={listeningCompleted} listeningScores={listeningScores} onListeningProgressChange={(nextCompleted, nextScores) => { setListeningCompleted(nextCompleted); setListeningScores(nextScores); writeStore("lir9-listening-completed", nextCompleted); try { localStorage.setItem("lir9-listening-scores", JSON.stringify(nextScores)); } catch { /* local storage may be unavailable */ } }}/>}
-        {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط در همین مرورگر و دستگاه نگهداری می‌شوند.</p></>}
+        {tab === "vocabulary" && <><div className="page-intro"><span className="section-kicker">مرور و تثبیت</span><h1>دفتر لغت من</h1><p>لغت‌های مهم را ذخیره کن تا هر وقت خواستی دوباره مرورشان کنی.</p></div><div className="vocab-toolbar"><div className="vocab-count"><b>{saved.length}</b><span>لغت ذخیره‌شده</span><button className={showSavedOnly?"filter-chip active":"filter-chip"} onClick={()=>setShowSavedOnly(value=>!value)} aria-pressed={showSavedOnly}><Bookmark size={13}/>{showSavedOnly?"فقط ذخیره‌شده‌ها":"نمایش همه لغت‌ها"}</button></div><label className="search-field"><Search size={17}/><input aria-label="جست‌وجوی لغت، تلفظ یا معنی" value={search} onChange={e=>setSearch(e.target.value)} placeholder="جست‌وجوی لغت یا معنی"/></label></div><div className="vocab-list">{filteredWords.map(word=>{const isSaved=saved.includes(word.word);return <article className="vocab-row" key={word.word}><div className="vocab-word"><h3>{word.word}</h3><small>{word.phonetic}</small></div><div className="vocab-meaning"><b>{word.meaning}</b><span>{word.example}</span></div><button className={isSaved?"bookmark-button saved":"bookmark-button"} onClick={()=>toggleWord(word.word)} aria-label={isSaved?"حذف از لغت‌های ذخیره‌شده":"ذخیره لغت"}><Bookmark size={18} fill={isSaved?"currentColor":"none"}/></button><button className="sound-button" onClick={()=>speak(word.word)} aria-label="شنیدن تلفظ"><Volume2 size={17}/></button></article>})}{filteredWords.length===0&&<div className="empty-state"><Bookmark size={24}/><b>{showSavedOnly?"هنوز لغتی ذخیره نکرده‌ای.":"لغتی پیدا نشد."}</b><span>{showSavedOnly?"با زدن نشانک کنار هر لغت، آن را اینجا نگه دار.":"عبارت دیگری جست‌وجو کن یا فیلتر را تغییر بده."}</span></div>}</div><p className="local-note">لغت‌های ذخیره‌شده فقط روی همین دستگاه نگهداری می‌شوند.</p></>}
         {tab === "assistant" && <><div className="page-intro"><span className="section-kicker">همراه یادگیری</span><h1>دستیار LIRTO</h1><p>همیشه کنار تو؛ همراه هوشمند مسیر یادگیری زبان انگلیسی.</p></div><LirtoAssistant onUpgrade={() => go("vip")}/></>}
         {tab === "vip" && <section className="vip-page"><div className="page-intro"><span className="section-kicker">پیشنهاد ویژه اعضای LIR9</span><h1>اشتراک VIP</h1><p>فرصتی ویژه برای همراهی جدی‌تر با مسیر یادگیری.</p></div><article className="vip-price-card"><div className="vip-card-glow"/><div className="vip-card-top"><span className="vip-crown"><Crown size={23}/></span><span className="vip-offer-tag">تخفیف شگفت‌انگیز 🎉</span></div><h2>اشتراک VIP</h2><p className="vip-card-subtitle">یک پیشنهاد ویژه برای مسیر یادگیری تو</p><div className="vip-price-area"><span className="vip-old-price">۸۹۰٬۰۰۰ تومان</span><div className="vip-current-price"><strong>۱۹۹٬۰۰۰</strong><span>تومان</span></div><span className="vip-discount">۷۸٪ تخفیف</span></div><div className="vip-divider"/><div className="vip-benefits"><h3>با اشتراک VIP چه چیزهایی به دست می‌آوری؟</h3><ul><li><CheckCircle2 size={17}/> دسترسی کامل به تمام مقاله‌های آموزشی</li><li><CheckCircle2 size={17}/> مطالعه همه داستان‌های کتابخانه</li><li><CheckCircle2 size={17}/> دسترسی به مکالمه‌های کاربردی انگلیسی</li><li><CheckCircle2 size={17}/> استفاده از آزمایشگاه شنیداری و تمرین‌های آن</li><li><CheckCircle2 size={17}/> گفت‌وگوی نامحدود با دستیار هوش مصنوعی LIRTO</li></ul></div><button className="vip-activate-button" onClick={()=>setPaymentDetailsOpen(value=>!value)} aria-expanded={paymentDetailsOpen}>فعال‌سازی اشتراک VIP <Crown size={17}/></button>
           {paymentDetailsOpen && <section className="vip-payment-details" aria-label="اطلاعات پرداخت">
             <span className="vip-payment-kicker">پرداخت کارت‌به‌کارت</span>
             <h3>واریز هزینه اشتراک</h3>
             <p>مبلغ اشتراک را به شماره کارت زیر واریز کن. پس از پرداخت، دکمه ثبت درخواست را بزن و تصویر رسید را در صفحه بعد بارگذاری کن.</p>
-            <div className="vip-card-number"><bdi dir="ltr">6219 8614 3561 1040</bdi><button type="button" onClick={() => { if (!navigator.clipboard?.writeText) { setNotice("کپی خودکار در این مرورگر در دسترس نیست؛ شماره کارت را دستی کپی کن."); return; } void navigator.clipboard.writeText("6219861435611040").then(() => setNotice("شماره کارت کپی شد."), () => setNotice("کپی انجام نشد؛ شماره کارت را دستی کپی کن.")); }} aria-label="کپی شماره کارت"><Copy size={17}/> کپی</button></div>
+            <div className="vip-card-number"><bdi dir="ltr">6219 8614 3561 1040</bdi><button type="button" onClick={() => { if (!navigator.clipboard?.writeText) { setNotice("کپی خودکار در این نسخه در دسترس نیست؛ شماره کارت را دستی کپی کن."); return; } void navigator.clipboard.writeText("6219861435611040").then(() => setNotice("شماره کارت کپی شد."), () => setNotice("کپی انجام نشد؛ شماره کارت را دستی کپی کن.")); }} aria-label="کپی شماره کارت"><Copy size={17}/> کپی</button></div>
             <p className="vip-card-owner">به نام: امیرحسین قربانی</p>
             <button className="vip-payment-continue" type="button" onClick={() => { setPaymentSubmitted(false); setPaymentError(""); go("payment-confirmation"); }}>پرداخت کردم؛ ثبت درخواست تأیید <ArrowRight size={17}/></button>
             <small>فعال‌سازی VIP فقط پس از بررسی و تأیید واریز توسط مدیریت انجام می‌شود.</small>
@@ -1298,13 +1294,13 @@ function App() {
 <div className="lesson-takeaway"><b>خلاصه درس</b><p>{active.takeaway}</p></div>
 <section className="lesson-practice-tip flow-section"><b>قبل از آزمون</b><p>{lessonContent[active.id].practiceTip}</p></section></div>
 </div><div className="dialog-actions lesson-practice-actions"><button className="primary-button" onClick={beginQuiz}>آزمون این درس <ArrowRight size={16}/></button></div></>}<>{step==="voice"&&<><div className="lesson-body voice-practice">
-  <div className="voice-intro"><span className="voice-kicker"><Mic size={15}/> تمرین گفتاری با میکروفون</span><h3>با این عبارت یک جمله بساز و آن را بیان کن</h3><p>با استفاده از عبارت هدف، یک جمله درباره خودت بساز و آن را با صدای بلند بیان کن. این بخش برای تمرین گفتار است؛ مرورگر متن گفتار را تشخیص می‌دهد، اما کیفیت تلفظ و روانی صحبت را نمره‌گذاری نمی‌کند.</p></div>
+  <div className="voice-intro"><span className="voice-kicker"><Mic size={15}/> تمرین گفتاری با میکروفون</span><h3>با این عبارت یک جمله بساز و آن را بیان کن</h3><p>با استفاده از عبارت هدف، یک جمله درباره خودت بساز و آن را با صدای بلند بیان کن. این بخش برای تمرین گفتار است؛ سرویس تشخیص گفتار، متن صحبتت را تبدیل می‌کند اما کیفیت تلفظ و روانی گفتار را نمره‌گذاری نمی‌کند.</p></div>
   <div className="voice-counter">تمرین جمله‌سازی و گفتار</div>
   <div className="voice-target"><strong dir="ltr">{active.keyWords[0].word.replace(/…/g,"").trim()}</strong><span>{active.keyWords[0].meaning}</span><button onClick={()=>speak(active.keyWords[0].word.replace(/…/g,"").trim())}><Volume2 size={15}/> شنیدن عبارت</button></div>
   <div className={"voice-status "+voiceStatus}>
     {voiceStatus==="matched"?<CheckCircle2 size={23}/>:voiceStatus==="listening"?<Mic size={22}/>:voiceStatus==="retry"||voiceStatus==="error"?<RotateCcw size={21}/>:<MicOff size={21}/>}
-    <div><b>{voiceStatus==="matched"?"آفرین! پاسخ درست تشخیص داده شد.":voiceStatus==="listening"?"دارم گوش می‌دهم…":voiceStatus==="retry"?"پاسخ با عبارت هدف مطابقت نداشت. دوباره تلاش کن.":voiceStatus==="unsupported"?"این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="error"?"مشکل در ضبط صدا":"آماده‌ای؟"}</b>
-    <span>{voiceStatus==="error"?voiceError:voiceStatus==="unsupported"?"می‌توانی عبارت را دستی تمرین کنی؛ این مرورگر تشخیص گفتار را پشتیبانی نمی‌کند.":voiceStatus==="listening"?"صحبت کن؛ متن تشخیص‌داده‌شده همین‌جا نمایش داده می‌شود.":voiceStatus==="matched"?"پاسخت پذیرفته شد؛ در حال رفتن به مرحله بعدی…":voiceStatus==="retry"?"متن شنیده‌شده را پایین ببین و دوباره امتحان کن.":"برای شروع، دکمه میکروفون را بزن."}</span></div>
+    <div><b>{voiceStatus==="matched"?"آفرین! پاسخ درست تشخیص داده شد.":voiceStatus==="listening"?"دارم گوش می‌دهم…":voiceStatus==="retry"?"پاسخ با عبارت هدف مطابقت نداشت. دوباره تلاش کن.":voiceStatus==="unsupported"?"سرویس تشخیص گفتار روی این دستگاه در دسترس نیست.":voiceStatus==="error"?"مشکل در ضبط صدا":"آماده‌ای؟"}</b>
+    <span>{voiceStatus==="error"?voiceError:voiceStatus==="unsupported"?"می‌توانی عبارت را دستی تمرین کنی؛ سرویس تشخیص گفتار روی این دستگاه در دسترس نیست.":voiceStatus==="listening"?"صحبت کن؛ متن تشخیص‌داده‌شده همین‌جا نمایش داده می‌شود.":voiceStatus==="matched"?"پاسخت پذیرفته شد؛ در حال رفتن به مرحله بعدی…":voiceStatus==="retry"?"متن شنیده‌شده را پایین ببین و دوباره امتحان کن.":"برای شروع، دکمه میکروفون را بزن."}</span></div>
   </div>
   <div className="voice-transcript-panel" aria-live="polite">
     <span>متنی که سیستم از صدایت تشخیص داد</span>
@@ -1312,7 +1308,7 @@ function App() {
   </div>
   {voiceStatus==="matched"?<div className="voice-auto-next"><CheckCircle2 size={16}/> پاسخ درست بود؛ خودکار ادامه می‌دهیم.</div>:voiceStatus==="unsupported"||voiceStatus==="error"?<button className="primary-button voice-next" onClick={()=>void advanceVoicePractice()} disabled={lessonSubmitting}>{lessonSubmitting?"در حال ثبت نتیجه…":"عبارت را با صدای بلند تمرین کردم"} <ArrowRight size={16}/></button>:<button className="primary-button voice-record" onClick={startVoiceAttempt} disabled={voiceStatus==="listening"}>{voiceStatus==="listening"?"در حال شنیدن…":"شروع ضبط و تشخیص"} <Mic size={16}/></button>}
   {voiceStatus==="retry"&&<button className="text-button voice-retry" onClick={startVoiceAttempt}>تلاش دوباره</button>}
-  <p className="voice-privacy">برای این تمرین، تشخیص گفتار از قابلیت مرورگر استفاده می‌کند. در بعضی مرورگرها صدا برای پردازش به سرویس آنلاین ارسال می‌شود.</p>
+  <p className="voice-privacy">برای تبدیل گفتار به متن، صدا به سرویس تشخیص گفتار دستگاه سپرده می‌شود. بسته به تنظیمات سرویس، ممکن است پردازش آنلاین انجام شود؛ LIR9 فایل صوتی را ذخیره نمی‌کند.</p>
 </div><div className="dialog-actions"><button className="text-button" onClick={()=>setStep("learn")}>بازگشت به آموزش</button></div></>}</>{step==="typing"&&<><div className="lesson-body voice-practice">
 <div className="voice-intro"><span className="voice-kicker"><BookOpen size={15}/> آزمون نوشتاری</span><h3>یک جمله از خودت بساز</h3><p>با عبارت هدف، یک جمله انگلیسی حداقل سه‌کلمه‌ای درباره خودت یا زندگی روزمره‌ات بنویس. لازم نیست جمله نمونه درس را کپی کنی.</p></div>
 <div className="voice-counter">تمرین نوشتن در موقعیت واقعی</div>
