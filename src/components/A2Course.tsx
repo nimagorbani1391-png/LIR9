@@ -5,7 +5,7 @@ import { a2Lessons, a2Units } from "../data/a2Curriculum";
 import "./A2Course.css";
 
 type Step = "learn" | "writing" | "speaking" | "quiz" | "complete";
-type Recognition = { lang:string; interimResults:boolean; maxAlternatives:number; onresult:((event:{results:ArrayLike<ArrayLike<{transcript:string}>>})=>void)|null; onerror:((event:{error:string})=>void)|null; onend:(()=>void)|null; start:()=>void; stop:()=>void };
+type Recognition = { lang:string; interimResults:boolean; maxAlternatives:number; onresult:((event:{results:ArrayLike<ArrayLike<{transcript:string}>>})=>void)|null; onerror:((event:{error:string})=>void)|null; onend:(()=>void)|null; start:()=>void; stop:()=>void; abort:()=>void };
 type RecognitionWindow = Window & { SpeechRecognition?: new()=>Recognition; webkitSpeechRecognition?: new()=>Recognition };
 
 export default function A2Course({ onBack }: { onBack:()=>void }) {
