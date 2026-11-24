@@ -5,6 +5,7 @@ import { supabase } from "./lib/supabase";
 
 type AdminUser = { id: string; email: string | null; created_at: string; last_sign_in_at: string | null; is_vip: boolean; expires_at: string | null };
 type DashboardData = { loadedUsers: number; users: AdminUser[]; hasMore: boolean; page: number; paidSubscribers: number | null; subscriptionTrackingAvailable: boolean };
+type PaymentRequest = { id: string; user_id: string; email: string; receipt_path: string; status: "pending" | "approved" | "rejected"; created_at: string; reviewed_at: string | null; admin_note: string | null };
 const formatDate = (value: string) => new Intl.DateTimeFormat("fa-IR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 
 export default function AdminApp() {
@@ -15,6 +16,9 @@ export default function AdminApp() {
   const [notice, setNotice] = useState("");
   const [search, setSearch] = useState("");
   const [durationDays, setDurationDays] = useState("30");
+  const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
+  const [paymentRequestsLoading, setPaymentRequestsLoading] = useState(false);
+  const [paymentBusyId, setPaymentBusyId] = useState<string | null>(null);
 
   async function requestDashboard(
     operation?: { action: "grant_vip" | "revoke_vip"; user_id: string; duration_days?: number | null },
@@ -51,15 +55,72 @@ export default function AdminApp() {
     return result as DashboardData;
   }
 
+  async function loadPaymentRequests() {
+    if (!supabase) return;
+    setPaymentRequestsLoading(true);
+    try {
+      const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
+        body: { action: "list_payment_requests", page: 1, per_page: 30 },
+      });
+      if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
+      setPaymentRequests(Array.isArray(result?.requests) ? result.requests as PaymentRequest[] : []);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "دریافت درخواست‌های پرداخت انجام نشد.");
+    } finally {
+      setPaymentRequestsLoading(false);
+    }
+  }
+
+  async function openReceipt(request: PaymentRequest) {
+    if (!supabase) return;
+    setPaymentBusyId(request.id); setError("");
+    try {
+      const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
+        body: { action: "get_payment_receipt", request_id: request.id },
+      });
+      if (invokeError || result?.error || !result?.url) throw invokeError ?? new Error(result?.error ?? "لینک رسید دریافت نشد.");
+      const link = document.createElement("a");
+      link.href = result.url; link.target = "_blank"; link.rel = "noopener noreferrer";
+      document.body.appendChild(link); link.click(); link.remove();
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "باز کردن رسید انجام نشد.");
+    } finally { setPaymentBusyId(null); }
+  }
+
+  async function reviewPayment(request: PaymentRequest, status: "approved" | "rejected") {
+    if (!supabase || paymentBusyId) return;
+    const prompt = status === "approved"
+      ? `واریز ${request.email} را تأیید و VIP را برای ${durationDays === "forever" ? "همیشه" : durationDays + " روز"} فعال می‌کنی؟`
+      : `درخواست پرداخت ${request.email} رد شود؟`;
+    if (!window.confirm(prompt)) return;
+    setPaymentBusyId(request.id); setError(""); setNotice("");
+    try {
+      const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
+        body: {
+          action: "review_payment",
+          request_id: request.id,
+          status,
+          duration_days: status === "approved" ? (durationDays === "forever" ? null : Number(durationDays)) : null,
+        },
+      });
+      if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
+      setNotice(result?.message ?? "درخواست بررسی شد.");
+      await Promise.all([loadPaymentRequests(), reloadDashboard().then(next => { if (next) setData(next); })]);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "بررسی درخواست انجام نشد.");
+    } finally { setPaymentBusyId(null); }
+  }
+
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setLoading(true); setError(""); setNotice("");
-    await requestDashboard();
+    const ok = await requestDashboard();
+    if (ok) await loadPaymentRequests();
     setLoading(false);
   }
 
   async function refresh() {
     setLoading(true); setError(""); setNotice("");
-    try { await requestDashboard(); } finally { setLoading(false); }
+    try { const ok = await requestDashboard(); if (ok) await loadPaymentRequests(); } finally { setLoading(false); }
   }
 
   async function manageVip(user: AdminUser) {
@@ -153,6 +214,38 @@ export default function AdminApp() {
           </tbody></table></div>
         )}
         {data?.hasMore && <div className="table-footnote"><p>برای مشاهده کاربران بیشتر، صفحه بعد را بارگذاری کن.</p><button className="ghost-button" onClick={() => void requestDashboard(undefined, (data.page ?? 1) + 1, true)} disabled={loading}><RefreshCw size={15}/> بارگذاری کاربران بیشتر</button></div>}
+      </section>
+      <section className="table-card payment-requests-card">
+        <div className="table-heading">
+          <div><h2>درخواست‌های پرداخت VIP</h2><p>رسید را بررسی کن؛ فقط پس از اطمینان از واریز، تأیید را بزن.</p></div>
+          <button className="ghost-button" onClick={() => void loadPaymentRequests()} disabled={paymentRequestsLoading}>
+            <RefreshCw size={15} className={paymentRequestsLoading ? "spin" : ""}/> تازه‌سازی
+          </button>
+        </div>
+        <div className="payment-duration-note">
+          <Crown size={15}/>
+          <span>مدت اشتراک برای تأیید درخواست‌های پرداخت: </span>
+          <select value={durationDays} onChange={event => setDurationDays(event.target.value)}>
+            <option value="30">۳۰ روز</option><option value="90">۹۰ روز</option><option value="365">یک سال</option><option value="forever">دائمی</option>
+          </select>
+        </div>
+        {paymentRequestsLoading && paymentRequests.length === 0 ? <div className="empty-state">در حال دریافت درخواست‌ها…</div> :
+          paymentRequests.length === 0 ? <div className="empty-state">درخواستی برای پرداخت ثبت نشده است.</div> :
+          <div className="table-wrap"><table><thead><tr><th>ایمیل حساب</th><th>زمان ثبت</th><th>وضعیت</th><th>رسید</th><th>بررسی</th></tr></thead><tbody>
+            {paymentRequests.map(request => <tr key={request.id}>
+              <td dir="ltr">{request.email}</td>
+              <td>{formatDate(request.created_at)}</td>
+              <td><span className={request.status === "pending" ? "payment-status pending" : request.status === "approved" ? "payment-status approved" : "payment-status rejected"}>
+                {request.status === "pending" ? "در انتظار بررسی" : request.status === "approved" ? "تأییدشده" : "ردشده"}
+              </span></td>
+              <td><button className="ghost-button receipt-open-button" disabled={paymentBusyId === request.id} onClick={() => void openReceipt(request)}>مشاهده رسید</button></td>
+              <td>{request.status === "pending" ? <div className="payment-review-actions">
+                <button className="grant-vip-button" disabled={!!paymentBusyId} onClick={() => void reviewPayment(request, "approved")}>{paymentBusyId === request.id ? "..." : "تأیید و فعال‌سازی"}</button>
+                <button className="revoke-vip-button" disabled={!!paymentBusyId} onClick={() => void reviewPayment(request, "rejected")}>رد درخواست</button>
+              </div> : <span className="free-status">{request.reviewed_at ? formatDate(request.reviewed_at) : "—"}</span>}</td>
+            </tr>)}
+          </tbody></table></div>
+        }
       </section>
       <footer className="admin-footer"><span>LIR9 ADMIN • PRIVATE ACCESS</span><span>تغییر اشتراک فقط از طریق سرور مجاز است.</span></footer>
     </main>
