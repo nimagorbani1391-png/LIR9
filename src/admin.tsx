@@ -17,6 +17,7 @@ export default function AdminApp() {
   const [search, setSearch] = useState("");
   const [durationDays, setDurationDays] = useState("30");
   const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
+  const [paymentRequestTotal, setPaymentRequestTotal] = useState(0);
   const [paymentRequestsLoading, setPaymentRequestsLoading] = useState(false);
   const [paymentBusyId, setPaymentBusyId] = useState<string | null>(null);
 
@@ -60,10 +61,11 @@ export default function AdminApp() {
     setPaymentRequestsLoading(true);
     try {
       const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
-        body: { action: "list_payment_requests", page: 1, per_page: 30 },
+        body: { action: "list_payment_requests", page: 1, per_page: 50 },
       });
       if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
       setPaymentRequests(Array.isArray(result?.requests) ? result.requests as PaymentRequest[] : []);
+      setPaymentRequestTotal(Number(result?.total) || 0);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "دریافت درخواست‌های پرداخت انجام نشد.");
     } finally {
@@ -192,7 +194,7 @@ export default function AdminApp() {
       <section className="stats-grid">
         <article className="stat-card"><div className="stat-icon blue"><Users/></div><span>کاربران بارگذاری‌شده</span><strong>{data ? data.loadedUsers.toLocaleString("fa-IR") : "—"}</strong><small>فهرست به‌صورت صفحه‌ای از سرور دریافت می‌شود</small></article>
         <article className="stat-card"><div className="stat-icon green"><CalendarDays/></div><span>کاربران در فهرست</span><strong>{data ? data.users.length.toLocaleString("fa-IR") : "—"}</strong><small>فهرست دریافت‌شده از سرور</small></article>
-        <article className="stat-card"><div className="stat-icon amber"><CircleDollarSign/></div><span>درخواست‌های پرداخت</span><strong>{paymentRequests.length.toLocaleString("fa-IR")}</strong><small>{paymentRequests.filter(request => request.status === "pending").length.toLocaleString("fa-IR")} درخواست در انتظار بررسی</small></article>
+        <article className="stat-card"><div className="stat-icon amber"><CircleDollarSign/></div><span>درخواست‌های پرداخت</span><strong>{paymentRequestTotal.toLocaleString("fa-IR")}</strong><small>{paymentRequests.filter(request => request.status === "pending").length.toLocaleString("fa-IR")} درخواست در انتظار بررسی</small></article>
         <article className="stat-card"><div className="stat-icon violet"><Activity/></div><span>وضعیت پنل</span><strong className="status-live">متصل</strong><small>دسترسی امن سمت سرور</small></article>
       </section>
       <section className="table-card">
