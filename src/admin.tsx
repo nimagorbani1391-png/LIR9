@@ -20,6 +20,11 @@ export default function AdminApp() {
   const [paymentRequestTotal, setPaymentRequestTotal] = useState(0);
   const [paymentRequestsLoading, setPaymentRequestsLoading] = useState(false);
   const [paymentBusyId, setPaymentBusyId] = useState<string | null>(null);
+  const [vipUsers, setVipUsers] = useState<{ id: string; email: string | null; expires_at: string | null; updated_at: string }[]>([]);
+  const [vipTotal, setVipTotal] = useState(0);
+  const [vipPage, setVipPage] = useState(1);
+  const [vipHasMore, setVipHasMore] = useState(false);
+  const [vipLoading, setVipLoading] = useState(false);
 
   async function requestDashboard(
     operation?: { action: "grant_vip" | "revoke_vip"; user_id: string; duration_days?: number | null },
@@ -54,6 +59,26 @@ export default function AdminApp() {
     const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", { body: { page: 1, per_page: 50 } });
     if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
     return result as DashboardData;
+  }
+
+  async function loadVipUsers(page = 1, append = false) {
+    if (!supabase) return;
+    setVipLoading(true);
+    try {
+      const { data: result, error: invokeError } = await supabase.functions.invoke("smooth-function", {
+        body: { action: "list_vip_users", page, per_page: 50 },
+      });
+      if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
+      const next = Array.isArray(result?.users) ? result.users : [];
+      setVipUsers(previous => append ? [...previous, ...next] : next);
+      setVipTotal(Number(result?.total) || 0);
+      setVipPage(Number(result?.page) || page);
+      setVipHasMore(Boolean(result?.hasMore));
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "دریافت کاربران VIP انجام نشد.");
+    } finally {
+      setVipLoading(false);
+    }
   }
 
   async function loadPaymentRequests() {
@@ -107,7 +132,7 @@ export default function AdminApp() {
       });
       if (invokeError || result?.error) throw invokeError ?? new Error(result?.error);
       setNotice(result?.message ?? "درخواست بررسی شد.");
-      await Promise.all([loadPaymentRequests(), reloadDashboard().then(next => { if (next) setData(next); })]);
+      await Promise.all([loadPaymentRequests(), loadVipUsers(), reloadDashboard().then(next => { if (next) setData(next); })]);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "بررسی درخواست انجام نشد.");
     } finally { setPaymentBusyId(null); }
@@ -132,7 +157,7 @@ export default function AdminApp() {
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setLoading(true); setError(""); setNotice("");
     const ok = await requestDashboard();
-    if (ok) await loadPaymentRequests();
+    if (ok) await Promise.all([loadPaymentRequests(), loadVipUsers()]);
     setLoading(false);
   }
 
@@ -210,7 +235,7 @@ export default function AdminApp() {
       <section className="stats-grid">
         <article className="stat-card"><div className="stat-icon blue"><Users/></div><span>کاربران بارگذاری‌شده</span><strong>{data ? data.loadedUsers.toLocaleString("fa-IR") : "—"}</strong><small>فهرست به‌صورت صفحه‌ای از سرور دریافت می‌شود</small></article>
         <article className="stat-card"><div className="stat-icon green"><CalendarDays/></div><span>کاربران در فهرست</span><strong>{data ? data.users.length.toLocaleString("fa-IR") : "—"}</strong><small>فهرست دریافت‌شده از سرور</small></article>
-        <article className="stat-card"><div className="stat-icon amber"><CircleDollarSign/></div><span>درخواست‌های پرداخت</span><strong>{paymentRequestTotal.toLocaleString("fa-IR")}</strong><small>{paymentRequests.filter(request => request.status === "pending").length.toLocaleString("fa-IR")} درخواست در انتظار بررسی</small></article>
+        <article className="stat-card"><div className="stat-icon amber"><Crown/></div><span>کاربران VIP فعال</span><strong>{vipTotal.toLocaleString("fa-IR")}</strong><small>بر اساس اشتراک‌های فعال در دیتابیس</small></article>
         <article className="stat-card"><div className="stat-icon violet"><Activity/></div><span>وضعیت پنل</span><strong className="status-live">متصل</strong><small>دسترسی امن سمت سرور</small></article>
       </section>
       <section className="table-card">
@@ -233,9 +258,28 @@ export default function AdminApp() {
         )}
         {data?.hasMore && <div className="table-footnote"><p>برای مشاهده کاربران بیشتر، صفحه بعد را بارگذاری کن.</p><button className="ghost-button" onClick={() => void requestDashboard(undefined, (data.page ?? 1) + 1, true)} disabled={loading}><RefreshCw size={15}/> بارگذاری کاربران بیشتر</button></div>}
       </section>
+      <section className="table-card vip-members-card">
+        <div className="table-heading">
+          <div><h2>کاربران VIP</h2><p>فقط حساب‌هایی نمایش داده می‌شوند که اشتراک VIP آن‌ها در دیتابیس فعال و منقضی‌نشده است.</p></div>
+          <button className="ghost-button" onClick={() => void loadVipUsers()} disabled={vipLoading}>
+            <RefreshCw size={15} className={vipLoading ? "spin" : ""}/> تازه‌سازی
+          </button>
+        </div>
+        {vipLoading && vipUsers.length === 0 ? <div className="empty-state">در حال دریافت کاربران VIP…</div> :
+          vipUsers.length === 0 ? <div className="empty-state">در حال حاضر هیچ اشتراک VIP فعالی ثبت نشده است.</div> :
+          <div className="table-wrap"><table><thead><tr><th>کاربر</th><th>وضعیت اشتراک</th><th>تاریخ فعال‌سازی / تمدید</th></tr></thead><tbody>
+            {vipUsers.map(user => <tr key={user.id}>
+              <td><div className="user-cell"><div className="avatar">{(user.email?.[0] ?? "U").toUpperCase()}</div><span>{user.email ?? "بدون ایمیل"}</span></div></td>
+              <td><span className="vip-status"><Crown size={14}/> {user.expires_at ? `فعال تا ${formatDate(user.expires_at)}` : "VIP دائمی"}</span></td>
+              <td>{formatDate(user.updated_at)}</td>
+            </tr>)}
+          </tbody></table></div>
+        }
+        {vipHasMore && <div className="table-footnote"><button className="ghost-button" onClick={() => void loadVipUsers(vipPage + 1, true)} disabled={vipLoading}><RefreshCw size={15}/> بارگذاری کاربران بیشتر</button></div>}
+      </section>
       <section className="table-card payment-requests-card">
         <div className="table-heading">
-          <div><h2>درخواست‌های پرداخت VIP</h2><p>رسید را بررسی کن؛ فقط پس از اطمینان از واریز، تأیید را بزن.</p></div>
+          <div><h2>درخواست‌های پرداخت</h2><p>رسید را بررسی کن؛ فقط پس از اطمینان از واریز، تأیید را بزن.</p></div>
           <button className="ghost-button" onClick={() => void loadPaymentRequests()} disabled={paymentRequestsLoading}>
             <RefreshCw size={15} className={paymentRequestsLoading ? "spin" : ""}/> تازه‌سازی
           </button>
