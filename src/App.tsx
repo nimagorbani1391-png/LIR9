@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { supabase } from "./lib/supabase";
 import { areLearningStatesEqual, loadLearningState, saveLearningState, type LearningState } from "./lib/learningState";
 import { lessons, lessonContent, courseUnits, createOptionOrders } from "./data/curriculum";
+import A2Course from "./components/A2Course";
 import {
   LayoutDashboard, BookOpen, Library, MessageCircle, ChevronLeft,
   CheckCircle2, Clock3, Target, Languages, AlignJustify, X, Bookmark, Volume2,
@@ -636,6 +637,7 @@ function App() {
   const [learningStateReady, setLearningStateReady] = useState(false);
   const [learningStateError, setLearningStateError] = useState("");
   const [tab, setTab] = useState<Tab>("home");
+  const [learningLevel, setLearningLevel] = useState<"A1" | "A2">("A1");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState<number | null>(null);
   const [step, setStep] = useState<"learn" | "quiz" | "result" | "typing" | "voice" | "complete">("learn");
@@ -1120,7 +1122,9 @@ function App() {
           <section className="overview-grid"><div className="overview-card progress-card"><div className="card-icon"><Target size={19}/></div><div className="overview-label">درصد تکمیل مسیر</div><div className="progress-big">{progress}<small>٪</small></div><div className="progress-bar"><i style={{width: progress + "%"}}/></div><p>تاکنون {completed.length} درس از {lessons.length} درس را کامل کرده‌ای.</p></div><div className="overview-card"><div className="card-icon"><Award size={19}/></div><div className="overview-label">امتیازهای من</div><div className="overview-number">{lirBalance}</div><p>با تکمیل هر درس برای نخستین بار، ۲ امتیاز LIR می‌گیری.</p></div><div className="overview-card"><div className="card-icon"><BookOpen size={19}/></div><div className="overview-label">درس‌های این بخش</div><div className="overview-number">{lessons.length}</div><p>درس کوتاه و مرحله‌به‌مرحله</p><button className="card-action" onClick={() => go("learn")}>رفتن به درس‌ها <ChevronLeft size={14}/></button></div><div className="overview-card"><div className="card-icon"><Bookmark size={19}/></div><div className="overview-label">لغت‌های ذخیره‌شده</div><div className="overview-number">{saved.length}</div><p>لغت‌هایی که برای مرور نگه داشتی</p><button className="card-action" onClick={() => go("vocabulary")}>مرور لغت‌ها <ChevronLeft size={14}/></button></div></section>
           <section className="simple-panel"><div className="section-heading"><div><span className="section-kicker">برنامه یادگیری</span><h2>درس‌های این بخش</h2></div><span className="level-chip">A1 · مقدماتی</span></div><div className="compact-lessons">{lessons.slice(0,5).map((lesson,index)=><button className="compact-lesson" key={lesson.id} onClick={() => openLesson(lesson.id)}><span className={completed.includes(String(lesson.id)) ? "compact-number done" : "compact-number"}>{completed.includes(String(lesson.id)) ? <CheckCircle2 size={17}/> : String(index+1).padStart(2,"0")}</span><span className="compact-copy"><b>{lesson.title}</b><small>{lesson.duration} · {lesson.skill}</small></span><ChevronLeft size={17}/></button>)}</div><button className="all-lessons-button" onClick={() => go("learn")}>مشاهده برنامه کامل آموزشی <ArrowRight size={15}/></button></section>
         </>}
-        {tab === "learn" && <>
+        {tab === "learn" && learningLevel === "A2" && <A2Course onBack={() => setLearningLevel("A1")} />}
+        {tab === "learn" && learningLevel === "A1" && <>
+          <div className="a2-entry-row"><div><b>سطح بعدی آماده یادگیری است</b><small>مسیر مستقل A2 · ۲۴ درس ساختاریافته</small></div><button onClick={() => setLearningLevel("A2")}>ورود به سطح A2 <ChevronLeft size={15}/></button></div>
           <section className="learning-hero">
             <div className="learning-hero-copy">
               <span className="learning-eyebrow"><span/> مسیر یادگیری انگلیسی · سطح A1</span>

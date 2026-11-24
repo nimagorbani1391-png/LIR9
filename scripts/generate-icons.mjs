@@ -7,7 +7,7 @@ const output = "public/icons";
 await mkdir(output, { recursive: true });
 await mkdir("assets", { recursive: true });
 
-// Capacitor launcher icon source (1024px, generated from the uploaded official logo).
+// Official LIR9 logo source. Preserve its proportions and use it for every app icon.
 await sharp(source).resize(1024, 1024).png({ compressionLevel: 9 }).toFile("assets/icon.png");
 
 await sharp(source).resize(192, 192).png({ compressionLevel: 9 }).toFile(`${output}/icon-192.png`);
