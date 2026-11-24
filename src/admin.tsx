@@ -192,7 +192,7 @@ export default function AdminApp() {
       <section className="stats-grid">
         <article className="stat-card"><div className="stat-icon blue"><Users/></div><span>کاربران بارگذاری‌شده</span><strong>{data ? data.loadedUsers.toLocaleString("fa-IR") : "—"}</strong><small>فهرست به‌صورت صفحه‌ای از سرور دریافت می‌شود</small></article>
         <article className="stat-card"><div className="stat-icon green"><CalendarDays/></div><span>کاربران در فهرست</span><strong>{data ? data.users.length.toLocaleString("fa-IR") : "—"}</strong><small>فهرست دریافت‌شده از سرور</small></article>
-        <article className="stat-card"><div className="stat-icon amber"><CircleDollarSign/></div><span>اشتراک‌های پرداختی</span><strong>غیرفعال</strong><small>پرداخت آنلاین هنوز متصل نیست</small></article>
+        <article className="stat-card"><div className="stat-icon amber"><CircleDollarSign/></div><span>درخواست‌های پرداخت</span><strong>{paymentRequests.length.toLocaleString("fa-IR")}</strong><small>{paymentRequests.filter(request => request.status === "pending").length.toLocaleString("fa-IR")} درخواست در انتظار بررسی</small></article>
         <article className="stat-card"><div className="stat-icon violet"><Activity/></div><span>وضعیت پنل</span><strong className="status-live">متصل</strong><small>دسترسی امن سمت سرور</small></article>
       </section>
       <section className="table-card">
