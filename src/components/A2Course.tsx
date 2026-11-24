@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, BookOpen, CheckCircle2, ChevronLeft, Headphones, LockKeyhole, Mic, MicOff, Volume2, X } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronLeft, Headphones, LockKeyhole, Mic, MicOff, Volume2, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { a2Lessons, a2Units } from "../data/a2Curriculum";
 import "./A2Course.css";
