@@ -1219,7 +1219,7 @@ function App() {
             <span className="vip-payment-kicker">پرداخت کارت‌به‌کارت</span>
             <h3>واریز هزینه اشتراک</h3>
             <p>مبلغ اشتراک را به شماره کارت زیر واریز کن. پس از پرداخت، دکمه ثبت درخواست را بزن و تصویر رسید را در صفحه بعد بارگذاری کن.</p>
-            <div className="vip-card-number"><bdi dir="ltr">6219 8614 3561 1040</bdi><button type="button" onClick={() => { void navigator.clipboard.writeText("6219861435611040").then(() => setNotice("شماره کارت کپی شد."), () => setNotice("کپی خودکار در دسترس نیست؛ شماره کارت را دستی کپی کن.")); }} aria-label="کپی شماره کارت"><Copy size={17}/> کپی</button></div>
+            <div className="vip-card-number"><bdi dir="ltr">6219 8614 3561 1040</bdi><button type="button" onClick={() => { if (!navigator.clipboard?.writeText) { setNotice("کپی خودکار در این مرورگر در دسترس نیست؛ شماره کارت را دستی کپی کن."); return; } void navigator.clipboard.writeText("6219861435611040").then(() => setNotice("شماره کارت کپی شد."), () => setNotice("کپی انجام نشد؛ شماره کارت را دستی کپی کن.")); }} aria-label="کپی شماره کارت"><Copy size={17}/> کپی</button></div>
             <button className="vip-payment-continue" type="button" onClick={() => { setPaymentSubmitted(false); setPaymentError(""); go("payment-confirmation"); }}>پرداخت کردم؛ ثبت درخواست تأیید <ArrowRight size={17}/></button>
             <small>فعال‌سازی VIP فقط پس از بررسی و تأیید واریز توسط مدیریت انجام می‌شود.</small>
           </section>}
