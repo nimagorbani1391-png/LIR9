@@ -1751,3 +1751,5 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold-bright);ou
   }
   .capacitor-native .top-header .menu-button svg{width:21px;height:21px}
 }
+
+.a2-entry-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 17px;margin-bottom:14px;border:1px solid #665027;border-radius:14px;background:linear-gradient(100deg,#211b10,#171511)}.a2-entry-row b{display:block;font-size:13px;color:#f1d18b}.a2-entry-row small{display:block;margin-top:4px;font-size:11px;color:#aaa}.a2-entry-row button{display:inline-flex;align-items:center;gap:5px;padding:9px 12px;border:1px solid #80602b;border-radius:10px;background:#302413;color:#f0c66c;font:inherit;font-size:11px;cursor:pointer;white-space:nowrap}@media(max-width:520px){.a2-entry-row{align-items:flex-start;flex-direction:column}.a2-entry-row button{width:100%;justify-content:center}}
