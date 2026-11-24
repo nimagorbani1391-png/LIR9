@@ -1,11 +1,11 @@
 /* LIR9 PWA service worker — Cloudflare Pages root deployment. */
-const CACHE_NAME = "lir9-shell-v4";
+const CACHE_NAME = "lir9-shell-v5";
 const APP_BASE = "/";
 const APP_SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/lir9-icon.svg",
+  "/file_00000000a8d481f4b0fd7bb26c886845.png",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
   "/icons/icon-maskable-512.png"
